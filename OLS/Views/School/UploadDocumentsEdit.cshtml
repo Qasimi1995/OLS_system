@@ -1,0 +1,74 @@
+﻿@model IList<OLS.ViewModels.DocTypeViewModelEdit>
+
+@{
+
+    var ext = ".pdf";
+ }
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+                <div style="text-align:center;background-color: steelblue;">
+                    <h3 style="padding:5px;color: white;">تسلیم اسناد/د اسنادو تسلیمول/Document Submit</h3>
+                </div>
+
+                <form asp-action="UploadDocumentsEdit" method="post" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+
+                                    <th class="text-wrap">نوع سند/د سند ډول/Document Type</th>
+                                    <th class="text-wrap">فایل/فایل/File</th>
+                                    <th class="text-wrap">آپلود/آپلود/Upload</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model != null)
+                                {
+                                    for (int i = 0; i < Model.Count; i++)
+                                    {
+                                        @Html.HiddenFor(m => Model[i].DocTypeId)
+                                        @Html.HiddenFor(m => Model[i].DocTypeNameEng)
+                                <tr>
+                                    <td>
+                                        @Model[i].DocTypeName
+                                    </td>
+                                    <td>
+                                        <a href="~/PartyDocuments/@Model[i].SchoolId/@Model[i].SchoolId-@Model[i].DocTypeNameEng@(ext)">@Model[i].DocTypeNameDari</a>
+                                    </td>
+                                    <td>
+                                        @Html.TextBoxFor(m => Model[i].Document, new { type = "file", value = @Model[i].DocPath })
+                                        @Html.ValidationMessageFor(m => Model[i].Document, null, new { @class = "text-danger" })
+                                    </td>
+
+
+                                </tr>
+                                    }
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <input type="submit" id="btnSave" value="ثبت/ثبت/Save" class="btn btn-primary" />
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+

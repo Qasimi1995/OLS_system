@@ -1,0 +1,202 @@
+﻿@model OLS.ViewModels.RegistrationStaffViewModel
+
+    <div class="row page-titles">
+        <div class="col-md-5 col-12 align-self-center">
+            <h3 class="text-themecolor">ایجاد حساب کارمند</h3>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+
+                        <button type="button" class="btn btn-info" data-toggle="modal"
+                                data-target="#bs-example-modal-lg">
+                            Add User
+                        </button>
+                        <hr />
+                        <!--  Modal content for the above example -->
+                        <div class="modal fade" id="bs-example-modal-lg" tabindex="-1" role="dialog"
+                             aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+
+
+                                    <div class="modal-body">
+                                        <div class="card card-outline-info">
+                                            <div class="card-header">
+                                                <h4 class="mb-0 text-white">ایجاد حساب جدید</h4>
+                                            </div>
+                                            <form class="form-horizontal form-material" id="loginform" asp-action="RegisterStaff">
+                                                <div class="form-group mt-3">
+                                                    <div>
+                                                        <input asp-for="UserName" class="form-control" required="" placeholder="نام کاربر">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group ">
+                                                    <div>
+                                                        <input asp-for="Email" class="form-control" required="" placeholder="ایمیل">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group ">
+                                                    <div>
+                                                        <input asp-for="Password" class="form-control" type="password" required="" placeholder="پاسورد">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group ">
+                                                    <div>
+                                                        <input asp-for="ConfirmPassword" class="form-control" type="password" required="" placeholder="تایید پاسورد">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group ">
+                                                    <div>
+                                                        <input asp-for="FirstName" class="form-control" required="" placeholder="اسم /نوم/Name">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group ">
+                                                    <div>
+                                                        <input asp-for="LastName" class="form-control" required="" placeholder="تخلص /تخلص/Last Name">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="EducationLevelID">
+                                                        درول/رول/Role:
+
+                                                    </label>
+                                                    <select asp-for="RoleId" class="form-control">
+                                                        <option selected value="">--Select Role--</option>
+                                                        @foreach (var role in ViewBag.roles)
+                                                        {
+                                                            <option value="@role.NormalizedName">@role.Name</option>
+                                                        }
+                                                    </select>
+                                                    <span asp-validation-for="RoleId" class="text-danger"></span>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="EducationLevelID">
+                                                        د حساب حالت/حالت حساب/Status
+
+                                                    </label>
+                                                    <select asp-for="IsActive" class="form-control">
+                                                        <option selected value="">Select</option>
+                                                        <option value="1">Active</option>
+                                                        <option value="0">In-active</option>
+
+                                                    </select>
+                                                    <span asp-validation-for="IsActive" class="text-danger"></span>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="PerProvinceId">
+                                                        ولایت/ولایت/Province:
+
+                                                    </label>
+                                                    <select asp-for="ProvinceId" id="PerProvince" class="form-control">
+                                                        <option selected value="">--Select--</option>
+                                                        @if (ViewBag.province != null)
+                                                        {
+                                                            foreach (var province in ViewBag.province)
+                                                            {
+                                                                <option value="@province.ProvinceId">@province.ProvNaDar - @province.ProvNaEng</option>
+                                                            }
+                                                        }
+
+                                                    </select>
+
+                                                    <span asp-validation-for="ProvinceId" class="text-danger"></span>
+                                                </div>
+
+
+                                                <div class="form-group mt-3">
+                                                    <div>
+                                                        <button class="btn btn-info text-uppercase waves-effect waves-light" type="submit">ایجاد حساب</button>
+                                                    </div>
+                                                </div>
+                                                @if (ViewBag.Message != null)
+                                                {
+                                                    //<div><span class="text-info">@ViewBag.Message</span></div>
+                                                    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+                                                    <script type="text/javascript">
+                                                     swal("@ViewBag.Message", "حساب را موفقانه ایجاد نمودید", "success");
+                                                    </script>
+                                                }
+
+                                            </form>
+
+                                        </div>
+                                    </div>
+                                </div><!-- /.modal-content -->
+                            </div><!-- /.modal-dialog -->
+                        </div><!-- /.modal -->
+
+
+                
+
+                    @if (ViewBag.userList != null)
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>اسم /نوم/Name</th>
+                                        <th>تخلص /تخلص/Last Name</th>
+                                        <th> نام کاربری /نام کاربری/Username</th>
+                                        <th> ایمیل/ایمیل/Email</th>
+                                        <th>رول/رول/Role</th>
+                                        <th>د حساب اوسنی حالت/حالت حساب/Current Status</th>
+                                        <th>عمل/عمل/Action</th>
+
+
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (int i = 0; i < ViewBag.userList.Count; i++)
+                                    {
+                                    <tr>
+
+                                        <td>
+                                            @ViewBag.userList[i].FirstName
+                                        </td>
+                                        <td>
+                                            @ViewBag.userList[i].LastName
+                                        </td>
+                                        <td>
+                                            @ViewBag.userList[i].UserName
+                                        </td>
+                                        <td>
+                                            @ViewBag.userList[i].Email
+                                        </td>
+                                        <td>
+                                            @ViewBag.userList[i].Role
+                                        </td>
+                                        <td>
+                                            @if (ViewBag.userList[i].IsActive == 1)
+                                            {
+                                                <span>Active</span>
+                                            }
+                                            @if (ViewBag.userList[i].IsActive == 0)
+                                            {
+                                                <span>In-active</span>
+                                            }
+                                         
+                                        </td>
+                                        <td class="text-nowrap">
+                                            @Html.ActionLink("تغیر معلومات", "EditUserInfo", new { id = ViewBag.userList[i].Id }) 
+                                        </td>
+
+
+                                    </tr>
+                                    }
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                </div>
+            </div>
+    </div>
+</div>
+

@@ -1,0 +1,46 @@
+﻿
+@{
+    var controllerName = this.ViewContext.RouteData.Values["controller"].ToString();
+    var action = this.ViewContext.RouteData.Values["action"].ToString();
+    var name = controllerName;
+    string Active = "active";
+}
+
+<!-- Circles which indicates the steps of the form: -->
+<style>
+    /* Make circles that indicate the steps of the form: */
+    .step {
+        width: 50px;
+        height: 50px;
+        line-height: 40px;
+        border: 5px solid #F5F7FA;
+        font-size: 1.3rem;
+        border-radius: 50%;
+        display: inline-block;
+    }
+
+        .step.active {
+            border-color: #00B5B8;
+            background-color: #FFF;
+            color: #00B5B8;
+        }
+
+        /* Mark the steps that are finished and valid: */
+        .step.finish {
+            background-color: #00B5B8 !important;
+            color: #FFF;
+        }
+</style>
+
+<div style="text-align:center; margin:10px; ">
+    <a href="@Url.Action("Navigate","Founder")"><span class="step @if (controllerName=="Founder") { @Active}">1</span></a>  
+    <a href="@Url.Action("Navigate","School")"><span class="step @if (controllerName=="School") { @Active}">2</span></a>
+    <a href="@Url.Action("Navigate","FinancialResource")"><span class="step @if (controllerName=="FinancialResource") { @Active}">3</span></a>
+    <a href="@Url.Action("Navigate","Principle")"><span class="step @if (controllerName=="Principle") { @Active}">4</span></a>
+    <a href="@Url.Action("Navigate","Teacher")"><span class="step @if (controllerName=="Teacher") { @Active}">5</span></a>
+    <a href="@Url.Action("Navigate","EnrollmentPlan")"><span class="step @if (controllerName=="EnrollmentPlan" && (action=="Edit" || action=="Create" )) { @Active}">6</span></a>
+    <a href="@Url.Action("NavigateNextY","EnrollmentPlan")"><span class="step @if (controllerName=="EnrollmentPlan" && (action=="EditNextY" || action=="CreateNextY" )) { @Active}">7</span></a>
+    <a href="@Url.Action("Navigate","SchoolFinancialPlan")"><span class="step @if (controllerName=="SchoolFinancialPlan") { @Active}">8</span></a>
+    <a href="@Url.Action("Navigate","SchoolStaffExpenses")"><span class="step @if (controllerName=="SchoolStaffExpenses") { @Active}">9</span></a>
+    <a href="@Url.Action("Navigate","SchoolOtherExpenses")"><span class="step @if (controllerName=="SchoolOtherExpenses") { @Active}">10</span></a>
+</div>

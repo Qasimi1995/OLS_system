@@ -1,0 +1,71 @@
+﻿@model IList<OLS.ViewModels.SchoolStaffExpensesViewModel>
+
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                @await Html.PartialAsync("../steps");
+                <div style="text-align:center;background-color: steelblue;">
+                    <h3 style="padding:5px;color: white;">مصارف کارمندان/د کار کوونکو لګښت/Staff Expenses </h3>
+                </div>
+
+                <form asp-action="Edit" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="table-responsive">
+                        <table class="table table-bordered no-wrap">
+                            <thead>
+                                <tr>
+                                    <th class="text-wrap">پوست کارمند/کار کوونکي/Position</th>
+                                    <th class="text-wrap">معاش/تنخواه/Salary</th>
+                                    <th class="text-wrap">تعداد/مقدار/Amount</th>
+
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model != null)
+                                {
+                                    for (int i = 0; i < Model.Count; i++)
+                                    {
+                                        @Html.HiddenFor(m => Model[i].Id)
+
+                                        <tr>
+
+                                            <td>
+
+
+                                                @Model[i].PartyRoleType
+                                            </td>
+                                            <td>
+                                                @Html.EditorFor(m => Model[i].Salary)
+                                                @Html.ValidationMessageFor(m => Model[i].Salary, null, new { @class = "text-danger" })
+                                            </td>
+                                            <td>
+                                                @Html.EditorFor(m => Model[i].Amount)
+                                                @Html.ValidationMessageFor(m => Model[i].Amount, null, new { @class = "text-danger" })
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <input type="submit" id="btnSave" value="ثبت/ثبت/Save" class="btn btn-primary" />
+                    <div style="float:left;">
+                        <button type="button" id="nextBtn" onclick="@("window.location.href='" + @Url.Action("Navigate", "SchoolFinancialPlan") + "'");" class="btn btn-primary">قبلی/مخکی/Previous</button>
+                        <button type="button" id="nextBtn" onclick="@("window.location.href='" + @Url.Action("Navigate", "SchoolOtherExpenses") + "'");" class="btn btn-primary">بعدی/وروسته/Next</button>
+                    </div>
+                </form>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+

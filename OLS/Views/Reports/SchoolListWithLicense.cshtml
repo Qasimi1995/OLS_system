@@ -1,0 +1,63 @@
+﻿@model IList<OLS.ViewModels.SchoolDisplayViewModel>
+
+@{
+    ViewData["Title"] = "GetTeachersList";
+}
+
+<div class="card">
+    <div class="card-body">
+        <h4 class="card-title">لیست مکاتب با جواز</h4>
+        <div class="table-responsive mt-4">
+            <table id="example23"
+                   class="display nowrap table table-hover table-striped table-bordered"
+                   cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th>شماره</th>
+                        <th>مکتب</th>
+                        <th>سطح مکتب</th>
+                        <th>جنسیت  مکتب</th>
+                        <th> ولایت</th>
+                        <th>ولسوالی</th>
+                        <th> قریه</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.Count(); i++)
+                    {
+
+                    <tr>
+                        <td>
+                            @(i + 1)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => Model[i].SchoolName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => Model[i].SchoolLevel)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => Model[i].SchoolGenderType)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => Model[i].Province)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => Model[i].District)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => Model[i].VillageNahia)
+                        </td>
+                        
+                    </tr>
+                    }
+
+
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>

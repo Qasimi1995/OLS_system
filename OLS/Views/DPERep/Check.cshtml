@@ -1,0 +1,1434 @@
+﻿@model OLS.ViewModels.ProcessProgressViewModel
+@{
+    ViewData["Title"] = "Check";
+    
+    var ext = ".pdf";
+}
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <script>
+
+        $(document).ready(
+            function () {
+
+                $("#bs-example-modal-lg").modal('show');
+            }
+
+        );
+    </script>
+
+}
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+                @if (ViewBag.CompletionFlag != 1)
+                {
+                    <button type="button" class="btn btn-info" data-toggle="modal"
+                            data-target="#bs-example-modal-lg">
+                        Process School
+                    </button>
+                    <hr />
+                    <!--  Modal content for the above example -->
+                    <div class="modal fade" id="bs-example-modal-lg" tabindex="-1" role="dialog"
+                         aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+
+
+                                <div class="modal-body">
+                                    <div class="card card-outline-info">
+                                        <div class="card-header">
+                                            <h4 class="mb-0 text-white">Process School</h4>
+                                        </div>
+                                        <form asp-action="Check" method="post" enctype="multipart/form-data">
+                                            <div class="form-body">
+
+
+                                                <!--/row-->
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group col-md-12 mt-3">
+                                                            <div class="p-5">
+
+                                                                @if (ViewBag.ProcessStatuses != null)
+                                                                {
+                                                                    @foreach (var item in ViewBag.ProcessStatuses)
+                                                                    {
+
+                                                                        <input type="hidden" asp-for="ProcessProgressId" value="@item.ProcessProgressId" />
+                                                                        <input type="hidden" asp-for="SubProcessId" value="@item.SubProcessId" />
+                                                                        <div>
+                                                                            <input type="radio" asp-for="ProcessStatusId" class="check" name="ProcessStatusId" data-radio="iradio_square-red" value="@item.ProcessStatusId">
+                                                                            <span asp-validation-for="ProcessStatusId" class="text-danger"></span>
+                                                                            <label>@item.StatusNameDari</label>
+
+                                                                        </div>
+
+
+                                                                    }
+
+                                                                }
+
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group col-md-12 mt-3">
+                                                            <label>ملاحظات</label>
+                                                            <textarea asp-for="Remarks" class="form-control" rows="5"></textarea>
+                                                            <span asp-validation-for="Remarks" class="text-danger"></span>
+                                                        </div>
+
+                                                    </div>
+
+
+                                                    <input type="hidden" asp-for="ProcessStatusIdNav" value="@ViewBag.ProcessStatusId" />
+                                                    <input type="hidden" asp-for="OrderNumber" value="@ViewBag.OrderNumber" />
+                                                    <input type="hidden" asp-for="SchoolId" value="@ViewBag.SchoolInfo.SchoolId" />
+                                                    <input type="hidden" asp-for="CompletionFlag" value="@ViewBag.CompletionFlag" />
+
+                                                </div>
+
+                                            </div>
+                                            @if (ViewBag.roleid == "DB70DAE4-9422-4A2F-A14B-7552702F026B")
+                                            {
+
+                                                <input asp-for="Report" class="form-control hidden" />
+                                                <span asp-validation-for="Report" class="text-danger"></span>
+                                            }
+                                            <div class="form-actions">
+                                                <button type="submit" class="btn btn-success">
+                                                    <i class="fa fa-check"></i>
+                                                    Save
+                                                </button>
+                                                <button type="button" class="btn btn-inverse">Cancel</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div><!-- /.modal-content -->
+                        </div><!-- /.modal-dialog -->
+                    </div><!-- /.modal -->
+
+                }
+
+
+
+
+                <div class="vtabs " style="width: -webkit-fill-available;">
+
+                    <ul class="nav nav-tabs tabs-vertical" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#FounderInfo"
+                               role="tab">
+                                <span class="hidden-sm-up"><i class="mdi mdi-account"></i></span> <span class="hidden-xs-down">معلومات موسس/د مؤسس پېژندنه/Founder Information</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#schoolInfo"
+                               role="tab">
+                                <span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">معلومات مکتب</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#FinancialResourceInfo"
+                               role="tab">
+                                <span class="hidden-sm-up"><i class="mdi mdi-currency-usd"></i></span> <span class="hidden-xs-down">منابع مالی</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#PrincipleInfo"
+                               role="tab">
+                                <span class="hidden-sm-up"><i class="mdi mdi-account"></i></span> <span class="hidden-xs-down">مدیر مسوول</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#TeachInfo"
+                               role="tab">
+                                <span class="hidden-sm-up"><i class="mdi mdi-account-multiple"></i></span> <span class="hidden-xs-down">معلومات اساتید</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#EnrollmentPlanCurrentYear"
+                               role="tab">
+                                <span class="hidden-sm-up"><i class="mdi mdi-view-grid"></i></span> <span class="hidden-xs-down">پلان جذب سال جاری</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#EnrollmentPlanNextYear"
+                               role="tab">
+                                <span class="hidden-sm-up"><i class="mdi mdi-view-grid"></i></span> <span class="hidden-xs-down">پلان جذب سال بعدی/وروسته/Next</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#FinancialPlan"
+                               role="tab">
+                                <span class="hidden-sm-up"><i class="mdi mdi-view-grid"></i></span> <span class="hidden-xs-down">پلان بودیجوی</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#StaffExpenses"
+                               role="tab">
+                                <span class="hidden-sm-up"><i class="mdi mdi-view-grid"></i></span> <span class="hidden-xs-down">مصارف کارمندان</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#SchoolOtherExpenses"
+                               role="tab">
+                                <span class="hidden-sm-up"><i class="mdi mdi-view-grid"></i></span> <span class="hidden-xs-down">دیگر مصارف</span>
+                            </a>
+                        </li>
+                        @if (ViewBag.roleid == "EFD684C6-F47C-407C-B9B7-DA2245E3869B")
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#Documents"
+                                   role="tab">
+                                    <span class="hidden-sm-up"><i class="mdi mdi-view-grid"></i></span> <span class="hidden-xs-down">اسناد</span>
+                                </a>
+                            </li>
+                        }
+
+                    </ul>
+                    <!-- Tab panes -->
+                    <div class="p-0 tab-content">
+                        <div class="tab-pane p-3 active" id="FounderInfo" role="tabpanel">
+
+                            @if (ViewBag.FounderInfo != null)
+                            {
+
+                                <div class="row" style="float:left">
+                                    <div class="col-md-12">
+                                        <img id='img-upload' style="width:120px; height:150px;" src="@ViewBag.FounderInfo.Photo" />
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+
+                                        <label for="Name">
+                                            اسم /نوم/Name موسس/Founder Name
+
+                                        </label>
+                                        <div>
+                                            <label class="w-75 p-1 border">@ViewBag.FounderInfo.Name</label>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-6">
+
+                                        <label for="LastName">
+                                            تخلص /تخلص/Last Name :
+
+                                        </label>
+                                        <div>
+                                            <label class="w-75 p-1 border">@ViewBag.FounderInfo.LastName</label>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+
+                                        <label for="FatherName">
+                                            ولد /د پلار نوم/Father Name
+
+                                        </label>
+                                        <div>
+                                            <label class="w-75 p-1 border">@ViewBag.FounderInfo.FatherName</label>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-md-6">
+
+                                        <label for="GrandFatherName">
+                                            ولدیت/د نیکه نوم/Grand Father Name
+
+                                        </label>
+                                        <div>
+                                            <label class="w-75 p-1 border">@ViewBag.FounderInfo.GrandFatherName</label>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="col-md-6">
+
+                                        <label for="Email">
+                                            ایمیل/ایمیل/Email
+
+                                        </label>
+                                        <div>
+                                            <label class="w-75 p-1 border">@ViewBag.FounderInfo.Email</label>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-6">
+
+                                        <label for="PhonNumber">
+                                            شماره تماس/د اړیکې شمېره/Phone No:
+
+                                        </label>
+                                        <div>
+                                            <label class="w-75 p-1 border">@ViewBag.FounderInfo.PhonNumber</label>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="col-md-6">
+
+                                        <label for="Nidnumber">
+                                            نمبر تذکیره /د تذکرې شمېره/NID Number
+
+                                        </label>
+                                        <div>
+                                            <label class="w-75 p-1 border">@ViewBag.FounderInfo.Nidnumber</label>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-6">
+
+                                        <label for="EducationLevelID">
+                                            درجه تحصیل/د زده کړو درجه/Education Level:
+
+                                        </label>
+                                        <div>
+                                            <label class="w-75 p-1 border">@ViewBag.FounderInfo.EducationLevel</label>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="col-md-6">
+
+                                        <label for="Nidnumber">
+                                            سن/عمر/Age
+
+                                        </label>
+                                        <div>
+                                            <label class="w-75 p-1 border">@ViewBag.FounderInfo.Age</label>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-6">
+
+                                        <label for="Nidnumber">
+                                            جنسبت/جنسبت/Gender
+
+                                        </label>
+                                        <div>
+                                            <label class="w-75 p-1 border">@ViewBag.FounderInfo.GenderType</label>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+                                <div class="card-header" style="background-color: gainsboro; margin-bottom:10px">
+                                    <strong>آدرس دایمی/اصلي استوګنځای/Permenant Address</strong>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+
+                                        <label for="PerProvinceId">
+                                            ولایت/ولایت/Province:
+
+                                        </label>
+                                        <div>
+                                            <label class="w-75 p-1 border">@ViewBag.FounderInfo.PerProvince</label>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-4">
+
+                                        <label for="PerDistrictId">
+                                            ولسوالی/ولسوالۍ/District
+
+                                        </label>
+                                        <div>
+                                            <label class="w-75 p-1 border">@ViewBag.FounderInfo.PerDistrict</label>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-4">
+
+                                        <label for="PerVillageNahiaId">
+                                            ققریه یا ناحیه/کلی یا ناحیه/Village or Nahia
+                                        </label>
+                                        <div>
+                                            <label class="w-75 p-1 border">@ViewBag.FounderInfo.PerVillageNahia</label>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="card-header" style="background-color: gainsboro; margin-bottom:10px">
+                                    <strong>سکونت فعلی/فعلي استوګنځای/Current Address</strong>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+
+                                        <label for="PreProvinceId">
+                                            ولایت/ولایت/Province:
+
+                                        </label>
+                                        <div>
+                                            <label class="w-75 p-1 border">@ViewBag.FounderInfo.PreProvince</label>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-4">
+
+                                        <label for="PreDistrictId">
+                                            ولسوالی/ولسوالۍ/District
+
+                                        </label>
+                                        <div>
+                                            <label class="w-75 p-1 border">@ViewBag.FounderInfo.PreDistrict</label>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-4">
+
+                                        <label for="PreVillageNahiaId">
+                                            ققریه یا ناحیه/کلی یا ناحیه/Village or Nahia
+
+                                        </label>
+                                        <div>
+                                            <label class="w-75 p-1 border">@ViewBag.FounderInfo.PreVillageNahia</label>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            }
+                        </div>
+                        <div class="tab-pane  p-3" id="schoolInfo" role="tabpanel">
+
+                            @if (ViewBag.SchoolInfo != null)
+                            {
+
+                                <div class="row">
+                                    <div class="col-md-6">
+
+                                        <label for="SchoolName">اسم /نوم/Name مکتب</label>
+
+                                        <div>
+                                            <label class="w-75 p-1 border">@ViewBag.SchoolInfo.SchoolName</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+
+                                        <label for="SchoolName">
+                                            سطح مکتب
+
+                                        </label>
+                                        <div>
+                                            <label class="w-75 p-1 border">@ViewBag.SchoolInfo.SchoolLevel</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+
+                                        <label for="SchoolName">
+                                            جنسیت  مکتب
+                                        </label>
+                                        <div>
+                                            <label class="w-75 p-1 border">@ViewBag.SchoolInfo.SchoolGenderType</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+
+                                        <label for="SchoolName">
+                                            تعداد اطاق
+                                        </label>
+                                        <div>
+                                            <label class="w-75 p-1 border">@ViewBag.SchoolInfo.Nrooms</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+
+                                        <label for="SchoolName">
+                                            فاصله از مکاتب دولتی همجوار
+                                        </label>
+                                        <div>
+                                            <label class="w-75 p-1 border">@ViewBag.SchoolInfo.DistancefromPuSchool</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+
+                                        <label for="SchoolName">
+                                            فاصله از مکاتب خصوصی همجوار
+                                        </label>
+                                        <div>
+                                            <label class="w-75 p-1 border">@ViewBag.SchoolInfo.DistanceFromPrSchool</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-header" style="background-color: gainsboro; margin-bottom:10px">
+                                    <strong>آدرس مکتب/School Address</strong>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+
+                                        <label>
+                                            ولایت
+
+                                        </label>
+                                        <div>
+                                            <label class="w-75 p-1 border">@ViewBag.SchoolInfo.Province</label>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-4">
+
+                                        <label for="DistrictId">
+                                            ولسوالی
+
+                                        </label>
+                                        <div>
+                                            <label class="w-75 p-1 border">@ViewBag.SchoolInfo.District</label>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-4">
+
+                                        <label for="PerVillageNahiaId">
+                                            قریه یا ناحیه
+                                        </label>
+                                        <div>
+                                            <label class="w-75 p-1 border">@ViewBag.SchoolInfo.VillageNahia</label>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+                                <div class="card-header" style="background-color: gainsboro; margin-bottom:10px">
+                                    <strong>تجهیزات و مواد آموزشی/Equipment and Teaching Materials</strong>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+
+                                        <label for="HasTeachingBooks">
+                                            کتب درسی
+
+                                        </label>
+                                        <div>
+                                            @if (ViewBag.SchoolInfo.HasTeachingBooks == 1)
+                                            {
+                                                <label class="w-75 p-1 border">بلی</label>
+                                            }
+                                            @if (ViewBag.SchoolInfo.HasTeachingBooks == 0)
+                                            {
+                                                <label class="w-75 p-1 border">نخیر</label>
+                                            }
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-6">
+
+                                        <label for="HasTeachingAids">
+                                            مواد ممد درسی
+
+                                        </label>
+                                        <div>
+
+                                            @if (ViewBag.SchoolInfo.HasTeachingAids == 1)
+                                            {
+                                                <label class="w-75 p-1 border">بلی</label>
+                                            }
+                                            @if (ViewBag.SchoolInfo.HasTeachingAids == 0)
+                                            {
+                                                <label class="w-75 p-1 border">نخیر</label>
+                                            }
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+
+                                        <label for="NteachDeskChair">
+                                            میز و چوکی معلم
+
+                                        </label>
+                                        <div>
+                                            <label class="w-75 p-1 border">@ViewBag.SchoolInfo.NteachDeskChair</label>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-6">
+
+                                        <label for="NstudentDeskChair">
+                                            میز و چوکی شاګرد
+
+                                        </label>
+                                        <div>
+                                            <label class="w-75 p-1 border">@ViewBag.SchoolInfo.NstudentDeskChair</label>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+
+                                        <label for="HasLibrary">
+                                            کتابخانه
+
+                                        </label>
+                                        <div>
+
+                                            @if (ViewBag.SchoolInfo.HasLibrary == 1)
+                                            {
+                                                <label class="w-75 p-1 border">بلی</label>
+                                            }
+                                            @if (ViewBag.SchoolInfo.HasLibrary == 0)
+                                            {
+                                                <label class="w-75 p-1 border">نخیر</label>
+                                            }
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-6">
+
+                                        <label for="Nbooks">
+                                            تعداد کتب کتابخانه
+                                        </label>
+                                        <div>
+                                            <label class="w-75 p-1 border">@ViewBag.SchoolInfo.Nbooks</label>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-md-6">
+
+                                        <label for="Nboards">
+                                            تخته
+                                        </label>
+                                        <div>
+                                            <label class="w-75 p-1 border">@ViewBag.SchoolInfo.Nboards</label>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-6">
+
+                                        <label for="LaboratoryMaterialTypeId">
+                                            وسایل لابراتواری
+                                        </label>
+                                        <div>
+                                            <label class="w-75 p-1 border">@ViewBag.SchoolInfo.LaboratoryMaterialType</label>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-md-6">
+
+                                        <label for="HasComputerLab">
+                                            لابراتوار کمپیوتر
+                                        </label>
+                                        <div>
+
+                                            @if (ViewBag.SchoolInfo.HasComputerLab == 1)
+                                            {
+                                                <label class="w-75 p-1 border">بلی</label>
+                                            }
+                                            @if (ViewBag.SchoolInfo.HasComputerLab == 0)
+                                            {
+                                                <label class="w-75 p-1 border">نخیر</label>
+                                            }
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-6">
+
+                                        <label for="Ncomputers">
+                                            تعداد کمپیوتر
+                                        </label>
+                                        <div>
+                                            <label class="w-75 p-1 border">@ViewBag.SchoolInfo.Ncomputers</label>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="card-header" style="background-color: gainsboro; margin-bottom:10px">
+                                    <strong>سایر تسهیلات</strong>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+
+                                        <label for="HasDrinkingWater">
+                                            آب اشامیدنی صحی
+                                        </label>
+                                        <div>
+
+                                            @if (ViewBag.SchoolInfo.HasDrinkingWater == 1)
+                                            {
+                                                <label class="w-75 p-1 border">بلی</label>
+                                            }
+                                            @if (ViewBag.SchoolInfo.HasDrinkingWater == 0)
+                                            {
+                                                <label class="w-75 p-1 border">نخیر</label>
+                                            }
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-6">
+
+                                        <label for="NwashRooms">
+                                            تعداد تشناب های صحی
+                                        </label>
+                                        <div>
+                                            <label class="w-75 p-1 border">@ViewBag.SchoolInfo.NwashRooms</label>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-md-6">
+
+                                        <label for="HasFirstAid">
+                                            کمک های اولیه صحی
+                                        </label>
+                                        <div>
+
+                                            @if (ViewBag.SchoolInfo.HasFirstAid == 1)
+                                            {
+                                                <label class="w-75 p-1 border">بلی</label>
+                                            }
+                                            @if (ViewBag.SchoolInfo.HasFirstAid == 0)
+                                            {
+                                                <label class="w-75 p-1 border">نخیر</label>
+                                            }
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-6">
+
+                                        <label for="HasFireDistinguisher">
+                                            وسایل اطفایه ضد حریق:
+                                        </label>
+                                        <div>
+
+                                            @if (ViewBag.SchoolInfo.HasFireDistinguisher == 1)
+                                            {
+                                                <label class="w-75 p-1 border">بلی</label>
+                                            }
+                                            @if (ViewBag.SchoolInfo.HasFireDistinguisher == 0)
+                                            {
+                                                <label class="w-75 p-1 border">نخیر</label>
+                                            }
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-md-6">
+
+                                        <label for="HasTransportation">
+                                            وسایل نقلیه
+                                        </label>
+                                        <div>
+
+                                            @if (ViewBag.SchoolInfo.HasTransportation == 1)
+                                            {
+                                                <label class="w-75 p-1 border">بلی</label>
+                                            }
+                                            @if (ViewBag.SchoolInfo.HasTransportation == 0)
+                                            {
+                                                <label class="w-75 p-1 border">نخیر</label>
+                                            }
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-6">
+
+                                        <label for="HasSportFacilities">
+                                            امکانات ورزشی
+                                        </label>
+                                        <div>
+
+                                            @if (ViewBag.SchoolInfo.HasSportFacilities == 1)
+                                            {
+                                                <label class="w-75 p-1 border">بلی</label>
+                                            }
+                                            @if (ViewBag.SchoolInfo.HasSportFacilities == 0)
+                                            {
+                                                <label class="w-75 p-1 border">نخیر</label>
+                                            }
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+                            }
+                        </div>
+                        <div class="tab-pane p-3" id="FinancialResourceInfo" role="tabpanel">
+
+                            @if (ViewBag.FinancialResouceInfo != null)
+                            {
+                                <div class="row">
+                                    <div class="col-md-6">
+
+                                        <label class="control-label"> نوعیت موسسه/د ښوونځي ډول/Type of School</label>
+                                        <div>
+                                            <label class="w-75 p-1 border">@ViewBag.FinancialResouceInfo.SchoolBussinessType</label>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-6">
+
+                                        <label class="control-label"> منابع تمویل/د مالي ملاتړ زېرمه/Sources of Fund</label>
+                                        <div>
+                                            <label class="w-75 p-1 border">@ViewBag.FinancialResouceInfo.FundingSourceName</label>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        <div class="tab-pane p-3" id="PrincipleInfo" role="tabpanel">
+
+
+                            @if (ViewBag.PrincipleInfo != null)
+                            {
+
+                                <div class="row" style="float:left">
+                                    <div class="col-md-12">
+                                        <img id='img-upload' style="width:120px; height:150px;" src="@ViewBag.PrincipleInfo.Photo" />
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+
+                                        <label for="Name">
+                                            اسم /نوم/Name / Name
+
+                                        </label>
+                                        <div>
+                                            <label class="w-75 p-1 border">@ViewBag.PrincipleInfo.Name</label>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-6">
+
+                                        <label for="LastName">
+                                            تخلص /تخلص/Last Name :
+
+                                        </label>
+                                        <div>
+                                            <label class="w-75 p-1 border">@ViewBag.PrincipleInfo.LastName</label>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+
+                                        <label for="FatherName">
+                                            ولد /د پلار نوم/Father Name
+
+                                        </label>
+                                        <div>
+                                            <label class="w-75 p-1 border">@ViewBag.PrincipleInfo.FatherName</label>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-md-6">
+
+                                        <label for="GrandFatherName">
+                                            ولدیت/د نیکه نوم/Grand Father Name
+
+                                        </label>
+                                        <div>
+                                            <label class="w-75 p-1 border">@ViewBag.PrincipleInfo.GrandFatherName</label>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="col-md-6">
+
+                                        <label for="Email">
+                                            ایمیل/ایمیل/Email
+
+                                        </label>
+                                        <div>
+                                            <label class="w-75 p-1 border">@ViewBag.PrincipleInfo.Email</label>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-6">
+
+                                        <label for="PhonNumber">
+                                            شماره تماس/د اړیکې شمېره/Phone No:
+
+                                        </label>
+                                        <div>
+                                            <label class="w-75 p-1 border">@ViewBag.PrincipleInfo.PhonNumber</label>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="col-md-6">
+
+                                        <label for="Nidnumber">
+                                            نمبر تذکیره /د تذکرې شمېره/NID Number
+
+                                        </label>
+                                        <div>
+                                            <label class="w-75 p-1 border">@ViewBag.PrincipleInfo.Nidnumber</label>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-6">
+
+                                        <label for="EducationLevelID">
+                                            درجه تحصیل/د زده کړو درجه/Education Level:
+
+                                        </label>
+                                        <div>
+                                            <label class="w-75 p-1 border">@ViewBag.PrincipleInfo.EducationLevel</label>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="col-md-6">
+
+                                        <label for="Nidnumber">
+                                            سن/عمر/Age
+
+                                        </label>
+                                        <div>
+                                            <label class="w-75 p-1 border">@ViewBag.PrincipleInfo.Age</label>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-6">
+
+                                        <label for="Nidnumber">
+                                            جنسبت/جنسبت/Gender
+
+                                        </label>
+                                        <div>
+                                            <label class="w-75 p-1 border">@ViewBag.PrincipleInfo.GenderType</label>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+                                <div class="card-header" style="background-color: gainsboro; margin-bottom:10px">
+                                    <strong>آدرس دایمی/اصلي استوګنځای/Permenant Address</strong>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+
+                                        <label for="PerProvinceId">
+                                            ولایت/ولایت/Province:
+
+                                        </label>
+                                        <div>
+                                            <label class="w-75 p-1 border">@ViewBag.PrincipleInfo.PerProvince</label>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-4">
+
+                                        <label for="PerDistrictId">
+                                            ولسوالی/ولسوالۍ/District
+
+                                        </label>
+                                        <div>
+                                            <label class="w-75 p-1 border">@ViewBag.PrincipleInfo.PerDistrict</label>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-4">
+
+                                        <label for="PerVillageNahiaId">
+                                            ققریه یا ناحیه/کلی یا ناحیه/Village or Nahia
+                                        </label>
+                                        <div>
+                                            <label class="w-75 p-1 border">@ViewBag.PrincipleInfo.PerVillageNahia</label>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="card-header" style="background-color: gainsboro; margin-bottom:10px">
+                                    <strong>سکونت فعلی/فعلي استوګنځای/Current Address</strong>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+
+                                        <label for="PreProvinceId">
+                                            ولایت/ولایت/Province:
+
+                                        </label>
+                                        <div>
+                                            <label class="w-75 p-1 border">@ViewBag.PrincipleInfo.PreProvince</label>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-4">
+
+                                        <label for="PreDistrictId">
+                                            ولسوالی/ولسوالۍ/District
+
+                                        </label>
+                                        <div>
+                                            <label class="w-75 p-1 border">@ViewBag.PrincipleInfo.PreDistrict</label>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-4">
+
+                                        <label for="PreVillageNahiaId">
+                                            ققریه یا ناحیه/کلی یا ناحیه/Village or Nahia
+
+                                        </label>
+                                        <div>
+                                            <label class="w-75 p-1 border">@ViewBag.PrincipleInfo.PreVillageNahia</label>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            }
+                        </div>
+                        <div class="tab-pane p-3" id="TeachInfo" role="tabpanel">
+
+                            @if (ViewBag.TeachInfo != null)
+                            {
+                                <div class="table-responsive">
+                                    <table class="table table-bordered no-wrap">
+                                        <thead>
+                                            <tr>
+                                                <th>اسم /نوم/Name</th>
+                                                <th>تخلص /تخلص/Last Name</th>
+                                                <th> نمبر تذکیره /د تذکرې شمېره/NID Number</th>
+                                                <th> سن/عمر/Age</th>
+                                                <th>جنسبت/جنسبت/Gender</th>
+                                                <th>درجه تحصیل</th>
+                                                <th>سال فراغت/د فراغت کال/Gradution Date</th>
+                                                <th>  مدت خدمت در معارف/په ښوونه او روزنه کې د خدمت موده/Duration of Service in Education</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in ViewBag.TeachInfo)
+                                            {
+                                                <tr>
+
+                                                    <td>
+                                                        @item.Name
+                                                    </td>
+                                                    <td>
+                                                        @item.LastName
+                                                    </td>
+                                                    <td>
+                                                        @item.Nidnumber
+                                                    </td>
+                                                    <td>
+                                                        @item.Age
+                                                    </td>
+                                                    <td>
+                                                        @item.GenderType
+                                                    </td>
+                                                    <td>
+                                                        @item.EducationLevel
+                                                    </td>
+                                                    <td>
+                                                        @item.GraduationDate
+                                                    </td>
+                                                    <td>
+                                                        @item.Eduservice
+                                                    </td>
+
+
+                                                </tr>
+                                            }
+
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            }
+                        </div>
+                        <div class="tab-pane p-3" id="EnrollmentPlanCurrentYear" role="tabpanel">
+
+                            @if (ViewBag.EnrollmentPlanCurrentYear != null)
+                            {
+
+                                <div class="table-responsive">
+                                    <table class="table table-bordered no-wrap">
+                                        <thead>
+                                            <tr>
+                                                <th>صنف/Class</th>
+                                                <th>تعداد ذکور/Number of Male</th>
+                                                <th>تعداد اناث/Number of Female </th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            @for (int i = 0; i < ViewBag.EnrollmentPlanCurrentYear.Count; i++)
+                                            {
+
+                                                <tr>
+                                                    @if (ViewBag.EnrollmentPlanCurrentYear[i].GenderTypeId == Guid.Parse("E575CE44-2BBE-4175-A334-CE5ABC3CDDDA"))
+                                                    {
+                                                        <td>
+
+                                                            @ViewBag.EnrollmentPlanCurrentYear[i].SchoolSubLevelName
+                                                        </td>
+                                                    }
+                                                    @if (ViewBag.EnrollmentPlanCurrentYear[i].GenderTypeId == Guid.Parse("E575CE44-2BBE-4175-A334-CE5ABC3CDDDA"))
+                                                    {
+
+                                                        <td>
+
+                                                            @ViewBag.EnrollmentPlanCurrentYear[i].NumberOfStudents
+                                                        </td>
+                                                    }
+
+                                                    @if (i < ViewBag.EnrollmentPlanCurrentYear.Count - 1)
+                                                    {
+                                                        @if (ViewBag.EnrollmentPlanCurrentYear[i + 1].GenderTypeId == Guid.Parse("A10E9D59-C1B9-4983-97A0-F0A97A85F71D"))
+                                                        {
+
+                                                            <td>
+
+                                                                @ViewBag.EnrollmentPlanCurrentYear[i + 1].NumberOfStudents
+                                                            </td>
+                                                        }
+
+
+                                                    }
+
+
+
+
+
+
+                                                </tr>
+
+
+
+                                            }
+
+
+
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            }
+                        </div>
+                        <div class="tab-pane p-3" id="EnrollmentPlanNextYear" role="tabpanel">
+
+                            @if (ViewBag.EnrollmentPlanNextYear != null)
+                            {
+
+                                <div class="table-responsive">
+                                    <table class="table table-bordered no-wrap">
+                                        <thead>
+                                            <tr>
+                                                <th>صنف/Class</th>
+                                                <th>تعداد ذکور/Number of Male</th>
+                                                <th>تعداد اناث/Number of Female </th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            @for (int i = 0; i < ViewBag.EnrollmentPlanNextYear.Count; i++)
+                                            {
+
+                                                <tr>
+                                                    @if (ViewBag.EnrollmentPlanNextYear[i].GenderTypeId == Guid.Parse("E575CE44-2BBE-4175-A334-CE5ABC3CDDDA"))
+                                                    {
+                                                        <td>
+
+                                                            @ViewBag.EnrollmentPlanNextYear[i].SchoolSubLevelName
+                                                        </td>
+                                                    }
+                                                    @if (ViewBag.EnrollmentPlanNextYear[i].GenderTypeId == Guid.Parse("E575CE44-2BBE-4175-A334-CE5ABC3CDDDA"))
+                                                    {
+
+                                                        <td>
+
+                                                            @ViewBag.EnrollmentPlanNextYear[i].NumberOfStudents
+                                                        </td>
+                                                    }
+
+                                                    @if (i < ViewBag.EnrollmentPlanNextYear.Count - 1)
+                                                    {
+                                                        @if (ViewBag.EnrollmentPlanNextYear[i + 1].GenderTypeId == Guid.Parse("A10E9D59-C1B9-4983-97A0-F0A97A85F71D"))
+                                                        {
+
+                                                            <td>
+
+                                                                @ViewBag.EnrollmentPlanNextYear[i + 1].NumberOfStudents
+                                                            </td>
+                                                        }
+
+
+                                                    }
+
+
+
+
+
+
+                                                </tr>
+
+
+
+                                            }
+
+
+
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            }
+                        </div>
+                        <div class="tab-pane p-3" id="FinancialPlan" role="tabpanel">
+
+                            @if (ViewBag.FinancialPlan != null)
+                            {
+
+                                <div class="table-responsive">
+                                    <table class="table table-bordered no-wrap">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-wrap">صنف/Class</th>
+                                                <th class="text-wrap">Fee amount/مقدار فیس</th>
+                                                <th class="text-wrap">#Paid Students/تعداد شاگردان غیرمجانی</th>
+                                                <th class="text-wrap">#Free Students/تعداد شاگردان مجانی</th>
+                                                <th class="text-wrap">Admission Fee/فیس داخله</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @for (int i = 0; i < ViewBag.FinancialPlan.Count; i++)
+                                            {
+
+
+                                                <tr>
+
+                                                    <td>
+
+
+                                                        @ViewBag.FinancialPlan[i].SchoolSubLevelName
+                                                    </td>
+                                                    <td>
+                                                        @ViewBag.FinancialPlan[i].FeeAmount
+
+                                                    </td>
+                                                    <td>
+                                                        @ViewBag.FinancialPlan[i].NfreeStudents
+
+                                                    </td>
+                                                    <td>
+                                                        @ViewBag.FinancialPlan[i].NpaidStudents
+
+                                                    </td>
+                                                    <td>
+                                                        @ViewBag.FinancialPlan[i].AdmissionFee
+
+                                                    </td>
+                                                </tr>
+                                            }
+
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            }
+                        </div>
+                        <div class="tab-pane p-3" id="StaffExpenses" role="tabpanel">
+
+                            @if (ViewBag.StaffExpenses != null)
+                            {
+
+                                <div class="table-responsive">
+                                    <table class="table table-bordered no-wrap">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-wrap">پوست کارمند/Position</th>
+                                                <th class="text-wrap">Salary/معاش</th>
+                                                <th class="text-wrap">Amount/تعداد</th>
+
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            @for (int i = 0; i < ViewBag.StaffExpenses.Count; i++)
+                                            {
+
+
+                                                <tr>
+
+                                                    <td>
+
+
+                                                        @ViewBag.StaffExpenses[i].PartyRoleType
+                                                    </td>
+                                                    <td>
+                                                        @ViewBag.StaffExpenses[i].Salary
+
+                                                    </td>
+                                                    <td>
+                                                        @ViewBag.StaffExpenses[i].Amount
+
+                                                    </td>
+                                                </tr>
+                                            }
+
+
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            }
+                        </div>
+                        <div class="tab-pane p-3" id="SchoolOtherExpenses" role="tabpanel">
+
+                            @if (ViewBag.SchoolOtherExpenses != null)
+                            {
+
+                                <div class="table-responsive">
+                                    <table class="table table-bordered no-wrap">
+                                        <thead>
+                                            <tr>
+
+                                                <th class="text-wrap">نوع مصرف/Expense Type</th>
+                                                <th class="text-wrap">مصرف در یک ماه/Expense per Month</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            @for (int i = 0; i < ViewBag.SchoolOtherExpenses.Count; i++)
+                                            {
+
+
+                                                <tr>
+
+                                                    <td>
+
+
+                                                        @ViewBag.SchoolOtherExpenses[i].OtherExpenseTypeName
+                                                    </td>
+                                                    <td>
+                                                        @ViewBag.SchoolOtherExpenses[i].ExpensePerMonth
+
+                                                    </td>
+
+
+                                                </tr>
+                                            }
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            }
+                        </div>
+
+                        @if (ViewBag.roleid == "EFD684C6-F47C-407C-B9B7-DA2245E3869B")
+                        {
+
+                            <div class="tab-pane p-3" id="Documents" role="tabpanel">
+
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+
+                                                <th class="text-wrap">نوع سند/د سند ډول/Document Type</th>
+                                                <th class="text-wrap">فایل/فایل/File</th>
+
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if (ViewBag.UserDocuments != null)
+                                            {
+                                                for (int i = 0; i < ViewBag.UserDocuments.Count; i++)
+                                                {
+
+                                                    <tr>
+                                                        <td>
+                                                            @ViewBag.UserDocuments[i].DocTypeName
+                                                        </td>
+                                                        <td>
+                                                            <a href="~/PartyDocuments/@ViewBag.UserDocuments[i].SchoolId/@ViewBag.UserDocuments[i].SchoolId-@ViewBag.UserDocuments[i].DocTypeNameEng@(ext)">@ViewBag.UserDocuments[i].DocTypeNameDari</a>
+                                                        </td>
+
+
+                                                    </tr>
+                                                }
+                                            }
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

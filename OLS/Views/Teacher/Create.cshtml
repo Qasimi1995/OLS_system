@@ -1,0 +1,185 @@
+﻿
+@model OLS.ViewModels.TeacherViewModel
+
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+     
+
+                <form asp-action="Create" method="post" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <fieldset style="margin:5px; padding:5px;" class="tab border border-secondary">
+                        <div style="text-align:center;background-color: steelblue;">
+                            <h3 style="padding:5px;color: white;">معلومات اساتید/Teachers' Information</h3>
+                        </div>
+                        <div style="margin:5px;">
+                            <button type="button" class="btn btn-primary" onclick="@("window.location.href='" + @Url.Action("GetTeachersList", "Teacher") + "'");">
+                                Return to teachers list
+                            </button>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="Name">
+                                        اسم /نوم/Name 
+
+                                    </label>
+                                    <input asp-for="Name" class="form-control" />
+                                    <span asp-validation-for="Name" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="LastName">
+                                        تخلص /تخلص/Last Name :
+
+                                    </label>
+                                    <input asp-for="LastName" class="form-control" />
+                                    <span asp-validation-for="LastName" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="FatherName">
+                                        ولد /د پلار نوم/Father Name
+
+                                    </label>
+                                    <input asp-for="FatherName" class="form-control" />
+                                    <span asp-validation-for="FatherName" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="GrandFatherName">
+                                        ولدیت/د نیکه نوم/Grand Father Name
+
+                                    </label>
+                                    <input asp-for="GrandFatherName" class="form-control" />
+                                    <span asp-validation-for="GrandFatherName" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="row">
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="Nidnumber">
+                                        نمبر تذکیره /د تذکرې شمېره/NID Number
+
+                                    </label>
+                                    <input asp-for="Nidnumber" class="form-control" />
+                                    <span asp-validation-for="Nidnumber" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="EducationLevelID">
+                                        درجه تحصیل/د زده کړو درجه/Education Level:
+
+                                    </label>
+                                    <select asp-for="EducationLevelID" class="form-control">
+                                        <option selected value="">--Select Education--</option>
+                                        @foreach (var EduLevel in ViewBag.EducationLevel)
+                                        {
+                                            <option value="@EduLevel.EducationLevelId">@EduLevel.EducationLevelNameDari - @EduLevel.EducationLevelName</option>
+                                        }
+                                    </select>
+                                    <span asp-validation-for="EducationLevelID" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="FacultyTypeId">
+                                        رشته تحصیلی/د زده کړو رشته/Education field:
+
+                                    </label>
+                                    <select asp-for="FacultyTypeId" class="form-control">
+                                        <option selected value="">--Select--</option>
+                                        @foreach (var FacultyType in ViewBag.FacultyType)
+                                        {
+                                            <option value="@FacultyType.FacultyTypeId">@FacultyType.FacultypeNameDari - @FacultyType.FacultypeName</option>
+                                        }
+                                    </select>
+                                    <span asp-validation-for="FacultyTypeId" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="GraduationDate">
+                                        سال فراغت/د فراغت کال/Year of Graduation
+                                    </label>
+                                    <input asp-for="GraduationDate" class="form-control" />
+                                    <span asp-validation-for="GraduationDate" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="Nidnumber">
+                                        سن/عمر/Age
+
+                                    </label>
+                                    <input asp-for="Age" class="form-control" />
+                                    <span asp-validation-for="Age" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="Nidnumber">
+                                        جنسبت/جنسبت/Gender
+
+                                    </label>
+                                    <select asp-for="GenderTypeId" class="form-control">
+                                        <option selected value="">--Select Gender--</option>
+                                        @foreach (var GenderType in ViewBag.GenderType)
+                                        {
+                                            <option value="@GenderType.GenderTypeId">@GenderType.GenderTypeName - @GenderType.GenderTypeNameDari</option>
+                                        }
+                                    </select>
+                                    <span asp-validation-for="GenderTypeId" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="Eduservice">
+                                         مدت خدمت در معارف/په ښوونه او روزنه کې د خدمت موده/Duration of Service in Education/Duration of Service in Education
+
+                                    </label>
+                                    <input asp-for="Eduservice" class="form-control" />
+                                    <span asp-validation-for="Eduservice" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                        </div>
+                        <input type="submit" id="btnSave" value="ثبت/ثبت/Save" class="btn btn-primary" />
+
+
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,73 @@
+﻿@model IList<OLS.ViewModels.SchoolOtherExpensesViewModel>
+
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                @await Html.PartialAsync("../steps");
+                <div style="text-align:center;background-color: steelblue;">
+                    <h3 style="padding:5px;color: white;">دیگر مصارف/نور لګښتونه/Other expenses</h3>
+                </div>
+
+                <form asp-action="Create" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="table-responsive">
+                        <table class="table table-bordered no-wrap">
+                            <thead>
+                                <tr>
+
+                                    <th class="text-wrap">نوع مصرف/د لګښت ډول/Expense Type</th>
+                                    <th class="text-wrap">مصرف در یک ماه/د تعمیر کرایه/Expense per Month</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model != null)
+                                {
+                                    for (int i = 0; i < Model.Count; i++)
+                                    {
+                                        @Html.HiddenFor(m => Model[i].OtherExpenseTypeId)
+
+                                        <tr>
+
+                                            <td>
+
+
+                                                @Model[i].OtherExpenseTypeName
+                                            </td>
+                                            <td>
+                                                @Html.EditorFor(m => Model[i].ExpensePerMonth)
+                                                @Html.ValidationMessageFor(m => Model[i].ExpensePerMonth, null, new { @class = "text-danger" })
+                                            </td>
+
+
+                                        </tr>
+                                    }
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <input type="submit" id="btnSave" value="ثبت/ثبت/Save" class="btn btn-primary" />
+                    <div style="float:left;">
+                        <button type="button" id="nextBtn" onclick="@("window.location.href='" + @Url.Action("Navigate", "SchoolStaffExpenses") + "'");" class="btn btn-primary">قبلی/مخکی/Previous</button>
+                        <button type="button" id="nextBtn" onclick="@("window.location.href='" + @Url.Action("", "") + "'");" class="btn btn-primary">تسلیم درخواستی</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+

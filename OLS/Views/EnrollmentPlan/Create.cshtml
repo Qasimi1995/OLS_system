@@ -1,0 +1,100 @@
+﻿@model IList<OLS.ViewModels.EnrollmentPlanViewModel>
+
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+
+                @await Html.PartialAsync("../steps");
+
+
+                <div style="text-align:center;background-color: steelblue;">
+                    <h3 style="padding:5px;color: white;">پلان جذب شاګردان سال جاری / د جذب پلان-سږ کال/Current Year Enrollment Plan</h3>
+                </div>
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div id="regForm">
+                                <form asp-action="Create" method="post">
+                                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered no-wrap">
+                                            <thead>
+                                                <tr>
+                                                    <th>صنف/ټولګی/Class</th>
+                                                    <th>تعداد ذکور/د نارینه زده کوونکو شمېر /Number of Male</th>
+                                                    <th>تعداد اناث/د ښځینه زده کوونکو شمېر/Number of Female </th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @if (Model != null)
+                                                {
+                                                    for (int i = 0; i < Model.Count; i++)
+                                                    {
+
+                                                        <tr>
+
+                                                            <td>
+                                                                @Html.HiddenFor(m => Model[i].SchoolSubLevelId)
+
+                                                                @Model[i].SchoolSubLevelName
+                                                            </td>
+                                                            <td>
+                                                                @Html.TextBoxFor(m => Model[i].NumberOfStudentsMale)
+                                                                @Html.ValidationMessageFor(m => Model[i].NumberOfStudentsMale, null, new { @class = "text-danger" })
+                                                            </td>
+                                                            <td>
+                                                                @Html.TextBoxFor(m => Model[i].NumberOfStudentsFemale)
+                                                                @Html.ValidationMessageFor(m => Model[i].NumberOfStudentsFemale, null, new { @class = "text-danger" })
+                                                            </td>
+
+                                                        </tr>
+
+
+
+                                                    }
+
+
+
+                                                }
+
+
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <input type="submit" id="btnSave" value="ثبت/ثبت/Save" class="btn btn-primary" />
+                                    <div style="float:left;">
+                                        <button type="button" id="nextBtn" onclick="@("window.location.href='" + @Url.Action("Navigate", "Teacher") + "'");" class="btn btn-primary">قبلی/مخکی/Previous</button>
+                                        <button type="button" id="nextBtn" onclick="@("window.location.href='" + @Url.Action("NavigateNextY", "EnrollmentPlan") + "'");" class="btn btn-primary">بعدی/وروسته/Next</button>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,83 @@
+﻿@model IList<OLS.ViewModels.SchoolFinancialPlanViewModel>
+@{ var year = DateTime.Now.Year;}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                @await Html.PartialAsync("../steps");
+
+                <div style="text-align:center;background-color: steelblue;">
+                    <h3 style="padding:5px;color: white;"> بودیجوي پلان(@year)/پلان بودیجوی(@year)/Financial Plan (@year) </h3>
+                </div>
+
+                <form asp-action="Create" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="table-responsive">
+                        <table class="table table-bordered no-wrap">
+                            <thead>
+                                <tr>
+                                    <th class="text-wrap">صنف/ټولګی/Class</th>
+                                    <th class="text-wrap">مقدار فیس/د فیس اندازه/Fee amount</th>
+                                    <th class="text-wrap">تعداد شاگردان غیرمجانی/د فیس ورکوونکو زده کوونکو شمېر/#Paid Students</th>
+                                    <th class="text-wrap">تعداد شاگردان مجانی/د وړیا زده کوونکو شمېر/#Free Students/</th>
+                                    <th class="text-wrap">فیس داخله/د داخلې فیس/Admission Fee</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model != null)
+                                {
+                                    for (int i = 0; i < Model.Count; i++)
+                                    {
+                                        @Html.HiddenFor(m => Model[i].SchoolSubLevelId)
+
+                                        <tr>
+
+                                            <td>
+
+
+                                                @Model[i].SchoolSubLevelName
+                                            </td>
+                                            <td>
+                                                @Html.EditorFor(m => Model[i].FeeAmount)
+                                                @Html.ValidationMessageFor(m => Model[i].FeeAmount, null, new { @class = "text-danger" })
+                                            </td>
+                                            <td>
+                                                @Html.EditorFor(m => Model[i].NfreeStudents)
+                                                @Html.ValidationMessageFor(m => Model[i].NfreeStudents, null, new { @class = "text-danger" })
+                                            </td>
+                                            <td>
+                                                @Html.EditorFor(m => Model[i].NpaidStudents)
+                                                @Html.ValidationMessageFor(m => Model[i].NpaidStudents, null, new { @class = "text-danger" })
+                                            </td>
+                                            <td>
+                                                @Html.EditorFor(m => Model[i].AdmissionFee)
+                                                @Html.ValidationMessageFor(m => Model[i].AdmissionFee, null, new { @class = "text-danger" })
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <input type="submit" id="btnSave" value="ثبت/ثبت/Save" class="btn btn-primary" />
+                    <div style="float:left;">
+                        <button type="button" id="nextBtn" onclick="@("window.location.href='" + @Url.Action("NavigateNextY", "EnrollmentPlan") + "'");" class="btn btn-primary">قبلی/مخکی/Previous</button>
+                        <button type="button" id="nextBtn" onclick="@("window.location.href='" + @Url.Action("Navigate", "SchoolStaffExpenses") + "'");" class="btn btn-primary">بعدی/وروسته/Next</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+

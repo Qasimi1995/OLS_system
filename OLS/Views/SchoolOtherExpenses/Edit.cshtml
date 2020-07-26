@@ -1,0 +1,98 @@
+﻿@model IList<OLS.ViewModels.SchoolOtherExpensesViewModel>
+
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                @await Html.PartialAsync("../steps");
+
+                <div style="text-align:center;background-color: steelblue;">
+                    <h3 style="padding:5px;color: white;">دیگر مصارف/نور لګښتونه/Other expenses</h3>
+                </div>
+
+                <form asp-action="Edit" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="table-responsive">
+                        <table class="table table-bordered no-wrap">
+                            <thead>
+                                <tr>
+
+                                    <th class="text-wrap">نوع مصرف/د لګښت ډول/Expense Type</th>
+                                    <th class="text-wrap">مصرف در یک ماه/د یو میاشت لګښت/Expense per Month</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model != null)
+                                {
+                                    for (int i = 0; i < Model.Count; i++)
+                                    {
+                                        @Html.HiddenFor(m => Model[i].OtherExpenseId)
+
+                                        <tr>
+
+                                            <td>
+
+
+                                                @Model[i].OtherExpenseTypeName
+                                            </td>
+                                            <td>
+                                                @Html.EditorFor(m => Model[i].ExpensePerMonth)
+                                                @Html.ValidationMessageFor(m => Model[i].ExpensePerMonth, null, new { @class = "text-danger" })
+                                            </td>
+
+
+                                        </tr>
+                                    }
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <input type="submit" id="btnSave" value="ثبت/ثبت/Save" class="btn btn-outline-success" />
+                    <div style="float:left;">
+                        <button type="button" id="nextBtn" onclick="@("window.location.href='" + @Url.Action("Navigate", "SchoolStaffExpenses") + "'");" class="btn btn-primary">قبلی/مخکی/Previous</button>
+
+
+                        @if (ViewBag.AppSubmitButton == null)
+                        {
+                            <button type="button" id="nextBtn" onclick="@("window.location.href='" + @Url.Action("RecieveApplication", "SchoolOtherExpenses") + "'");" class="btn btn-primary">تسلیم درخواستی</button>
+
+                        }
+
+
+                    </div>
+                </form>
+
+
+                @if (ViewBag.AppSubmitButton != null)
+                {
+                    
+                    // <div><span class="text-info">@ViewBag.Message</span></div>
+
+                    <div class="alert alert-success alert-dismissible fade show">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <div style="text-align:center">  <span class="text-info">Application already submitted, Please check the progress</span></div>
+                    </div>
+                }
+
+
+                <span class="text-info">
+                    <a href="~/Official-documents/School Verification CheckList.pdf">مکتب شما به اساس این جک لیست بازدید خواهد شد لطقا نموده آنرا دانلود نموده و مطالعه نمایید.</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
