@@ -316,7 +316,6 @@ namespace OLS.Controllers
 
             if (ModelState.IsValid)
             {
-              
                 Guid Pid = Guid.NewGuid();
                 Party party = new Party() { PartyId = Pid };
                 var UserId = _userManager.GetUserId(User);
@@ -351,7 +350,9 @@ namespace OLS.Controllers
                 _applicationContext.Add(personEducation);              
                 await _applicationContext.SaveChangesAsync();
                 HttpContext.Session.SetString("teacherid", Pid.ToString());
-                ViewBag.Message = "معلومات ثبت گردید";
+
+                ViewBag.Message = "Created Sucessfully";
+
                 return RedirectToAction("GetTeachersList");
             }
             return View("GetTeachersList"); 

@@ -2,12 +2,37 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                @if (ViewBag.AppSubMessage != null)
+                @*@if (ViewBag.AppSubMessage != null)
                 {
 
 
                     @ViewBag.AppSubMessage
 
+                }*@
+
+                @if (ViewBag.AppSubMessage != null)
+                {
+                    //  <div><span class="text-info">@ViewBag.Message</span></div>
+                    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+                    <script src="~/sweetalert/sweetalert.min.js"></script>
+                    <script type="text/javascript">
+                                                    @*swal({
+                                                        "@ViewBag.Message",
+                                                        "حساب موفقانه ایجاد گردید / تاسو په بریالیتوب سره یو حساب جوړ کړی",
+                                                        "success"
+                                                        })*@
+                                                    swal({
+                                                        title: "@ViewBag.AppSubMessage",
+                                                        text: "حساب موفقانه ایجاد گردید / تاسو په بریالیتوب سره یو حساب جوړ کړ",
+                                                        icon: "success",
+                                                        button: "OK",
+                                                    })
+                                                        .then(okay => {
+                                                        if (okay) {
+                                                            window.location.href = "/process/getprocess";
+                                                        }
+                                                    });
+                    </script>
                 }
             </div>
         </div>

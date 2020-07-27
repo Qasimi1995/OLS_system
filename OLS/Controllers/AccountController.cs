@@ -72,11 +72,14 @@ namespace OLS.Controllers
 
                 }
                 await _signInManager.RefreshSignInAsync(user);
-                return View("changePasswordConfirmation");
+                ViewBag.Message = "Password Updated successfully";
+                return View("ChangePassword");
             }
 
             return View(changePasswordViewModel);
         }
+
+
         [HttpGet]
         public IActionResult EditUserInfo(string Id)
         {
@@ -123,30 +126,29 @@ namespace OLS.Controllers
         [HttpPost]
         public IActionResult EditUserInfo(UserViewModel userViewModel)
         {
+           
             try
             {
-                if (ModelState.IsValid)
-                {
+                
                     var user = _applicationContext.Users.Where(p => p.Id == userViewModel.Id).FirstOrDefault();
                     user.FirstName = userViewModel.FirstName;
                     user.LastName = userViewModel.LastName;
                     user.Email = userViewModel.Email;
                     user.ProvinceId = userViewModel.ProvinceId;
                     user.IsActive = userViewModel.IsActive;
-             
+
                     _applicationContext.Update(user);
                     _applicationContext.SaveChanges();
 
-                    return RedirectToAction("RegisterStaff");
-                }
-                else
-                {
+                    ViewBag.Message = "Record Updated Successfully";
+                    //return RedirectToAction("EditUserInfo");
+                
                     return View(userViewModel);
 
-                }
 
 
             }
+
             catch (Exception ex)
             {
 
@@ -157,6 +159,8 @@ namespace OLS.Controllers
                 return View(userViewModel);
             }
         }
+
+
         [HttpGet]
         public IActionResult Register()
         {
@@ -210,9 +214,8 @@ namespace OLS.Controllers
 
                 if (result.Succeeded && addedToRole.Succeeded)
                 {
-
-                    ViewBag.Message = "Account Created!";
-                    return RedirectToAction("RegisterStaff");
+                    //return RedirectToAction("RegisterStaff");
+                    ViewBag.Message = "Sucessful";
                 }
                 else
                 {
@@ -269,8 +272,6 @@ namespace OLS.Controllers
         [HttpGet]
         public IActionResult Login()
         {
-
-
             return View();
         }
 
@@ -290,6 +291,7 @@ namespace OLS.Controllers
 
                         if (Request.Query.Keys.Contains("ReturnUrl"))
                         {
+                          
                             return Redirect(Request.Query["ReturnUrl"].FirstOrDefault());
                         }
                         else
@@ -308,7 +310,7 @@ namespace OLS.Controllers
                 }
                 else {
 
-                    ModelState.TryAddModelError("","Login failed");
+                    ModelState.TryAddModelError("", "نام کاربر و یا رمز عبور اشتباه است / کارن نوم یا رمز غلط دی");
                 }
             }
 

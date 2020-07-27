@@ -731,6 +731,7 @@ namespace OLS.Controllers
                 _applicationContext.Update(school);
                 _applicationContext.Update(schoolAddress);
                 _applicationContext.SaveChanges();
+               
                 HttpContext.Session.SetString("SchoolID", schoolViewModel.SchoolId.ToString());
                 ViewBag.Message = "معلومات ثبت گردید";
                 return View(schoolViewModel);

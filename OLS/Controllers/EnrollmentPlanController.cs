@@ -205,6 +205,7 @@ namespace OLS.Controllers
 
 
             ViewBag.displaylist = displayPlan;
+            ViewBag.Message = "sucessfully";
             return RedirectToAction("Edit");
         }
 
@@ -348,6 +349,7 @@ namespace OLS.Controllers
 
 
             ViewBag.displaylist = displayPlan;
+            ViewBag.Message = "sucessfully";
             return RedirectToAction("NavigateNextY");
         }
         //Next year section end

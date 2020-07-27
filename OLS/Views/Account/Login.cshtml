@@ -19,7 +19,7 @@
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="~/assets/images/favicon.png">
     <title>ریاست مکاتب خصوصی</title>
-    @*<link rel="canonical" href="https://www.wrappixel.com/templates/materialpro/" />*@
+ 
     <!-- Custom CSS -->
     <!-- Custom CSS -->
     <link href="~/app-assets/css/style.css" rel="stylesheet">
@@ -46,46 +46,56 @@
     <!-- ============================================================== -->
     <!-- Main wrapper - style you can find in pages.scss -->
     <!-- ============================================================== -->
-    <section id="wrapper" class="login-register login-sidebar" style="background-image: url('assets/images/background/login-register.jpg');">
+    <section id="wrapper" class="login-register login-sidebar" style="background-image:url(../assets/images/background/login_student.jpg);">
         <div class="login-box card">
             <div class="card-body">
                 <form class="form-horizontal form-material" id="loginform" asp-action="login">
-                    <a href="javascript:void(0)" class="text-center d-block"><img src="~/assets/images/logo-icon.png" alt="Home" /><br /><img src="~/assets/images/logo-text.png" alt="Home" /></a>
+                    <br />
+                    <a href="#" class="text-center d-block"><img src="../assets/images/MOE_logo.png" style="height:120px;width:auto" alt="Home" /></a>
+                    <br />
+                    <br />
                     @if (@ViewBag.RoleError != null)
                     {
                         <label class="text-info"> @ViewBag.RoleError</label>
                     }
                     <div class="form-group mt-4">
                         <div class="col-xs-12">
-                            <input class="form-control" asp-for="UserName" placeholder="نام کابر/د کارونکي نوم/User Name">
+                            <input class="form-control" asp-for="UserName" placeholder="نام کابر/ د کارونکي نوم / User Name">
+                            <span asp-validation-for="UserName" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-xs-12">
-                            <input asp-for="Password" class="form-control" type="password" required="" placeholder="رمز عبور/رمز/Password">
+                            <input asp-for="Password" class="form-control" type="password" placeholder="رمز عبور/رمز/Password">
+                            <span asp-validation-for="Password" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="d-flex no-block align-items-center">
                             <div class="checkbox checkbox-primary pt-0">
                                 <input asp-for="RememberMe" id="checkbox-signup" type="checkbox">
-                                
-                                    <label for="checkbox-signup">
-                                        <span>مرا به یاد داشته باش</span>
-                                        <span>/</span>
-                                        <span>
-                                            ما په یاد ولره
-                                        </span>
-                                        <span>/</span>
-                                        <span>
-                                            Remember Me
-                                        </span>
-                                    </label>
-                                
-                                
+                                <label for="checkbox-signup">
+                                    <span>مرا به یاد داشته باش</span>
+                                    <span>/</span>
+                                    <span>
+                                        ما په یاد ولره
+                                    </span>
+                                    <span>/</span>
+                                    <span>
+                                        Remember Me
+                                    </span>
+                                </label>
+                                <br />
+                                <br />
+                                <span>
+                                    <a href="javascript:void(0)" class="font-weight-bold text-muted" style="font-size:11px;" id="to-recover">
+                                        <i class="fa fa-lock mr-1"></i> رمز عبور فراموش کردید / خپل پټ نوم درڅخه هیر دی / Forgot Password
+                                    </a>
+                                </span>
                             </div>
+
                             <div class="ml-auto">
-                                <a href="javascript:void(0)" id="to-recover" class="text-muted"><i class="fa fa-lock mr-1"></i>پاسورد خود را فراموش نموده اید؟</a>
+
                             </div>
                         </div>
                     </div>
@@ -95,11 +105,21 @@
                         </div>
                     </div>
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <div class="form-group mb-0">
+                    @*<div class="form-group mb-0">
                         <div class="col-sm-12 text-center">
                             حساب ندارید؟ <a href="@Url.Action("Register","Account")" class="text-primary ml-1"><b>حساب باز کنید</b></a>
                         </div>
+                    </div>*@
+
+                    <div class="form-group mb-0">
+                        <div class="col-sm-12 text-center">
+                            <span>حساب ندارید / ایا حساب نه لری / Do not have account ؟</span>
+                            <br />
+                            <br />
+                            <span><a href="@Url.Action("Register","Account")" class="text-info ml-1"><b>ایجاد حساب / حساب جوړول/ User Creation</b></a></span>
+                        </div>
                     </div>
+
                 </form>
                 <form class="form-horizontal" id="recoverform" action="https://www.wrappixel.com/demos/admin-templates/material-pro/material-rtl/index.html">
                     <div class="form-group ">
@@ -128,6 +148,9 @@
     <!-- ============================================================== -->
     <!-- All Jquery -->
     <!-- ============================================================== -->
+    <script src="~/jquery-3.4.1.js"></script>
+    <script src="~/jquery.validate.min.js"></script>
+    <script src="~/jquery.validate.unobtrusive.min.js"></script>
     <script data-cfasync="false" src="../../../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
     <script src="~/assets/plugins/jquery/jquery.min.js"></script>
     <!-- Bootstrap tether Core JavaScript -->

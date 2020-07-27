@@ -65,7 +65,6 @@ namespace OLS.Controllers
                     
                 }
 
-
                 _applicationContext.UpdateRange(Plans);
                 _applicationContext.SaveChanges();
                 return RedirectToAction("Edit");
@@ -174,6 +173,7 @@ namespace OLS.Controllers
                 }
                 _applicationContext.AddRange(plans);
                 _applicationContext.SaveChanges();
+                ViewBag.Message = "sucessfully";
                 return RedirectToAction("Edit");
             }
             else {

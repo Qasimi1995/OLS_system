@@ -200,12 +200,13 @@ namespace OLS.Controllers
                 }
                 _applicationContext.AddRange(plans);
                 _applicationContext.SaveChanges();
+                ViewBag.Message = "sucessfully";
                 return RedirectToAction("Edit");
             }
             else {
 
                 return View(displayPlan);
-                 }
+                }
         }
     }
 }

@@ -107,6 +107,7 @@ namespace OLS.Controllers
             ViewBag.BussinessType = BussinessType;
             if (ModelState.IsValid) {           
                 Guid SchoolID = new Guid(HttpContext.Session.GetString("SchoolID"));
+
                 SchoolFinancialResource FinancialResource = new SchoolFinancialResource
                 {
                     SchoolId = SchoolID,
@@ -121,7 +122,6 @@ namespace OLS.Controllers
                 var result=_applicationContext.SaveChanges();
                 if (result == 1)
                 {
-
                     ViewBag.Message = "معلومات ثبت گردید";
                     return RedirectToAction("Edit", new { schoolId = SchoolID });
                 }

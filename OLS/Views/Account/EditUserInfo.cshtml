@@ -6,7 +6,7 @@
 
     <div class="row page-titles">
         <div class="col-md-5 col-12 align-self-center">
-            <h3 class="text-themecolor">معلومات کاربر</h3>
+            <h3 class="text-themecolor">معلومات کاربر / د کارونکي معلومات / User Information</h3>
         </div>
 
     </div>
@@ -16,20 +16,33 @@
             <div class="card-body">
 
                 <form class="form-horizontal form-material" id="loginform" asp-action="EditUserInfo">
+                    @if (ViewBag.Message != null)
+                    {
+                        //  <div><span class="text-info">@ViewBag.Message</span></div>
+                        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+                        <script src="~/sweetalert/sweetalert.min.js"></script>
+                        <script type="text/javascript">
+                            swal("@ViewBag.Message", "ریکارد موفقانه ثبت گردید / تاسو په بریالیتوب ریکارد ثبت کړی", "success");
+                        </script>
+                    }
+
                     <div class="form-group ">
                         <div>
                             <input asp-for="Email" class="form-control" required="" placeholder="ایمیل">
+                            <span asp-validation-for="Email" class="text-danger"></span>
                         </div>
                     </div>
 
                     <div class="form-group ">
                         <div>
                             <input asp-for="FirstName" class="form-control" required="" placeholder="اسم /نوم/Name">
+                            <span asp-validation-for="FirstName" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="form-group ">
                         <div>
                             <input asp-for="LastName" class="form-control" required="" placeholder="تخلص /تخلص/Last Name">
+                            <span asp-validation-for="LastName" class="text-danger"></span>
                         </div>
                     </div>
 
@@ -69,14 +82,11 @@
 
                     <div class="form-group mt-3">
                         <div>
-                            <button class="btn btn-info text-uppercase waves-effect waves-light" type="submit"> ثبت</button>
+                            <button class="btn btn-info text-uppercase waves-effect waves-light" type="submit"> ثبت / ثبت / Save </button>
+
+                            <a class="btn btn-info text-uppercase waves-effect waves-light" asp-controller="Account" asp-action="RegisterStaff"> قبلی/مخکی/Back </a>
                         </div>
                     </div>
-                    @if (ViewBag.Message != null)
-                    {
-                        <div><span class="text-info">@ViewBag.Message</span></div>
-
-                    }
 
                 </form>
 

@@ -550,8 +550,8 @@ namespace OLS.Controllers
                 await _applicationContext.SaveChangesAsync();
 
                 ViewBag.Message = "معلومات ثبت گردید";
-
                 HttpContext.Session.SetString("FounderID", Pid.ToString());
+               
                 return RedirectToAction("Edit", new { founderid = Pid });
             }
             return View("Create"); 

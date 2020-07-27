@@ -60,12 +60,10 @@ namespace OLS.Controllers
                     plan.UpdatedAt = DateTime.Now;
                     Plans.Add(plan);
 
-                    
                 }
-
-
                 _applicationContext.UpdateRange(Plans);
                 _applicationContext.SaveChanges();
+                ViewBag.Message = "Successful";
                 return RedirectToAction("Edit");
             }
             return RedirectToAction("Edit");
@@ -164,6 +162,9 @@ namespace OLS.Controllers
                 }
                 _applicationContext.AddRange(plans);
                 _applicationContext.SaveChanges();
+
+                ViewBag.Message = "Successful";
+
                 return RedirectToAction("Edit");
             }
             else {

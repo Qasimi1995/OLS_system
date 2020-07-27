@@ -47,7 +47,28 @@
                     <input type="submit" value="ثبت/ثبت/Save" class="btn btn-primary" />
                     <div style="float:left;">
                         <button type="button" id="nextBtn" onclick="@("window.location.href='" + @Url.Action("Navigate", "School") + "'");" class="btn btn-primary">قبلی/مخکی/Previous</button>
-                        <button type="button" id="nextBtn" onclick="@("window.location.href='" + @Url.Action("Navigate", "Principle") + "'");" class="btn btn-primary">بعدی/وروسته/Next</button>
+                        @*<button type="button" id="nextBtn" onclick="@("window.location.href='" + @Url.Action("Navigate", "Principle") + "'");" class="btn btn-primary">بعدی/وروسته/Next</button>*@
+                        <input type="submit" class="btn btn-primary" value="بعدی/وروسته/Next" />
+                        @if (ViewBag.Message != null)
+                        {
+                            //  <div><span class="text-info">@ViewBag.Message</span></div>
+                            <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+                            <script src="~/sweetalert/sweetalert.min.js"></script>
+                            <script type="text/javascript">
+
+                                swal({
+                                    title: "@ViewBag.Message",
+                                    text: "حساب موفقانه ایجاد گردید / تاسو په بریالیتوب سره یو حساب جوړ کړ",
+                                    icon: "success",
+                                    button: "OK",
+                                }).then(okay => {
+                                    if (okay) {
+                                        window.location.href = "/Principle/Create";
+                                    }
+                                });
+                            </script>
+
+                        }
                     </div>
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
