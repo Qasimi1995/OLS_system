@@ -379,7 +379,7 @@ namespace OLS.Controllers
                     if (founderModel.Photo != null)
                     {
                         string[] _Extensions = new string[] { ".jpg", ".png", ".jpeg" };
-                        int _maxFileSize = 50 * 1024;
+                        int _maxFileSize = 100 * 1024;
                         var extension = Path.GetExtension(founderModel.Photo.FileName);
                         if (_Extensions.Contains(extension.ToLower()) && founderModel.Photo.Length < _maxFileSize)
                         {
@@ -398,7 +398,7 @@ namespace OLS.Controllers
                         }
                         else
                         {
-                            ViewBag.photoerror = " only .jpg, png and jpeg format is allowed and max of 50 kb ";
+                            ViewBag.photoerror = " only .jpg, png and jpeg format is allowed and max of 100 kb ";
                             return View(founderModel);
                            
                         }

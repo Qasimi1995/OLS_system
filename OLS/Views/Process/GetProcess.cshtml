@@ -5,7 +5,9 @@
         <div class="card">
             <div class="card-body">
                 <section id="timeline" class="timeline-center timeline-wrapper">
-                    <h2 class="text-themecolor text-center">School Licensing Process/پروسه اخذ جواز مکتب خصوصی</h2>
+                    <h2 class="text-themecolor text-center shadow-lg p-3 mb-5 bg-white rounded">
+                        پروسه اخذ جواز مکتب خصوصی / د ښوونځي جواز ورکولو پروسه / School Licensing Process
+                    </h2>
 
                     <ul class="timeline">
                         @if (Model != null)
@@ -20,7 +22,7 @@
                                             <div class="timeline-heading">
                                                 <div class="row">
                                                     <div class="col-md-10">
-                                                        <h4 class="text-themecolor">@Model[i].SubProcesNameDari</h4>
+                                                        <h4 class="text-themecolor font-weight-bold">@Model[i].SubProcesNameDari</h4>
                                                         <div class="row">
                                                             <div class="col-md-3">
                                                                 تعداد روز:
@@ -70,10 +72,10 @@
                                             <div class="timeline-heading">
                                                 <div class="row">
                                                     <div class="col-md-10">
-                                                        <h4 class="text-themecolor">@Model[i].SubProcesNameDari</h4>
+                                                        <h4 class="text-themecolor font-weight-bold">@Model[i].SubProcesNameDari</h4>
                                                         <div class="row">
                                                             <div class="col-md-3">
-                                                                تعداد روز:
+                                                                تعداد روز : 
                                                             </div>
                                                             <div class="col-md-9">
                                                                 @Model[i].TimelineInDays
@@ -81,7 +83,7 @@
                                                         </div>
                                                         <div class="row">
                                                             <div class="col-md-3">
-                                                                حالت:
+                                                                حالت 
                                                             </div>
                                                             <div class="col-md-9">
                                                                 @Model[i].StatusNameDariPast

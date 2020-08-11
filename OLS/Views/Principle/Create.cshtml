@@ -17,19 +17,20 @@
                 </div>
                 <form asp-action="Create" method="post" enctype="multipart/form-data">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <div style="text-align:left; margin-top:5px;">
+
+                    <div style="text-align:left;margin-top:5px;">
                         <img id='img-upload' style="width:120px; height:150px;" />
                         <div class="input-group">
-                            <span class="btn btn-default btn-file">
+                            <span class="btn btn-outline-accent-4 btn-file font-weight-bold" title="لطفا عکس را انتخاب کنید / مهرباني وکړئ یو عکس غوره کړئ">
                                 Choose Photo
                                 <input asp-for="Photo" id="imgInp">
-
-
                             </span>
+
                             <div><span asp-validation-for="Photo" class="text-danger"></span></div>
 
                         </div>
                     </div>
+
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">

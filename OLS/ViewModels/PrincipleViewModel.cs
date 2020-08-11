@@ -36,7 +36,7 @@ namespace OLS.ViewModels
         [Range(20,100)]
         public int? Age { get; set; }
 
-        [Required(ErrorMessage = "Please select a file.")]
+        [Required(ErrorMessage = "لطفا عکس را انتخاب کنید / مهرباني وکړئ یو عکس غوره کړئ")]
         [DataType(DataType.Upload)]
         [MaxFileSize(400 * 1024, ErrorMessage = "Max 50 Kb file is allowed")]
         [AllowedExtensions(new string[] { ".jpg", ".png", ".jpeg" }, ErrorMessage = " only .jpg, png and jpeg format is allowed")]

@@ -102,18 +102,34 @@
 
                     @if (ViewBag.Message != null)
                     {
-                        //  <div><span class="text-info">@ViewBag.Message</span></div>
-                        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+                   
+                    //  <div><span class="text-info">@ViewBag.Message</span></div>
+                    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
                         <script src="~/sweetalert/sweetalert.min.js"></script>
                         <script type="text/javascript">
-                            swal("@ViewBag.Message", "حساب موفقانه ایجاد گردید / تاسو په بریالیتوب سره یو حساب جوړ کړی", "success");
+                                                    @*swal({
+                                                        "@ViewBag.Message",
+                                                        "حساب موفقانه ایجاد گردید / تاسو په بریالیتوب سره یو حساب جوړ کړی",
+                                                        "success"
+                                                        })*@
+                                                    swal({
+                                                        title: "@ViewBag.Message",
+                                                        text: "حساب موفقانه ایجاد گردید / تاسو په بریالیتوب سره یو حساب جوړ کړی",
+                                                        icon: "success",
+                                                        button: "OK",
+                                                    })
+                                                        .then(okay => {
+                                                        if (okay) {
+                                                            window.location.href = "/Account/Login";
+                                                        }
+                                                    });
                         </script>
 
                     }
                     <div class="form-group mb-0">
                         <div class="col-sm-12 text-center">
-                            <span>حساب دارید / ایا حساب لری / Do you have account ؟</span> 
-                            <span><a href="@Url.Action("Login","Account")" class="text-info ml-1"><b> وارد شوید / د ننه کیدل / Log in </b></a></span> 
+                            <span>حساب دارید / ایا حساب لری / Do you have account ؟</span>
+                            <span><a href="@Url.Action("Login","Account")" class="text-info ml-1"><b> وارد شوید / د ننه کیدل / Log in </b></a></span>
                         </div>
                     </div>
                 </form>
