@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Session;
 using OLS.Models;
 using Microsoft.AspNetCore.Identity;
 using OLS.FunctionsLibrary;
+using EmailService;
 
 namespace OLS
 {
@@ -28,6 +29,12 @@ namespace OLS
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var emailConfig = Configuration 
+            .GetSection("EmailConfiguration")
+            .Get<EmailConfiguration>();
+            services.AddSingleton(emailConfig);
+            services.AddScoped<IEmailSender, EmailSender>();
+
             services.AddAuthentication();
 
             services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<ApplicationContext>().AddDefaultTokenProviders();

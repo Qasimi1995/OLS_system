@@ -379,7 +379,7 @@ namespace OLS.Controllers
                     if (founderModel.Photo != null)
                     {
                         string[] _Extensions = new string[] { ".jpg", ".png", ".jpeg" };
-                        int _maxFileSize = 100 * 1024;
+                        int _maxFileSize = 500 * 1024;
                         var extension = Path.GetExtension(founderModel.Photo.FileName);
                         if (_Extensions.Contains(extension.ToLower()) && founderModel.Photo.Length < _maxFileSize)
                         {

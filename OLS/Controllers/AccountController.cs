@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using EmailService;
 
 namespace OLS.Controllers
 {
@@ -18,12 +19,14 @@ namespace OLS.Controllers
         private readonly UserManager<User> _userManager;
         private readonly ILogger<AccountController> _logger;
         private readonly SignInManager<User> _signInManager;
+        private readonly IEmailSender _emailSender;
 
-        public AccountController(ApplicationContext applicationContext,UserManager<User> userManager,ILogger<AccountController> logger,SignInManager<User> signInManager) {
+        public AccountController(ApplicationContext applicationContext,UserManager<User> userManager,ILogger<AccountController> logger,SignInManager<User> signInManager, IEmailSender emailSender) {
 
             _userManager = userManager;
             _logger = logger;
             _signInManager = signInManager;
+            _emailSender = emailSender;
             _applicationContext = applicationContext;
 
 
@@ -87,7 +90,11 @@ namespace OLS.Controllers
                     var token = await _userManager.GeneratePasswordResetTokenAsync(user);
 
                     var passwordResetLink = Url.Action("RessetPassword", "Account", new { email = model.Email, token = token }, Request.Scheme);
-                    _logger.Log(LogLevel.Warning, passwordResetLink);
+
+                    var message = new Message(new string[] { model.Email }, "hello Man", passwordResetLink);
+                    _emailSender.SendEmail(message);
+
+                    //  _logger.Log(LogLevel.Warning, passwordResetLink);
 
                     return View("ForgotPasswordConfirmation");
 
