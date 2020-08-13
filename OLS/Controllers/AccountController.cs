@@ -56,7 +56,9 @@ namespace OLS.Controllers
                     var result = await _userManager.ResetPasswordAsync(user, model.Token, model.Password);
                     if (result.Succeeded)
                     {
+                        ViewBag.Message = "Password Recoverd Successfully";
                         return View("ResetPasswordConfirmation");
+                        
                     }
                     foreach(var error in result.Errors)
                     {
@@ -64,7 +66,9 @@ namespace OLS.Controllers
                     }
                     return View(model);
                 }
+                ViewBag.Message = "Password Recoverd Successfully";
                 return View("ResetPasswordConfirmation");
+                
             }
             return View(model);
         }
@@ -85,21 +89,25 @@ namespace OLS.Controllers
             {
                 var user = await _userManager.FindByEmailAsync(model.Email);
 
-                if(user != null && await _userManager.IsEmailConfirmedAsync(user))
+                if(user != null)// if you want to send to confirmed email && await _userManager.IsEmailConfirmedAsync(user)
                 {
                     var token = await _userManager.GeneratePasswordResetTokenAsync(user);
 
                     var passwordResetLink = Url.Action("RessetPassword", "Account", new { email = model.Email, token = token }, Request.Scheme);
 
-                    var message = new Message(new string[] { model.Email }, "hello Man", passwordResetLink);
+                    var message = new Message(new string[] { model.Email }, "Password Reset ", "Hey Dear Please use the following link to reset your password.  if you did not request this password reset please ignore this  email. Token time for reset password is 2 hours please reset password within the token time range" + "\n" + passwordResetLink );
                     _emailSender.SendEmail(message);
 
                     //  _logger.Log(LogLevel.Warning, passwordResetLink);
-
+                    ViewBag.Message = "Successfully Sent the Reset Password Link To your Email";
                     return View("ForgotPasswordConfirmation");
-
                 }
-                return View("ForgotPasswordConfirmation");
+                else
+                {
+                    ViewBag.Message = "Enterd Email address not exist please confirm if its not wrong";
+                    return View("ForgotPasswordConfirmationError");
+                }
+                
             }
 
             return View(model);

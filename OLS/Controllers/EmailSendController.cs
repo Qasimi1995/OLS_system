@@ -21,7 +21,7 @@ namespace OLS.Controllers
         [AllowAnonymous]
         public IActionResult SendTestEmail()
         {
-            var message = new Message(new string[] { "bahram.qasimi2007@gmail.com" }, "hello Man", " This is me ");
+            var message = new Message(new string[] { "OLS Team " }, "Password Reset", " Hey Dear Please use the following link to reset your password, if you did not request this password reset please ignore the mail ");
             _emailSender.SendEmail(message); 
 
             return View();

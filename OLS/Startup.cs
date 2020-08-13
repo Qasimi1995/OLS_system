@@ -35,6 +35,9 @@ namespace OLS
             services.AddSingleton(emailConfig);
             services.AddScoped<IEmailSender, EmailSender>();
 
+            services.Configure<DataProtectionTokenProviderOptions>(opt =>
+               opt.TokenLifespan = TimeSpan.FromHours(2));
+
             services.AddAuthentication();
 
             services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<ApplicationContext>().AddDefaultTokenProviders();
@@ -49,6 +52,8 @@ namespace OLS
                 //options.Password.RequireUppercase = false;
                // options.Password.RequiredLength = 10;
                // options.Password.RequiredUniqueChars = 3;
+
+                //opt.SignIn.RequireConfirmedEmail = true;
             });
 
             services.AddControllersWithViews();
