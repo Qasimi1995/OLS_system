@@ -44,7 +44,7 @@
                         <thead>
                             <tr>
                                 <th>شماره</th>
-                                <th>اسم /نوم/Name مکتب</th>
+                                <th>اسم مکتب</th>
                                 <th>سطح مکتب</th>
                                 <th>جنسیت  مکتب</th>
                                 <th> ولایت</th>
@@ -58,6 +58,7 @@
                                 @if (ViewBag.roleid == "EFD684C6-F47C-407C-B9B7-DA2245E3869B")
                                 {
                                     <th>راپور بازدید</th>
+                                    <th>جواز مکتب</th>
                                 }
                             </tr>
                         </thead>
@@ -91,24 +92,27 @@
 
 
                                 <td class="text-nowrap">
-                                    @Html.ActionLink("View ", "Check", new { schoolid = Model[i].SchoolId, OrderNumber = ViewBag.OrderNumber, ProcessStatusId = ViewBag.ProcessStatusId, CompletionFlag = ViewBag.CompletionFlag })
+                                    @Html.ActionLink("مشاهده / View", "Check", new { schoolid = Model[i].SchoolId, OrderNumber = ViewBag.OrderNumber, ProcessStatusId = ViewBag.ProcessStatusId, CompletionFlag = ViewBag.CompletionFlag })
 
                                 </td>
                                 @if (ViewBag.roleid == "DB70DAE4-9422-4A2F-A14B-7552702F026B")
                                 {
 
-
                                     <td class="text-nowrap">
                                         @Html.ActionLink("CheckList ", "CheckList", new { schoolid = Model[i].SchoolId })
-
                                     </td>
                                 }
                                 @if (ViewBag.roleid == "EFD684C6-F47C-407C-B9B7-DA2245E3869B")
                                 {
-                                   <td>
-                                       <a href="~/PED/@Model[i].SchoolId/@Model[i].SchoolId-schoolVisitReport.pdf">دیدن راپور</a>
-                                   </td>
+                                    <td>
+                                        <a href="~/PED/@Model[i].SchoolId/@Model[i].SchoolId-schoolVisitReport.pdf">دیدن راپور</a>
+                                    </td>
+
+                                    <td class="text-nowrap">
+                                        @Html.ActionLink("License ", "SchoolLicense", new { schoolid = Model[i].SchoolId })
+                                    </td>
                                 }
+
                             </tr>
                             }
 

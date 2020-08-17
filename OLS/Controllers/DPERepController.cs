@@ -240,6 +240,18 @@ namespace OLS.Controllers
 
         }
 
+
+        [HttpGet]
+        public IActionResult SchoolLicense(Guid schoolid)
+        {
+            ViewBag.PersonInfo = _functions.GetPersonList(schoolid);
+            ViewBag.SchoolInfo = _functions.GetSchool(schoolid);
+
+
+            return View();
+
+        }
+
         [HttpGet]
         public IActionResult Check(Guid schoolid,int? OrderNumber,Nullable<Guid> ProcessStatusId, byte CompletionFlag)
         {

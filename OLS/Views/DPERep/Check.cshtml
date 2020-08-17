@@ -13,6 +13,9 @@
             function () {
 
                 $("#bs-example-modal-lg").modal('show');
+                $("#reset").click(function () {
+                    $(':input', '#myform2').val("");
+                });
             }
 
         );
@@ -45,7 +48,7 @@
                                         <div class="card-header">
                                             <h4 class="mb-0 text-white">Process School</h4>
                                         </div>
-                                        <form asp-action="Check" method="post" enctype="multipart/form-data">
+                                        <form asp-action="Check" method="post" id="myform2" enctype="multipart/form-data">
                                             <div class="form-body">
 
 
@@ -108,7 +111,7 @@
                                                     <i class="fa fa-check"></i>
                                                     Save
                                                 </button>
-                                                <button type="button" class="btn btn-inverse">Cancel</button>
+                                                <button type="button" id="reset" data-dismiss="modal" class="btn btn-inverse">Cancel</button>
                                             </div>
                                         </form>
                                     </div>
