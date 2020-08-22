@@ -107,6 +107,7 @@ namespace OLS.Controllers
                                     SchoolId=partyDocument.PartyId,
                                     DocTypeNameDari=zDocType.DocTypeNameDari,
                                 }).ToList();
+            
             return View(DocumentList);
 
         }
@@ -154,14 +155,15 @@ namespace OLS.Controllers
                         DocPath = "/PartyDocuments/" + Pid.ToString() + "/" + fileName;
                     }
 
-
                 }
+
+                ViewBag.Message = "Documents Uploaded Successfully!";
 
                 return RedirectToAction("UploadDocumentsEdit");
             }
             else
             {
-
+                ViewBag.Message = "Documents Uploaded Successfully!";
                 return View(DocumentList);
             }
 
@@ -249,6 +251,7 @@ namespace OLS.Controllers
                 _applicationContext.Update(processprogress);
                 _applicationContext.AddRange(partyDocuments);
                 _applicationContext.SaveChanges();
+                ViewBag.Message = "Documents Uploaded Successfully!";
                 return RedirectToAction("UploadDocuments");
             }
             else
@@ -657,7 +660,7 @@ namespace OLS.Controllers
                         HasSportFacilities = school.HasTransportation,
                         ProvinceId=schoolAddress.ProvinceId,
                         DistrictId = schoolAddress.DistrictId,
-                        VillageNahiaId=schoolAddress.VillageNahiaId
+                        Nahia=schoolAddress.Nahia
                     };
 
                         var district = _applicationContext.ZDistrict.Where(d => d.ProvinceId == schoolAddress.ProvinceId);
@@ -719,7 +722,7 @@ namespace OLS.Controllers
                 PartyAddress schoolAddress = _applicationContext.PartyAddress.Where(p => p.PartyId == school.SchoolId).FirstOrDefault();
                 schoolAddress.ProvinceId = schoolViewModel.ProvinceId;
                 schoolAddress.DistrictId = schoolViewModel.DistrictId;
-                schoolAddress.VillageNahiaId = schoolViewModel.VillageNahiaId;
+                schoolAddress.Nahia = schoolViewModel.Nahia;
 
                 var province = _applicationContext.ZProvince;
                 ViewBag.Province = province;
@@ -819,7 +822,7 @@ namespace OLS.Controllers
                     AddressTypeId = Guid.Parse("28048D3E-BF94-4068-9735-6E798BA9FD52"),
                     ProvinceId = schoolModel.ProvinceId,
                     DistrictId = schoolModel.DistrictId,
-                    VillageNahiaId = schoolModel.VillageNahiaId,
+                    Nahia = schoolModel.Nahia,
                 };
 
                 Person founder = _applicationContext.Person.Where(p => p.PersonId == pid).FirstOrDefault();

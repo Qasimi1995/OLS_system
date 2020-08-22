@@ -11,7 +11,7 @@
                     <h3 style="padding:5px;color: white;">تسلیم اسناد/د اسنادو تسلیمول/Document Submit</h3>
                 </div>
 
-                <form asp-action="UploadDocuments" method="post"  enctype="multipart/form-data">
+                <form asp-action="UploadDocuments" method="post" enctype="multipart/form-data">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                     <div class="table-responsive">
@@ -20,7 +20,7 @@
                                 <tr>
 
                                     <th class="text-wrap">نوع سند/د سند ډول/Document Type</th>
-                                 
+
                                     <th class="text-wrap">آپلود/آپلود/Upload</th>
 
                                 </tr>
@@ -37,7 +37,7 @@
                                                 @Model[i].DocTypeName
                                             </td>
                                             <td>
-                                                @Html.TextBoxFor(m => Model[i].Document,new { type="file" })
+                                                @Html.TextBoxFor(m => Model[i].Document, new { type = "file" })
                                                 @Html.ValidationMessageFor(m => Model[i].Document, null, new { @class = "text-danger" })
                                             </td>
 
@@ -49,6 +49,32 @@
                             </tbody>
                         </table>
                     </div>
+                    @if (ViewBag.Message != null)
+                    {
+
+                        //  <div><span class="text-info">@ViewBag.Message</span></div>
+                        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+                        <script src="~/sweetalert/sweetalert.min.js"></script>
+                        <script type="text/javascript">
+                                                    @*swal({
+                                                        "@ViewBag.Message",
+                                                        "حساب موفقانه ایجاد گردید / تاسو په بریالیتوب سره یو حساب جوړ کړی",
+                                                        "success"
+                                                        })*@
+                                                    swal({
+                                                        title: "@ViewBag.Message",
+                                                        text: "حساب موفقانه ایجاد گردید / تاسو په بریالیتوب سره یو حساب جوړ کړی",
+                                                        icon: "success",
+                                                        button: "OK",
+                                                    })
+                                                        .then(okay => {
+                                                        if (okay) {
+                                                            window.location.href = "/Account/Login";
+                                                        }
+                                                    });
+                        </script>
+
+                    }
                     <input type="submit" id="btnSave" value="ثبت/ثبت/Save" class="btn btn-primary" />
 
                 </form>

@@ -243,8 +243,8 @@ namespace OLS.Controllers
                     ViewBag.Preprovince = Preprovince;
                     var Predistrict = _applicationContext.ZDistrict.Where(d => d.ProvinceId == principlePreAddress.ProvinceId);
                     ViewBag.Predistrict = Predistrict;
-                    var PrevillageNahia = _applicationContext.ZVillageNahia.Where(v => v.DistrictId == principlePreAddress.DistrictId);
-                    ViewBag.PrevillageNahia = PrevillageNahia;
+                    //var PrevillageNahia = _applicationContext.ZVillageNahia.Where(v => v.DistrictId == principlePreAddress.DistrictId);
+                    //ViewBag.PrevillageNahia = PrevillageNahia;
 
                     PrincipleEditViewModel principle = new PrincipleEditViewModel
                     {
@@ -264,10 +264,10 @@ namespace OLS.Controllers
                         GraduationDate= principleEducation.GraduationDate,
                         PerProvinceId = principlePerAddress.ProvinceId,
                         PerDistrictId = principlePerAddress.DistrictId,
-                        PerVillageNahiaId = principlePerAddress.VillageNahiaId,
+                        PerNahia = principlePerAddress.Nahia,
                         PreProvinceId = principlePreAddress.ProvinceId,
                         PreDistrictId = principlePreAddress.DistrictId,
-                        PreVillageNahiaId = principlePreAddress.VillageNahiaId,                   
+                        PreNahia = principlePreAddress.Nahia,                   
                         ExistingPhotoPath = principledetails.Photo,
                       
                     };
@@ -325,8 +325,8 @@ namespace OLS.Controllers
                     ViewBag.Preprovince = Preprovince;
                     var Predistrict = _applicationContext.ZDistrict.Where(d => d.ProvinceId == founderPreAddress.ProvinceId);
                     ViewBag.Predistrict = Predistrict;
-                    var PrevillageNahia = _applicationContext.ZVillageNahia.Where(v => v.DistrictId == founderPreAddress.DistrictId);
-                    ViewBag.PrevillageNahia = PrevillageNahia;
+                    //var PrevillageNahia = _applicationContext.ZVillageNahia.Where(v => v.DistrictId == founderPreAddress.DistrictId);
+                    //ViewBag.PrevillageNahia = PrevillageNahia;
 
                     Person person = _applicationContext.Person.Find(principle.PersonId);
                     person.Name = principle.Name;
@@ -355,12 +355,12 @@ namespace OLS.Controllers
                     PartyAddress PermenantAddress = _applicationContext.PartyAddress.Where(p => p.PartyId == principle.PersonId && p.AddressTypeId == Guid.Parse("EDDCDD48-67D0-4BAE-B96E-B7ACB5C87DF7")).FirstOrDefault();
                     PermenantAddress.ProvinceId = principle.PerProvinceId;
                     PermenantAddress.DistrictId = principle.PerDistrictId;
-                    PermenantAddress.VillageNahiaId = principle.PerVillageNahiaId;
+                    PermenantAddress.Nahia = principle.PerNahia;
 
                     PartyAddress CurrentAddress = _applicationContext.PartyAddress.Where(p => p.PartyId == principle.PersonId && p.AddressTypeId == Guid.Parse("28048D3E-BF94-4068-9735-6E798BA9FD52")).FirstOrDefault();
                     CurrentAddress.ProvinceId = principle.PreProvinceId;
                     CurrentAddress.DistrictId = principle.PreDistrictId;
-                    CurrentAddress.VillageNahiaId = principle.PreVillageNahiaId;
+                    CurrentAddress.Nahia = principle.PreNahia;
 
 
                     string FilePath = "";
@@ -532,7 +532,7 @@ namespace OLS.Controllers
                     AddressTypeId = Guid.Parse("EDDCDD48-67D0-4BAE-B96E-B7ACB5C87DF7"),
                     ProvinceId = principle.PerProvinceId,
                     DistrictId = principle.PerDistrictId,
-                    VillageNahiaId = principle.PerVillageNahiaId
+                    Nahia = principle.PerNahia
                 };
                 Guid CurrAaddressId = Guid.NewGuid();
                 PartyAddress CurrentAddress = new PartyAddress()
@@ -542,7 +542,7 @@ namespace OLS.Controllers
                     AddressTypeId = Guid.Parse("28048D3E-BF94-4068-9735-6E798BA9FD52"),
                     ProvinceId = principle.PreProvinceId,
                     DistrictId = principle.PreDistrictId,
-                    VillageNahiaId = principle.PreVillageNahiaId
+                    Nahia = principle.PreNahia
                 };
                 _applicationContext.Add(party);
                 _applicationContext.Add(person);

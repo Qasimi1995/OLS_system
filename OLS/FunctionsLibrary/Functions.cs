@@ -43,26 +43,26 @@ namespace OLS.FunctionsLibrary
             var PerAddress = (from partyAddress in _applicationContext.PartyAddress
                               join zProvince in _applicationContext.ZProvince on partyAddress.ProvinceId equals zProvince.ProvinceId
                               join zDistrict in _applicationContext.ZDistrict on partyAddress.DistrictId equals zDistrict.DistrictId
-                              join zVillageNahia in _applicationContext.ZVillageNahia on partyAddress.VillageNahiaId equals zVillageNahia.VillageNahiaId
+                              //join zVillageNahia in _applicationContext.ZVillageNahia on partyAddress.VillageNahiaId equals zVillageNahia.VillageNahiaId
                               where partyAddress.PartyId == personid && partyAddress.AddressTypeId == Guid.Parse("EDDCDD48-67D0-4BAE-B96E-B7ACB5C87DF7")
                               select new
                               {
                                   PerProvince = zProvince.ProvNaDar,
                                   PerDistrict = zDistrict.DistNaDar,
-                                  PerVillageNahia = zVillageNahia.VillageNameEng
+                                  PerNahia = partyAddress.Nahia,
 
                               }).FirstOrDefault();
 
             var PreAddress = (from partyAddress in _applicationContext.PartyAddress
                               join zProvince in _applicationContext.ZProvince on partyAddress.ProvinceId equals zProvince.ProvinceId
                               join zDistrict in _applicationContext.ZDistrict on partyAddress.DistrictId equals zDistrict.DistrictId
-                              join zVillageNahia in _applicationContext.ZVillageNahia on partyAddress.VillageNahiaId equals zVillageNahia.VillageNahiaId
+                              //join zVillageNahia in _applicationContext.ZVillageNahia on partyAddress.VillageNahiaId equals zVillageNahia.VillageNahiaId
                               where partyAddress.PartyId == personid && partyAddress.AddressTypeId == Guid.Parse("28048D3E-BF94-4068-9735-6E798BA9FD52")
                               select new
                               {
                                   PreProvince = zProvince.ProvNaDar,
                                   PreDistrict = zDistrict.DistNaDar,
-                                  PreVillageNahia = zVillageNahia.VillageNameEng
+                                  PreNahia = partyAddress.Nahia
 
                               }).FirstOrDefault();
 
@@ -90,10 +90,10 @@ namespace OLS.FunctionsLibrary
                 EducationLevel = EducationLevel.EducationLevel,
                 PerProvince = PerAddress.PerProvince,
                 PerDistrict = PerAddress.PerDistrict,
-                PerVillageNahia = PerAddress.PerVillageNahia,
+                PerNahia = PerAddress.PerNahia,
                 PreProvince = PreAddress.PreProvince,
                 PreDistrict = PreAddress.PreDistrict,
-                PreVillageNahia = PreAddress.PreVillageNahia,
+               PreNahia= PreAddress.PreNahia,
             };
 
 
@@ -139,7 +139,7 @@ namespace OLS.FunctionsLibrary
                                                     Remarks = school.Remarks,
                                                     Province = zProvince.ProvNaDar,
                                                     District = zDistrict.DistNaDar,
-                                                    VillageNahia = zVillageNahia.VillageNameEng,
+                                                    VillageNahia = partyAddress.Nahia,
 
                                                 }).FirstOrDefault();
             var a = 1;

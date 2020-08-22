@@ -16,417 +16,161 @@
                 </div>
             </div>
         </div>
-        <!-- ============================================================== -->
-        <!-- End Bread crumb and right sidebar toggle -->
-        <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- Start Page Content -->
-        <!-- ============================================================== -->
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card card-body printableArea">
+ 
+        <div class="card text-center" style="height:900px; width:auto;">
+            @*<div class="card-header">
+            Featured
+        </div>*@
+
+            <img class="card-img center" src="~/AF_logo/mo.png" alt="Card image" style="margin-top:240px; height:500px; width:500px;display:inline-block;margin-right:269px;">
+            <div class="card-img-overlay" >
+                <div class="card-body">
+
                     <div class="text-center p-3 font-weight-bolder">
                         <div>
                             <img src="~/AF_logo/MOE_logo_lic.png" style="width:auto; height:90px;" />
                         </div>
                         <br />
-                        <h4 class="font-weight-bold">
-                            <span>
-                                جواز فعالیت
-                            </span><br />
-                            <span>
-                                د فعالیت جواز
-                            </span><br />
-                            <span>
-                                Working License
-                            </span>
-                        </h4>
+                        <div class="text-center">
+                            <h4 class="font-weight-bold" style="color:black;">
+                                <span>
+                                    جواز فعالیت
+                                </span><br />
+                                <span>
+                                    د فعالیت جواز
+                                </span><br />
+                                <span>
+                                    Working License
+                                </span>
+                            </h4>
+                        </div>
                     </div>
 
-                    <div style=" border: 1px solid black; height:150px; width:200px; margin-top:-195px; margin-right:200px; margin-bottom:100px;">
+                    <div style=" border: 1px solid black; height:150px; width:300px; margin-top:-195px;margin-right:20px; margin-bottom:100px;">
 
-                        <span class="text-center" style="padding:4px;">
-                            جمهوری اسلامی افغانستان
-                        </span><br />
-                        <span class="text-center">
-                            وزارت معارف
-                        </span><br />
-                        <span class="text-center">
-                            ریاست تعلیمات خصوصی و برون مرزی
-                        </span><br />
-                        
+                        <div class="text-center font-weight-bold" style="color:black;">
+                            <span class="text-center" style="padding:4px;">
+                                جمهوری اسلامی افغانستان
+                            </span><br />
+                            <span class="text-center">
+                                وزارت معارف
+                            </span><br />
+                            <span class="text-center">
+                                ریاست تعلیمات خصوصی و برون مرزی
+                            </span><br />
+                            <span class="text-center">
+                                د افغانستان اسلامی جمهوریت
+                            </span><br />
+                            <span class="text-center">
+                                د پوهنی وزارت
+                            </span><br />
+                            <span class="text-center">
+                                د خصوصي زده کړو او له پولې نه  بهر د تعلیمي
+                            </span><br />
+                            <span class="text-center">
+                                مؤسسو ریاست
+                            </span><br />
+                        </div>
+
+
                     </div>
 
-                    @*@if (ViewBag.SchoolInfo != null)
-        {
-            <div class="table-responsive">
-                <table class="table table-bordered">
-                    <tr>
-                        <td>مکتب</td>
-                        <td>@ViewBag.SchoolInfo.SchoolName</td>
-                        <td>تاریخ:</td>
-                        <td>@(DateTime.Now)</td>
-                    </tr>
-                    <tr>
-                        <td>سطح مکتب</td>
-                        <td>@ViewBag.SchoolInfo.SchoolLevel</td>
-                        <td> جنسیت  مکتب</td>
-                        <td>@ViewBag.SchoolInfo.SchoolGenderType</td>
+                    <div style=" border: 1px solid black; height:90px; width:320px; margin-top:-250px; margin-right:650px; margin-bottom:100px;">
 
-                    </tr>
-                </table>
-            </div>
-            <div class="card-header" style="background-color: gainsboro; margin-bottom:10px">
-                <strong>آدرس مکتب/School Address</strong>
-            </div>
-            <div class="table-responsive">
-                <table class="table table-bordered">
-                    <tr>
-                        <td>ولایت</td>
-                        <td>@ViewBag.SchoolInfo.Province</td>
-                        <td> ولسوالی</td>
-                        <td>@ViewBag.SchoolInfo.District</td>
-                        <td>قریه یا ناحیه</td>
-                        <td>@ViewBag.SchoolInfo.VillageNahia</td>
-                    </tr>
+                        <div class="text-center" style="color:black;">
+                            <span>The Islamic Republic of Afghanistan</span><br />
+                            <span>Ministry of Education</span> <br />
+                            <span>Directorate of Private Educational</span><br />
+                            <span>Institutions and Out of Border</span>
+                        </div>
+                    </div>
 
-                </table>
-            </div>
+                    <div class="card-text text-left font-weight-bold">
+                        <span>شماره جواز:</span><br />
+                        <span>د جواز شمېره:</span><br />
+                        <span>شماره ثبت:</span><br />
+                        <span>د ثبت شمېر:</span><br />
+                    </div>
 
+                    <div class="card-text text-right font-weight-bold" style="margin-top:-80px;">
+                        <span></span><br />
+                        <span>:# License </span><br />
+                        <span></span><br />
+                        <span>:# Reg  </span><br />
+                    </div>
+                    <hr style="border:0.5px solid black;" />
 
+                    <div class="card-text text-left font-weight-bold" style="margin-right:50px;">
+                        <span>مؤسس/Founder</span><br />
 
-            <div class="card-header" style="background-color: gainsboro; margin-bottom:10px">
-                <strong>معلومات مکتب/School Information</strong>
-            </div>
-            <div class="table-responsive">
-                <table class="table table-bordered">
-                    <tr>
-                        <td>واحد /Item</td>
-                        <td class="text-wrap">معلومات داده شده /Submitted Information</td>
-                        <td class="text-center">چک /Check</td>
-                        <td style=" width:45%">ملاحظات /Remarks</td>
+                    </div>
 
-                    </tr>
-                    <tr>
-                        <td>
-                            تعداد اطاق
-                        </td>
-                        <td>@ViewBag.SchoolInfo.Nrooms</td>
-                        <td class=" text-center"><span class="mdi mdi-checkbox-blank-outline mdi-24px"></span></td>
-                        <td></td>
+                    <div class="card-text">
+                        <div style="background-color: #fff;height: 175px;width: 150px;border-radius: 60%;border:1px solid black; float:left; margin-top:-20px;">
 
-                    </tr>
-                    <tr>
-                        <td>فاصله از مکاتب دولتی همجوار</td>
-                        <td>@ViewBag.SchoolInfo.DistancefromPuSchool</td>
-                        <td class=" text-center"><span class="mdi mdi-checkbox-blank-outline mdi-24px"></span></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            فاصله از مکاتب خصوصی همجوار
-                        </td>
-                        <td>@ViewBag.SchoolInfo.DistanceFromPrSchool</td>
-                        <td class=" text-center"><span class="mdi mdi-checkbox-blank-outline mdi-24px"></span></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            کتب درسی
-                        </td>
-                        <td>
-                            @if (ViewBag.SchoolInfo.HasTeachingBooks == 1)
-                            {
-                                <label>بلی</label>
-                            }
-                            @if (ViewBag.SchoolInfo.HasTeachingBooks == 0)
-                            {
-                                <label>نخیر</label>
-                            }
-                        </td>
-                        <td class=" text-center"><span class="mdi mdi-checkbox-blank-outline mdi-24px"></span></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            مواد ممد درسی
-                        </td>
-                        <td>
-                            @if (ViewBag.SchoolInfo.HasTeachingAids == 1)
-                            {
-                                <label>بلی</label>
-                            }
-                            @if (ViewBag.SchoolInfo.HasTeachingAids == 0)
-                            {
-                                <label>نخیر</label>
-                            }
-                        </td>
-                        <td class=" text-center"><span class="mdi mdi-checkbox-blank-outline mdi-24px"></span></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            میز و چوکی معلم
-                        </td>
-                        <td>@ViewBag.SchoolInfo.NteachDeskChair</td>
-                        <td class=" text-center"><span class="mdi mdi-checkbox-blank-outline mdi-24px"></span></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            میز و چوکی شاګرد
-                        </td>
-                        <td>@ViewBag.SchoolInfo.NstudentDeskChair</td>
-                        <td class=" text-center"><span class="mdi mdi-checkbox-blank-outline mdi-24px"></span></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>کتابخانه</td>
-                        <td>
-                            @if (ViewBag.SchoolInfo.HasLibrary == 1)
-                            {
-                                <label>بلی</label>
-                            }
-                            @if (ViewBag.SchoolInfo.HasLibrary == 0)
-                            {
-                                <label>نخیر</label>
-                            }
-                        </td>
-                        <td class=" text-center"><span class="mdi mdi-checkbox-blank-outline mdi-24px"></span></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            تعداد کتب کتابخانه
-                        </td>
-                        <td>@ViewBag.SchoolInfo.Nbooks</td>
-                        <td class=" text-center"><span class="mdi mdi-checkbox-blank-outline mdi-24px"></span></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>تخته</td>
-                        <td>@ViewBag.SchoolInfo.Nboards</td>
-                        <td class=" text-center"><span class="mdi mdi-checkbox-blank-outline mdi-24px"></span></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            وسایل لابراتواری
-                        </td>
-                        <td>@ViewBag.SchoolInfo.LaboratoryMaterialType</td>
-                        <td class=" text-center"><span class="mdi mdi-checkbox-blank-outline mdi-24px"></span></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            لابراتوار کمپیوتر
-                        </td>
-                        <td>
-                            @if (ViewBag.SchoolInfo.HasComputerLab == 1)
-                            {
-                                <label>بلی</label>
-                            }
-                            @if (ViewBag.SchoolInfo.HasComputerLab == 0)
-                            {
-                                <label>نخیر</label>
-                            }
-                        </td>
-                        <td class=" text-center"><span class="mdi mdi-checkbox-blank-outline mdi-24px"></span></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            تعداد کمپیوتر
-                        </td>
-                        <td>@ViewBag.SchoolInfo.Ncomputers</td>
-                        <td class=" text-center"><span class="mdi mdi-checkbox-blank-outline mdi-24px"></span></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            آب اشامیدنی صحی
-                        </td>
-                        <td>
-                            @if (ViewBag.SchoolInfo.HasDrinkingWater == 1)
-                            {
-                                <label>بلی</label>
-                            }
-                            @if (ViewBag.SchoolInfo.HasDrinkingWater == 0)
-                            {
-                                <label>نخیر</label>
-                            }
-                        </td>
-                        <td class=" text-center"><span class="mdi mdi-checkbox-blank-outline mdi-24px"></span></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            تعداد تشناب های صحی
-                        </td>
-                        <td>@ViewBag.SchoolInfo.NwashRooms</td>
-                        <td class=" text-center"><span class="mdi mdi-checkbox-blank-outline mdi-24px"></span></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            کمک های اولیه صحی
-                        </td>
-                        <td>
-                            @if (ViewBag.SchoolInfo.HasFirstAid == 1)
-                            {
-                                <label>بلی</label>
-                            }
-                            @if (ViewBag.SchoolInfo.HasFirstAid == 0)
-                            {
-                                <label>نخیر</label>
-                            }
-                        </td>
-                        <td class=" text-center"><span class="mdi mdi-checkbox-blank-outline mdi-24px"></span></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            وسایل اطفایه ضد حریق:
-                        </td>
-                        <td>
-                            @if (ViewBag.SchoolInfo.HasFirstAid == 1)
-                            {
-                                <label>بلی</label>
-                            }
-                            @if (ViewBag.SchoolInfo.HasFirstAid == 0)
-                            {
-                                <label>نخیر</label>
-                            }
-                        </td>
-                        <td class=" text-center"><span class="mdi mdi-checkbox-blank-outline mdi-24px"></span></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            وسایل نقلیه
-                        </td>
-                        <td>
-                            @if (ViewBag.SchoolInfo.HasTransportation == 1)
-                            {
-                                <label>بلی</label>
-                            }
-                            @if (ViewBag.SchoolInfo.HasTransportation == 0)
-                            {
-                                <label>نخیر</label>
-                            }
-                        </td>
-                        <td class=" text-center"><span class="mdi mdi-checkbox-blank-outline mdi-24px"></span></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            امکانات ورزشی
-                        </td>
-                        <td>
-                            @if (ViewBag.SchoolInfo.HasSportFacilities == 1)
-                            {
-                                <label>بلی</label>
-                            }
-                            @if (ViewBag.SchoolInfo.HasSportFacilities == 0)
-                            {
-                                <label>نخیر</label>
-                            }
-                        </td>
-                        <td class=" text-center"><span class="mdi mdi-checkbox-blank-outline mdi-24px"></span></td>
-                        <td></td>
-                    </tr>
-                </table>
-            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <br />
 
-
-        }
-
-        <div class="card-header" style="background-color: gainsboro; margin-bottom:10px">
-            <strong>معلومات مدیر مسوول استادان موسسه تعلیمی خصوصی</strong>
-        </div>
-        @if (ViewBag.PersonInfo != null)
-        {
-            <div class="table-responsive">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>اسم و تخلص:</th>
-                            <th>وظیفه</th>
-                            <th> نمبر تذکیره /د تذکرې شمېره</th>
-                            <th>سن/عمر</th>
-                            <th>جنسبت</th>
-                            <th>درجه تحصیل</th>
-                            <th>سال فراغت/د فراغت کال</th>
-                            <th>  مدت خدمت در معارف/په ښوونه او روزنه کې د خدمت موده</th>
-
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in ViewBag.PersonInfo)
-                        {
-                            <tr>
-
-                                <td>
-                                    @item.Name @item.LastName
-                                </td>
-                                <td>
-                                    @item.PartyRoleType
-                                </td>
-                                <td>
-                                    @item.Nidnumber
-                                </td>
-                                <td>
-                                    @item.Age
-                                </td>
-                                <td>
-                                    @item.GenderType
-                                </td>
-                                <td>
-                                    @item.EducationLevel
-                                </td>
-                                <td>
-                                    @item.GraduationDate
-                                </td>
-                                <td>
-                                    @item.Eduservice
-                                </td>
-
-
-                            </tr>
-                        }
-
-
-                    </tbody>
-                </table>
-            </div>
-        }
-
-        <div class="form-group col-md-12 mt-3">
-            <label>ملاحظات عمومی</label>
-            <textarea class="form-control" rows="10"></textarea>
-        </div>*@
-                </div>
-
-                <div class="text-right">
-
-                    <button id="print" class="btn btn-default btn-outline" type="button">
-                        <span>
-                            <i class="fa fa-print"></i> Print
+                    <div class="card-text text-center font-weight-bold">
+                        @*font-family:  Arabic Typesetting, serif;"*@
+                        <span style="color:black; font-size:20px;">موسسه تعلیمی خصوصی (..............................)</span><br />
+                        <span style="color:black; font-size:20px;">(.............................) خصوصي زده کړو مؤسسه</span><br />
+                        <span style="color:black; font-size:18px;">(.....................) Private Educational Institutions</span><br />
+                    </div>
+                    <br />
+                    <br />
+                    <div class="card-text">
+                        <span style="font-size:15px;color:black;">
+                            تصدیق می گردد  که دارنده این سند، موسسه خویش را در وزارت معارف ثبت و مطابق به قانون معارف و مقرره موسسات تعلیمی خصوصی در جهت ارایه خدمات تعلیمی فعالیت می نماید
                         </span>
-                    </button>
+                        <br />
+
+                        <span style="font-size:15px;color:black;">
+                            تصدیق کېږي چې د دغه سند لرونکي دخپل تعلیمي مؤسسه د پوهنې له وزارت سره ثبت او د پوهنې وزارت د قانون او د خصوصي زده کړو د مؤسسو و د مقررې پراساس ټولنې ته تعلیمي خدمات وړاندې کوي.
+                        </span>
+                        <br />
+
+                        <span style="font-size:12.5px;color:black;">
+                            This certifies that the holder of this document has registered their institution with the Ministry of Education, and is authorized to deliver quality educational
+                        </span>
+                        <span style="font-size:12.5px;color:black;">services in accordance with the Education Law and Private Institution Regulation.</span>
+                    </div>
+                    <br />
+                    <br />
+                    <br />
+                    <div class="card-text text-left" style="margin-right:100px;color:black;">
+                        <span class="font-weight-bold">-----------------------</span><br />
+                        <span class="font-weight-bold" style="margin-right:20px;">
+                            وزیرمعارف/
+                            د پوهنې وزیر
+                        </span><br />
+                        <span></span>
+
+                    </div>
+
+                    <div class="card-text text-right" style="color:black;">
+                        <span>: Issue Date</span><br />
+                        <span>: Valid Date</span><br />
+                        <span>: Established Date</span><br />
+                        <span>: Institution Type</span><br /><br />
+                        <span class="font-weight-bold">--------------------------------------------- : Address</span><br />
+                    </div>
+
+                    <div class="card-text text-right" style="color:black;">
+                        <span>تاریخ صدور/دصدور نېټه: </span><br />
+                        <span>: Valid Date</span><br />
+                        <span>: Established Date</span><br />
+                        <span>: Institution Type</span><br /><br />
+                        <span class="font-weight-bold">--------------------------------------------- : Address</span><br />
+                    </div>
                 </div>
             </div>
-        </div>
+                @*<div class="card-footer text-muted">
+                2 days ago
+            </div>*@
+            </div>
 
-        <script>
-    $(document).ready(function () {
-                $("#print").click(function () {
-                    var mode = 'iframe'; //popup
-                    var close = mode == "popup";
-                    var options = {
-                        mode: mode,
-                        popClose: close
-                    };
-                    $("div.printableArea").printArea(options);
-                });
-            });</script>
+
+

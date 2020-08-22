@@ -42,7 +42,7 @@ namespace OLS.Controllers
                           join partyAddress in _applicationContext.PartyAddress on school.SchoolId equals partyAddress.PartyId
                           join zProvince in _applicationContext.ZProvince on partyAddress.ProvinceId equals zProvince.ProvinceId
                           join zDistrict in _applicationContext.ZDistrict on partyAddress.DistrictId equals zDistrict.DistrictId
-                          join zVillageNahia in _applicationContext.ZVillageNahia on partyAddress.VillageNahiaId equals zVillageNahia.VillageNahiaId
+                          //join zVillageNahia in _applicationContext.ZVillageNahia on partyAddress.VillageNahiaId equals zVillageNahia.VillageNahiaId
                           join zSchoolLevel in _applicationContext.ZSchoolLevel on school.SchoolLevelId equals zSchoolLevel.SchoolLevelId
                           join zSchoolGenderType in _applicationContext.ZSchoolGenderType on school.SchoolGenderTypeId equals zSchoolGenderType.SchoolGenderTypeId
                           join processProgress in _applicationContext.ProcessProgress on school.SchoolId equals processProgress.SchoolId
@@ -57,7 +57,7 @@ namespace OLS.Controllers
                               SchoolGenderType = zSchoolGenderType.SchoolGenderTypeNameDari,
                               Province = zProvince.ProvNaDar,
                               District = zDistrict.DistNaDar,
-                              VillageNahia = zVillageNahia.VillageNameEng,
+                              VillageNahia = partyAddress.Nahia,
                               OrderNumber = subProcess.OrderNumber,
 
                           }).Distinct().ToList();
@@ -112,7 +112,7 @@ group by zProvince.PROV_NA_DAR
             query = new StringBuilder(@$"select school.*,zProcessStatus.StatusNameDariPast, ProcessProgress.StatusDate,
 zProvince.PROV_NA_DAR,
 zDistrict.DIST_NA_DAR,
-zVillageNahia.VILLAGE_NAME_ENG
+PartyAddress.Nahia
 ,zSchoolGenderType.SchoolGenderTypeNameDari
 ,zSchoolLevel.SchoolLevelNameDari
  from ProcessProgress 
@@ -121,7 +121,6 @@ join zProcessStatus on ProcessProgress.ProcessStatusID=zProcessStatus.ProcessSta
 join PartyAddress on School.SchoolID=PartyAddress.PartyID
 join zProvince on PartyAddress.ProvinceID = zProvince.ProvinceID
 join zDistrict on PartyAddress.DistrictID = zDistrict.DistrictID
-join zVillageNahia on PartyAddress.VillageNahiaID = zVillageNahia.VillageNahiaID
 join zSchoolGenderType on zSchoolGenderType.SchoolGenderTypeID = School.SchoolGenderTypeID
 join zSchoolLevel on zSchoolLevel.SchoolLevelID = School.SchoolLevelID
 join( select ProcessProgress.SchoolID, max(StatusDate) as maxdate from ProcessProgress join School on ProcessProgress.SchoolID= School.SchoolID

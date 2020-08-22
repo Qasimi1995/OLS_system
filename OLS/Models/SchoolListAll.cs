@@ -33,7 +33,7 @@ namespace OLS.Models
         public string Remarks { get; set; }
         public string PROV_NA_DAR { get; set; }
         public string DIST_NA_DAR { get; set; }
-        public string VILLAGE_NAME_ENG { get; set; }
+        public string Nahia { get; set; }
         public string StatusNameDariPast { get; set; }
         public DateTime? StatusDate { get; set; }
     }

@@ -39,12 +39,12 @@ namespace OLS.ViewModels
 
         public string PerDistrict            { get; set; }
 
-        public string PerVillageNahia           { get; set; }
+        public string PerNahia           { get; set; }
 
         public string PreProvince           { get; set; }
 
         public string PreDistrict           { get; set; }
 
-        public string PreVillageNahia { get; set; }
+        public string PreNahia { get; set; }
     }
 }

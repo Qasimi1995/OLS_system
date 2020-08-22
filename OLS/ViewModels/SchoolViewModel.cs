@@ -71,7 +71,7 @@ namespace OLS.ViewModels
         [Required(ErrorMessage = "*")]
         public Guid?    DistrictId                      { get; set; }
         [Required(ErrorMessage = "*")]
-        public Guid?    VillageNahiaId                  { get; set; }
+        public string Nahia { get; set; }
 
         public string CreatedBy { get; set; }
         public DateTime? CreatedAt { get; set; }
