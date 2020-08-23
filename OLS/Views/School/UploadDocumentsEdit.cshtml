@@ -35,20 +35,20 @@
                                     {
                                         @Html.HiddenFor(m => Model[i].DocTypeId)
                                         @Html.HiddenFor(m => Model[i].DocTypeNameEng)
-                                <tr>
-                                    <td>
-                                        @Model[i].DocTypeName
-                                    </td>
-                                    <td>
-                                        <a href="~/PartyDocuments/@Model[i].SchoolId/@Model[i].SchoolId-@Model[i].DocTypeNameEng@(ext)">@Model[i].DocTypeNameDari</a>
-                                    </td>
-                                    <td>
-                                        @Html.TextBoxFor(m => Model[i].Document, new { type = "file", value = @Model[i].DocPath })
-                                        @Html.ValidationMessageFor(m => Model[i].Document, null, new { @class = "text-danger" })
-                                    </td>
+                                        <tr>
+                                            <td>
+                                                @Model[i].DocTypeName
+                                            </td>
+                                            <td>
+                                                <a href="~/PartyDocuments/@Model[i].SchoolId/@Model[i].SchoolId-@Model[i].DocTypeNameEng@(ext)">@Model[i].DocTypeNameDari</a>
+                                            </td>
+                                            <td>
+                                                @Html.TextBoxFor(m => Model[i].Document, new { type = "file", value = @Model[i].DocPath })
+                                                @Html.ValidationMessageFor(m => Model[i].Document, null, new { @class = "text-danger" })
+                                            </td>
 
 
-                                </tr>
+                                        </tr>
                                     }
                                 }
 
@@ -56,9 +56,34 @@
                         </table>
                     </div>
                     <input type="submit" id="btnSave" value="ثبت/ثبت/Save" class="btn btn-primary" />
+                    @if (ViewBag.Message != null)
+                    {
 
+                        //  <div><span class="text-info">@ViewBag.Message</span></div>
+                        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+                        <script src="~/sweetalert/sweetalert.min.js"></script>
+                        <script type="text/javascript">
+                                                    @*swal({
+                                                        "@ViewBag.Message",
+                                                        "حساب موفقانه ایجاد گردید / تاسو په بریالیتوب سره یو حساب جوړ کړی",
+                                                        "success"
+                                                        })*@
+                                                    swal({
+                                                        title: "@ViewBag.Message",
+                                                        text: "حساب موفقانه ایجاد گردید / تاسو په بریالیتوب سره یو حساب جوړ کړی",
+                                                        icon: "success",
+                                                        button: "OK",
+                                                    })
+                                                        .then(okay => {
+                                                        if (okay) {
+                                                            window.location.href = "/School/UploadDocumentsEdit";
+                                                        }
+                                                    });
+                        </script>
+
+                    }
                 </form>
-
+                
             </div>
         </div>
     </div>

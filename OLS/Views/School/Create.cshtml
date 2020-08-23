@@ -133,10 +133,12 @@
                                 <label for="PerVillageNahiaId">
                                     ققریه یا ناحیه/کلی یا ناحیه/Village or Nahia
                                 </label>
-                                <select asp-for="VillageNahiaId" id="VillageNahia" class="form-control">
-                                    <option selected value="">--Select--</option>
-                                </select>
-                                <span asp-validation-for="VillageNahiaId" class="text-danger"></span>
+                                <input asp-for="Nahia" class="form-control" />
+                                <span asp-validation-for="Nahia" class="text-danger"></span>
+                                @*<select asp-for="VillageNahiaId" id="VillageNahia" class="form-control">
+            <option selected value="">--Select--</option>
+        </select>
+        <span asp-validation-for="VillageNahiaId" class="text-danger"></span>*@
                             </div>
                         </div>
                     </div>
@@ -435,7 +437,7 @@
         //fill villages
 
 
-        $(document).ready(function(){
+        @*$(document).ready(function(){
            $('#District').on('change', function () {
                 $('#VillageNahia option').remove();
                 var districtid = $('#District option:selected').val();
@@ -458,7 +460,7 @@
                     );
                 }
             });
-        });
+        });*@
 
 
 </script>

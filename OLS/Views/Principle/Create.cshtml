@@ -239,13 +239,15 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="PerVillageNahiaId">
+                                <label for="PreNahia">
                                     ققریه یا ناحیه/کلی یا ناحیه/Village or Nahia
                                 </label>
-                                <select asp-for="PerVillageNahiaId" id="PerVillageNahia" class="form-control">
-                                    <option selected value="">--Select--</option>
-                                </select>
-                                <span asp-validation-for="PerVillageNahiaId" class="text-danger"></span>
+                                <input asp-for="PerNahia" class="form-control" />
+                                <span asp-validation-for="PerNahia" class="text-danger"></span>
+                                @*<select asp-for="PerVillageNahiaId" id="PerVillageNahia" class="form-control">
+            <option selected value="">--Select--</option>
+        </select>
+        <span asp-validation-for="PerVillageNahiaId" class="text-danger"></span>*@
                             </div>
                         </div>
                     </div>
@@ -288,10 +290,13 @@
                                     ققریه یا ناحیه/کلی یا ناحیه/Village or Nahia
 
                                 </label>
-                                <select asp-for="PreVillageNahiaId" id="PreVillageNahia" class="form-control">
-                                    <option selected value="">--Select--</option>
-                                </select>
-                                <span asp-validation-for="PreVillageNahiaId" class="text-danger"></span>
+
+                                <input asp-for="PreNahia" class="form-control" />
+                                <span asp-validation-for="PreNahia" class="text-danger"></span>
+                                @*<select asp-for="PreVillageNahiaId" id="PreVillageNahia" class="form-control" style="height: 3rem">
+                <option selected value="">--Select--</option>
+            </select>
+            <span asp-validation-for="PreVillageNahiaId" class="text-danger"></span>*@
                             </div>
                         </div>
                     </div>
@@ -360,7 +365,7 @@
         //fill villages
 
 
-        $(document).ready(function(){
+        @*$(document).ready(function(){
            $('#PerDistrict').on('change', function () {
                 $('#PerVillageNahia option').remove();
                 var districtid = $('#PerDistrict option:selected').val();
@@ -383,7 +388,7 @@
                     );
                 }
             });
-        });
+        });*@
 
         //Current address
           $(document).ready(function(){
@@ -414,7 +419,7 @@
         //fill villages
 
 
-        $(document).ready(function(){
+        @*$(document).ready(function(){
            $('#PreDistrict').on('change', function () {
                 $('#PreVillageNahia option').remove();
                 var districtid = $('#PreDistrict option:selected').val();
@@ -437,7 +442,7 @@
                     );
                 }
             });
-        });
+        });*@
 
         //image preview
 

@@ -56,13 +56,13 @@ namespace OLS.ViewModels
          [Required(ErrorMessage ="*")]
         public Guid? PerDistrictId { get; set; }
          [Required(ErrorMessage ="*")]
-        public Guid? PerVillageNahiaId { get; set; }
+        public string PerNahia { get; set; }
          [Required(ErrorMessage ="*")]
         public Guid? PreProvinceId { get; set; }
          [Required(ErrorMessage ="*")]
         public Guid? PreDistrictId { get; set; }
          [Required(ErrorMessage ="*")]
-        public Guid? PreVillageNahiaId { get; set; }
+        public string PreNahia { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? CreatedAt { get; set; }
         public string UpdatedBy { get; set; }

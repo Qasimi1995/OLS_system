@@ -106,7 +106,7 @@ namespace OLS.Controllers
                                       SchoolGenderType = zSchoolGenderType.SchoolGenderTypeNameDari,
                                       Province = zProvince.ProvNaDar,
                                       District = zDistrict.DistNaDar,
-                                      VillageNahia = zVillageNahia.VillageNameEng,
+                                      VillageNahia = partyAddress.Nahia,
                                       OrderNumber = subProcess.OrderNumber,
 
                                   }).Distinct().ToList();
@@ -134,7 +134,7 @@ namespace OLS.Controllers
                                       SchoolGenderType = zSchoolGenderType.SchoolGenderTypeNameDari,
                                       Province = zProvince.ProvNaDar,
                                       District = zDistrict.DistNaDar,
-                                      VillageNahia = zVillageNahia.VillageNameEng,
+                                      VillageNahia = partyAddress.Nahia,
                                       OrderNumber = subProcess.OrderNumber,
                                   }).Distinct().ToList();
 
@@ -175,7 +175,7 @@ namespace OLS.Controllers
                                       SchoolGenderType = zSchoolGenderType.SchoolGenderTypeNameDari,
                                       Province = zProvince.ProvNaDar,
                                       District = zDistrict.DistNaDar,
-                                      VillageNahia = zVillageNahia.VillageNameEng,
+                                      VillageNahia = partyAddress.Nahia,
                                       OrderNumber = subProcess.OrderNumber,
 
                                   }).Distinct().ToList();
@@ -202,7 +202,7 @@ namespace OLS.Controllers
                                       SchoolGenderType = zSchoolGenderType.SchoolGenderTypeNameDari,
                                       Province = zProvince.ProvNaDar,
                                       District = zDistrict.DistNaDar,
-                                      VillageNahia = zVillageNahia.VillageNameEng,
+                                      VillageNahia = partyAddress.Nahia,
                                       OrderNumber = subProcess.OrderNumber,
                                   }).Distinct().ToList();
 

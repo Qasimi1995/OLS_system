@@ -11,6 +11,7 @@ namespace OLS.Models
         public Guid? ProvinceId { get; set; }
         public Guid? DistrictId { get; set; }
         public Guid? VillageNahiaId { get; set; }
+        public string Nahia { get; set; }
 
         public virtual ZAddressType AddressType { get; set; }
         public virtual ZDistrict District { get; set; }
