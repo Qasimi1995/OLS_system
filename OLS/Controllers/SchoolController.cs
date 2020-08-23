@@ -151,7 +151,9 @@ namespace OLS.Controllers
                         }
                         string fileName = Pid.ToString() + "-" + docTypeViewModels[i].DocTypeNameEng + ".pdf";
                         FilePath = Path.Combine(UploadsFolder, fileName);
-                        docTypeViewModels[i].Document.CopyTo(new FileStream(FilePath, FileMode.Create));
+                        using(var filestream = new FileStream(FilePath, FileMode.Create)){
+                            docTypeViewModels[i].Document.CopyTo(filestream);
+                        }
                         DocPath = "/PartyDocuments/" + Pid.ToString() + "/" + fileName;
                     }
 
@@ -206,7 +208,10 @@ namespace OLS.Controllers
                         }
                         string fileName = Pid.ToString() +"-"+ docTypeViewModels[i].DocTypeNameEng + ".pdf";
                         FilePath = Path.Combine(UploadsFolder, fileName);
-                        docTypeViewModels[i].Document.CopyTo(new FileStream(FilePath, FileMode.Create));
+                        using(var filestream= new FileStream(FilePath, FileMode.Create))
+                        {
+                            docTypeViewModels[i].Document.CopyTo(filestream);
+                        }
                         DocPath = "/PartyDocuments/" + Pid.ToString() + "/" + fileName;
                     }
 
