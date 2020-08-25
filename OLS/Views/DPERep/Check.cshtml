@@ -1,9 +1,11 @@
 ﻿@model OLS.ViewModels.ProcessProgressViewModel
 @{
     ViewData["Title"] = "Check";
-    
+
     var ext = ".pdf";
 }
+
+
 
 @if (!ViewData.ModelState.IsValid)
 {
@@ -1435,3 +1437,15 @@
         </div>
     </div>
 </div>
+
+
+    <div class="btn-group">
+        <a class="btn btn-themecolor" href="@Url.Action("index","DPERep")">
+                برگشت به داشبورد
+        </a>
+    </div>
+    <div class="btn-group">
+        <a class="btn btn-primary" href="@Url.Action("schoolList","DPERep", new { OrderNumber = ViewBag.OrderNumber, ProcessStatusId = ViewBag.ProcessStatusId, CompletionFlag = ViewBag.CompletionFlag })">
+            قبلی/مخکی/Back
+        </a>
+    </div>

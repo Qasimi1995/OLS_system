@@ -21,8 +21,8 @@ namespace OLS.ViewModels
         public string OrderNumber { get; set; }
         [Required(ErrorMessage = "*")]
         [DataType(DataType.Upload)]
-        [MaxFileSize(1024 * 1024, ErrorMessage = "Max 1mb file is allowed")]
-        [AllowedExtensions(new string[] { ".pdf"}, ErrorMessage = "only pdf format is allowed")]
+        [MaxFileSize(1024 * 1024, ErrorMessage = "Max 1mb file is allowed / حد اکثر فایل یک 1 ام بی باشد")]
+        [AllowedExtensions(new string[] { ".pdf"}, ErrorMessage = "only pdf format is allowed / تنها فارمت باید pdf باشد")]
         public IFormFile Document { get; set; }
     }
 }

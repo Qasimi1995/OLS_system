@@ -129,7 +129,7 @@ namespace OLS.Controllers
                                     SchoolId = partyDocument.PartyId,
                                     DocTypeNameDari = zDocType.DocTypeNameDari,
                                 }).ToList();
-
+           
             if (ModelState.IsValid)
             {
 
@@ -156,16 +156,14 @@ namespace OLS.Controllers
                         }
                         DocPath = "/PartyDocuments/" + Pid.ToString() + "/" + fileName;
                     }
-
+                    
                 }
-
                 ViewBag.Message = "Documents Uploaded Successfully!";
-
                 return RedirectToAction("UploadDocumentsEdit");
             }
             else
             {
-                ViewBag.Message = "Documents Uploaded Successfully!";
+                
                 return View(DocumentList);
             }
 
@@ -256,8 +254,10 @@ namespace OLS.Controllers
                 _applicationContext.Update(processprogress);
                 _applicationContext.AddRange(partyDocuments);
                 _applicationContext.SaveChanges();
+
                 ViewBag.Message = "Documents Uploaded Successfully!";
-                return RedirectToAction("UploadDocuments");
+
+                return RedirectToAction("UploadDocumentsEdit");
             }
             else
             {

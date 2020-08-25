@@ -234,23 +234,69 @@ namespace OLS.Controllers
         {
             ViewBag.PersonInfo = _functions.GetPersonList(schoolid);
             ViewBag.SchoolInfo = _functions.GetSchool(schoolid);
-
-
             return View();
 
         }
 
 
         [HttpGet]
-        public IActionResult SchoolLicense(Guid schoolid)
+        public IActionResult SchoolLicense(Guid schoolid, int? OrderNumber, Nullable<Guid> ProcessStatusId, byte CompletionFlag)
         {
-            ViewBag.PersonInfo = _functions.GetPersonList(schoolid);
+            //ViewBag.PersonInfo = _functions.GetPersonList(schoolid);
+            //ViewBag.SchoolInfo = _functions.GetSchool(schoolid);
+
+            var model = _applicationContext.School
+                                          .Join(_applicationContext.Person, p => p.SchoolId, n => n.SchoolId,
+                                          ((school, person) =>
+                                          new DisplayLicenseViewModel
+                                          {
+                                              school = school,
+                                              person = person,
+
+
+                                          }))
+                                      .Where(a => a.school.SchoolId == schoolid).FirstOrDefault();
+
+
+            ViewBag.FounderInfo = _functions.GetPerson(schoolid, Guid.Parse("CAE7466D-198A-423B-903F-BB64D58C0236"));
             ViewBag.SchoolInfo = _functions.GetSchool(schoolid);
 
+            var roleid = _applicationContext.UserRoles.Where(p => p.UserId == _userManager.GetUserId(User)).Select(p => p.RoleId).FirstOrDefault();
+            var subprocessid = _applicationContext.SubProcess.Where(p => p.OrderNumber == OrderNumber).Select(p => p.SubProcessId).FirstOrDefault();
+            var ProcessNumbers = _applicationContext.SubProcess.Where(p => p.RoleId == roleid).Select(p =>
+                new SubProcess
+                {
+                    OrderNumber = p.OrderNumber,
+                }
+                ).ToList();
 
-            return View();
+            int? ExactProcessNumber = 0;
+            for (int i = 0; i < ProcessNumbers.Count; i++)
+            {
+                if (ProcessNumbers[i].OrderNumber >= OrderNumber)
+                {
+
+                    ExactProcessNumber = ProcessNumbers[i].OrderNumber;
+                    break;
+                }
+
+
+            }
+
+            ViewBag.ProcessStatuses = _functions.GetZProcessStatuses(ExactProcessNumber, schoolid);
+            ViewBag.CompletionFlag = CompletionFlag;
+            ViewBag.OrderNumber = OrderNumber;
+            ViewBag.ProcessStatusId = ProcessStatusId;
+            ViewBag.roleid = roleid;
+           
+
+
+            return View(model);
+
 
         }
+
+
 
         [HttpGet]
         public IActionResult Check(Guid schoolid,int? OrderNumber,Nullable<Guid> ProcessStatusId, byte CompletionFlag)
