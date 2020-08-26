@@ -45,7 +45,7 @@
     <br />
     <br />
 
-    <img class="card-img img-fluid" src="~/AF_logo/mo.png" alt="Card image" style="width:100%;height:auto;">
+    <img class="card-img img-fluid" src="~/AF_logo/moe_d.png" alt="Card image" style="width:100%;height:auto;">
 
     <div class="card-img-overlay">
         <div class="card-body">
@@ -110,10 +110,10 @@
             </div>
 
             <div class="card-text text-left font-weight-bold">
-                <span>شماره جواز:</span><br />
-                <span>د جواز شمېره : @ViewBag.SchoolInfo.SchoolId </span><br />
-                <span>شماره ثبت:</span><br />
-                <span>د ثبت شمېر: @ViewBag.FounderInfo.Nidnumber</span><br />
+                <span></span><br />
+            <span>د جواز شمېره / شماره جواز : @ViewBag.SchoolInfo.SchoolId </span><br />
+                <span></span><br />
+            <span>د ثبت شمېره / شماره ثبت : @ViewBag.FounderInfo.Nidnumber</span><br />
             </div>
 
             <div class="card-text text-right font-weight-bold" style="margin-top:-80px;">
@@ -140,15 +140,15 @@
 
             <div class="card-text text-center font-weight-bold">
                 @*font-family:  Arabic Typesetting, serif;"*@
-                <span style="color:black; font-size:20px;">موسسه تعلیمی خصوصی (@Model.school.SchoolName)</span><br />
-                <span style="color:black; font-size:20px;">(@Model.school.SchoolName) خصوصي زده کړو مؤسسه</span><br />
-                <span style="color:black; font-size:18px;">(@Model.school.SchoolName) Private Educational Institute</span><br />
+                <span style="color:black; font-size:20px;">موسسه تعلیمی خصوصی (<span>@ViewBag.SchoolInfo.SchoolLevel</span> @Model.school.SchoolName )</span><br />
+                <span style="color:black; font-size:20px;">(<span>د @ViewBag.SchoolInfo.SchoolLevel</span> @Model.school.SchoolName ) خصوصي زده کړو مؤسسه</span><br />
+                <span style="color:black; font-size:25px;">Private Educational Institute</span><br />
             </div>
             <br />
             <br />
             <div class="text-center card-text">
                 <span style="font-size:15px;color:black;">
-                    تصدیق می گردد  که دارنده این سند، موسسه خویش را در وزارت معارف ثبت و مطابق به قانون معارف و مقرره موسسات تعلیمی خصوصی در جهت ارایه خدمات تعلیمی فعالیت می نماید
+                    تصدیق می گردد  که دارنده این سند، موسسه خویش را در وزارت معارف ثبت و مطابق به قانون معارف و مقرره موسسات تعلیمی خصوصی در جهت ارایه خدمات تعلیمی فعالیت می نماید.
                 </span>
                 <br />
 
@@ -158,9 +158,9 @@
                 <br />
 
                 <span style="font-size:12.5px;color:black;">
-                    This certifies that the holder of this document has registered their institution with the Ministry of Education, and is authorized to deliver quality educational
+                    This certifies that the holder of this document has registered their institution with the Ministry of Education, and is authorized to deliver quality educational services in accordance with the Education Law and Private Institution Regulation
                 </span>
-                <span style="font-size:12.5px;color:black;">services in accordance with the Education Law and Private Institution Regulation.</span>
+                <span>.</span>
             </div>
             <br />
             <br />
@@ -178,18 +178,18 @@
             <div class="card-text text-right" style="color:black;">
                 <span> <span id="Issue_date"></span>  :  Issue Date</span><br />
                 <span> <span id="Expired_date_eng"></span> : Valid Date</span><br />
-                <span>: Established Date</span><br />
-                <span> @ViewBag.SchoolInfo.SchoolGenderType : Institution Type</span><br /><br />
-                <span class="font-weight-bold"> آدرس / پته :  <span>افغانستان  - </span> <span>@ViewBag.SchoolInfo.Province - </span> <span>@ViewBag.SchoolInfo.District - </span> <span>@ViewBag.SchoolInfo.VillageNahia  </span> </span><br />
+                <span><span id="Established_date"></span> : Established Date</span><br />
+                <span> <span class="font-weight-bold">@ViewBag.SchoolInfo.SchoolGenderType</span> : Institution Type</span><br /><br />
+                <span class="font-weight-bold"> آدرس / پته : - <span>@ViewBag.SchoolInfo.VillageNahia , </span> <span>@ViewBag.SchoolInfo.District , </span>  <span>@ViewBag.SchoolInfo.Province , </span>  <span>افغانستان  </span> </span><br />
                 <br />
-                <span class="font-weight-bold"><span>افغانستان - </span> <span>@ViewBag.SchoolInfo.Province - </span> <span>@ViewBag.SchoolInfo.District - </span> <span>@ViewBag.SchoolInfo.VillageNahia  </span> : Address</span><br />
+                <span class="font-weight-bold"><span>@ViewBag.SchoolInfo.VillageNahia , </span> <span>@ViewBag.SchoolInfo.District , </span>  <span>@ViewBag.SchoolInfo.Province , </span>  <span>افغانستان - </span>: Address</span><br />
             </div>
 
-            <div class="card-text text-right" style="color:black;margin-left:220px;margin-top:-160px;">
+            <div class="card-text text-right" style="color:black;margin-left:220px;margin-top:-166px;">
                 <span>تاریخ صدور / دصدور نېټه   :  <span id="Issue_date_per"></span> </span><br />
-                <span>تاریخ انقضا / انقضا نېټه : <span id="Expired_date_per"></span> </span><br />
-                <span>تاریخ تاسیس / تاسیس نېټ   : </span><br />
-                <span>نوعیت موسسه / د مؤسسې نوعیت  :  @ViewBag.SchoolInfo.SchoolGenderType </span><br />
+                <span>تاریخ انقضا / انقضا نېټه  :  <span id="Expired_date_per"></span> </span><br />
+                <span>تاریخ تاسیس / تاسیس نېټ   :  <span id="Established_date_per"> </span><br />
+                <span>نوعیت موسسه / د مؤسسې نوعیت  :  <span class="font-weight-bold">@ViewBag.SchoolInfo.SchoolGenderType</span> </span><br />
             </div>
         </div>
     </div>
@@ -253,6 +253,18 @@
     var date = document.getElementById("Expired_date_eng");
     date.innerHTML = m + "/" + d + "/" + y;
 
+    //Established  Date for License Gorgian Date
+    n = new Date()
+    y = n.getFullYear();
+    m = n.getMonth() + 1;
+    d = n.getDate();
+    var date = document.getElementById("Established_date");
+    date.innerHTML = m + "/" + d + "/" + y;
+
+    //Established Date for License Persian Date
+    var d = new Date();
+    var n = d.toLocaleDateString("fa-IR");
+    document.getElementById("Established_date_per").innerHTML = n;
 
 
 </script>
