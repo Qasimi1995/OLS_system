@@ -236,8 +236,8 @@ namespace OLS.Controllers
                     ViewBag.Perprovince = Perprovince;
                     var Perdistrict = _applicationContext.ZDistrict.Where(d => d.ProvinceId == principlePerAddress.ProvinceId);
                     ViewBag.Perdistrict = Perdistrict;
-                    var PervillageNahia = _applicationContext.ZVillageNahia.Where(v => v.DistrictId == principlePerAddress.DistrictId);
-                    ViewBag.PervillageNahia = PervillageNahia;
+                  //  var PervillageNahia = _applicationContext.ZVillageNahia.Where(v => v.DistrictId == principlePerAddress.DistrictId);
+                   // ViewBag.PervillageNahia = PervillageNahia;
 
                     var Preprovince = _applicationContext.ZProvince;
                     ViewBag.Preprovince = Preprovince;
@@ -318,8 +318,8 @@ namespace OLS.Controllers
                     ViewBag.Perprovince = Perprovince;
                     var Perdistrict = _applicationContext.ZDistrict.Where(d => d.ProvinceId == founderPerAddress.ProvinceId);
                     ViewBag.Perdistrict = Perdistrict;
-                    var PervillageNahia = _applicationContext.ZVillageNahia.Where(v => v.DistrictId == founderPerAddress.DistrictId);
-                    ViewBag.PervillageNahia = PervillageNahia;
+                   // var PervillageNahia = _applicationContext.ZVillageNahia.Where(v => v.DistrictId == founderPerAddress.DistrictId);
+                   // ViewBag.PervillageNahia = PervillageNahia;
 
                     var Preprovince = _applicationContext.ZProvince.Where(p => p.ProvinceId == founderPreAddress.ProvinceId);
                     ViewBag.Preprovince = Preprovince;
@@ -368,7 +368,7 @@ namespace OLS.Controllers
                     if (principle.Photo != null)
                     {
                         string[] _Extensions = new string[] { ".jpg", ".png", ".jpeg" };
-                        int _maxFileSize = 50 * 1024;
+                        int _maxFileSize = 100 * 1024;
                         var extension = Path.GetExtension(principle.Photo.FileName);
                         if (_Extensions.Contains(extension.ToLower()) && principle.Photo.Length < _maxFileSize)
                         {
@@ -382,12 +382,15 @@ namespace OLS.Controllers
                             FilePath = Path.Combine(UploadsFolder, fileName);
                             System.IO.File.Delete(FilePath);
 
-                            principle.Photo.CopyTo(new FileStream(FilePath, FileMode.Create));
+                            using (var filestream = new FileStream(FilePath, FileMode.Create))
+                            {
+                                principle.Photo.CopyTo(filestream);
+                            }
                             person.Photo = "/Person/"+ principle.PersonId.ToString()+"/" +fileName;
                         }
                         else
                         {
-                            ViewBag.photoerror = " only .jpg, png and jpeg format is allowed and max of 50 kb ";
+                            ViewBag.photoerror = " only .jpg, png and jpeg format is allowed and max of 100 kb ";
                             return View(principle);
                            
                         }
@@ -471,7 +474,10 @@ namespace OLS.Controllers
                     }
                     string fileName = Pid.ToString() + "-Founder photo.jpeg";
                     FilePath = Path.Combine(UploadsFolder, fileName);
-                    await principle.Photo.CopyToAsync(new FileStream(FilePath, FileMode.Create));
+                    using (var filestream = new FileStream(FilePath, FileMode.Create))
+                    {
+                        await principle.Photo.CopyToAsync(filestream);
+                    }
                     photo = "/Person/" + Pid.ToString() + "/" + fileName;
                 }
 

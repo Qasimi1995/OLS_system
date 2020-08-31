@@ -257,15 +257,15 @@ namespace OLS.Controllers
                     ViewBag.Perprovince = Perprovince;
                     var Perdistrict = _applicationContext.ZDistrict.Where(d => d.ProvinceId == founderPerAddress.ProvinceId);
                     ViewBag.Perdistrict = Perdistrict;
-                    var PervillageNahia = _applicationContext.ZVillageNahia.Where(v => v.DistrictId == founderPerAddress.DistrictId);
-                    ViewBag.PervillageNahia = PervillageNahia;
+                   // var PervillageNahia = _applicationContext.ZVillageNahia.Where(v => v.DistrictId == founderPerAddress.DistrictId);
+                    //ViewBag.PervillageNahia = PervillageNahia;
 
                     var Preprovince = _applicationContext.ZProvince;
                     ViewBag.Preprovince = Preprovince;
                     var Predistrict = _applicationContext.ZDistrict.Where(d => d.ProvinceId == founderPreAddress.ProvinceId);
                     ViewBag.Predistrict = Predistrict;
-                    var PrevillageNahia = _applicationContext.ZVillageNahia.Where(v => v.DistrictId == founderPreAddress.DistrictId);
-                    ViewBag.PrevillageNahia = PrevillageNahia;
+                   // var PrevillageNahia = _applicationContext.ZVillageNahia.Where(v => v.DistrictId == founderPreAddress.DistrictId);
+                   // ViewBag.PrevillageNahia = PrevillageNahia;
 
                     FounderEditViewModel founder = new FounderEditViewModel
                     {
@@ -379,7 +379,7 @@ namespace OLS.Controllers
                     if (founderModel.Photo != null)
                     {
                         string[] _Extensions = new string[] { ".jpg", ".png", ".jpeg" };
-                        int _maxFileSize = 500 * 1024;
+                        int _maxFileSize = 100 * 1024;
                         var extension = Path.GetExtension(founderModel.Photo.FileName);
                         if (_Extensions.Contains(extension.ToLower()) && founderModel.Photo.Length < _maxFileSize)
                         {
@@ -392,8 +392,10 @@ namespace OLS.Controllers
                             string fileName = founderModel.PersonId.ToString() + "-Founder photo.jpeg";
                             FilePath = Path.Combine(UploadsFolder, fileName);
                             System.IO.File.Delete(FilePath);
-
-                            founderModel.Photo.CopyTo(new FileStream(FilePath, FileMode.Create));
+                            using (var filestream = new FileStream(FilePath, FileMode.Create))
+                            {
+                                founderModel.Photo.CopyTo(filestream);
+                            }
                             person.Photo = "/Person/"+ founderModel.PersonId.ToString()+"/" +fileName;
                         }
                         else
@@ -417,7 +419,9 @@ namespace OLS.Controllers
 
                 }              
                 return View("index");
+
             } catch (Exception ex) {
+
                 return View("index");
             }
 
@@ -473,7 +477,10 @@ namespace OLS.Controllers
                     }
                     string fileName = Pid.ToString() + "-Founder photo.jpeg";
                     FilePath = Path.Combine(UploadsFolder, fileName);
-                    await founder.Photo.CopyToAsync(new FileStream(FilePath, FileMode.Create));
+                    using (var filestream = new FileStream(FilePath, FileMode.Create))
+                    {
+                        await founder.Photo.CopyToAsync(filestream);
+                    }
                     photo = "/Person/" + Pid.ToString() + "/" + fileName;
                 }
 

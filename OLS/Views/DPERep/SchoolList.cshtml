@@ -21,8 +21,6 @@
             <div class="d-flex mt-2 justify-content-end">
                 <a href="@Url.Action("index","DPERep")">
                     <h4 class="text-themecolor">
-
-
                         برگشت به داشبورد
 
                     </h4>
@@ -94,6 +92,7 @@
                                 <td class="text-nowrap">
                                     @Html.ActionLink("مشاهده / View", "Check", new { schoolid = Model[i].SchoolId, OrderNumber = ViewBag.OrderNumber, ProcessStatusId = ViewBag.ProcessStatusId, CompletionFlag = ViewBag.CompletionFlag })
                                 </td>
+
                                 @if (ViewBag.roleid == "DB70DAE4-9422-4A2F-A14B-7552702F026B")
                                 {
 

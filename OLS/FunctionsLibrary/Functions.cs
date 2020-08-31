@@ -43,7 +43,7 @@ namespace OLS.FunctionsLibrary
             var PerAddress = (from partyAddress in _applicationContext.PartyAddress
                               join zProvince in _applicationContext.ZProvince on partyAddress.ProvinceId equals zProvince.ProvinceId
                               join zDistrict in _applicationContext.ZDistrict on partyAddress.DistrictId equals zDistrict.DistrictId
-                              //join zVillageNahia in _applicationContext.ZVillageNahia on partyAddress.VillageNahiaId equals zVillageNahia.VillageNahiaId
+                             // join zVillageNahia in _applicationContext.ZVillageNahia on partyAddress.VillageNahiaId equals zVillageNahia.VillageNahiaId
                               where partyAddress.PartyId == personid && partyAddress.AddressTypeId == Guid.Parse("EDDCDD48-67D0-4BAE-B96E-B7ACB5C87DF7")
                               select new
                               {
@@ -56,7 +56,7 @@ namespace OLS.FunctionsLibrary
             var PreAddress = (from partyAddress in _applicationContext.PartyAddress
                               join zProvince in _applicationContext.ZProvince on partyAddress.ProvinceId equals zProvince.ProvinceId
                               join zDistrict in _applicationContext.ZDistrict on partyAddress.DistrictId equals zDistrict.DistrictId
-                              //join zVillageNahia in _applicationContext.ZVillageNahia on partyAddress.VillageNahiaId equals zVillageNahia.VillageNahiaId
+                             // join zVillageNahia in _applicationContext.ZVillageNahia on partyAddress.VillageNahiaId equals zVillageNahia.VillageNahiaId
                               where partyAddress.PartyId == personid && partyAddress.AddressTypeId == Guid.Parse("28048D3E-BF94-4068-9735-6E798BA9FD52")
                               select new
                               {
@@ -106,7 +106,7 @@ namespace OLS.FunctionsLibrary
                                                 join partyAddress in _applicationContext.PartyAddress on school.SchoolId equals partyAddress.PartyId
                                                 join zProvince in _applicationContext.ZProvince on partyAddress.ProvinceId equals zProvince.ProvinceId
                                                 join zDistrict in _applicationContext.ZDistrict on partyAddress.DistrictId equals zDistrict.DistrictId
-                                                join zVillageNahia in _applicationContext.ZVillageNahia on partyAddress.VillageNahiaId equals zVillageNahia.VillageNahiaId
+                                               // join zVillageNahia in _applicationContext.ZVillageNahia on partyAddress.VillageNahiaId equals zVillageNahia.VillageNahiaId
                                                 join zSchoolLevel in _applicationContext.ZSchoolLevel on school.SchoolLevelId equals zSchoolLevel.SchoolLevelId
                                                 join zSchoolGenderType in _applicationContext.ZSchoolGenderType on school.SchoolGenderTypeId equals zSchoolGenderType.SchoolGenderTypeId
                                                 join zLaboratoryMaterialType in _applicationContext.ZLaboratoryMaterialType on school.LaboratoryMaterialTypeId equals zLaboratoryMaterialType.LaboratoryMaterialTypeId

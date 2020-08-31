@@ -5,11 +5,11 @@
     </div>
     <div class="col-md-7 col-12 align-self-center d-none d-md-block">
         <div class="d-flex mt-2 justify-content-end">
-            
+
             <div class="">
                 @*<button class="right-side-toggle waves-effect waves-light btn-success btn btn-circle btn-sm pull-right ml-2">
-                    <i class="ti-settings text-white"></i>
-                </button>*@
+                        <i class="ti-settings text-white"></i>
+                    </button>*@
             </div>
         </div>
     </div>
@@ -381,20 +381,31 @@
 
             <div class="form-group col-md-12 mt-3">
                 <label>ملاحظات عمومی</label>
-                <textarea  class="form-control" rows="10"></textarea>
+                <textarea class="form-control" rows="10"></textarea>
             </div>
         </div>
 
-                <div class="text-right">
-                    
-                    <button id="print" class="btn btn-default btn-outline" type="button">
-                        <span>
-                            <i class="fa fa-print"></i> Print
-                        </span>
-                    </button>
-                </div>
-            </div>
+
+    </div>
 </div>
+
+<div class="btn-group">
+    <a class="btn btn-themecolor" href="@Url.Action("index","DPERep")">
+        برگشت به داشبورد
+    </a>
+</div>
+<div class="btn-group">
+    <button id="print" class="btn btn-success" type="button">
+        <span>
+            <i class="fa fa-print"></i> پرنت / چاپ / Print
+        </span>
+    </button>
+</div>
+@*<div class="btn-group">
+        <a class="btn btn-primary" href="@Url.Action("schoolList","DPERep", new { OrderNumber = ViewBag.OrderNumber, ProcessStatusId = ViewBag.ProcessStatusId, CompletionFlag = ViewBag.CompletionFlag })">
+            قبلی/مخکی/Back
+        </a>
+    </div>*@
 
 <script>
     $(document).ready(function () {

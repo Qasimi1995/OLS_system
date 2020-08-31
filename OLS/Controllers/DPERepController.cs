@@ -51,24 +51,23 @@ namespace OLS.Controllers
             return View();
         }
 
-
         [HttpGet]
-        public IActionResult SchoolList(int? OrderNumber,Nullable<Guid> ProcessStatusId ,byte CompletionFlag)
+        public IActionResult SchoolList(int? OrderNumber, Nullable<Guid> ProcessStatusId, byte CompletionFlag)
         {
             var header = (from subProcess in _applicationContext.SubProcess
-                         join subProcessStatus in _applicationContext.SubProcessStatus on subProcess.SubProcessId equals subProcessStatus.SubProcessId
-                         join zProcessStatus in _applicationContext.ZProcessStatus on subProcessStatus.ProcessStatusId equals zProcessStatus.ProcessStatusId
-                         where subProcess.OrderNumber == OrderNumber && zProcessStatus.ProcessStatusId == ProcessStatusId
-                         select new ZProcessStatus
-                         {
-                             StatusNameDash = zProcessStatus.StatusNameDash,
-                             StatusNameDashDari = zProcessStatus.StatusNameDashDari,
+                          join subProcessStatus in _applicationContext.SubProcessStatus on subProcess.SubProcessId equals subProcessStatus.SubProcessId
+                          join zProcessStatus in _applicationContext.ZProcessStatus on subProcessStatus.ProcessStatusId equals zProcessStatus.ProcessStatusId
+                          where subProcess.OrderNumber == OrderNumber && zProcessStatus.ProcessStatusId == ProcessStatusId
+                          select new ZProcessStatus
+                          {
+                              StatusNameDash = zProcessStatus.StatusNameDash,
+                              StatusNameDashDari = zProcessStatus.StatusNameDashDari,
 
 
-                         }).FirstOrDefault();
+                          }).FirstOrDefault();
 
 
-            IList < SchoolDisplayViewModel > schoolList = new List<SchoolDisplayViewModel>();
+            IList<SchoolDisplayViewModel> schoolList = new List<SchoolDisplayViewModel>();
             var userid = _userManager.GetUserId(User);
             var roleid = _applicationContext.UserRoles.Where(p => p.UserId == _userManager.GetUserId(User)).Select(p => p.RoleId).FirstOrDefault();
             var ProvinceId = _applicationContext.Users.Where(p => p.Id == _userManager.GetUserId(User)).Select(p => p.ProvinceId).FirstOrDefault();
@@ -85,7 +84,7 @@ namespace OLS.Controllers
                                   join partyAddress in _applicationContext.PartyAddress on school.SchoolId equals partyAddress.PartyId
                                   join zProvince in _applicationContext.ZProvince on partyAddress.ProvinceId equals zProvince.ProvinceId
                                   join zDistrict in _applicationContext.ZDistrict on partyAddress.DistrictId equals zDistrict.DistrictId
-                                  join zVillageNahia in _applicationContext.ZVillageNahia on partyAddress.VillageNahiaId equals zVillageNahia.VillageNahiaId
+                                  //join zVillageNahia in _applicationContext.ZVillageNahia on partyAddress.VillageNahiaId equals zVillageNahia.VillageNahiaId
                                   join zSchoolLevel in _applicationContext.ZSchoolLevel on school.SchoolLevelId equals zSchoolLevel.SchoolLevelId
                                   join zSchoolGenderType in _applicationContext.ZSchoolGenderType on school.SchoolGenderTypeId equals zSchoolGenderType.SchoolGenderTypeId
                                   join processProgress in _applicationContext.ProcessProgress on school.SchoolId equals processProgress.SchoolId
@@ -119,7 +118,7 @@ namespace OLS.Controllers
                                   join partyAddress in _applicationContext.PartyAddress on school.SchoolId equals partyAddress.PartyId
                                   join zProvince in _applicationContext.ZProvince on partyAddress.ProvinceId equals zProvince.ProvinceId
                                   join zDistrict in _applicationContext.ZDistrict on partyAddress.DistrictId equals zDistrict.DistrictId
-                                  join zVillageNahia in _applicationContext.ZVillageNahia on partyAddress.VillageNahiaId equals zVillageNahia.VillageNahiaId
+                                 // join zVillageNahia in _applicationContext.ZVillageNahia on partyAddress.VillageNahiaId equals zVillageNahia.VillageNahiaId
                                   join zSchoolLevel in _applicationContext.ZSchoolLevel on school.SchoolLevelId equals zSchoolLevel.SchoolLevelId
                                   join zSchoolGenderType in _applicationContext.ZSchoolGenderType on school.SchoolGenderTypeId equals zSchoolGenderType.SchoolGenderTypeId
                                   join processProgress in _applicationContext.ProcessProgress on school.SchoolId equals processProgress.SchoolId
@@ -143,7 +142,8 @@ namespace OLS.Controllers
 
 
             }
-            else {
+            else
+            {
 
                 if (OrderNumber == subprocess.OrderNumber - 1 || OrderNumber == 5)
                 {
@@ -154,13 +154,13 @@ namespace OLS.Controllers
                                   join partyAddress in _applicationContext.PartyAddress on school.SchoolId equals partyAddress.PartyId
                                   join zProvince in _applicationContext.ZProvince on partyAddress.ProvinceId equals zProvince.ProvinceId
                                   join zDistrict in _applicationContext.ZDistrict on partyAddress.DistrictId equals zDistrict.DistrictId
-                                  join zVillageNahia in _applicationContext.ZVillageNahia on partyAddress.VillageNahiaId equals zVillageNahia.VillageNahiaId
+                                  //join zVillageNahia in _applicationContext.ZVillageNahia on partyAddress.VillageNahiaId equals zVillageNahia.VillageNahiaId
                                   join zSchoolLevel in _applicationContext.ZSchoolLevel on school.SchoolLevelId equals zSchoolLevel.SchoolLevelId
                                   join zSchoolGenderType in _applicationContext.ZSchoolGenderType on school.SchoolGenderTypeId equals zSchoolGenderType.SchoolGenderTypeId
                                   join processProgress in _applicationContext.ProcessProgress on school.SchoolId equals processProgress.SchoolId
                                   join subProcess in _applicationContext.SubProcess on processProgress.SubProcessId equals subProcess.SubProcessId
                                   where processProgress.ProcessStatusId == ProcessStatusId && subProcess.OrderNumber == OrderNumber
-                        
+
                                   && !(from s in _applicationContext.ProcessProgress
                                        join ssubProcess in _applicationContext.SubProcess on s.SubProcessId equals ssubProcess.SubProcessId
                                        where ssubProcess.OrderNumber == OrderNumber + 1 && s.ProcessStatusId != null
@@ -188,7 +188,7 @@ namespace OLS.Controllers
                                   join partyAddress in _applicationContext.PartyAddress on school.SchoolId equals partyAddress.PartyId
                                   join zProvince in _applicationContext.ZProvince on partyAddress.ProvinceId equals zProvince.ProvinceId
                                   join zDistrict in _applicationContext.ZDistrict on partyAddress.DistrictId equals zDistrict.DistrictId
-                                  join zVillageNahia in _applicationContext.ZVillageNahia on partyAddress.VillageNahiaId equals zVillageNahia.VillageNahiaId
+                                 // join zVillageNahia in _applicationContext.ZVillageNahia on partyAddress.VillageNahiaId equals zVillageNahia.VillageNahiaId
                                   join zSchoolLevel in _applicationContext.ZSchoolLevel on school.SchoolLevelId equals zSchoolLevel.SchoolLevelId
                                   join zSchoolGenderType in _applicationContext.ZSchoolGenderType on school.SchoolGenderTypeId equals zSchoolGenderType.SchoolGenderTypeId
                                   join processProgress in _applicationContext.ProcessProgress on school.SchoolId equals processProgress.SchoolId
@@ -212,13 +212,12 @@ namespace OLS.Controllers
 
 
             }
-           
 
-
-            if (schoolList.Count==0) {
+            if (schoolList.Count == 0)
+            {
 
                 ViewBag.Result = "معلومات تازه موجود نیست";
-            
+
             }
             ViewBag.CompletionFlag = CompletionFlag;
             ViewBag.OrderNumber = OrderNumber;
@@ -227,6 +226,8 @@ namespace OLS.Controllers
             ViewBag.roleid = roleid;
             return View(schoolList);
         }
+
+        
 
 
         [HttpGet]
@@ -240,7 +241,7 @@ namespace OLS.Controllers
 
 
         [HttpGet]
-        public IActionResult SchoolLicense(Guid schoolid, int? OrderNumber, Nullable<Guid> ProcessStatusId, byte CompletionFlag)
+        public IActionResult SchoolLicense(Guid schoolid)
         {
             //ViewBag.PersonInfo = _functions.GetPersonList(schoolid);
             //ViewBag.SchoolInfo = _functions.GetSchool(schoolid);
@@ -256,11 +257,28 @@ namespace OLS.Controllers
 
                                           }))
                                       .Where(a => a.school.SchoolId == schoolid).FirstOrDefault();
-
-
             ViewBag.FounderInfo = _functions.GetPerson(schoolid, Guid.Parse("CAE7466D-198A-423B-903F-BB64D58C0236"));
             ViewBag.SchoolInfo = _functions.GetSchool(schoolid);
 
+            return View(model);
+        }
+
+
+
+        [HttpGet]
+        public IActionResult Check(Guid schoolid, int? OrderNumber, Nullable<Guid> ProcessStatusId, byte CompletionFlag)
+        {
+            ViewBag.FounderInfo = _functions.GetPerson(schoolid, Guid.Parse("CAE7466D-198A-423B-903F-BB64D58C0236"));
+            ViewBag.SchoolInfo = _functions.GetSchool(schoolid);
+            ViewBag.FinancialResouceInfo = _functions.GetSchoolFinancialResource(schoolid);
+            ViewBag.PrincipleInfo = _functions.GetPerson(schoolid, Guid.Parse("FD744DE3-476C-428F-B7E0-381A9DD286FE"));
+            ViewBag.TeachInfo = _functions.GetPersonList(schoolid, Guid.Parse("E15C4649-0ABA-4B88-95AA-3936A863450D"));
+            ViewBag.EnrollmentPlanCurrentYear = _functions.GetEnrollmentPlan(schoolid, "Current");
+            ViewBag.EnrollmentPlanNextYear = _functions.GetEnrollmentPlan(schoolid, "Next");
+            ViewBag.FinancialPlan = _functions.GetSchoolFinancialPlan(schoolid);
+            ViewBag.StaffExpenses = _functions.GetSchoolStaffExpenses(schoolid);
+            ViewBag.SchoolOtherExpenses = _functions.GetSchoolOtherExpenses(schoolid);
+            ViewBag.UserDocuments = _functions.GetDocurmentList(schoolid, Guid.Parse("39C691C9-E88C-4F1F-A431-C0C7F723348A"));
             var roleid = _applicationContext.UserRoles.Where(p => p.UserId == _userManager.GetUserId(User)).Select(p => p.RoleId).FirstOrDefault();
             var subprocessid = _applicationContext.SubProcess.Where(p => p.OrderNumber == OrderNumber).Select(p => p.SubProcessId).FirstOrDefault();
             var ProcessNumbers = _applicationContext.SubProcess.Where(p => p.RoleId == roleid).Select(p =>
@@ -282,99 +300,54 @@ namespace OLS.Controllers
 
 
             }
-
             ViewBag.ProcessStatuses = _functions.GetZProcessStatuses(ExactProcessNumber, schoolid);
             ViewBag.CompletionFlag = CompletionFlag;
             ViewBag.OrderNumber = OrderNumber;
             ViewBag.ProcessStatusId = ProcessStatusId;
             ViewBag.roleid = roleid;
-           
 
-
-            return View(model);
-
-
-        }
-
-
-
-        [HttpGet]
-        public IActionResult Check(Guid schoolid,int? OrderNumber,Nullable<Guid> ProcessStatusId, byte CompletionFlag)
-        {
-            ViewBag.FounderInfo = _functions.GetPerson(schoolid, Guid.Parse("CAE7466D-198A-423B-903F-BB64D58C0236"));
-            ViewBag.SchoolInfo = _functions.GetSchool(schoolid);         
-            ViewBag.FinancialResouceInfo = _functions.GetSchoolFinancialResource(schoolid);
-            ViewBag.PrincipleInfo = _functions.GetPerson(schoolid, Guid.Parse("FD744DE3-476C-428F-B7E0-381A9DD286FE"));
-            ViewBag.TeachInfo = _functions.GetPersonList(schoolid, Guid.Parse("E15C4649-0ABA-4B88-95AA-3936A863450D"));
-            ViewBag.EnrollmentPlanCurrentYear = _functions.GetEnrollmentPlan(schoolid, "Current");
-            ViewBag.EnrollmentPlanNextYear = _functions.GetEnrollmentPlan(schoolid, "Next");
-            ViewBag.FinancialPlan = _functions.GetSchoolFinancialPlan(schoolid);
-            ViewBag.StaffExpenses = _functions.GetSchoolStaffExpenses(schoolid);
-            ViewBag.SchoolOtherExpenses = _functions.GetSchoolOtherExpenses(schoolid);
-            ViewBag.UserDocuments = _functions.GetDocurmentList(schoolid, Guid.Parse("39C691C9-E88C-4F1F-A431-C0C7F723348A"));
-            var roleid = _applicationContext.UserRoles.Where(p => p.UserId == _userManager.GetUserId(User)).Select(p => p.RoleId).FirstOrDefault();
-            var subprocessid = _applicationContext.SubProcess.Where(p => p.OrderNumber == OrderNumber).Select(p => p.SubProcessId).FirstOrDefault();
-            var ProcessNumbers = _applicationContext.SubProcess.Where(p => p.RoleId == roleid).Select(p =>
-                new SubProcess { 
-                OrderNumber= p.OrderNumber,
-                }
-                ).ToList();
-
-            int? ExactProcessNumber=0;
-            for (int i =0;i<ProcessNumbers.Count;i++) {
-                if (ProcessNumbers[i].OrderNumber>=OrderNumber) {
-
-                    ExactProcessNumber = ProcessNumbers[i].OrderNumber;
-                    break;
-                }
-            
-            
-            }
-            ViewBag.ProcessStatuses = _functions.GetZProcessStatuses(ExactProcessNumber, schoolid);
-            ViewBag.CompletionFlag = CompletionFlag;
-            ViewBag.OrderNumber = OrderNumber;
-            ViewBag.ProcessStatusId = ProcessStatusId;
-            ViewBag.roleid = roleid;
-          
 
             return View();
-        
+
         }
         [HttpPost]
         public IActionResult Check(ProcessProgressViewModel processProgressViewModel)
         {
-           
-            if (ModelState.IsValid) {
+
+            if (ModelState.IsValid)
+            {
 
 
 
                 var processprogress = _applicationContext.ProcessProgress.Find(processProgressViewModel.ProcessProgressId);
-                ProcessHistory processHistory = new ProcessHistory{
-                HistoryId = Guid.NewGuid(),
-                ProcessId=processprogress.ProcessId,
-                SubProcessId=processprogress.SchoolId,
-                SchoolId=processprogress.SchoolId,
-                UserId=processprogress.UserId,
-                ProcessStatusId=processprogress.ProcessStatusId,
-                Remarks=processprogress.Remarks,
-                StatusDate=processprogress.StatusDate,
-                UpdatedBy=processprogress.UpdatedBy,
-                UpdatedAt=processprogress.UpdatedAt,
-                CreatedAt=DateTime.Now,
+                ProcessHistory processHistory = new ProcessHistory
+                {
+                    HistoryId = Guid.NewGuid(),
+                    ProcessId = processprogress.ProcessId,
+                    SubProcessId = processprogress.SchoolId,
+                    SchoolId = processprogress.SchoolId,
+                    UserId = processprogress.UserId,
+                    ProcessStatusId = processprogress.ProcessStatusId,
+                    Remarks = processprogress.Remarks,
+                    StatusDate = processprogress.StatusDate,
+                    UpdatedBy = processprogress.UpdatedBy,
+                    UpdatedAt = processprogress.UpdatedAt,
+                    CreatedAt = DateTime.Now,
                 };
-           
+
 
                 processprogress.UserId = _userManager.GetUserId(User);
                 processprogress.ProcessStatusId = processProgressViewModel.ProcessStatusId;
                 processprogress.StatusDate = DateTime.Now;
                 processprogress.Remarks = processProgressViewModel.Remarks;
-                processprogress.UpdatedBy= _userManager.GetUserId(User);
+                processprogress.UpdatedBy = _userManager.GetUserId(User);
                 processprogress.UpdatedAt = DateTime.Now;
 
-                if (processProgressViewModel.ProcessStatusId==Guid.Parse("D279A58A-1FC1-4A01-A9A3-38EC746ABE62")) {
+                if (processProgressViewModel.ProcessStatusId == Guid.Parse("D279A58A-1FC1-4A01-A9A3-38EC746ABE62"))
+                {
                     string FilePath = "";
                     string Report = "";
-                 
+
                     Guid? Pid = processprogress.SchoolId;
                     if (processProgressViewModel.Report != null)
                     {
@@ -386,15 +359,19 @@ namespace OLS.Controllers
                         }
                         string fileName = Pid.ToString() + "-schoolVisitReport.pdf";
                         FilePath = Path.Combine(UploadsFolder, fileName);
-                        processProgressViewModel.Report.CopyTo(new FileStream(FilePath, FileMode.Create));
+                        using (var filestream= new FileStream(FilePath, FileMode.Create)) {
+                            processProgressViewModel.Report.CopyTo(filestream);
+                        }
+                       
                         Report = "/PED/" + Pid.ToString() + "/" + fileName;
                     }
-                    PartyDocument partyDocument = new PartyDocument {
+                    PartyDocument partyDocument = new PartyDocument
+                    {
                         PartyDocumentId = Guid.NewGuid(),
                         PartyId = processprogress.SchoolId,
                         DocCategoryId = Guid.Parse("877EBDF1-604A-4E11-A9B2-3FAF05A9F094"),
                         DocTypeId = Guid.Parse("58D356BE-AD99-498E-8579-4D98518EFD5E"),
-                        DocPath=Report,
+                        DocPath = Report,
                     };
                     _applicationContext.Add(partyDocument);
 
@@ -458,6 +435,5 @@ namespace OLS.Controllers
 
             return View(processProgressViewModel);
         }
-
     }
 }

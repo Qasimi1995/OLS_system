@@ -14,9 +14,6 @@ namespace OLS.ViewModels
         public School school { get; set; }
         public Person person { get; set; }
 
-        public string Province { get; set; }
-        public string District { get; set; }
-        public string VillageNahia { get; set; }
      
     }
 }

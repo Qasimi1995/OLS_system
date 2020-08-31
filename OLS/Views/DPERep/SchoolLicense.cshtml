@@ -209,24 +209,36 @@
         قبلی/مخکی/Back
     </a>
 </div>*@
+@*<div class="btn-group">
+    <button type="button" class="btn btn-success pull-left" onclick="printDiv('printableArea')" value="پرنت / چاپ / Print" />
+    </button>
+
+</div>*@
+
 <div class="btn-group">
-    <input type="button" class="btn btn-success pull-left" onclick="printDiv('printableArea')" value="پرنت / چاپ / Print" />
+    <button id="print" class="btn btn-success" onclick="printDiv('printableArea')" type="button">
+        <span>
+            <i class="fa fa-print"></i> پرنت / چاپ / Print
+        </span>
+    </button>
 </div>
 
 
 
-<script>
+<script type="text/javascript">
     function printDiv(divName) {
         var printContents = document.getElementById(divName).innerHTML;
         var originalContents = document.body.innerHTML;
 
         document.body.innerHTML = printContents;
         window.print();
-        window.close();
-
+        
         document.body.innerHTML = originalContents;
     }
 
+    </script>
+
+<script type="text/javascript">
     //Issue Date for License Gorgian Date
     n = new Date()
     y = n.getFullYear();
