@@ -37,7 +37,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="LastName">
-                                        تخلص /تخلص/Last Name :
+                                        تخلص /تخلص/Last Name 
 
                                     </label>
                                     <input asp-for="LastName" class="form-control" />
@@ -77,7 +77,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="Nidnumber">
-                                        نمبر تذکیره /د تذکرې شمېره/NID Number
+                                        نمبر تذکره /د تذکرې شمېره/NID Number
 
                                     </label>
                                     <input asp-for="Nidnumber" class="form-control" />
@@ -87,7 +87,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="EducationLevelID">
-                                        درجه تحصیل/د زده کړو درجه/Education Level:
+                                        درجه تحصیل/د زده کړو درجه/Education Level
 
                                     </label>
                                     <select asp-for="EducationLevelID" class="form-control">
@@ -106,7 +106,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="FacultyTypeId">
-                                        رشته تحصیلی/د زده کړو رشته/Education field:
+                                        رشته تحصیلی/د زده کړو رشته/Education field
 
                                     </label>
                                     <select asp-for="FacultyTypeId" class="form-control">
@@ -145,7 +145,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="Nidnumber">
-                                        جنسبت/جنسبت/Gender
+                                        جنسیت/جنسیت/Gender
 
                                     </label>
                                     <select asp-for="GenderTypeId" class="form-control">
@@ -172,7 +172,11 @@
                             </div>
 
                         </div>
-                        <div> <input type="submit" id="btnSave" value="ثبت/ثبت/Save" class="btn btn-primary" /></div>
+                        <div>
+                            <input type="submit" id="btnSave" value="ثبت/ثبت/Save" class="btn btn-primary" />
+                            <a class="btn btn-info text-uppercase waves-effect waves-light" asp-controller="Teacher" asp-action="GetTeachersList"> قبلی/مخکی/Back </a>
+
+                        </div>
                     </fieldset>
                 </form>
             </div>

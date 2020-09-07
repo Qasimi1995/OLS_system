@@ -21,7 +21,7 @@
             <div class="d-flex mt-2 justify-content-end">
                 <a href="@Url.Action("index","DPERep")">
                     <h4 class="text-themecolor">
-                        برگشت به داشبورد
+                        برگشت به داشبورد/ داشبورډ ته بېرته ستنېدل
 
                     </h4>
                 </a>
@@ -41,22 +41,22 @@
                     <table class="display nowrap table table-hover table-striped table-bordered"  cellspacing="0" width="100%" id="example23">
                         <thead>
                             <tr>
-                                <th>شماره</th>
-                                <th>اسم مکتب</th>
-                                <th>سطح مکتب</th>
-                                <th>جنسیت  مکتب</th>
+                                <th>شماره /شمېره</th>
+                                <th>اسم مکتب/ د ښوونځي نوم</th>
+                                <th>سطح مکتب/د ښوونځي درجه</th>
+                                <th>جنسیت  مکتب/د ښوونځي جنسیت</th>
                                 <th> ولایت</th>
                                 <th>ولسوالی</th>
-                                <th> قریه</th>
-                                <th>Action</th>
+                                <th>قریه/کلی</th>
+                                <th>اجراات/اجرات/Action</th>
                                 @if (ViewBag.roleid == "DB70DAE4-9422-4A2F-A14B-7552702F026B")
                                 {
                                     <th>چک لست</th>
                                 }
                                 @if (ViewBag.roleid == "EFD684C6-F47C-407C-B9B7-DA2245E3869B")
                                 {
-                                    <th>راپور بازدید</th>
-                                    <th>جواز مکتب</th>
+                                <th> بازدید راپور/د راپور لیدل</th>
+                                <th>جواز مکتب/د ښوونځي جواز</th>
                                 }
                             </tr>
                         </thead>
@@ -97,7 +97,7 @@
                                 {
 
                                     <td class="text-nowrap">
-                                        @Html.ActionLink("CheckList ", "CheckList", new { schoolid = Model[i].SchoolId })
+                                        @Html.ActionLink("چک لست/CheckList ", "CheckList", new { schoolid = Model[i].SchoolId })
                                     </td>
                                 }
                                 @if (ViewBag.roleid == "EFD684C6-F47C-407C-B9B7-DA2245E3869B")
@@ -107,7 +107,7 @@
                                     </td>
 
                                     <td class="text-nowrap">
-                                        @Html.ActionLink("جواز / منښتليک /License ", "SchoolLicense", new { schoolid = Model[i].SchoolId })
+                                        @Html.ActionLink("جواز / د ښوونځي جواز /License ", "SchoolLicense", new { schoolid = Model[i].SchoolId })
                                     </td>
                                 }
 

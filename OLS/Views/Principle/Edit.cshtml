@@ -72,7 +72,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="LastName">
-                                    تخلص /تخلص/Last Name :
+                                    تخلص /تخلص/Last Name 
 
                                 </label>
                                 <input asp-for="LastName" class="form-control" />
@@ -134,7 +134,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="Nidnumber">
-                                    نمبر تذکیره /د تذکرې شمېره/NID Number
+                                    نمبر تذکره /د تذکرې شمېره/NID Number
 
                                 </label>
                                 <input asp-for="Nidnumber" class="form-control" />
@@ -144,7 +144,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="EducationLevelID">
-                                    درجه تحصیل/د زده کړو درجه/Education Level:
+                                    درجه تحصیل/د زده کړو درجه/Education Level
 
                                 </label>
                                 <select asp-for="EducationLevelID" class="form-control">
@@ -162,7 +162,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="FacultyTypeId">
-                                    رشته تحصیلی/د زده کړو رشته/Education field:
+                                    رشته تحصیلی/د زده کړو رشته/Education field
 
                                 </label>
                                 <select asp-for="FacultyTypeId" class="form-control">
@@ -202,7 +202,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="Nidnumber">
-                                    جنسبت/جنسبت/Gender
+                                    جنسیت/جنسیت/Gender
 
                                 </label>
                                 <select asp-for="GenderTypeId" class="form-control">
@@ -239,7 +239,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="PerProvinceId">
-                                    ولایت/ولایت/ولایت/Province:
+                                    ولایت/ولایت/ولایت/Province
 
                                 </label>
                                 <select asp-for="PerProvinceId" id="PerProvince" class="form-control">
@@ -273,7 +273,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="PerVillageNahiaId">
-                                    ققریه یا ناحیه/کلی یا ناحیه/Village or Nahia
+                                    قریه یا ناحیه/کلی یا ناحیه/Village or Nahia
                                 </label>
                                 <input asp-for="PerNahia" class="form-control" />
                                 <span asp-validation-for="PerNahia" class="text-danger"></span>
@@ -296,7 +296,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="PreProvinceId">
-                                    ولایت/ولایت/Province:
+                                    ولایت/ولایت/Province
 
                                 </label>
                                 <select asp-for="PreProvinceId" id="PreProvince" class="form-control">
@@ -329,7 +329,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="PreVillageNahiaId">
-                                    ققریه یا ناحیه/کلی یا ناحیه/Village or Nahia
+                                    قریه یا ناحیه/کلی یا ناحیه/Village or Nahia
 
                                 </label>
 
@@ -396,7 +396,7 @@
         //fill villages
 
 
-        $(document).ready(function(){
+        @*$(document).ready(function(){
            $('#PerDistrict').on('change', function () {
                 $('#PerVillageNahia option').remove();
                 var districtid = $('#PerDistrict option:selected').val();
@@ -419,7 +419,7 @@
                     );
                 }
             });
-        });
+        });*@
 
         //Current address
           $(document).ready(function(){
@@ -450,7 +450,7 @@
         //fill villages
 
 
-        $(document).ready(function(){
+        @*$(document).ready(function(){
            $('#PreDistrict').on('change', function () {
                 $('#PreVillageNahia option').remove();
                 var districtid = $('#PreDistrict option:selected').val();
@@ -473,7 +473,7 @@
                     );
                 }
             });
-        });
+        });*@
 
         //image preview
 

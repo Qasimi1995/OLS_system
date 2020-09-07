@@ -440,7 +440,7 @@ namespace OLS.FunctionsLibrary
                 query = new StringBuilder(@$"select SubProcess.SubProcessID
     , zProcessStatus.ProcessStatusID
     ,case when SubProcess.OrderNumber in ({CaseValues}) then 'New' else zProcessStatus.StatusNameDash end as 'StatusNameDash'
-    ,case when SubProcess.OrderNumber in ({CaseValues}) then 'جدید' else zProcessStatus.StatusNameDashDari end as 'StatusNameDashDari'
+    ,case when SubProcess.OrderNumber in ({CaseValues}) then 'جدید/نوی' else zProcessStatus.StatusNameDashDari end as 'StatusNameDashDari'
 
     ,SubProcess.OrderNumber
     ,SubProcessStatus.CompletionFlag,

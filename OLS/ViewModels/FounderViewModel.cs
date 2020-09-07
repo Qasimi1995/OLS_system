@@ -38,7 +38,7 @@ namespace OLS.ViewModels
 
         [Required(ErrorMessage = "لطفا عکس را انتخاب کنید / مهرباني وکړئ یو عکس غوره کړئ")]
         [DataType(DataType.Upload)]
-        [MaxFileSize(400 * 1024, ErrorMessage = "Max 50 Kb file is allowed")]
+        [MaxFileSize(100 * 1024, ErrorMessage = "Max 100 Kb file is allowed/حد اکثر اندازه عکس باید 100 kb باشد.")]
         [AllowedExtensions(new string[] { ".jpg", ".png", ".jpeg" }, ErrorMessage = " only .jpg, png and jpeg format is allowed")]
         public IFormFile Photo { get; set; }
         [Required(ErrorMessage ="*")]
