@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -36,5 +37,6 @@ namespace OLS.Models
         public string Nahia { get; set; }
         public string StatusNameDariPast { get; set; }
         public DateTime? StatusDate { get; set; }
+        //public string SubProcessName { get; set; } = "";
     }
 }

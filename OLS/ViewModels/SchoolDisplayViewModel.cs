@@ -41,6 +41,7 @@ namespace OLS.ViewModels
         public int?     OrderNumber { get; set; }
         public string StausName { get; set; }
         public DateTime? StatusDate { get; set; }
+        public int? No_days { get; set; } 
 
     }
 }

@@ -72,13 +72,15 @@ namespace OLS.Controllers
             var roleid = _applicationContext.UserRoles.Where(p => p.UserId == _userManager.GetUserId(User)).Select(p => p.RoleId).FirstOrDefault();
             var ProvinceId = _applicationContext.Users.Where(p => p.Id == _userManager.GetUserId(User)).Select(p => p.ProvinceId).FirstOrDefault();
             var subprocess = _applicationContext.SubProcess.Where(p => p.RoleId == roleid).Select(p => new { p.SubProcessId, p.OrderNumber }).FirstOrDefault();
-
+            DateTime dt1 = DateTime.Now;
             if (roleid == "DB70DAE4-9422-4A2F-A14B-7552702F026B")
             {
                 if (OrderNumber == subprocess.OrderNumber - 1 || OrderNumber == 5)
                 {
 
                     CompletionFlag = 0;
+                    
+                    
 
                     schoolList = (from school in _applicationContext.School
                                   join partyAddress in _applicationContext.PartyAddress on school.SchoolId equals partyAddress.PartyId
@@ -107,6 +109,10 @@ namespace OLS.Controllers
                                       District = zDistrict.DistNaDar,
                                       VillageNahia = partyAddress.Nahia,
                                       OrderNumber = subProcess.OrderNumber,
+                                      StatusDate=processProgress.StatusDate,
+                                   //   No_days =Math.Abs((dt1 - school.CreatedAt).Value.Days)
+
+
 
                                   }).Distinct().ToList();
 
@@ -135,6 +141,8 @@ namespace OLS.Controllers
                                       District = zDistrict.DistNaDar,
                                       VillageNahia = partyAddress.Nahia,
                                       OrderNumber = subProcess.OrderNumber,
+                                      StatusDate = processProgress.StatusDate,
+                                 //     No_days = Math.Abs((dt1 - school.CreatedAt).Value.Days)
                                   }).Distinct().ToList();
 
 
@@ -177,6 +185,8 @@ namespace OLS.Controllers
                                       District = zDistrict.DistNaDar,
                                       VillageNahia = partyAddress.Nahia,
                                       OrderNumber = subProcess.OrderNumber,
+                                      StatusDate = processProgress.StatusDate,
+                                     // No_days = Math.Abs((dt1 - school.CreatedAt).Value.Days)
 
                                   }).Distinct().ToList();
 
@@ -204,6 +214,8 @@ namespace OLS.Controllers
                                       District = zDistrict.DistNaDar,
                                       VillageNahia = partyAddress.Nahia,
                                       OrderNumber = subProcess.OrderNumber,
+                                      StatusDate = processProgress.StatusDate,
+                                      //No_days = Math.Abs((dt1 - school.CreatedAt).Value.Days)
                                   }).Distinct().ToList();
 
 

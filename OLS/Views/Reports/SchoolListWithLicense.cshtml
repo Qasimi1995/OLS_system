@@ -20,7 +20,8 @@
                         <th> ولایت</th>
                         <th>ولسوالی</th>
                         <th> قریه</th>
-                        
+                        <th> تاریخ</th>
+
                     </tr>
                 </thead>
                 <tbody>
@@ -50,7 +51,10 @@
                         <td>
                             @Html.DisplayFor(modelItem => Model[i].VillageNahia)
                         </td>
-                        
+                        <td>
+                            @Html.DisplayFor(modelItem => Model[i].StatusDate)
+                        </td>
+
                     </tr>
                     }
 

@@ -48,6 +48,8 @@
                                 <th> ولایت</th>
                                 <th>ولسوالی</th>
                                 <th>قریه/کلی</th>
+                                <th>تاریخ</th>
+                                @*<th>مدت روز</th>*@
                                 <th>اجراات/اجرات/Action</th>
                                 @if (ViewBag.roleid == "DB70DAE4-9422-4A2F-A14B-7552702F026B")
                                 {
@@ -55,8 +57,8 @@
                                 }
                                 @if (ViewBag.roleid == "EFD684C6-F47C-407C-B9B7-DA2245E3869B")
                                 {
-                                <th> بازدید راپور/د راپور لیدل</th>
-                                <th>جواز مکتب/د ښوونځي جواز</th>
+                                    <th> بازدید راپور/د راپور لیدل</th>
+                                    <th>جواز مکتب/د ښوونځي جواز</th>
                                 }
                             </tr>
                         </thead>
@@ -87,7 +89,13 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => Model[i].VillageNahia)
                                 </td>
-
+                                <td>            
+                                   @* @Convert.ToString(string.Format("{0:dd/MM/yyyy}", Model[i].StatusDate))*@
+                                    @Model[i].StatusDate
+                                </td>
+                                @*<td>
+                                    @Model[i].No_days  <span>روز / ورز / Days</span>
+                                </td>*@
 
                                 <td class="text-nowrap">
                                     @Html.ActionLink("مشاهده / View", "Check", new { schoolid = Model[i].SchoolId, OrderNumber = ViewBag.OrderNumber, ProcessStatusId = ViewBag.ProcessStatusId, CompletionFlag = ViewBag.CompletionFlag })

@@ -59,6 +59,7 @@ namespace OLS.Controllers
                               District = zDistrict.DistNaDar,
                               VillageNahia = partyAddress.Nahia,
                               OrderNumber = subProcess.OrderNumber,
+                              StatusDate = processProgress.StatusDate,
 
                           }).Distinct().ToList();
             return View(schoolList);
