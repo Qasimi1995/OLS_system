@@ -33,10 +33,10 @@
 
                 @if (ViewBag.CompletionFlag != 1)
                 {
-                    <button type="button" class="btn btn-info" data-toggle="modal"
-                            data-target="#bs-example-modal-lg">
-                        Process School
-                    </button>
+                <button type="button" class="btn btn-info" data-toggle="modal"
+                        data-target="#bs-example-modal-lg">
+                    طی مراحل نماید/پروسس یې کړئ/Process School
+                </button>
                     <hr />
                     <!--  Modal content for the above example -->
                     <div class="modal fade" id="bs-example-modal-lg" tabindex="-1" role="dialog"
@@ -48,7 +48,7 @@
                                 <div class="modal-body">
                                     <div class="card card-outline-info">
                                         <div class="card-header">
-                                            <h4 class="mb-0 text-white">Process School</h4>
+                                            <h4 class="mb-0 text-white">طی مراحل نماید/پروسس یې کړئ/Process School</h4>
                                         </div>
                                         <form asp-action="Check" method="post" id="myform2" enctype="multipart/form-data">
                                             <div class="form-body">
@@ -86,7 +86,7 @@
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group col-md-12 mt-3">
-                                                            <label>ملاحظات</label>
+                                                            <label>ملاحظات /ملاحظات /Comments</label>
                                                             <textarea asp-for="Remarks" class="form-control" rows="5"></textarea>
                                                             <span asp-validation-for="Remarks" class="text-danger"></span>
                                                         </div>
@@ -107,13 +107,17 @@
 
                                                 <input asp-for="Report" class="form-control hidden" />
                                                 <span asp-validation-for="Report" class="text-danger"></span>
+
                                             }
+                                            <hr />
                                             <div class="form-actions">
                                                 <button type="submit" class="btn btn-success">
                                                     <i class="fa fa-check"></i>
-                                                    Save
+                                                    ثبت / ثبت / Save
                                                 </button>
-                                                <button type="button" id="reset" data-dismiss="modal" class="btn btn-inverse">Cancel</button>
+                                                <button type="button" id="reset" data-dismiss="modal" class="btn btn-inverse">
+                                                    لغو / لغوه کول / Cancel
+                                                </button>
                                             </div>
                                         </form>
                                     </div>

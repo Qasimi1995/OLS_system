@@ -26,7 +26,7 @@ namespace OLS.ViewModels
         public string PhonNumber { get; set; }
 
         [Required(ErrorMessage ="*")]
-        [EmailAddress]
+        [EmailAddress(ErrorMessage = "فارمت ایمیل درست نیست / ورکړل شوی برېښنالیک سم نه دی / Email Format is not valid")]
         [Remote(action: "IsEmailUnique",controller:"Founder")]
         public string Email { get; set; }
         [Required(ErrorMessage ="*")]
@@ -38,7 +38,7 @@ namespace OLS.ViewModels
 
         [Required(ErrorMessage = "لطفا عکس را انتخاب کنید / مهرباني وکړئ یو عکس غوره کړئ")]
         [DataType(DataType.Upload)]
-        [MaxFileSize(100 * 1024, ErrorMessage = "Max 100 Kb file is allowed/حد اکثر اندازه عکس باید 100 kb باشد.")]
+        [MaxFileSize(500 * 1024, ErrorMessage = "Max 500 Kb file is allowed /  حد اکثر اندازه عکس باید 500 kb باشد.")]
         [AllowedExtensions(new string[] { ".jpg", ".png", ".jpeg" }, ErrorMessage = " only .jpg, png and jpeg format is allowed")]
         public IFormFile Photo { get; set; }
         [Required(ErrorMessage ="*")]

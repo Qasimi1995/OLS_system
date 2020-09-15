@@ -301,7 +301,7 @@ namespace OLS.Controllers
                     return Json(true); }
                 else
                 {
-                    return Json($"تعداد اطاق باید بالاتر از 5 باشد.");
+                    return Json($"تعداد اطاق باید بالاتر از 5 باشد /د خونو شمېر باید له ۵ څخه ډېر وي / Number of Rooms must be greater than 5.");
                 }
             }
 
@@ -313,7 +313,7 @@ namespace OLS.Controllers
                 }
                 else
                 {
-                    return Json($"تعداد اطاق باید بالاتر از 8 باشد.");
+                    return Json($" د خونو شمېر باید له 8 څخه ډېر وي/تعداد اطاق باید بالاتر از 8 باشد/ Number of Rooms must be greater than 8.");
                 }
             }
             if (SchoolLevelId == Guid.Parse("FF48CD0D-914F-44A6-B7F0-A66064ACC6CE"))
@@ -324,7 +324,7 @@ namespace OLS.Controllers
                 }
                 else
                 {
-                    return Json($"تعداد اطاق باید بالاتر از 11 باشد.");
+                    return Json($"د خونو شمېر باید له 11 څخه ډېر وي/تعداد اطاق باید بالاتر از 11 باشد/ Number of Rooms must be greater than 11.");
                 }
             }
             else {
@@ -349,7 +349,7 @@ namespace OLS.Controllers
 
             }
             else {
-                return Json($"حد اقل باید 500 باشد");
+                return Json($" لږ تر لږه باید ۵۰۰ وي /حد اقل باید 500 باشد/ Minimum shoud be 500");
 
 
             }
@@ -371,7 +371,7 @@ namespace OLS.Controllers
             }
             else
             {
-                return Json($"حد اقل باید 200 باشد");
+                return Json($"لږ تر لږه باید 200 وي /حد اقل باید 200 باشد/ Minimum shoud be 200");
 
 
             }
@@ -393,7 +393,7 @@ namespace OLS.Controllers
                 }
                 else
                 {
-                    return Json($"حد اقل باید 8 باشد");
+                    return Json($"لږ تر لږه باید 8 وي /حد اقل باید 8 باشد/ Minimum shoud be 8");
                 }
             }
 
@@ -405,7 +405,7 @@ namespace OLS.Controllers
                 }
                 else
                 {
-                    return Json($"حد اقل باید 13 باشد");
+                    return Json($"لږ تر لږه باید 13 وي /حد اقل باید 13 باشد/ Minimum shoud be 13");
                 }
             }
             if (SchoolLevelId == Guid.Parse("FF48CD0D-914F-44A6-B7F0-A66064ACC6CE"))
@@ -416,7 +416,7 @@ namespace OLS.Controllers
                 }
                 else
                 {
-                    return Json($"حد اقل باید 18 باشد");
+                    return Json($"لږ تر لږه باید 18 وي /حد اقل باید 18 باشد/ Minimum shoud be 18");
                 }
             }
             else
@@ -442,7 +442,7 @@ namespace OLS.Controllers
                 }
                 else
                 {
-                    return Json($"حد اقل باید 60 باشد");
+                    return Json($"لږ تر لږه باید 60 وي /حد اقل باید 60 باشد/ Minimum shoud be 60");
                 }
             }
 
@@ -454,7 +454,7 @@ namespace OLS.Controllers
                 }
                 else
                 {
-                    return Json($"حد اقل باید 90 باشد");
+                    return Json($"لږ تر لږه باید 90 وي /حد اقل باید 90 باشد/ Minimum shoud be 90");
                 }
             }
             if (SchoolLevelId == Guid.Parse("FF48CD0D-914F-44A6-B7F0-A66064ACC6CE"))
@@ -465,7 +465,7 @@ namespace OLS.Controllers
                 }
                 else
                 {
-                    return Json($"حد اقل باید 120 باشد");
+                    return Json($"لږ تر لږه باید 120 وي /حد اقل باید 120 باشد/ Minimum shoud be 120");
                 }
             }
             else
@@ -489,7 +489,7 @@ namespace OLS.Controllers
                 }
                 else
                 {
-                    return Json($"حد اقل باید 500 باشد");
+                    return Json($"لږ تر لږه باید ۵۰۰ وي /حد اقل باید 500 باشد/ Minimum shoud be 500");
                 }
             }
 
@@ -501,7 +501,7 @@ namespace OLS.Controllers
                 }
                 else
                 {
-                    return Json($"حد اقل باید 800 باشد");
+                    return Json($"لږ تر لږه باید 800 وي /حد اقل باید 800 باشد/ Minimum shoud be 800");
                 }
             }
             if (SchoolLevelId == Guid.Parse("FF48CD0D-914F-44A6-B7F0-A66064ACC6CE"))
@@ -512,7 +512,7 @@ namespace OLS.Controllers
                 }
                 else
                 {
-                    return Json($"حد اقل باید 1000 باشد");
+                    return Json($"لږ تر لږه باید 1000 وي /حد اقل باید 1000 باشد/ Minimum shoud be 1000");
                 }
             }
             else
@@ -536,7 +536,7 @@ namespace OLS.Controllers
                 }
                 else
                 {
-                    return Json($"حد اقل باید 6 باشد");
+                    return Json($"لږ تر لږه باید 6 وي /حد اقل باید 6 باشد/ Minimum shoud be 6");
                 }
             }
 
@@ -548,7 +548,7 @@ namespace OLS.Controllers
                 }
                 else
                 {
-                    return Json($"حد اقل باید 9 باشد");
+                    return Json($"لږ تر لږه باید 9 وي /حد اقل باید 9 باشد/ Minimum shoud be 9");
                 }
             }
             if (SchoolLevelId == Guid.Parse("FF48CD0D-914F-44A6-B7F0-A66064ACC6CE"))
@@ -559,7 +559,7 @@ namespace OLS.Controllers
                 }
                 else
                 {
-                    return Json($"حد اقل باید 12 باشد");
+                    return Json($"لږ تر لږه باید 12 وي /حد اقل باید 12 باشد/ Minimum shoud be 12");
                 }
             }
             else
@@ -584,7 +584,7 @@ namespace OLS.Controllers
                 }
                 else
                 {
-                    return Json($"حد اقل باید 10 باشد");
+                    return Json($"لږ تر لږه باید 10 وي /حد اقل باید 10 باشد/ Minimum shoud be 10");
                 }
             }
 
@@ -596,7 +596,7 @@ namespace OLS.Controllers
                 }
                 else
                 {
-                    return Json($"حد اقل باید 15 باشد");
+                    return Json($"لږ تر لږه باید 15 وي /حد اقل باید 15 باشد/ Minimum shoud be 15");
                 }
             }
             if (SchoolLevelId == Guid.Parse("FF48CD0D-914F-44A6-B7F0-A66064ACC6CE"))
@@ -607,7 +607,7 @@ namespace OLS.Controllers
                 }
                 else
                 {
-                    return Json($"حد اقل باید 20 باشد");
+                    return Json($"لږ تر لږه باید 20 وي /حد اقل باید 20 باشد/ Minimum shoud be 20");
                 }
             }
             else

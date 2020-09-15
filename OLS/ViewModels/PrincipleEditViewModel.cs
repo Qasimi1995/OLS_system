@@ -27,7 +27,7 @@ namespace OLS.ViewModels
         public string PhonNumber { get; set; }
 
         [Required(ErrorMessage ="*")]
-        [EmailAddress]
+        [EmailAddress(ErrorMessage = "فارمت ایمیل درست نیست / ورکړل شوی برېښنالیک سم نه دی / Email Format is not valid")]
         [Remote(action: "IsEmailUniqueEdit", controller:"Founder", AdditionalFields = "PersonId")]
         public string Email { get; set; }
         [Required(ErrorMessage ="*")]

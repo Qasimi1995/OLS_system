@@ -90,7 +90,7 @@ namespace OLS.Controllers
                 return Json(true);
             }
             else {
-                return Json($"Email {email} already in use");
+                return Json($" ایمیل قبلا استفاده شده است / ورکړل شوی برېښنالیک کارول شوی ده/Email {email} already in use");
             }
 
         }
@@ -368,7 +368,7 @@ namespace OLS.Controllers
                     if (principle.Photo != null)
                     {
                         string[] _Extensions = new string[] { ".jpg", ".png", ".jpeg" };
-                        int _maxFileSize = 100 * 1024;
+                        int _maxFileSize = 500 * 1024;
                         var extension = Path.GetExtension(principle.Photo.FileName);
                         if (_Extensions.Contains(extension.ToLower()) && principle.Photo.Length < _maxFileSize)
                         {
@@ -390,7 +390,7 @@ namespace OLS.Controllers
                         }
                         else
                         {
-                            ViewBag.photoerror = " only .jpg, png and jpeg format is allowed and max of 100 kb ";
+                            ViewBag.photoerror = " only .jpg, png and jpeg format is allowed and max of 500 kb // فارمت های ذیل را میتوان استفاده نمود و حد اکثر حجم فایل باید 500 ک ب باشد  ";
                             return View(principle);
                            
                         }

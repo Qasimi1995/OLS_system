@@ -90,7 +90,7 @@ namespace OLS.Controllers
                 return Json(true);
             }
             else {
-                return Json($"Email {email} already in use");
+                return Json($" ایمیل قبلا استفاده شده است / ورکړل شوی برېښنالیک کارول شوی ده/Email {email} already in use");
             }
 
         }
@@ -109,7 +109,7 @@ namespace OLS.Controllers
             }
             else if (EmailCountOther.Count>0) {
 
-                return Json($"Phone number {Email} already in use");
+                return Json($"ایمیل قبلا استفاده شده است / ورکړل شوی برېښنالیک کارول شوی ده/ Email {Email} already in use ");
             }
             else
             {
@@ -127,7 +127,7 @@ namespace OLS.Controllers
             var founder = _applicationContext.ContactDetails.Where(p => p.Value == PhonNumber).FirstOrDefault();
             if (PhonNumber.Length != 10) {
 
-                return Json($"Phone number must be 10 digits");
+                return Json($"شماره باید 10 نمبر باشد/ د اړیکې شمېره باید 10  وي/Phone number must be 10 digits");
             }
             if (founder == null)
             {
@@ -136,7 +136,7 @@ namespace OLS.Controllers
             }
             else
             {
-                return Json($"Phone number {PhonNumber} already in use");
+                return Json($" شماره قبلا استفاده شده است / د اړیکې شمېره کارول شوې ده/Phone number {PhonNumber} already in use");
             }
 
         }
@@ -150,7 +150,7 @@ namespace OLS.Controllers
             if (PhonNumber.Length != 10)
             {
 
-                return Json($"Phone number must be 10 digits");
+                return Json($"د اړیکې شمېره باید 10  وي/ شماره باید 10 نمبر باشد/Phone number must be 10 digits");
             }
             if (PhoneCount.Count == 1)
             {
@@ -158,7 +158,7 @@ namespace OLS.Controllers
                 return Json(true);
             }
             else if (PhoneCountOther.Count>0) {
-                return Json($"Phone number {PhonNumber} already in use");
+                return Json($"د اړیکې شمېره کارول شوې ده/ شماره قبلا استفاده شده است/Phone number {PhonNumber} already in use");
 
             }
             else
@@ -182,7 +182,7 @@ namespace OLS.Controllers
             }
             else
             {
-                return Json($"Tazkira number {NIDNumber} already in use");
+                return Json($" شماره تذکره استفاده شده است /د تذکرې شمېره کارول شوې ده / Tazkira number {NIDNumber} already in use");
             }
 
         }
@@ -200,7 +200,7 @@ namespace OLS.Controllers
             }
             else if (NIDCountOther.Count > 0)
             {
-                return Json($"Tazkira number {NIDNumber} already in use");
+                return Json($"د تذکرې شمېره کارول شوې ده/ شماره تذکره استفاده شده است / Tazkira number {NIDNumber} already in use");
 
             }
             else
@@ -379,7 +379,7 @@ namespace OLS.Controllers
                     if (founderModel.Photo != null)
                     {
                         string[] _Extensions = new string[] { ".jpg", ".png", ".jpeg" };
-                        int _maxFileSize = 100 * 1024;
+                        int _maxFileSize = 500 * 1024;
                         var extension = Path.GetExtension(founderModel.Photo.FileName);
                         if (_Extensions.Contains(extension.ToLower()) && founderModel.Photo.Length < _maxFileSize)
                         {
@@ -400,7 +400,7 @@ namespace OLS.Controllers
                         }
                         else
                         {
-                            ViewBag.photoerror = " only .jpg, png and jpeg format is allowed and max of 100 kb ";
+                            ViewBag.photoerror = " only .jpg, png and jpeg format is allowed and max of 500 kb / فارمت های ذیل را میتوان استفاده نمود و حد اکثر حجم فایل باید 500 ک ب باشد ";
                             return View(founderModel);
                            
                         }
@@ -413,7 +413,7 @@ namespace OLS.Controllers
                     _applicationContext.Update(PermenantAddress);
                     _applicationContext.Update(CurrentAddress);
                     await _applicationContext.SaveChangesAsync();
-                    ViewBag.Message = "معلومات ثبت گردید";
+                    ViewBag.Message = "معلومات تصحیح گردید / د معلومات تصحیح شو / record updated ";
                     HttpContext.Session.SetString("FounderID", founderModel.PersonId.ToString());
                     return View(founderModel);
 
@@ -556,7 +556,7 @@ namespace OLS.Controllers
                 _applicationContext.Add(CurrentAddress);
                 await _applicationContext.SaveChangesAsync();
 
-                ViewBag.Message = "معلومات ثبت گردید";
+                ViewBag.Message = "معلومات ثبت گردید / معلومات په بریالیتوب سره ثبت شوي/ record Saved Successfuly";
                 HttpContext.Session.SetString("FounderID", Pid.ToString());
                
                 return RedirectToAction("Edit", new { founderid = Pid });
