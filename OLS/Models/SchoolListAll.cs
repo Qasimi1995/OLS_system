@@ -37,6 +37,6 @@ namespace OLS.Models
         public string Nahia { get; set; }
         public string StatusNameDariPast { get; set; }
         public DateTime? StatusDate { get; set; }
-        //public string SubProcessName { get; set; } = "";
+       // public int? No_days { get; set; }
     }
 }

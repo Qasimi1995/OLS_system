@@ -49,7 +49,7 @@
                                 <th>ولسوالی</th>
                                 <th>قریه/کلی</th>
                                 <th>تاریخ</th>
-                                @*<th>مدت روز</th>*@
+                                <th>مدت روز</th>
                                 <th>اجراات/اجرات/Action</th>
                                 @if (ViewBag.roleid == "DB70DAE4-9422-4A2F-A14B-7552702F026B")
                                 {
@@ -93,9 +93,9 @@
                                    @* @Convert.ToString(string.Format("{0:dd/MM/yyyy}", Model[i].StatusDate))*@
                                     @Model[i].StatusDate
                                 </td>
-                                @*<td>
+                                <td>
                                     @Model[i].No_days  <span>روز / ورز / Days</span>
-                                </td>*@
+                                </td>
 
                                 <td class="text-nowrap">
                                     @Html.ActionLink("مشاهده / View", "Check", new { schoolid = Model[i].SchoolId, OrderNumber = ViewBag.OrderNumber, ProcessStatusId = ViewBag.ProcessStatusId, CompletionFlag = ViewBag.CompletionFlag })

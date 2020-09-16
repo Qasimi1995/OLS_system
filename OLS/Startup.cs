@@ -40,21 +40,35 @@ namespace OLS
 
             services.AddAuthentication();
 
-            services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<ApplicationContext>().AddDefaultTokenProviders();
+            services.AddIdentity<User, IdentityRole>(
+                options =>
+                {
+                    // Default Password settings.
+                    options.Password.RequireDigit = false;
+                   // options.Password.RequiredLength = 10;
+                    options.Password.RequireLowercase = false;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequireUppercase = false;
+                    // options.Password.RequiredLength = 10;
+                    // options.Password.RequiredUniqueChars = 3;  
+                    //opt.SignIn.RequireConfirmedEmail = true;
+                })
+                .AddEntityFrameworkStores<ApplicationContext>().AddDefaultTokenProviders();
             services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MyConnection")));
 
-            services.Configure<IdentityOptions>(options =>
-            {
-                // Default Password settings.
-                //options.Password.RequireDigit = false;
-                //options.Password.RequireLowercase = false;
-                //options.Password.RequireNonAlphanumeric = false;
-                //options.Password.RequireUppercase = false;
-               // options.Password.RequiredLength = 10;
-               // options.Password.RequiredUniqueChars = 3;
+            //services.Configure<IdentityOptions>(options =>
+            //{
+            //    // Default Password settings.
+            //    options.Password.RequireDigit = false;
+            //    options.Password.RequiredLength = 10;
+            //    options.Password.RequireLowercase = false;
+            //    options.Password.RequireNonAlphanumeric = false;
+            //    options.Password.RequireUppercase = false;
+            //    // options.Password.RequiredLength = 10;
+            //    // options.Password.RequiredUniqueChars = 3;
 
-                //opt.SignIn.RequireConfirmedEmail = true;
-            });
+            //    //opt.SignIn.RequireConfirmedEmail = true;
+            //});
 
             services.AddControllersWithViews();
             services.AddDistributedMemoryCache();

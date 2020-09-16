@@ -37,8 +37,8 @@ namespace OLS.Controllers
 
         public IActionResult SchoolListWithLicense()
         {
-
-           var schoolList = (from school in _applicationContext.School
+            DateTime dt1 = DateTime.Now;
+            var schoolList = (from school in _applicationContext.School
                           join partyAddress in _applicationContext.PartyAddress on school.SchoolId equals partyAddress.PartyId
                           join zProvince in _applicationContext.ZProvince on partyAddress.ProvinceId equals zProvince.ProvinceId
                           join zDistrict in _applicationContext.ZDistrict on partyAddress.DistrictId equals zDistrict.DistrictId
@@ -60,6 +60,7 @@ namespace OLS.Controllers
                               VillageNahia = partyAddress.Nahia,
                               OrderNumber = subProcess.OrderNumber,
                               StatusDate = processProgress.StatusDate,
+                              No_days = Math.Abs((dt1 - processProgress.StatusDate).Value.Days)
 
                           }).Distinct().ToList();
             return View(schoolList);

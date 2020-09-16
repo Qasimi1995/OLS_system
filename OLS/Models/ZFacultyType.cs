@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace OLS.Models
 {
@@ -12,6 +13,7 @@ namespace OLS.Models
 
         public Guid FacultyTypeId { get; set; }
         public string FacultypeName { get; set; }
+        
         public string FacultypeNameDari { get; set; }
         public int? OrderNumber { get; set; }
 

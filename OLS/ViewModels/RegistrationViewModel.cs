@@ -21,6 +21,7 @@ namespace OLS.ViewModels
         [Required(ErrorMessage = "لطف نموده این بخش را پر نماید / مهرباني وکړئ دا برخه ډکه کړئ ")]
        //[MaxLength(ErrorMessage = "حد اکثر طول رمز باید 8 عدد باشد/د پټنوم اعظمي حد باید 8 وي ")]
         [StringLength(10, MinimumLength = 6, ErrorMessage = "حد اکثر طول رمز باید 10 و حد اقل 6 عدد باشد/د پټنوم اعظمي حد باید 10 او لږ حد 6 وي")  ]
+        [DataType(DataType.Password)]
         public string Password { get; set; }
 
         [Required(ErrorMessage ="لطف نموده این بخش را پر نماید / مهرباني وکړئ دا برخه ډکه کړئ ")]

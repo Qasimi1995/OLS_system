@@ -21,6 +21,8 @@
                         <th>ولسوالی</th>
                         <th> قریه</th>
                         <th> تاریخ</th>
+                        <th>مدت روز</th>
+
 
                     </tr>
                 </thead>
@@ -53,6 +55,9 @@
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => Model[i].StatusDate)
+                        </td>
+                        <td>
+                            @Model[i].No_days
                         </td>
 
                     </tr>

@@ -349,7 +349,7 @@ namespace OLS.Controllers
 
             }
             else {
-                return Json($" لږ تر لږه باید ۵۰۰ وي /حد اقل باید 500 باشد/ Minimum shoud be 500");
+                return Json($" لږ تر لږه باید 500 متر وي /حد اقل باید 500 متر باشد/ Minimum shoud be 500m");
 
 
             }
@@ -371,7 +371,7 @@ namespace OLS.Controllers
             }
             else
             {
-                return Json($"لږ تر لږه باید 200 وي /حد اقل باید 200 باشد/ Minimum shoud be 200");
+                return Json($"لږ تر لږه باید 200 متر وي /حد اقل باید 200 متر باشد/ Minimum shoud be 200m");
 
 
             }
@@ -489,7 +489,7 @@ namespace OLS.Controllers
                 }
                 else
                 {
-                    return Json($"لږ تر لږه باید ۵۰۰ وي /حد اقل باید 500 باشد/ Minimum shoud be 500");
+                    return Json($"لږ تر لږه باید 500 وي /حد اقل باید 500 باشد/ Minimum shoud be 500");
                 }
             }
 

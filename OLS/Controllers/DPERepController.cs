@@ -110,7 +110,7 @@ namespace OLS.Controllers
                                       VillageNahia = partyAddress.Nahia,
                                       OrderNumber = subProcess.OrderNumber,
                                       StatusDate=processProgress.StatusDate,
-                                   //   No_days =Math.Abs((dt1 - school.CreatedAt).Value.Days)
+                                      No_days =Math.Abs((dt1 - processProgress.StatusDate).Value.Days)
 
 
 
@@ -142,7 +142,7 @@ namespace OLS.Controllers
                                       VillageNahia = partyAddress.Nahia,
                                       OrderNumber = subProcess.OrderNumber,
                                       StatusDate = processProgress.StatusDate,
-                                 //     No_days = Math.Abs((dt1 - school.CreatedAt).Value.Days)
+                                      No_days = Math.Abs((dt1 - processProgress.StatusDate).Value.Days)
                                   }).Distinct().ToList();
 
 
@@ -186,7 +186,7 @@ namespace OLS.Controllers
                                       VillageNahia = partyAddress.Nahia,
                                       OrderNumber = subProcess.OrderNumber,
                                       StatusDate = processProgress.StatusDate,
-                                     // No_days = Math.Abs((dt1 - school.CreatedAt).Value.Days)
+                                      No_days = Math.Abs((dt1 - processProgress.StatusDate).Value.Days)
 
                                   }).Distinct().ToList();
 
@@ -215,7 +215,7 @@ namespace OLS.Controllers
                                       VillageNahia = partyAddress.Nahia,
                                       OrderNumber = subProcess.OrderNumber,
                                       StatusDate = processProgress.StatusDate,
-                                      //No_days = Math.Abs((dt1 - school.CreatedAt).Value.Days)
+                                      No_days = Math.Abs((dt1 - processProgress.StatusDate).Value.Days)
                                   }).Distinct().ToList();
 
 
