@@ -158,8 +158,8 @@ namespace OLS.Controllers
                     }
                     
                 }
-                ViewBag.Message = "Documents Uploaded Successfully!";
-                return RedirectToAction("UploadDocumentsEdit");
+               // ViewBag.Message = "Documents Uploaded Successfully!";
+                return RedirectToAction("Notification");
             }
             else
             {
@@ -255,9 +255,8 @@ namespace OLS.Controllers
                 _applicationContext.AddRange(partyDocuments);
                 _applicationContext.SaveChanges();
 
-                ViewBag.Message = "Documents Uploaded Successfully!";
-
-                return RedirectToAction("UploadDocumentsEdit");
+               // ViewBag.Message = "Documents Uploaded Successfully!";
+                return RedirectToAction("Notification");
             }
             else
             {
@@ -844,6 +843,13 @@ namespace OLS.Controllers
             return View(schoolModel);
         }
 
+        [HttpGet]
+        [Route("Notification")]
+        public IActionResult Notification()
+        {
+            ViewBag.Message = "Documents Uploaded Successfully!";
+            return View();
+        }
 
     }
 }

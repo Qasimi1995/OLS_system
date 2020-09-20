@@ -1,0 +1,29 @@
+﻿
+
+@{
+    ViewData["Title"] = "Uplod Document";
+}
+
+
+
+    @if (ViewBag.Message != null)
+    {
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        <script src="~/Admin/sweetalert/sweetalert.min.js"></script>
+        <script type="text/javascript">
+
+                                                    swal({
+                                                        title: "@ViewBag.Message",
+                                                        text: "اسناد موفقانه ثبت گردید",
+                                                        icon: "success",
+                                                        button: "OK",
+                                                    })
+                                                        .then(okay => {
+                                                        if (okay) {
+                                                            window.location.href = "/School/UploadDocumentsEdit";
+                                                        }
+                                                    });
+        </script>
+
+    }
+

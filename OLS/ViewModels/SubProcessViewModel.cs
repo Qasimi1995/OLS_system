@@ -21,6 +21,7 @@ namespace OLS.ViewModels
 
         public string Remarks { get; set; }
         public byte? CompletionFlag { get; set; }
+        public DateTime? StatusDate { get; set; }
 
     }
 }

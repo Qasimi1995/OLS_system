@@ -60,6 +60,8 @@ namespace OLS.Controllers
                                    StatusNameDariPast = d.StatusNameDariPast,
                                    CompletionFlag = e.CompletionFlag,
                                    Remarks=b.Remarks,
+                                   StatusDate= b.StatusDate,
+                                   
                                }).OrderBy(p=>p.OrderNumber).ToList();
             return View(displayPlan);
         }
