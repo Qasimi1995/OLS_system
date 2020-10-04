@@ -17,7 +17,7 @@
                 <form asp-action="Create" method="post" enctype="multipart/form-data">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="SchoolName">
                                     اسم مکتب /د ښوونځي نوم/School Name
@@ -27,7 +27,19 @@
                                 <span asp-validation-for="SchoolName" class="text-danger"></span>
                             </div>
                         </div>
-                        <div class="col-md-6">
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="SchoolName">
+                                    اسم مکتب انگلیسی /د انگلیسی ښوونځي نوم/English School Name
+
+                                </label>
+                                <input asp-for="SchoolEnglishName" class="form-control" />
+                                <span asp-validation-for="SchoolEnglishName" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="LastName">
                                     سطح مکتب/د ښوونځي درجه/School Level

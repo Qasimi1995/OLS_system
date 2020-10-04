@@ -6,8 +6,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using OLS.Models;
 using OLS.ViewModels;
+using Org.BouncyCastle.Math.EC.Rfc7748;
 
 namespace OLS.Controllers
 {
@@ -46,55 +48,65 @@ namespace OLS.Controllers
         [HttpPost]
         public IActionResult Edit(IList<SchoolFinancialPlanViewModel> schoolFinancialPlans)
         {
-            if (ModelState.IsValid)
+            var schoolBussinesType = _applicationContext.SchoolFinancialResource.Include(a => a.SchoolBussinessType)
+                .Where(a => a.SchoolId == schoolFinancialPlans.ElementAt(0).SchoolId).Select(a => a.SchoolBussinessType).FirstOrDefault();
+
+            if (schoolBussinesType.BussinessTypeName == "For Profit")
             {
-
-                IList<SchoolFinancialPlan> Plans = new List<SchoolFinancialPlan>();
-                
-                for (int i = 0; i < schoolFinancialPlans.Count; i++)
+                if (!ModelState.IsValid)//now it will work
                 {
-                    SchoolFinancialPlan plan = _applicationContext.SchoolFinancialPlan.Find(schoolFinancialPlans[i].Id);
-                    plan.FeeAmount = schoolFinancialPlans[i].FeeAmount;
-                    plan.NfreeStudents = schoolFinancialPlans[i].NfreeStudents;
-                    plan.NpaidStudents = schoolFinancialPlans[i].NpaidStudents;
-                    plan.AdmissionFee = schoolFinancialPlans[i].AdmissionFee;
-                    plan.UpdatedBy = _userManager.GetUserId(User);
-                    plan.UpdatedAt = DateTime.Now;
-                    Plans.Add(plan);
 
-                    
+                    return RedirectToAction("Edit");
                 }
 
-                _applicationContext.UpdateRange(Plans);
-                _applicationContext.SaveChanges();
-                return RedirectToAction("Edit");
             }
+            IList<SchoolFinancialPlan> Plans = new List<SchoolFinancialPlan>();
+            for (int i = 0; i < schoolFinancialPlans.Count; i++)
+            {
+                SchoolFinancialPlan plan = _applicationContext.SchoolFinancialPlan.Find(schoolFinancialPlans[i].Id);
+                plan.FeeAmount = schoolFinancialPlans[i].FeeAmount;
+                plan.NfreeStudents = schoolFinancialPlans[i].NfreeStudents;
+                plan.NpaidStudents = schoolFinancialPlans[i].NpaidStudents;
+                plan.AdmissionFee = schoolFinancialPlans[i].AdmissionFee;
+                plan.UpdatedBy = _userManager.GetUserId(User);
+                plan.UpdatedAt = DateTime.Now;
+                Plans.Add(plan);
+            }
+            _applicationContext.UpdateRange(Plans);
+            _applicationContext.SaveChanges();
             return RedirectToAction("Edit");
+
+
         }
         public IActionResult Edit()
         {
             var schoolId = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User)).Select(p => p.SchoolId).FirstOrDefault();
-            
+
+
             var displayPlan = (from schoolFinancialPlan in _applicationContext.SchoolFinancialPlan
                                join schoolSubLevel in _applicationContext.ZSchoolSubLevel on schoolFinancialPlan.SchoolSubLevelId equals schoolSubLevel.SchoolSubLevelId
-                               where schoolFinancialPlan.SchoolId == schoolId 
+                               where schoolFinancialPlan.SchoolId == schoolId
                                orderby schoolSubLevel.OrderNumber
                                select new SchoolFinancialPlanViewModel
                                {
-                                    Id= schoolFinancialPlan.Id,
-                                    SchoolSubLevelName = schoolSubLevel.SubLevelNameDari + "/" + schoolSubLevel.SubLevelNamePashto + "/" + schoolSubLevel.SubLevelName,
+                                   Id = schoolFinancialPlan.Id,
+                                   SchoolId = schoolId,
+                                   SchoolSubLevelName = schoolSubLevel.SubLevelNameDari + "/" + schoolSubLevel.SubLevelNamePashto + "/" + schoolSubLevel.SubLevelName,
                                    FeeAmount = schoolFinancialPlan.FeeAmount,
-                                    NfreeStudents=schoolFinancialPlan.NfreeStudents,
-                                    NpaidStudents=schoolFinancialPlan.NpaidStudents,
-                                    Year=schoolFinancialPlan.Year,
-                                    AdmissionFee= schoolFinancialPlan.AdmissionFee,
+                                   NfreeStudents = schoolFinancialPlan.NfreeStudents,
+                                   NpaidStudents = schoolFinancialPlan.NpaidStudents,
+                                   Year = schoolFinancialPlan.Year,
+                                   AdmissionFee = schoolFinancialPlan.AdmissionFee,
                                }).ToList();
 
-            ViewBag.Tax= String.Format("{0:0.00}", _applicationContext.SchoolFinancialPlan.Where(p => p.SchoolId == schoolId).Select(p => (p.NpaidStudents * p.FeeAmount * p.AdmissionFee) * 0.1m).Sum());
-           
+            ViewBag.Tax = String.Format("{0:0.00}", _applicationContext.SchoolFinancialPlan.Where(p => p.SchoolId == schoolId).Select(p => (p.NpaidStudents * p.FeeAmount * p.AdmissionFee) * 0.1m).Sum());
+
+            ViewBag.schoolBussinesType = _applicationContext.SchoolFinancialResource.Include(a => a.SchoolBussinessType)
+                 .Where(a => a.SchoolId == displayPlan.ElementAt(0).SchoolId).Select(a => a.SchoolBussinessType).FirstOrDefault().BussinessTypeName;
 
             return View(displayPlan);
         }
+
         public IActionResult Create()
         {
             var schoolLevelid = _applicationContext.School.Where(p => p.CreatedBy==_userManager.GetUserId(User)).Select(p => p.SchoolLevelId).FirstOrDefault();

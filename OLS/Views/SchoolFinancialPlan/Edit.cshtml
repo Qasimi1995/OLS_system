@@ -29,41 +29,47 @@
                                 </tr>
                             </thead>
                             <tbody>
+
+
                                 @if (Model != null)
                                 {
+                                    string required = "";
+
+                                    if (ViewBag.schoolBussinesType == "For Profit")
+                                    {
+                                        required = "required";
+                                    }
                                     for (int i = 0; i < Model.Count; i++)
                                     {
-                                        @Html.HiddenFor(m => Model[i].Id)
+                                        @Html.HiddenFor(m => Model[i].Id);
+                                        @Html.HiddenFor(m => Model[i].SchoolId);
 
                                         <tr>
-
                                             <td>
-
-
                                                 @Model[i].SchoolSubLevelName
                                             </td>
                                             <td>
-                                                @Html.EditorFor(m => Model[i].FeeAmount)
-                                                @Html.ValidationMessageFor(m => Model[i].FeeAmount, null, new { @class = "text-danger" })
+                                                <input type="number" name="[@i].FeeAmount" value="@Model[i].FeeAmount" @required />
                                             </td>
                                             <td>
-                                                @Html.EditorFor(m => Model[i].NfreeStudents)
-                                                @Html.ValidationMessageFor(m => Model[i].NfreeStudents, null, new { @class = "text-danger" })
+                                                <input type="number" name="[@i].NfreeStudents" value="@Model[i].NfreeStudents" @required />
                                             </td>
                                             <td>
-                                                @Html.EditorFor(m => Model[i].NpaidStudents)
-                                                @Html.ValidationMessageFor(m => Model[i].NpaidStudents, null, new { @class = "text-danger" })
+                                                <input type="number" name="[@i].NpaidStudents" value="@Model[i].NpaidStudents" @required />
                                             </td>
                                             <td>
-                                                @Html.EditorFor(m => Model[i].AdmissionFee)
-                                                @Html.ValidationMessageFor(m => Model[i].AdmissionFee, null, new { @class = "text-danger" })
+                                                <input type="number" name="[@i].AdmissionFee" value="@Model[i].AdmissionFee" @required />
                                             </td>
                                         </tr>
+
                                     }
+
                                 }
 
                             </tbody>
                         </table>
+                        @if (ViewBag.schoolBussinesType == "For Profit")
+                        {
                         @if (ViewBag.Tax != null)
                         {
                             <br />
@@ -76,7 +82,9 @@
                                 </div>
                             </div>
                             <br />
+                            } 
                         }
+
                     </div>
                     <input type="submit" id="btnSave" value="ثبت/ثبت/Save" class="btn btn-outline-success" />
                     <div style="float:left;">
@@ -88,3 +96,20 @@
         </div>
     </div>
 </div>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $("input").focusout(function () {
+                if ($(this).val() == '') {
+                    $(this).css('border', 'solid 2px red');
+                }
+                else {
+
+                    // If it is not blank.
+                    $(this).css('border', 'solid 2px green');
+                }
+            }).trigger("focusout");
+        });
+    </script>
+}

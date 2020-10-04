@@ -443,26 +443,35 @@
                             @if (ViewBag.SchoolInfo != null)
                             {
 
-                                <div class="row">
-                                    <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-md-4">
 
-                                        <label for="SchoolName">اسم مکتب /د ښوونځي نوم/School Name</label>
+                                    <label for="SchoolName">اسم مکتب /د ښوونځي نوم/School Name</label>
 
-                                        <div>
-                                            <label class="w-75 p-1 border">@ViewBag.SchoolInfo.SchoolName</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-
-                                        <label for="SchoolName">
-                                            سطح مکتب/د ښوونځي درجه/School Level
-
-                                        </label>
-                                        <div>
-                                            <label class="w-75 p-1 border">@ViewBag.SchoolInfo.SchoolLevel</label>
-                                        </div>
+                                    <div>
+                                        <label class="w-75 p-1 border">@ViewBag.SchoolInfo.SchoolName</label>
                                     </div>
                                 </div>
+
+                                <div class="col-md-4">
+
+                                    <label for="SchoolName">اسم مکتب /د ښوونځي نوم/School Name</label>
+
+                                    <div>
+                                        <label class="w-75 p-1 border">@ViewBag.SchoolInfo.SchoolEnglishName</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+
+                                    <label for="SchoolName">
+                                        سطح مکتب/د ښوونځي درجه/School Level
+
+                                    </label>
+                                    <div>
+                                        <label class="w-75 p-1 border">@ViewBag.SchoolInfo.SchoolLevel</label>
+                                    </div>
+                                </div>
+                            </div>
                                 <div class="row">
                                     <div class="col-md-6">
 

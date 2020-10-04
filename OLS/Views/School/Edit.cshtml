@@ -28,34 +28,46 @@
                         </div>
 
                     }
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="SchoolName">
-                                    اسم مکتب /د ښوونځي نوم/School Name
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="SchoolName">
+                                اسم مکتب /د ښوونځي نوم/School Name
 
-                                </label>
-                                <input asp-for="SchoolName" class="form-control" />
-                                <span asp-validation-for="SchoolName" class="text-danger"></span>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="LastName">
-                                    سطح مکتب/د ښوونځي درجه/School Level
-
-                                </label>
-                                <select asp-for="SchoolLevelId" class="form-control">
-                                    <option selected value="">--Select--</option>
-                                    @foreach (var SchoolLevel in ViewBag.SchoolLevel)
-                                    {
-                                        <option value="@SchoolLevel.SchoolLevelId">@SchoolLevel.SchoolLevelNameDari - @SchoolLevel.SchoolLevelName</option>
-                                    }
-                                </select>
-                                <span asp-validation-for="SchoolLevelId" class="text-danger"></span>
-                            </div>
+                            </label>
+                            <input asp-for="SchoolName" class="form-control" />
+                            <span asp-validation-for="SchoolName" class="text-danger"></span>
                         </div>
                     </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="SchoolName">
+                                اسم مکتب انگلیسی /د انگلیسی ښوونځي نوم/English School Name
+
+                            </label>
+                            <input asp-for="SchoolEnglishName" class="form-control" />
+                            <span asp-validation-for="SchoolEnglishName" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="LastName">
+                                سطح مکتب/د ښوونځي درجه/School Level
+
+                            </label>
+                            <select asp-for="SchoolLevelId" class="form-control">
+                                <option selected value="">--Select--</option>
+                                @foreach (var SchoolLevel in ViewBag.SchoolLevel)
+                                {
+                                    <option value="@SchoolLevel.SchoolLevelId">@SchoolLevel.SchoolLevelNameDari - @SchoolLevel.SchoolLevelName</option>
+                                }
+                            </select>
+                            <span asp-validation-for="SchoolLevelId" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">

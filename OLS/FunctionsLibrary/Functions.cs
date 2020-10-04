@@ -116,6 +116,7 @@ namespace OLS.FunctionsLibrary
                                                     SchoolId = school.SchoolId,
                                                     SchoolLevel = zSchoolLevel.SchoolLevelNameDari,
                                                     SchoolName = school.SchoolName,
+                                                    SchoolEnglishName = school.SchoolEnglishName,
                                                     SchoolGenderType = zSchoolGenderType.SchoolGenderTypeNameDari,
                                                     Nrooms = school.Nrooms,
                                                     DistancefromPuSchool = school.DistancefromPuSchool,

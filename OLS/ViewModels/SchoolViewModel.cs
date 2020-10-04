@@ -17,6 +17,9 @@ namespace OLS.ViewModels
         [Required(ErrorMessage = "*")]
         public string   SchoolName              { get; set; }
         [Required(ErrorMessage = "*")]
+        public string SchoolEnglishName { get; set; }
+
+        [Required(ErrorMessage = "*")]
         public Guid?    SchoolGenderTypeId       { get; set; }
         [Required(ErrorMessage = "*")]
         [Remote(action: "ValidateNrooms", controller: "School", AdditionalFields = "SchoolLevelId,Nrooms")]
@@ -72,6 +75,7 @@ namespace OLS.ViewModels
         public Guid?    DistrictId                      { get; set; }
         [Required(ErrorMessage = "*")]
         public string Nahia { get; set; }
+
 
         public string CreatedBy { get; set; }
         public DateTime? CreatedAt { get; set; }

@@ -642,6 +642,7 @@ namespace OLS.Controllers
                         SchoolId = school.SchoolId,
                         SchoolLevelId = school.SchoolLevelId,
                         SchoolName = school.SchoolName,
+                        SchoolEnglishName=school.SchoolEnglishName,
                         SchoolGenderTypeId = school.SchoolGenderTypeId,
                         Nrooms = school.Nrooms,
                         DistancefromPuSchool = school.DistancefromPuSchool,
@@ -700,6 +701,7 @@ namespace OLS.Controllers
              
                 school.SchoolLevelId                =schoolViewModel.SchoolLevelId           ;
                 school.SchoolName                   =schoolViewModel.SchoolName              ;
+                school.SchoolEnglishName            =schoolViewModel.SchoolEnglishName       ;
                 school.SchoolGenderTypeId           =schoolViewModel.SchoolGenderTypeId      ;
                 school.Nrooms                       =schoolViewModel.Nrooms                  ;
                 school.DistancefromPuSchool         =schoolViewModel.DistancefromPuSchool    ;
@@ -794,6 +796,7 @@ namespace OLS.Controllers
                     SchoolId = schoolId,
                     SchoolLevelId = schoolModel.SchoolLevelId,
                     SchoolName = schoolModel.SchoolName,
+                    SchoolEnglishName = schoolModel.SchoolEnglishName,
                     SchoolGenderTypeId = schoolModel.SchoolGenderTypeId,
                     Nrooms = schoolModel.Nrooms,
                     DistancefromPuSchool=schoolModel.DistancefromPuSchool,

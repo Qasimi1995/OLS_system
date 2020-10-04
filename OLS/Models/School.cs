@@ -20,6 +20,7 @@ namespace OLS.Models
         public Guid SchoolId { get; set; }
         public Guid? SchoolLevelId { get; set; }
         public string SchoolName { get; set; }
+        public string SchoolEnglishName { get; set; }
         public byte? IsAcceptingCommitment { get; set; }
         public Guid? SchoolGenderTypeId { get; set; }
         public int? Nrooms { get; set; }

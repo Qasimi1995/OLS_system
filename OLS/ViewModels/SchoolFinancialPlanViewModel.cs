@@ -27,4 +27,7 @@ namespace OLS.ViewModels
         public decimal? AdmissionFee { get; set; }
 
     }
+
+
+   
 }
