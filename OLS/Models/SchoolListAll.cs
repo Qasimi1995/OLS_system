@@ -10,8 +10,11 @@ namespace OLS.Models
     {
         public Guid SchoolId { get; set; }
         public string SchoolLevelNameDari { get; set; }
+        public string SchoolLevelName { get; set; }
         public string SchoolName { get; set; }
+        public string SchoolEnglishName { get; set; }
         public string SchoolGenderTypeNameDari { get; set; }
+        public string SchoolGenderTypeName { get; set; }
         public int? Nrooms { get; set; }
         public int? DistancefromPuSchool { get; set; }
         public int? DistanceFromPrSchool { get; set; }
@@ -33,6 +36,7 @@ namespace OLS.Models
         public byte? HasSportFacilities { get; set; }
         public string Remarks { get; set; }
         public string PROV_NA_DAR { get; set; }
+        public string PROV_NA_ENG { get; set; }
         public string DIST_NA_DAR { get; set; }
         public string Nahia { get; set; }
         public string StatusNameDariPast { get; set; }

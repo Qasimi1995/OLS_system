@@ -1,0 +1,239 @@
+﻿@model List<OLS.Models.SchoolListAll>
+
+@{
+    ViewData["Title"] = "All Reports";
+}
+
+<hr />
+<div class="card">
+    <div class="card-body">
+        <div class=" card-title text-center">
+            <h2>General Reports of All</h2>
+        </div>
+
+        <form asp-action="AllReports" method="post">
+            <div class="accordion md-accordion" id="accordionEx" role="tablist" aria-multiselectable="true">
+                <!-- Accordion card -->
+                <div class="card">
+                    <!-- Card header -->
+                    <div class="card-header text-right" role="tab" id="headingOne1">
+                        <a data-toggle="collapse" data-parent="#accordionEx" href="#collapseOne1" aria-expanded="true"
+                           aria-controls="collapseOne1">
+                            <h5 class="mb-0" style="color:green;">
+                                <i class="fas fa-angle-down rotate-icon"></i> جستجو /Search
+                            </h5>
+                        </a>
+                    </div>
+                    <!-- Card body -->
+
+                    <div id="collapseOne1" class="collapse show" role="tabpanel" aria-labelledby="headingOne1"
+                         data-parent="#accordionEx">
+                        <div class="card-body">
+
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="Name">
+                                            از تاریخ/From Date
+                                        </label>
+                                        <input name="startdate" type="date" class="form-control" />
+                                        <span class="text-danger"></span>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="Name">
+                                            تا تاریخ/ To Date
+                                        </label>
+                                        <input name="enddate" type="date" class="form-control" />
+                                        <span class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="LastName">
+                                            نام مکتب / د ښوونځي نوم / School Name
+
+                                        </label>
+                                        <select name="schoolname" class="form-control">
+                                            <option selected value="">--Select--</option>
+                                            @foreach (var Sname in ViewBag.SchoolN)
+                                            {
+                                                <option value="@Sname.SchoolName"> @Sname.SchoolName</option>
+                                            }
+                                        </select>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="LastName">
+                                            جنسیت مکتب / د ښوونځي جنسیت / School Gender
+
+                                        </label>
+                                        <select name="schoolgender" class="form-control">
+                                            <option selected value="">--Select--</option>
+                                            @foreach (var Pname in ViewBag.SchoolGenderType)
+                                            {
+                                        <option value="@Pname.SchoolGenderTypeName">@Pname.SchoolGenderTypeName - @Pname.SchoolGenderTypeNameDari </option>
+                                            }
+                                        </select>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="LastName">
+                                            سطح مکتب / د ښوونځي درجه / School Level
+
+                                        </label>
+                                        <select name="schoollevel" class="form-control">
+                                            <option selected value="">--Select--</option>
+                                            <option value="ابتدایه">ابتدایه- Primary</option>
+                                            <option value="متوسطه">متوسطه - Secondary</option>
+                                            <option value="لیسه">لیسه - High School</option>
+                                        </select>
+                                        @* <span asp-validation-for="SchoolLevelId" class="text-danger"></span>*@
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="LastName">
+                                            ولایت / ولایت /province
+
+                                        </label>
+                                        <select name="provincename" class="form-control">
+                                            <option selected value="">--Select--</option>
+                                            @foreach (var Pname in ViewBag.ProvinceN)
+                                            {
+                                                <option value="@Pname.ProvNaDar"> @Pname.ProvNaDar - @Pname.ProvNaEng</option>
+                                            }
+                                        </select>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="LastName">
+                                            حالت / حالت / Status
+
+                                        </label>
+                                        <select name="status" class="form-control">
+                                            <option selected value="">--Select--</option>
+                                            @foreach (var Pname in ViewBag.StatusN)
+                                            {
+                                                <option value="@Pname.StatusNameDariPast">@Pname.StatusNameDariPast </option>
+                                            }
+                                        </select>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="LastName">
+                                            راپور مجموعی / عمومي راپور / General Report
+
+                                        </label>
+                                        <select name="generalreport" class="form-control">
+                                            <option selected value="">--Select--</option>
+                                            <option value="General">عمومی - General</option>
+                                        </select>
+                                        @* <span asp-validation-for="SchoolLevelId" class="text-danger"></span>*@
+                                    </div>
+                                </div>
+
+                                <input type="submit" class="btn btn-primary" value="جستجو/Search" />
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </form>
+
+
+
+
+            <hr />
+
+            <h4 class="card-title">لیست عمومی </h4>
+            <div class="table-responsive mt-4">
+                <table id="example23"
+                       class="display nowrap table table-hover table-striped table-bordered"
+                       cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th>شماره</th>
+                            <th>مکتب</th>
+                            <th>سطح مکتب</th>
+                            <th>جنسیت  مکتب</th>
+                            <th> ولایت</th>
+                            <th>ولسوالی</th>
+                            <th> قریه</th>
+                            <th> حالت</th>
+                            <th>تاریخ</th>
+                            <th>مدت روز</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null)
+                        {
+                        @for (int i=0; i<Model.Count(); i++)
+                        {
+                            <tr>
+                                <td>
+                                    @(i + 1)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => Model[i].SchoolName) - @Model[i].SchoolEnglishName
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => Model[i].SchoolLevelNameDari)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => Model[i].SchoolGenderTypeNameDari)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => Model[i].PROV_NA_DAR)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => Model[i].DIST_NA_DAR)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => Model[i].Nahia)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => Model[i].StatusNameDariPast)
+                                </td>
+                                <td>@Model[i].StatusDate</td>
+
+                                <td>@(Math.Abs((DateTime.Now - Model[i].StatusDate).Value.Days))</td>
+
+                            </tr>
+                        }
+                        }
+                        else
+                        {
+                         <p>No Data Found</p>
+                        }
+
+
+
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+
+

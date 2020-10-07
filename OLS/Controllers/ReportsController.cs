@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NLog.LayoutRenderers;
 using OLS.Models;
 using OLS.ViewModels;
 
@@ -53,8 +54,11 @@ namespace OLS.Controllers
                           {
                               SchoolId = school.SchoolId,
                               SchoolLevel = zSchoolLevel.SchoolLevelNameDari,
+                              SchoolLevelEng= zSchoolLevel.SchoolLevelName,
+                              SchoolEnglishName = school.SchoolEnglishName,
                               SchoolName = school.SchoolName,
                               SchoolGenderType = zSchoolGenderType.SchoolGenderTypeNameDari,
+                              SchoolGenderTypeEnglish=zSchoolGenderType.SchoolGenderTypeName,
                               Province = zProvince.ProvNaDar,
                               District = zDistrict.DistNaDar,
                               VillageNahia = partyAddress.Nahia,
@@ -63,6 +67,7 @@ namespace OLS.Controllers
                               No_days = Math.Abs((dt1 - processProgress.StatusDate).Value.Days)
 
                           }).Distinct().ToList();
+
             return View(schoolList);
         }
 
@@ -113,10 +118,12 @@ group by zProvince.PROV_NA_DAR
             StringBuilder query = null;
             query = new StringBuilder(@$"select school.*,zProcessStatus.StatusNameDariPast, ProcessProgress.StatusDate,
 zProvince.PROV_NA_DAR,
+zProvince.PROV_NA_ENG,
 zDistrict.DIST_NA_DAR,
 PartyAddress.Nahia
 ,zSchoolGenderType.SchoolGenderTypeNameDari
 ,zSchoolLevel.SchoolLevelNameDari
+,zSchoolLevel.SchoolLevelName
  from ProcessProgress 
 inner join School on ProcessProgress.SchoolID = School.SchoolID
 join zProcessStatus on ProcessProgress.ProcessStatusID=zProcessStatus.ProcessStatusID
@@ -132,6 +139,143 @@ on temp.maxdate = ProcessProgress.StatusDate");
             List<SchoolListAll> List = _applicationContext.SchoolListAll.FromSqlRaw(query.ToString()).ToList();
 
             return View(List);
+        }
+
+
+        [HttpGet]
+        public IActionResult AllReports()
+        {
+            StringBuilder query = null;
+            query = new StringBuilder(@$"select school.*,zProcessStatus.StatusNameDariPast, ProcessProgress.StatusDate,
+                zProvince.PROV_NA_DAR,
+                zProvince.PROV_NA_ENG,
+                zDistrict.DIST_NA_DAR,
+                zDistrict.DIST_NA_ENG,
+                PartyAddress.Nahia
+                ,zSchoolGenderType.SchoolGenderTypeNameDari
+                ,zSchoolGenderType.SchoolGenderTypeName
+                ,zSchoolLevel.SchoolLevelNameDari
+                ,zSchoolLevel.SchoolLevelName
+                 from ProcessProgress 
+                inner join School on ProcessProgress.SchoolID = School.SchoolID
+                join zProcessStatus on ProcessProgress.ProcessStatusID=zProcessStatus.ProcessStatusID
+                join PartyAddress on School.SchoolID=PartyAddress.PartyID
+                join zProvince on PartyAddress.ProvinceID = zProvince.ProvinceID
+                join zDistrict on PartyAddress.DistrictID = zDistrict.DistrictID
+                join zSchoolGenderType on zSchoolGenderType.SchoolGenderTypeID = School.SchoolGenderTypeID
+                join zSchoolLevel on zSchoolLevel.SchoolLevelID = School.SchoolLevelID
+                join( select ProcessProgress.SchoolID, max(StatusDate) as maxdate from ProcessProgress join School on ProcessProgress.SchoolID= School.SchoolID
+                group by ProcessProgress.SchoolID
+                ) temp
+                on temp.maxdate = ProcessProgress.StatusDate");
+
+            List<SchoolListAll> List = _applicationContext.SchoolListAll.FromSqlRaw(query.ToString()).ToList();
+
+            var SchoolName = List.OrderBy(o => o.SchoolName);
+            ViewBag.SchoolN = SchoolName;
+
+            var StatusName = _applicationContext.ZProcessStatus.OrderBy(p => p.StatusNameDariPast);
+            ViewBag.StatusN = StatusName;
+
+            var ProvinceName = _applicationContext.ZProvince.OrderBy(p => p.ProvNaDar); 
+            ViewBag.ProvinceN= ProvinceName;
+
+            var SchoolGenderType = _applicationContext.ZSchoolGenderType.OrderBy(o => o.OrderNumber);
+            ViewBag.SchoolGenderType = SchoolGenderType;
+
+            
+            return View();
+            }
+
+        [HttpPost]
+        public IActionResult AllReports(searchreportviewModel allReports)
+        {
+            StringBuilder query = null;
+            query = new StringBuilder(@$"select school.*,zProcessStatus.StatusNameDariPast, ProcessProgress.StatusDate,
+                zProvince.PROV_NA_DAR,
+                zProvince.PROV_NA_ENG,
+                zDistrict.DIST_NA_DAR,
+                zDistrict.DIST_NA_ENG,
+                PartyAddress.Nahia
+                ,zSchoolGenderType.SchoolGenderTypeNameDari
+                ,zSchoolGenderType.SchoolGenderTypeName
+                ,zSchoolLevel.SchoolLevelNameDari
+                ,zSchoolLevel.SchoolLevelName
+                 from ProcessProgress 
+                inner join School on ProcessProgress.SchoolID = School.SchoolID
+                join zProcessStatus on ProcessProgress.ProcessStatusID=zProcessStatus.ProcessStatusID
+                join PartyAddress on School.SchoolID=PartyAddress.PartyID
+                join zProvince on PartyAddress.ProvinceID = zProvince.ProvinceID
+                join zDistrict on PartyAddress.DistrictID = zDistrict.DistrictID
+                join zSchoolGenderType on zSchoolGenderType.SchoolGenderTypeID = School.SchoolGenderTypeID
+                join zSchoolLevel on zSchoolLevel.SchoolLevelID = School.SchoolLevelID
+                join( select ProcessProgress.SchoolID, max(StatusDate) as maxdate from ProcessProgress join School on ProcessProgress.SchoolID= School.SchoolID
+                group by ProcessProgress.SchoolID
+                ) temp
+                on temp.maxdate = ProcessProgress.StatusDate");
+
+            List<SchoolListAll> List = _applicationContext.SchoolListAll.FromSqlRaw(query.ToString()).ToList();
+
+            var SchoolName = List.OrderBy(o => o.SchoolName);
+            ViewBag.SchoolN = SchoolName;
+
+            var ProvinceName = _applicationContext.ZProvince.OrderBy(p =>p.ProvNaDar);
+            ViewBag.ProvinceN = ProvinceName;
+
+            var StatusName = _applicationContext.ZProcessStatus.OrderBy(p => p.StatusNameDariPast);
+            ViewBag.StatusN = StatusName;
+
+            var SchoolGenderType = _applicationContext.ZSchoolGenderType.OrderBy(o => o.OrderNumber);
+            ViewBag.SchoolGenderType = SchoolGenderType;
+
+
+            if (allReports.schoolname != null) 
+            {
+                if (allReports.startdate != null && allReports.enddate != null)
+                {
+                    
+                    return View(List.Where(x => x.SchoolName.Contains(allReports.schoolname)|| allReports.schoolname == null && (allReports.startdate >= x.StatusDate && x.StatusDate<=allReports.enddate)).ToList());
+
+                }
+                else
+                {
+                    
+                    return View(List.Where(x => x.SchoolName.Contains(allReports.schoolname) || allReports.schoolname == null).ToList());
+                }
+            }
+            if (allReports.schoollevel != null) 
+            {
+                
+                return View(List.Where(x => x.SchoolLevelNameDari.Contains(allReports.schoollevel) || x.SchoolLevelName.Contains(allReports.schoollevel) || allReports.schoollevel == null).ToList());
+            }
+            if (allReports.provincename != null)
+            {
+
+                return View(List.Where(x => x.PROV_NA_DAR.Contains(allReports.provincename) || x.PROV_NA_ENG.Contains(allReports.provincename) || allReports.provincename == null).ToList());
+            }
+            if (allReports.status != null)
+            {
+
+                return View(List.Where(x => x.StatusNameDariPast.Contains(allReports.status) || x.StatusNameDariPast.Contains(allReports.status) || allReports.status == null).ToList());
+            }
+            if (allReports.schoolgender != null)
+            {
+
+                return View(List.Where(x => x.SchoolGenderTypeName.Contains(allReports.schoolgender) || allReports.schoolgender == null).ToList());
+            }
+            if (allReports.startdate != null && allReports.enddate !=null)
+            {
+                
+                return View(List.Where(x => allReports.startdate >= x.StatusDate && x.StatusDate <= allReports.enddate).ToList());
+            }
+            if(allReports.generalreport != null)
+            {
+                return View(List);
+            }
+
+            
+            return View();
+           
         }
     }
 }

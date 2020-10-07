@@ -12,9 +12,11 @@ namespace OLS.ViewModels
      
         public Guid     SchoolId                { get; set; }
         public string   SchoolLevel           { get; set; }
+        public string   SchoolLevelEng        { get; set; }
         public string   SchoolName              { get; set; }
         public string   SchoolEnglishName       { get; set; }
         public string   SchoolGenderType       { get; set; }
+        public string   SchoolGenderTypeEnglish { get; set; }
         public int?     Nrooms                   { get; set; }
         public int?     DistancefromPuSchool     { get; set; }
         public int?     DistanceFromPrSchool    { get; set; }

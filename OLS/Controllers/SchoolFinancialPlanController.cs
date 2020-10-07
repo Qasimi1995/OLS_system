@@ -74,6 +74,7 @@ namespace OLS.Controllers
             }
             _applicationContext.UpdateRange(Plans);
             _applicationContext.SaveChanges();
+
             return RedirectToAction("Edit");
 
 
@@ -110,6 +111,7 @@ namespace OLS.Controllers
         public IActionResult Create()
         {
             var schoolLevelid = _applicationContext.School.Where(p => p.CreatedBy==_userManager.GetUserId(User)).Select(p => p.SchoolLevelId).FirstOrDefault();
+             var schoolId = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User)).Select(p => p.SchoolId).FirstOrDefault();
 
             var displayPlan = (from schoolLevel in _applicationContext.ZSchoolLevel
                                                   join schooLevelSubLevel in _applicationContext.ZSchoolLevelSubLevel on schoolLevel.SchoolLevelId equals schooLevelSubLevel.SchoolLevelId
@@ -120,6 +122,7 @@ namespace OLS.Controllers
                                                   {
                                                       SubLevelName = schoolSubLevel.SubLevelNameDari + "/" + schoolSubLevel.SubLevelNamePashto + "/" + schoolSubLevel.SubLevelName,
                                                       SubLevelId = schoolSubLevel.SchoolSubLevelId,
+                                                     
 
 
                                                   }).ToList().Select(x => new SchoolFinancialPlanViewModel()
@@ -127,18 +130,24 @@ namespace OLS.Controllers
                                                       
                                                       SchoolSubLevelName = x.SubLevelName,
                                                       SchoolSubLevelId = x.SubLevelId,
-                                                   
+                                                      SchoolId = schoolId,
+
                                                   }).ToList();
 
+            ViewBag.schoolBussinesType = _applicationContext.SchoolFinancialResource.Include(a => a.SchoolBussinessType)
+                .Where(a => a.SchoolId == displayPlan.ElementAt(0).SchoolId).Select(a => a.SchoolBussinessType).FirstOrDefault().BussinessTypeName;
 
-
-
-         
             return View(displayPlan);
         }
+
+
         [HttpPost]
         public IActionResult Create(IList<SchoolFinancialPlanViewModel> schoolFinancialPlans)
         {
+            var schoolBussinesType = _applicationContext.SchoolFinancialResource.Include(a => a.SchoolBussinessType)
+                .Where(a => a.SchoolId == schoolFinancialPlans.ElementAt(0).SchoolId).Select(a => a.SchoolBussinessType).FirstOrDefault();
+
+
             var schoolLevelid = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User)).Select(p => p.SchoolLevelId).FirstOrDefault();
 
             var displayPlan = (from schoolLevel in _applicationContext.ZSchoolLevel
@@ -160,7 +169,20 @@ namespace OLS.Controllers
 
                                }).ToList();
 
-            if (ModelState.IsValid) {
+            if (schoolBussinesType.BussinessTypeName == "For Profit")
+            {
+                if (!ModelState.IsValid)
+                {
+
+                    return RedirectToAction("Edit");
+                }
+                else
+                {
+                    return View(displayPlan);
+                }
+
+            }
+           
 
                 IList<SchoolFinancialPlan> plans = new List<SchoolFinancialPlan>();
 
@@ -187,11 +209,8 @@ namespace OLS.Controllers
                 _applicationContext.SaveChanges();
                 ViewBag.Message = "sucessfully";
                 return RedirectToAction("Edit");
-            }
-            else {
-
-                return View(displayPlan);
-                 }
+           
+                
         }
     }
 }
