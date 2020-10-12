@@ -1441,7 +1441,12 @@
                                                             @ViewBag.UserDocuments[i].DocTypeName
                                                         </td>
                                                         <td>
-                                                            <a href="~/PartyDocuments/@ViewBag.UserDocuments[i].SchoolId/@ViewBag.UserDocuments[i].SchoolId-@ViewBag.UserDocuments[i].DocTypeNameEng@(ext)">@ViewBag.UserDocuments[i].DocTypeNameDari</a>
+                                                            @*<a href="~/PartyDocuments/@ViewBag.UserDocuments[i].SchoolId/@ViewBag.UserDocuments[i].SchoolId-@ViewBag.UserDocuments[i].DocTypeNameEng@(ext)">@ViewBag.UserDocuments[i].DocTypeNameDari</a>*@
+                                                            <a href="~/PartyDocuments/@ViewBag.UserDocuments[i].SchoolId/@ViewBag.UserDocuments[i].SchoolId-@ViewBag.UserDocuments[i].DocTypeNameEng@(ext)"
+                                                               target="popup"
+                                                               onclick="window.open(href='/PartyDocuments/@ViewBag.UserDocuments[i].SchoolId/@ViewBag.UserDocuments[i].SchoolId-@ViewBag.UserDocuments[i].DocTypeNameEng@(ext)' , 'popup','width=600,height=600,scrollbars=no,resizable=no'); return false;">
+                                                                @ViewBag.UserDocuments[i].DocTypeNameDari
+                                                            </a>
                                                         </td>
 
 

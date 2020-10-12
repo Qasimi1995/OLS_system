@@ -99,11 +99,9 @@ namespace OLS.Controllers
                                    Year = schoolFinancialPlan.Year,
                                    AdmissionFee = schoolFinancialPlan.AdmissionFee,
                                }).ToList();
-
+            ViewBag.schoolBussinesType = _applicationContext.SchoolFinancialResource.Include(a => a.SchoolBussinessType).Where(a => a.SchoolId == displayPlan.ElementAt(0).SchoolId).Select(a => a.SchoolBussinessType).FirstOrDefault().BussinessTypeName;
             ViewBag.Tax = String.Format("{0:0.00}", _applicationContext.SchoolFinancialPlan.Where(p => p.SchoolId == schoolId).Select(p => (p.NpaidStudents * p.FeeAmount * p.AdmissionFee) * 0.1m).Sum());
 
-            ViewBag.schoolBussinesType = _applicationContext.SchoolFinancialResource.Include(a => a.SchoolBussinessType)
-                 .Where(a => a.SchoolId == displayPlan.ElementAt(0).SchoolId).Select(a => a.SchoolBussinessType).FirstOrDefault().BussinessTypeName;
 
             return View(displayPlan);
         }
@@ -173,23 +171,12 @@ namespace OLS.Controllers
             {
                 if (!ModelState.IsValid)
                 {
-
-                    return RedirectToAction("Edit");
+                    return RedirectToAction("Create");
                 }
-                else
-                {
-                    return View(displayPlan);
-                }
-
             }
-           
-
-                IList<SchoolFinancialPlan> plans = new List<SchoolFinancialPlan>();
-
+              IList<SchoolFinancialPlan> plans = new List<SchoolFinancialPlan>();
                 for (int i = 0; i < schoolFinancialPlans.Count; i++)
                 {
-
-
                     SchoolFinancialPlan plan = new SchoolFinancialPlan
                     {
                         Id = Guid.NewGuid(),

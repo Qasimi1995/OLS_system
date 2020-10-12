@@ -53,7 +53,13 @@
                                                 @Model[i].DocTypeName
                                             </td>
                                             <td>
-                                                <a href="~/PartyDocuments/@Model[i].SchoolId/@Model[i].SchoolId-@Model[i].DocTypeNameEng@(ext)">@Model[i].DocTypeNameDari</a>
+                                                @*<a href="~/PartyDocuments/@Model[i].SchoolId/@Model[i].SchoolId-@Model[i].DocTypeNameEng@(ext)">@Model[i].DocTypeNameDari</a>*@
+
+                                                <a href="~/PartyDocuments/@Model[i].SchoolId/@Model[i].SchoolId-@Model[i].DocTypeNameEng@(ext)"
+                                                   target="popup"
+                                                   onclick="window.open(href='/PartyDocuments/@Model[i].SchoolId/@Model[i].SchoolId-@Model[i].DocTypeNameEng@(ext)' , 'popup','width=600,height=600,scrollbars=no,resizable=no'); return false;">
+                                                    @Model[i].DocTypeNameDari
+                                                </a>
                                             </td>
                                             <td>
                                                 @Html.TextBoxFor(m => Model[i].Document, new { type = "file", value = @Model[i].DocPath })
