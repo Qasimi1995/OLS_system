@@ -117,6 +117,8 @@ namespace OLS.FunctionsLibrary
                                                     SchoolLevel = zSchoolLevel.SchoolLevelNameDari,
                                                     SchoolName = school.SchoolName,
                                                     SchoolEnglishName = school.SchoolEnglishName,
+                                                    SchoolLatitude=school.SchoolLatitude,
+                                                    SchoolLongitude=school.SchoolLongitude,
                                                     SchoolGenderType = zSchoolGenderType.SchoolGenderTypeNameDari,
                                                     Nrooms = school.Nrooms,
                                                     DistancefromPuSchool = school.DistancefromPuSchool,
@@ -258,22 +260,48 @@ namespace OLS.FunctionsLibrary
         }
         public IList<SchoolFinancialPlanViewModel> GetSchoolFinancialPlan(Guid schoolid)
         {
+            var SF = _applicationContext.SchoolFinancialPlan.Where(x => x.SchoolId == schoolid).ToList();
 
-            List<SchoolFinancialPlanViewModel> TheSchoolFinancialPlan = (from schoolFinancialPlan in _applicationContext.SchoolFinancialPlan
-                                                                         join schoolSubLevel in _applicationContext.ZSchoolSubLevel on schoolFinancialPlan.SchoolSubLevelId equals schoolSubLevel.SchoolSubLevelId
-                                                                         where schoolFinancialPlan.SchoolId == schoolid
-                                                                         orderby schoolSubLevel.OrderNumber
-                                                                         select new SchoolFinancialPlanViewModel
-                                                                         {
-                                                                             Id = schoolFinancialPlan.Id,
-                                                                             SchoolSubLevelName = schoolSubLevel.SubLevelNameDari + "/" + schoolSubLevel.SubLevelName,
-                                                                             FeeAmount = decimal.Parse((string.Format("{0:0.0}", schoolFinancialPlan.FeeAmount))),
-                                                                             NfreeStudents = schoolFinancialPlan.NfreeStudents,
-                                                                             NpaidStudents = schoolFinancialPlan.NpaidStudents,
-                                                                             Year = schoolFinancialPlan.Year,
-                                                                             AdmissionFee = decimal.Parse((string.Format("{0:0.0}", schoolFinancialPlan.AdmissionFee))),
-                                                                         }).ToList();
-            return TheSchoolFinancialPlan;
+            var schoolBussinesType = _applicationContext.SchoolFinancialResource.Include(a => a.SchoolBussinessType)
+               .Where(a => a.SchoolId == schoolid).Select(a => a.SchoolBussinessType).FirstOrDefault();
+
+            if (schoolBussinesType.BussinessTypeName == "For Profit")
+            {
+                List<SchoolFinancialPlanViewModel> TheSchoolFinancialPlan = (from schoolFinancialPlan in _applicationContext.SchoolFinancialPlan
+                                                                             join schoolSubLevel in _applicationContext.ZSchoolSubLevel on schoolFinancialPlan.SchoolSubLevelId equals schoolSubLevel.SchoolSubLevelId
+                                                                             where schoolFinancialPlan.SchoolId == schoolid
+                                                                             orderby schoolSubLevel.OrderNumber
+                                                                             select new SchoolFinancialPlanViewModel
+                                                                             {
+                                                                                 Id = schoolFinancialPlan.Id,
+                                                                                 SchoolSubLevelName = schoolSubLevel.SubLevelNameDari + "/" + schoolSubLevel.SubLevelName,
+                                                                                 FeeAmount = decimal.Parse((string.Format("{0:0.0}", schoolFinancialPlan.FeeAmount))),
+                                                                                 NfreeStudents = schoolFinancialPlan.NfreeStudents,
+                                                                                 NpaidStudents = schoolFinancialPlan.NpaidStudents,
+                                                                                 Year = schoolFinancialPlan.Year,
+                                                                                 AdmissionFee = decimal.Parse((string.Format("{0:0.0}", schoolFinancialPlan.AdmissionFee))),
+                                                                             }).ToList();
+                return TheSchoolFinancialPlan;
+            }
+            else
+            {
+                List<SchoolFinancialPlanViewModel> TheSchoolFinancialPlan = (from schoolFinancialPlan in _applicationContext.SchoolFinancialPlan
+                                                                             join schoolSubLevel in _applicationContext.ZSchoolSubLevel on schoolFinancialPlan.SchoolSubLevelId equals schoolSubLevel.SchoolSubLevelId
+                                                                             where schoolFinancialPlan.SchoolId == schoolid
+                                                                             orderby schoolSubLevel.OrderNumber
+                                                                             select new SchoolFinancialPlanViewModel
+                                                                             {
+                                                                                 Id = schoolFinancialPlan.Id,
+                                                                                 SchoolSubLevelName = schoolSubLevel.SubLevelNameDari + "/" + schoolSubLevel.SubLevelName,
+                                                                       
+                                                                                 FeeAmount =  schoolFinancialPlan.FeeAmount,
+                                                                                 NfreeStudents = schoolFinancialPlan.NfreeStudents,
+                                                                                 NpaidStudents = schoolFinancialPlan.NpaidStudents,
+                                                                                 Year = schoolFinancialPlan.Year,
+                                                                                 AdmissionFee = schoolFinancialPlan.AdmissionFee,
+                                                                             }).ToList();
+                return TheSchoolFinancialPlan;
+            }
         }
         public IList<SchoolStaffExpensesViewModel> GetSchoolStaffExpenses(Guid schoolid)
         {

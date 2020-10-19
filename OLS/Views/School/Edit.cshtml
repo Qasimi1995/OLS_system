@@ -165,15 +165,38 @@
                                 <input asp-for="Nahia" class="form-control" />
                                 <span asp-validation-for="Nahia" class="text-danger"></span>
                                 @*<select asp-for="VillageNahiaId" id="VillageNahia" class="form-control">
-            <option selected value="">--Select--</option>
-            @foreach (var villageNahia in ViewBag.villageNahia)
-            {
-                <option value="@villageNahia.VillageNahiaId"> @villageNahia.VillageNameEng</option>
-            }
-        </select>
-        <span asp-validation-for="VillageNahiaId" class="text-danger"></span>*@
+                                <option selected value="">--Select--</option>
+                                @foreach (var villageNahia in ViewBag.villageNahia)
+                                {
+                                    <option value="@villageNahia.VillageNahiaId"> @villageNahia.VillageNameEng</option>
+                                }
+                            </select>
+                            <span asp-validation-for="VillageNahiaId" class="text-danger"></span>*@
                             </div>
                         </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="SchoolName">
+                                    عرض البلد مکتب /د  ښوونځي عرض البلد/Latitude
+
+                                </label>
+                                <input type="number" asp-for="SchoolLatitude" class="form-control" />
+                                <span asp-validation-for="SchoolLatitude" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="SchoolName">
+                                    طول البلد مکتب  /د ښوونځي طول البلد/longitude
+
+                                </label>
+                                <input type="number" asp-for="SchoolLongitude" class="form-control" />
+                                <span asp-validation-for="SchoolLongitude" class="text-danger"></span>
+                            </div>
+                        </div>
+
                     </div>
 
 

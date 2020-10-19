@@ -231,49 +231,315 @@ on temp.maxdate = ProcessProgress.StatusDate");
 
             if (allReports.schoolname != null) 
             {
-                if (allReports.startdate != null && allReports.enddate != null)
-                {
-                    
-                    return View(List.Where(x => x.SchoolName.Contains(allReports.schoolname)|| allReports.schoolname == null && (allReports.startdate >= x.StatusDate && x.StatusDate<=allReports.enddate)).ToList());
-
-                }
-                else
-                {
-                    
-                    return View(List.Where(x => x.SchoolName.Contains(allReports.schoolname) || allReports.schoolname == null).ToList());
-                }
+                return View(List.Where(x => x.SchoolName.Contains(allReports.schoolname) || allReports.schoolname == null).ToList());
             }
-            if (allReports.schoollevel != null) 
+
+            if (allReports.schoollevel != null)
             {
-                
+                //selecting schoollevel , provincename, status, schoolgender at same time
+                if (allReports.schoollevel != null && allReports.status != null && allReports.provincename != null && allReports.schoolgender != null)
+                {
+                    return View(List.Where(x => x.SchoolLevelNameDari.Contains(allReports.schoollevel) && x.StatusNameDariPast.Contains(allReports.status) && x.PROV_NA_DAR.Contains(allReports.provincename) && x.SchoolGenderTypeName.Contains(allReports.schoolgender)).ToList());
+                }
+                //selecting schoollevel, status and provincename at same time
+                if (allReports.schoollevel != null && allReports.status != null && allReports.provincename != null)
+                {
+                    return View(List.Where(x => x.SchoolLevelNameDari.Contains(allReports.schoollevel) && x.StatusNameDariPast.Contains(allReports.status) && x.PROV_NA_DAR.Contains(allReports.provincename)).ToList());
+                }
+                //selecting schoollevel, status and schoolgender at same time
+                if (allReports.schoollevel != null && allReports.status != null && allReports.schoolgender != null)
+                {
+                    return View(List.Where(x => x.SchoolLevelNameDari.Contains(allReports.schoollevel) && x.StatusNameDariPast.Contains(allReports.status) && x.SchoolGenderTypeName.Contains(allReports.schoolgender)).ToList());
+                }
+                //selecting schoollevel, provincename and schoolgender at same time
+                if (allReports.schoollevel != null && allReports.provincename != null && allReports.schoolgender != null)
+                {
+                    return View(List.Where(x => x.SchoolLevelNameDari.Contains(allReports.schoollevel) && x.PROV_NA_DAR.Contains(allReports.provincename) && x.SchoolGenderTypeName.Contains(allReports.schoolgender)).ToList());
+                }
+
+                //selecting schoollevel, startdate, enddate, provincename, status and schoolgender at the samt time
+                if (allReports.schoollevel != null && allReports.startdate != null && allReports.enddate != null && allReports.provincename != null && allReports.status !=null && allReports.schoolgender != null)
+                {
+                    return View(List.Where(x => x.SchoolLevelNameDari.Contains(allReports.schoollevel) && x.StatusDate >= allReports.startdate && x.StatusDate <= allReports.enddate && x.PROV_NA_DAR.Contains(allReports.provincename) && x.StatusNameDariPast.Contains(allReports.status) && x.SchoolGenderTypeName.Contains(allReports.schoolgender)).ToList());
+                }
+                //selecting schoollevel, startdate, enddate, province and schoolgender  name at same time
+                if (allReports.schoollevel != null && allReports.startdate != null && allReports.enddate != null && allReports.provincename != null && allReports.schoolgender !=null)
+                {
+                    return View(List.Where(x => x.SchoolLevelNameDari.Contains(allReports.schoollevel) && x.StatusDate >= allReports.startdate && x.StatusDate <= allReports.enddate && x.PROV_NA_DAR.Contains(allReports.provincename) && x.SchoolGenderTypeName.Contains(allReports.schoolgender)).ToList());
+                }
+                //selecting schoollevel, startdate, enddate and province name at same time
+                if (allReports.schoollevel != null && allReports.startdate != null && allReports.enddate != null && allReports.provincename != null)
+                {
+                    return View(List.Where(x => x.SchoolLevelNameDari.Contains(allReports.schoollevel) && x.StatusDate >= allReports.startdate && x.StatusDate <= allReports.enddate && x.PROV_NA_DAR.Contains(allReports.provincename)).ToList());
+                }
+                //selecting schoollevel, startdate, enddate and status name at same time
+                if (allReports.schoollevel != null && allReports.startdate != null && allReports.enddate != null && allReports.status != null)
+                {
+                    return View(List.Where(x => x.SchoolLevelNameDari.Contains(allReports.schoollevel) && x.StatusDate >= allReports.startdate && x.StatusDate <= allReports.enddate && x.StatusNameDariPast.Contains(allReports.status)).ToList());
+                }
+                //selecting schoollevel, startdate, enddate and schoolgender name at same time
+                if (allReports.schoollevel != null && allReports.startdate != null && allReports.enddate != null && allReports.schoolgender != null)
+                {
+                    return View(List.Where(x => x.SchoolLevelNameDari.Contains(allReports.schoollevel) && x.StatusDate >= allReports.startdate && x.StatusDate <= allReports.enddate && x.SchoolGenderTypeName.Contains(allReports.schoolgender)).ToList());
+                }
+                //selecting schoollevel, startdate and enddate at same time
+                if (allReports.schoollevel != null && allReports.startdate != null && allReports.enddate != null)
+                {
+                    return View(List.Where(x => x.SchoolLevelNameDari.Contains(allReports.schoollevel) && x.StatusDate >= allReports.startdate && x.StatusDate <= allReports.enddate).ToList());
+                }
+                if (allReports.schoollevel != null && allReports.provincename != null)
+                {
+                    return View(List.Where(x => x.SchoolLevelNameDari.Contains(allReports.schoollevel) && x.PROV_NA_DAR.Contains(allReports.provincename) || x.PROV_NA_ENG.Contains(allReports.provincename)).ToList());
+                }
+                if (allReports.schoollevel != null && allReports.schoolgender != null)
+                {
+                    return View(List.Where(x => x.SchoolLevelNameDari.Contains(allReports.schoollevel) && x.SchoolGenderTypeName.Contains(allReports.schoolgender)).ToList());
+                }
+                if (allReports.schoollevel != null && allReports.status != null)
+                {
+                    return View(List.Where(x => x.SchoolLevelNameDari.Contains(allReports.schoollevel) && x.StatusNameDariPast.Contains(allReports.status)).ToList());
+                }
                 return View(List.Where(x => x.SchoolLevelNameDari.Contains(allReports.schoollevel) || x.SchoolLevelName.Contains(allReports.schoollevel) || allReports.schoollevel == null).ToList());
             }
+
+            //Condtions for province Name
             if (allReports.provincename != null)
             {
+                //selecting schoollevel , provincename, status, schoolgender at same time
+                if (allReports.provincename != null && allReports.status != null && allReports.schoollevel != null && allReports.schoolgender != null)
+                {
+                    return View(List.Where(x => x.SchoolLevelNameDari.Contains(allReports.schoollevel) && x.StatusNameDariPast.Contains(allReports.status) && x.PROV_NA_DAR.Contains(allReports.provincename) && x.SchoolGenderTypeName.Contains(allReports.schoolgender)).ToList());
+                }
+                //selecting schoollevel, status and provincename at same time
+                if (allReports.provincename != null && allReports.status != null && allReports.schoollevel != null)
+                {
+                    return View(List.Where(x => x.SchoolLevelNameDari.Contains(allReports.schoollevel) && x.StatusNameDariPast.Contains(allReports.status) && x.PROV_NA_DAR.Contains(allReports.provincename)).ToList());
+                }
+                //selecting provincename, status and schoolgender at same time
+                if (allReports.provincename != null && allReports.status != null && allReports.schoolgender != null)
+                {
+                    return View(List.Where(x => x.PROV_NA_DAR.Contains(allReports.provincename) && x.StatusNameDariPast.Contains(allReports.status) && x.SchoolGenderTypeName.Contains(allReports.schoolgender)).ToList());
+                }
+                //selecting schoollevel, provincename and schoolgender at same time
+                if (allReports.provincename != null && allReports.schoollevel != null && allReports.schoolgender != null)
+                {
+                    return View(List.Where(x => x.SchoolLevelNameDari.Contains(allReports.schoollevel) && x.PROV_NA_DAR.Contains(allReports.provincename) && x.SchoolGenderTypeName.Contains(allReports.schoolgender)).ToList());
+                }
+                //selecting schoollevel, startdate, enddate, provincename, status and schoolgender at the samt time
+                if (allReports.provincename != null && allReports.startdate != null && allReports.enddate != null && allReports.schoollevel != null && allReports.status != null && allReports.schoolgender != null)
+                {
+                    return View(List.Where(x => x.PROV_NA_DAR.Contains(allReports.provincename) && x.SchoolLevelNameDari.Contains(allReports.schoollevel) && x.StatusDate >= allReports.startdate && x.StatusDate <= allReports.enddate  && x.StatusNameDariPast.Contains(allReports.status) && x.SchoolGenderTypeName.Contains(allReports.schoolgender)).ToList());
+                }
+                //selecting schoollevel, startdate, enddate, province and schoolgender  name at same time
+                if (allReports.schoollevel != null && allReports.startdate != null && allReports.enddate != null && allReports.provincename != null && allReports.schoolgender != null)
+                {
+                    return View(List.Where(x => x.SchoolLevelNameDari.Contains(allReports.schoollevel) && x.StatusDate >= allReports.startdate && x.StatusDate <= allReports.enddate && x.PROV_NA_DAR.Contains(allReports.provincename) && x.SchoolGenderTypeName.Contains(allReports.schoolgender)).ToList());
+                }
+                //selecting schoollevel, startdate, enddate, provincename and status  name at same time
+                if (allReports.schoollevel != null && allReports.startdate != null && allReports.enddate != null && allReports.provincename != null && allReports.status != null)
+                {
+                    return View(List.Where(x => x.SchoolLevelNameDari.Contains(allReports.schoollevel) && x.StatusDate >= allReports.startdate && x.StatusDate <= allReports.enddate && x.PROV_NA_DAR.Contains(allReports.provincename) && x.StatusNameDariPast.Contains(allReports.status)).ToList());
+                }
+                //selecting schoollevel, startdate, enddate and provincename name at same time
+                if (allReports.schoollevel != null && allReports.startdate != null && allReports.enddate != null && allReports.provincename != null)
+                {
+                    return View(List.Where(x => x.SchoolLevelNameDari.Contains(allReports.schoollevel) && x.StatusDate >= allReports.startdate && x.StatusDate <= allReports.enddate && x.PROV_NA_DAR.Contains(allReports.provincename)).ToList());
+                }
+                //selecting provincename, startdate, enddate and status name at same time
+                if (allReports.provincename != null && allReports.startdate != null && allReports.enddate != null && allReports.status != null)
+                {
+                    return View(List.Where(x => x.PROV_NA_DAR.Contains(allReports.provincename) && x.StatusDate >= allReports.startdate && x.StatusDate <= allReports.enddate && x.StatusNameDariPast.Contains(allReports.status)).ToList());
+                }
+                //selecting provincename, startdate, enddate and schoolgender name at same time
+                if (allReports.provincename != null && allReports.startdate != null && allReports.enddate != null && allReports.schoolgender != null)
+                {
+                    return View(List.Where(x => x.PROV_NA_DAR.Contains(allReports.provincename) && x.StatusDate >= allReports.startdate && x.StatusDate <= allReports.enddate && x.SchoolGenderTypeName.Contains(allReports.schoolgender)).ToList());
+                }
+                //selecting provincename, startdate and enddate at same time
+                if (allReports.provincename != null && allReports.startdate != null && allReports.enddate != null)
+                {
+                    return View(List.Where(x => x.PROV_NA_DAR.Contains(allReports.provincename) && x.StatusDate >= allReports.startdate && x.StatusDate <= allReports.enddate).ToList());
+                }
+                //province name and school level
+                if (allReports.schoollevel != null && allReports.provincename != null)
+                {
+                    return View(List.Where(x => x.SchoolLevelNameDari.Contains(allReports.schoollevel) && x.PROV_NA_DAR.Contains(allReports.provincename) || x.PROV_NA_ENG.Contains(allReports.provincename)).ToList());
+                }
+                //provincename and school gender
+                if (allReports.provincename != null && allReports.schoolgender != null)
+                {
+                    return View(List.Where(x => x.PROV_NA_DAR.Contains(allReports.provincename) && x.SchoolGenderTypeName.Contains(allReports.schoolgender)).ToList());
+                }
+                //province name and status
+                if (allReports.provincename != null && allReports.status != null)
+                {
+                    return View(List.Where(x => x.PROV_NA_DAR.Contains(allReports.provincename) && x.StatusNameDariPast.Contains(allReports.status)).ToList());
+                }
 
                 return View(List.Where(x => x.PROV_NA_DAR.Contains(allReports.provincename) || x.PROV_NA_ENG.Contains(allReports.provincename) || allReports.provincename == null).ToList());
             }
+
+            //condtion for status
             if (allReports.status != null)
             {
+                //selecting schoollevel , provincename, status, schoolgender at same time
+                if (allReports.status != null && allReports.schoollevel != null && allReports.provincename != null && allReports.schoolgender != null)
+                {
+                    return View(List.Where(x => x.SchoolLevelNameDari.Contains(allReports.schoollevel) && x.StatusNameDariPast.Contains(allReports.status) && x.PROV_NA_DAR.Contains(allReports.provincename) && x.SchoolGenderTypeName.Contains(allReports.schoolgender)).ToList());
+                }
+                //selecting schoollevel, status and provincename at same time
+                if (allReports.schoollevel != null && allReports.status != null && allReports.provincename != null)
+                {
+                    return View(List.Where(x => x.SchoolLevelNameDari.Contains(allReports.schoollevel) && x.StatusNameDariPast.Contains(allReports.status) && x.PROV_NA_DAR.Contains(allReports.provincename)).ToList());
+                }
+                //selecting schoollevel, status and schoolgender at same time
+                if (allReports.schoollevel != null && allReports.status != null && allReports.schoolgender != null)
+                {
+                    return View(List.Where(x => x.SchoolLevelNameDari.Contains(allReports.schoollevel) && x.StatusNameDariPast.Contains(allReports.status) && x.SchoolGenderTypeName.Contains(allReports.schoolgender)).ToList());
+                }
+                //selecting schoollevel, provincename and schoolgender at same time
+                if (allReports.status != null && allReports.provincename != null && allReports.schoolgender != null)
+                {
+                    return View(List.Where(x => x.StatusNameDariPast.Contains(allReports.status) && x.PROV_NA_DAR.Contains(allReports.provincename) && x.SchoolGenderTypeName.Contains(allReports.schoolgender)).ToList());
+                }
+                //selecting schoollevel, startdate, enddate, provincename, status and schoolgender at the samt time
+                if (allReports.schoollevel != null && allReports.startdate != null && allReports.enddate != null && allReports.provincename != null && allReports.status != null && allReports.schoolgender != null)
+                {
+                    return View(List.Where(x => x.SchoolLevelNameDari.Contains(allReports.schoollevel) && x.StatusDate >= allReports.startdate && x.StatusDate <= allReports.enddate && x.PROV_NA_DAR.Contains(allReports.provincename) && x.StatusNameDariPast.Contains(allReports.status) && x.SchoolGenderTypeName.Contains(allReports.schoolgender)).ToList());
+                }
+                //selecting schoollevel, startdate, enddate, province and schoolgender  name at same time
+                if (allReports.status != null && allReports.startdate != null && allReports.enddate != null && allReports.provincename != null && allReports.schoolgender != null)
+                {
+                    return View(List.Where(x => x.StatusNameDariPast.Contains(allReports.status) && x.StatusDate >= allReports.startdate && x.StatusDate <= allReports.enddate && x.PROV_NA_DAR.Contains(allReports.provincename) && x.SchoolGenderTypeName.Contains(allReports.schoolgender)).ToList());
+                }
+                //selecting schoollevel, startdate, enddate, province and status  name at same time
+                if (allReports.schoollevel != null && allReports.startdate != null && allReports.enddate != null && allReports.status != null && allReports.schoolgender != null)
+                {
+                    return View(List.Where(x => x.SchoolLevelNameDari.Contains(allReports.schoollevel) && x.StatusDate >= allReports.startdate && x.StatusDate <= allReports.enddate && x.SchoolGenderTypeName.Contains(allReports.schoolgender) && x.StatusNameDariPast.Contains(allReports.status)).ToList());
+                }
+                //selecting schoollevel, startdate, enddate, schoolgender and status  name at same time
+                if (allReports.status != null && allReports.startdate != null && allReports.enddate != null && allReports.provincename != null && allReports.schoolgender != null)
+                {
+                    return View(List.Where(x => x.PROV_NA_DAR.Contains(allReports.provincename) && x.StatusDate >= allReports.startdate && x.StatusDate <= allReports.enddate && x.SchoolGenderTypeName.Contains(allReports.schoolgender) && x.StatusNameDariPast.Contains(allReports.status)).ToList());
+                }
+                //selecting schoollevel, startdate, enddate and province name at same time
+                if (allReports.status != null && allReports.startdate != null && allReports.enddate != null && allReports.provincename != null)
+                {
+                    return View(List.Where(x => x.StatusNameDariPast.Contains(allReports.status) && x.StatusDate >= allReports.startdate && x.StatusDate <= allReports.enddate && x.PROV_NA_DAR.Contains(allReports.provincename)).ToList());
+                }
+                //selecting schoollevel, startdate, enddate and status name at same time
+                if (allReports.schoollevel != null && allReports.startdate != null && allReports.enddate != null && allReports.status != null)
+                {
+                    return View(List.Where(x => x.SchoolLevelNameDari.Contains(allReports.schoollevel) && x.StatusDate >= allReports.startdate && x.StatusDate <= allReports.enddate && x.StatusNameDariPast.Contains(allReports.status)).ToList());
+                }
+                //selecting schoollevel, startdate, enddate and schoolgender name at same time
+                if (allReports.status != null && allReports.startdate != null && allReports.enddate != null && allReports.schoolgender != null)
+                {
+                    return View(List.Where(x => x.StatusNameDariPast.Contains(allReports.status) && x.StatusDate >= allReports.startdate && x.StatusDate <= allReports.enddate && x.SchoolGenderTypeName.Contains(allReports.schoolgender)).ToList());
+                }
+                //selecting schoollevel, startdate and enddate at same time
+                if (allReports.status != null && allReports.startdate != null && allReports.enddate != null)
+                {
+                    return View(List.Where(x => x.StatusNameDariPast.Contains(allReports.status) && x.StatusDate >= allReports.startdate && x.StatusDate <= allReports.enddate).ToList());
+                }
 
-                return View(List.Where(x => x.StatusNameDariPast.Contains(allReports.status) || x.StatusNameDariPast.Contains(allReports.status) || allReports.status == null).ToList());
+                if (allReports.status != null && allReports.provincename != null)
+                {
+                    return View(List.Where(x => x.StatusNameDariPast.Contains(allReports.status) && x.PROV_NA_DAR.Contains(allReports.provincename) || x.PROV_NA_ENG.Contains(allReports.provincename)).ToList());
+                }
+                if (allReports.status != null && allReports.schoolgender != null)
+                {
+                    return View(List.Where(x => x.StatusNameDariPast.Contains(allReports.status) && x.SchoolGenderTypeName.Contains(allReports.schoolgender)).ToList());
+                }
+                if (allReports.schoollevel != null && allReports.status != null)
+                {
+                    return View(List.Where(x => x.SchoolLevelNameDari.Contains(allReports.schoollevel) && x.StatusNameDariPast.Contains(allReports.status)).ToList());
+                }
+
+                return View(List.Where(x => x.StatusNameDariPast.Contains(allReports.status) || allReports.status == null).ToList());
             }
             if (allReports.schoolgender != null)
             {
+                //selecting schoollevel , provincename, status, schoolgender at same time
+                if (allReports.schoollevel != null && allReports.status != null && allReports.provincename != null && allReports.schoolgender != null)
+                {
+                    return View(List.Where(x => x.SchoolLevelNameDari.Contains(allReports.schoollevel) && x.StatusNameDariPast.Contains(allReports.status) && x.PROV_NA_DAR.Contains(allReports.provincename) && x.SchoolGenderTypeName.Contains(allReports.schoolgender)).ToList());
+                }
+                //selecting schoollevel, status and provincename at same time
+                if (allReports.schoolgender != null && allReports.status != null && allReports.provincename != null)
+                {
+                    return View(List.Where(x => x.SchoolGenderTypeName.Contains(allReports.schoolgender) && x.StatusNameDariPast.Contains(allReports.status) && x.PROV_NA_DAR.Contains(allReports.provincename)).ToList());
+                }
+                //selecting schoollevel, status and schoolgender at same time
+                if (allReports.schoollevel != null && allReports.status != null && allReports.schoolgender != null)
+                {
+                    return View(List.Where(x => x.SchoolLevelNameDari.Contains(allReports.schoollevel) && x.StatusNameDariPast.Contains(allReports.status) && x.SchoolGenderTypeName.Contains(allReports.schoolgender)).ToList());
+                }
+                //selecting schoollevel, provincename and schoolgender at same time
+                if (allReports.schoollevel != null && allReports.provincename != null && allReports.schoolgender != null)
+                {
+                    return View(List.Where(x => x.SchoolLevelNameDari.Contains(allReports.schoollevel) && x.PROV_NA_DAR.Contains(allReports.provincename) && x.SchoolGenderTypeName.Contains(allReports.schoolgender)).ToList());
+                }
+                //selecting schoollevel, startdate, enddate, provincename, status and schoolgender at the samt time
+                if (allReports.schoollevel != null && allReports.startdate != null && allReports.enddate != null && allReports.provincename != null && allReports.status != null && allReports.schoolgender != null)
+                {
+                    return View(List.Where(x => x.SchoolLevelNameDari.Contains(allReports.schoollevel) && x.StatusDate >= allReports.startdate && x.StatusDate <= allReports.enddate && x.PROV_NA_DAR.Contains(allReports.provincename) && x.StatusNameDariPast.Contains(allReports.status) && x.SchoolGenderTypeName.Contains(allReports.schoolgender)).ToList());
+                }
+                //selecting schoollevel, startdate, enddate, province and schoolgender  name at same time
+                if (allReports.schoollevel != null && allReports.startdate != null && allReports.enddate != null && allReports.provincename != null && allReports.schoolgender != null)
+                {
+                    return View(List.Where(x => x.SchoolLevelNameDari.Contains(allReports.schoollevel) && x.StatusDate >= allReports.startdate && x.StatusDate <= allReports.enddate && x.PROV_NA_DAR.Contains(allReports.provincename) && x.SchoolGenderTypeName.Contains(allReports.schoolgender)).ToList());
+                }
+                //selecting schoollevel, startdate, enddate, province and status  name at same time
+                if (allReports.schoollevel != null && allReports.startdate != null && allReports.enddate != null && allReports.status != null && allReports.schoolgender != null)
+                {
+                    return View(List.Where(x => x.SchoolLevelNameDari.Contains(allReports.schoollevel) && x.StatusDate >= allReports.startdate && x.StatusDate <= allReports.enddate && x.SchoolGenderTypeName.Contains(allReports.schoolgender) && x.StatusNameDariPast.Contains(allReports.status)).ToList());
+                }
+                //selecting schoollevel, startdate, enddate and province name at same time
+                if (allReports.schoolgender != null && allReports.startdate != null && allReports.enddate != null && allReports.provincename != null)
+                {
+                    return View(List.Where(x => x.SchoolGenderTypeName.Contains(allReports.schoolgender) && x.StatusDate >= allReports.startdate && x.StatusDate <= allReports.enddate && x.PROV_NA_DAR.Contains(allReports.provincename)).ToList());
+                }
+                //selecting schoollevel, startdate, enddate and status name at same time
+                if (allReports.schoolgender != null && allReports.startdate != null && allReports.enddate != null && allReports.status != null)
+                {
+                    return View(List.Where(x => x.SchoolGenderTypeName.Contains(allReports.schoolgender) && x.StatusDate >= allReports.startdate && x.StatusDate <= allReports.enddate && x.StatusNameDariPast.Contains(allReports.status)).ToList());
+                }
+                //selecting schoollevel, startdate, enddate and schoolgender name at same time
+                if (allReports.schoollevel != null && allReports.startdate != null && allReports.enddate != null && allReports.schoolgender != null)
+                {
+                    return View(List.Where(x => x.SchoolLevelNameDari.Contains(allReports.schoollevel) && x.StatusDate >= allReports.startdate && x.StatusDate <= allReports.enddate && x.SchoolGenderTypeName.Contains(allReports.schoolgender)).ToList());
+                }
+                //selecting schoollevel, startdate and enddate at same time
+                if (allReports.schoolgender != null && allReports.startdate != null && allReports.enddate != null)
+                {
+                    return View(List.Where(x => x.SchoolGenderTypeName.Contains(allReports.schoolgender) && x.StatusDate >= allReports.startdate && x.StatusDate <= allReports.enddate).ToList());
+                }
+                if (allReports.schoolgender != null && allReports.provincename != null)
+                {
+                    return View(List.Where(x => x.SchoolGenderTypeName.Contains(allReports.schoolgender) && x.PROV_NA_DAR.Contains(allReports.provincename) || x.PROV_NA_ENG.Contains(allReports.provincename)).ToList());
+                }
+                if (allReports.schoollevel != null && allReports.schoolgender != null)
+                {
+                    return View(List.Where(x => x.SchoolLevelNameDari.Contains(allReports.schoollevel) && x.SchoolGenderTypeName.Contains(allReports.schoolgender)).ToList());
+                }
+                if (allReports.schoolgender != null && allReports.status != null)
+                {
+                    return View(List.Where(x => x.SchoolGenderTypeName.Contains(allReports.schoolgender) && x.StatusNameDariPast.Contains(allReports.status)).ToList());
+                }
 
                 return View(List.Where(x => x.SchoolGenderTypeName.Contains(allReports.schoolgender) || allReports.schoolgender == null).ToList());
-            }
-            if (allReports.startdate != null && allReports.enddate !=null)
-            {
-                
-                return View(List.Where(x => allReports.startdate >= x.StatusDate && x.StatusDate <= allReports.enddate).ToList());
             }
             if(allReports.generalreport != null)
             {
                 return View(List);
             }
 
-            
+            if (allReports.startdate != null && allReports.enddate != null)
+            {
+                return View(List.Where(x => x.StatusDate >= allReports.startdate && x.StatusDate <= allReports.enddate).ToList());
+
+            }
             return View();
            
         }

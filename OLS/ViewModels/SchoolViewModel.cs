@@ -18,6 +18,11 @@ namespace OLS.ViewModels
         public string   SchoolName              { get; set; }
         [Required(ErrorMessage = "*")]
         public string SchoolEnglishName { get; set; }
+        [Required(ErrorMessage = "*")]
+        public double? SchoolLatitude { get; set; }
+        [Required(ErrorMessage = "*")]
+        public double? SchoolLongitude { get; set; }
+
 
         [Required(ErrorMessage = "*")]
         public Guid?    SchoolGenderTypeId       { get; set; }

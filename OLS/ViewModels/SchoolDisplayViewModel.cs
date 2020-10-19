@@ -15,6 +15,9 @@ namespace OLS.ViewModels
         public string   SchoolLevelEng        { get; set; }
         public string   SchoolName              { get; set; }
         public string   SchoolEnglishName       { get; set; }
+        public double? SchoolLongitude { get; set; }
+        public double? SchoolLatitude { get; set; }
+
         public string   SchoolGenderType       { get; set; }
         public string   SchoolGenderTypeEnglish { get; set; }
         public int?     Nrooms                   { get; set; }

@@ -21,6 +21,9 @@ namespace OLS.Models
         public Guid? SchoolLevelId { get; set; }
         public string SchoolName { get; set; }
         public string SchoolEnglishName { get; set; }
+        public double? SchoolLatitude { get; set; }
+        public double? SchoolLongitude { get; set; }
+
         public byte? IsAcceptingCommitment { get; set; }
         public Guid? SchoolGenderTypeId { get; set; }
         public int? Nrooms { get; set; }
