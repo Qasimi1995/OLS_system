@@ -405,7 +405,7 @@ namespace OLS.Controllers
                     _applicationContext.Update(PermenantAddress);
                     _applicationContext.Update(CurrentAddress);
                     await _applicationContext.SaveChangesAsync();
-                    ViewBag.Message = "معلومات ثبت گردید";
+                    ViewBag.Message = "معلومات موفقانه تصحیح گردید / معلومات په بریالیتوب سره اصلاح شول / Record Successfully updated ";
                     HttpContext.Session.SetString("FounderID", principle.PersonId.ToString());
                     return View(principle);
 

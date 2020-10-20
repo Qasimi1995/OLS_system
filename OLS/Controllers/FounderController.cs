@@ -413,7 +413,7 @@ namespace OLS.Controllers
                     _applicationContext.Update(PermenantAddress);
                     _applicationContext.Update(CurrentAddress);
                     await _applicationContext.SaveChangesAsync();
-                    ViewBag.Message = "معلومات تصحیح گردید / د معلومات تصحیح شو / record updated ";
+                    ViewBag.Message = "معلومات موفقانه تصحیح گردید / معلومات په بریالیتوب سره اصلاح شول / Record Successfully updated ";
                     HttpContext.Session.SetString("FounderID", founderModel.PersonId.ToString());
                     return View(founderModel);
 
