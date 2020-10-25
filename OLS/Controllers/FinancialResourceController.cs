@@ -82,7 +82,7 @@ namespace OLS.Controllers
 
                 _applicationContext.Update(financialResource);
                 _applicationContext.SaveChanges();
-                ViewBag.Message = "معلومات ثبت گردید";
+                ViewBag.Message = "معلومات ثبت گردید / معلومات په بریالیتوب سره ثبت شوي/ record Saved Successfuly";
                 return View(financialResource);
              
             }

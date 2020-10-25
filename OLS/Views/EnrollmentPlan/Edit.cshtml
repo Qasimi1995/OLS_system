@@ -58,7 +58,7 @@
 
                                                 <td>
 
-                                                    @Html.TextBoxFor(m => Model[i].NumberOfStudents, new { @value = Model[i].NumberOfStudents, @rowid = Model[i].Id })
+                                                    @Html.TextBoxFor(m => Model[i].NumberOfStudents, new { @value = Model[i].NumberOfStudents, @rowid = Model[i].Id, type = "number", min = "0", step = "0.01" })
                                                     @Html.ValidationMessageFor(m => Model[i].NumberOfStudents, null, new { @class = "text-danger" })
                                                 </td>
                                             }
@@ -70,7 +70,7 @@
 
                                                     <td>
 
-                                                        @Html.TextBoxFor(m => Model[i + 1].NumberOfStudents, new { @value = Model[i + 1].NumberOfStudents, @rowid = Model[i].Id })
+                                                        @Html.TextBoxFor(m => Model[i + 1].NumberOfStudents, new { @value = Model[i + 1].NumberOfStudents, @rowid = Model[i].Id, type = "number", min = "0", step = "0.01" })
                                                         @Html.ValidationMessageFor(m => Model[i + 1].NumberOfStudents, null, new { @class = "text-danger" })
                                                     </td>
                                                 }
