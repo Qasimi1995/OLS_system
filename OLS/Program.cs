@@ -39,7 +39,8 @@ namespace OLS
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    //When you want to deploy you system on IIS server use UseIISIntegration() 
+                    webBuilder.UseIISIntegration().UseStartup<Startup>();
                 })
                 .ConfigureLogging(logging =>
                 {

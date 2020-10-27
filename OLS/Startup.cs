@@ -74,8 +74,10 @@ namespace OLS
             services.AddDistributedMemoryCache();
             services.AddSession();
             services.AddTransient(typeof(Functions));
+            
 
-           
+
+
 
         }
 
