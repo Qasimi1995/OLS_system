@@ -6,11 +6,12 @@
 
 
 
-    @if (ViewBag.Message != null)
-    {
-        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-        <script src="~/Admin/sweetalert/sweetalert.min.js"></script>
-        <script type="text/javascript">
+@if (ViewBag.Message != null)
+{
+    @*<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>*@
+    <script src="~/sweetalert/sweetalert.min.js"></script>
+    <script src="~/Admin/sweetalert/sweetalert.min.js"></script>
+    <script type="text/javascript">
 
                                                     swal({
                                                         title: "@ViewBag.Message",
@@ -23,7 +24,7 @@
                                                             window.location.href = "/School/UploadDocumentsEdit";
                                                         }
                                                     });
-        </script>
+    </script>
 
-    }
+}
 

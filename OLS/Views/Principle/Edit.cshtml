@@ -28,7 +28,7 @@
 
                         // <div><span class="text-info">@ViewBag.Message</span></div>
 
-                        <div class="alert alert-success alert-dismissible fade show">
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -358,6 +358,14 @@
     </div>
 </div>
 <script>
+    //Automatically close alert
+    window.setTimeout(function () {
+        $(".alert").fadeTo(500, 0).slideUp(500, function () {
+            $(this).remove();
+        });
+    }, 5000);
+
+
     function Next() {
         var sid = '@schoolid';
         if (sid.length != 0) {

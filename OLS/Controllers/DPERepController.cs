@@ -43,8 +43,6 @@ namespace OLS.Controllers
                 SubProcesNameDari= p.SubProcesNameDari + "/" + p.SubProcesName,
                 OrderNumber=p.OrderNumber 
             
-            
-            
             }).ToList();
 
 
