@@ -43,6 +43,8 @@ namespace OLS.Controllers
                 SubProcesNameDari= p.SubProcesNameDari + "/" + p.SubProcesName,
                 OrderNumber=p.OrderNumber 
             
+            
+            
             }).ToList();
 
 
@@ -71,7 +73,6 @@ namespace OLS.Controllers
             var ProvinceId = _applicationContext.Users.Where(p => p.Id == _userManager.GetUserId(User)).Select(p => p.ProvinceId).FirstOrDefault();
             var subprocess = _applicationContext.SubProcess.Where(p => p.RoleId == roleid).Select(p => new { p.SubProcessId, p.OrderNumber }).FirstOrDefault();
             DateTime dt1 = DateTime.Now;
-            //for PED roleid
             if (roleid == "DB70DAE4-9422-4A2F-A14B-7552702F026B")
             {
                 if (OrderNumber == subprocess.OrderNumber - 1 || OrderNumber == 5)
@@ -153,10 +154,10 @@ namespace OLS.Controllers
             }
             else
             {
-                //For New application in all user except PED
+
                 if (OrderNumber == subprocess.OrderNumber - 1 || OrderNumber == 5)
                 {
-                    
+
                     CompletionFlag = 0;
 
                     schoolList = (from school in _applicationContext.School
@@ -195,7 +196,7 @@ namespace OLS.Controllers
                 }
                 else
                 {
-                    //for approved, rejected
+
                     schoolList = (from school in _applicationContext.School
                                   join partyAddress in _applicationContext.PartyAddress on school.SchoolId equals partyAddress.PartyId
                                   join zProvince in _applicationContext.ZProvince on partyAddress.ProvinceId equals zProvince.ProvinceId
@@ -358,7 +359,6 @@ namespace OLS.Controllers
                 processprogress.UpdatedBy = _userManager.GetUserId(User);
                 processprogress.UpdatedAt = DateTime.Now;
 
-                //Report submittion process by provincial user
                 if (processProgressViewModel.ProcessStatusId == Guid.Parse("D279A58A-1FC1-4A01-A9A3-38EC746ABE62"))
                 {
                     string FilePath = "";
@@ -380,7 +380,7 @@ namespace OLS.Controllers
                         }
                        
                         Report = "/PED/" + Pid.ToString() + "/" + fileName;
-                    }//Report documents which get uploaded by provincial user
+                    }
                     PartyDocument partyDocument = new PartyDocument
                     {
                         PartyDocumentId = Guid.NewGuid(),

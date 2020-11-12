@@ -12,6 +12,7 @@ using System.IO;
 using OLS.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace OLS.Controllers
 {
@@ -42,11 +43,78 @@ namespace OLS.Controllers
         public IActionResult Navigate()
         {
             var UserId = _userManager.GetUserId(User);
+            var id = _applicationContext.Process.Where(p => p.ProcessId == Guid.Parse("88A9020D-D188-417C-9B11-7FDA9613B197")).Select(p => p.ProcessId).FirstOrDefault();
+            var schoolid = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User)).Select(p => p.SchoolId).FirstOrDefault();
+
+            var displayPlan = (from process in _applicationContext.Process
+                               join subProcess in _applicationContext.SubProcess on process.ProcessId equals subProcess.ProcessId into processgroup
+                               from a in processgroup.DefaultIfEmpty()
+                               join processProgress in _applicationContext.ProcessProgress on a.SubProcessId equals processProgress.SubProcessId into processProgressGroup
+                               from b in processProgressGroup.DefaultIfEmpty()
+                               join school in _applicationContext.School on b.SchoolId equals school.SchoolId into schoolGroup
+                               from c in schoolGroup.DefaultIfEmpty()
+                               join zProcessStatus in _applicationContext.ZProcessStatus on b.ProcessStatusId equals zProcessStatus.ProcessStatusId into zProcessStatusGroup
+                               from d in zProcessStatusGroup.DefaultIfEmpty()
+                               join subProcessStatus in _applicationContext.SubProcessStatus on new { a = a.SubProcessId.ToString(), b = b.ProcessStatusId.ToString() } equals new { a = subProcessStatus.SubProcessId.ToString(), b = subProcessStatus.ProcessStatusId.ToString() } into subProcessStatusGroup
+                               from e in subProcessStatusGroup.DefaultIfEmpty()
+                               where process.ProcessId == id && c.SchoolId == schoolid
+
+                               select new SubProcessViewModel
+                               {
+                                   SubProcessId = a.SubProcessId,
+                                   ProcessId = process.ProcessId,
+                                   ProcessName = process.ProcessName,
+                                   SubProcesName = a.SubProcesName,
+                                   SubProcesNameDari = a.SubProcesNameDari,
+                                   OrderNumber = a.OrderNumber,
+                                   TimelineInDays = a.TimelineInDays,
+                                   StatusNamePast = d.StatusNamePast,
+                                   StatusNameDariPast = d.StatusNameDariPast,
+                                   CompletionFlag = e.CompletionFlag,
+                                   Remarks = b.Remarks,
+                                   StatusDate = b.StatusDate,
+
+                               }).OrderBy(p => p.OrderNumber).ToList();
+
 
             var founder = _applicationContext.Person.Where(p => p.CreatedBy == UserId && p.PartyRoleTypeId == Guid.Parse("CAE7466D-198A-423B-903F-BB64D58C0236")).FirstOrDefault();
             if (founder != null)
             {
-                return RedirectToAction("Edit", new { founderid = founder.PersonId });
+                for (int i = 0; i < displayPlan.Count; i++)
+                { 
+                    if(displayPlan[i].OrderNumber == 1 && displayPlan[i].CompletionFlag == 0)
+                    {
+                       
+                        return RedirectToAction("Edit", new { founderid = founder.PersonId });
+                    }
+                    else if (displayPlan[i].OrderNumber == 2 && displayPlan[i].CompletionFlag == 0)
+                    {
+
+                        return RedirectToAction("Edit", new { founderid = founder.PersonId });
+                    }
+                    else if (displayPlan[i].OrderNumber == 3 && displayPlan[i].CompletionFlag == 0)
+                    {
+
+                        return RedirectToAction("Edit", new { founderid = founder.PersonId });
+                    }
+                    else if (displayPlan[i].OrderNumber == 4 && displayPlan[i].CompletionFlag == 0)
+                    {
+
+                        return RedirectToAction("Edit", new { founderid = founder.PersonId });
+                    }
+                    else if (displayPlan[i].OrderNumber == 5 && displayPlan[i].CompletionFlag == 0)
+                    {
+
+                        return RedirectToAction("Edit", new { founderid = founder.PersonId });
+                    }
+                    else if (displayPlan[i].OrderNumber == 4 && displayPlan[i].CompletionFlag == 0)
+                    {
+
+                        return RedirectToAction("Edit", new { founderid = founder.PersonId });
+                    }
+                }
+                return RedirectToAction("NoEdit", new { founderid = founder.PersonId });
+
             }
 
 
@@ -232,6 +300,84 @@ namespace OLS.Controllers
             return View();
 
         }
+
+        [Route("NoEdit/{founderid}")]
+        [HttpGet]
+        public IActionResult NoEdit(Guid founderid)
+        {
+            try
+            {
+                if (founderid != null)
+                {
+                    Guid DropPID = Guid.NewGuid();
+
+                    var EducationLevel = _applicationContext.ZEducationLevel.OrderBy(o => o.OrderNumber);
+                    ViewBag.EducationLevel = EducationLevel;
+
+                    var GenderType = _applicationContext.ZGenderType.OrderBy(o => o.OrderNumber);
+                    ViewBag.GenderType = GenderType;
+                    var foundedetails = _applicationContext.Person.Find(founderid);
+                    var founderPhone = _applicationContext.ContactDetails.Where(p => p.PartyId == founderid && p.ContactMechanismTypeId == Guid.Parse("B1B3DB1A-A3FB-43B9-839F-47A38C7F93CB")).FirstOrDefault();
+                    var founderEmail = _applicationContext.ContactDetails.Where(p => p.PartyId == founderid && p.ContactMechanismTypeId == Guid.Parse("1BE17772-A613-49A5-A67B-C1538DCBF647")).FirstOrDefault();
+                    var founderEducation = _applicationContext.PersonEducation.Where(p => p.PersonId == founderid).FirstOrDefault();
+                    var founderPerAddress = _applicationContext.PartyAddress.Where(p => p.PartyId == founderid && p.AddressTypeId == Guid.Parse("EDDCDD48-67D0-4BAE-B96E-B7ACB5C87DF7")).FirstOrDefault();
+                    var founderPreAddress = _applicationContext.PartyAddress.Where(p => p.PartyId == founderid && p.AddressTypeId == Guid.Parse("28048D3E-BF94-4068-9735-6E798BA9FD52")).FirstOrDefault();
+
+                    var Perprovince = _applicationContext.ZProvince;
+                    ViewBag.Perprovince = Perprovince;
+                    var Perdistrict = _applicationContext.ZDistrict.Where(d => d.ProvinceId == founderPerAddress.ProvinceId);
+                    ViewBag.Perdistrict = Perdistrict;
+                    // var PervillageNahia = _applicationContext.ZVillageNahia.Where(v => v.DistrictId == founderPerAddress.DistrictId);
+                    //ViewBag.PervillageNahia = PervillageNahia;
+
+                    var Preprovince = _applicationContext.ZProvince;
+                    ViewBag.Preprovince = Preprovince;
+                    var Predistrict = _applicationContext.ZDistrict.Where(d => d.ProvinceId == founderPreAddress.ProvinceId);
+                    ViewBag.Predistrict = Predistrict;
+                    // var PrevillageNahia = _applicationContext.ZVillageNahia.Where(v => v.DistrictId == founderPreAddress.DistrictId);
+                    // ViewBag.PrevillageNahia = PrevillageNahia;
+
+                    FounderEditViewModel founder = new FounderEditViewModel
+                    {
+                        PersonId = foundedetails.PersonId,
+                        Name = foundedetails.Name,
+                        LastName = foundedetails.LastName,
+                        FatherName = foundedetails.FatherName,
+                        GrandFatherName = foundedetails.GrandFatherName,
+                        Nidnumber = foundedetails.Nidnumber,
+                        Age = foundedetails.Age,
+                        GenderTypeId = foundedetails.GenderTypeId,
+                        PhonNumber = founderPhone.Value,
+                        Email = founderEmail.Value,
+                        EducationLevelID = founderEducation.EducationLevelId,
+                        PerProvinceId = founderPerAddress.ProvinceId,
+                        PerDistrictId = founderPerAddress.DistrictId,
+                        PerNahia = founderPerAddress.Nahia,
+                        PreProvinceId = founderPreAddress.ProvinceId,
+                        PreDistrictId = founderPreAddress.DistrictId,
+                        PreNahia = founderPreAddress.Nahia,
+                        ExistingPhotoPath = foundedetails.Photo,
+                        SchoolId = foundedetails.SchoolId
+                    };
+                    HttpContext.Session.SetString("FounderID", foundedetails.PersonId.ToString());
+                    return View(founder);
+                }
+                else
+                {
+                    return View("index");
+
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+
+                return View("Index");
+            }
+
+        }
+
 
         [Route("Edit/{founderid}")]
         [HttpGet]

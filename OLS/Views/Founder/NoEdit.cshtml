@@ -3,7 +3,7 @@
 
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "NoEdit";
     var photoPath = Model.ExistingPhotoPath;
     var schoolid = Model.SchoolId;
 }
@@ -19,7 +19,7 @@
 
                 <div style="text-align:center;background-color: steelblue;">
                     <h3 style="padding:5px;color: white;">معلومات موسس/د مؤسس پېژندنه/Founder Information</h3>
-                 
+
                 </div>
                 <form asp-action="Edit" method="post" enctype="multipart/form-data">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -30,8 +30,8 @@
 
                     @if (ViewBag.Message != null)
                     {
-                        
-                       // <div><span class="text-info">@ViewBag.Message</span></div>
+
+                        // <div><span class="text-info">@ViewBag.Message</span></div>
 
                         <div class="alert alert-success alert-dismissible fade show">
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -43,12 +43,12 @@
                     }
 
                     <div style="text-align:left;margin-top: 5px;">
-                        <img id='img-upload' style="width:120px; height:150px;" src="@photoPath" />
+                        <img id='img-upload' style="width:120px; height:150px;" src="@photoPath"  />
 
                         <div class="input-group">
                             <span class="btn btn-default btn-file">
                                 Change Photo
-                                <input asp-for="Photo" class="form-control" id="imgInp">
+                                <input asp-for="Photo" class="form-control" id="imgInp" disabled>
 
 
                             </span>
@@ -70,17 +70,17 @@
                                     اسم /نوم/Name
 
                                 </label>
-                                <input asp-for="Name" class="form-control" />
+                                <input asp-for="Name" class="form-control" disabled />
                                 <span asp-validation-for="Name" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="LastName">
-                                    تخلص /تخلص/Last Name 
+                                    تخلص /تخلص/Last Name
 
                                 </label>
-                                <input asp-for="LastName" class="form-control" />
+                                <input asp-for="LastName" class="form-control" disabled />
                                 <span asp-validation-for="LastName" class="text-danger"></span>
                             </div>
                         </div>
@@ -92,7 +92,7 @@
                                     ولد /د پلار نوم/Father Name
 
                                 </label>
-                                <input asp-for="FatherName" class="form-control" />
+                                <input asp-for="FatherName" class="form-control" disabled />
                                 <span asp-validation-for="FatherName" class="text-danger"></span>
                             </div>
                         </div>
@@ -103,7 +103,7 @@
                                     ولدیت/د نیکه نوم/Grand Father Name
 
                                 </label>
-                                <input asp-for="GrandFatherName" class="form-control" />
+                                <input asp-for="GrandFatherName" class="form-control" disabled />
                                 <span asp-validation-for="GrandFatherName" class="text-danger"></span>
                             </div>
                         </div>
@@ -118,7 +118,7 @@
                                     ایمیل/ایمیل/Email
 
                                 </label>
-                                <input  asp-for="Email" class="form-control" />
+                                <input asp-for="Email" class="form-control" disabled />
                                 <span asp-validation-for="Email" class="text-danger"></span>
                             </div>
                         </div>
@@ -128,7 +128,7 @@
                                     شماره تماس/د اړیکې شمېره/Phone No
 
                                 </label>
-                                <input type="number" asp-for="PhonNumber" class="form-control" />
+                                <input type="number" asp-for="PhonNumber" class="form-control" disabled />
                                 <span asp-validation-for="PhonNumber" class="text-danger"></span>
                             </div>
                         </div>
@@ -142,7 +142,7 @@
                                     نمبر تذکره /د تذکرې شمېره/NID Number
 
                                 </label>
-                                <input type="number" asp-for="Nidnumber" class="form-control" />
+                                <input type="number" asp-for="Nidnumber" class="form-control" disabled />
                                 <span asp-validation-for="Nidnumber" class="text-danger"></span>
                             </div>
                         </div>
@@ -152,7 +152,7 @@
                                     درجه تحصیل/د زده کړو درجه/Education Level:
 
                                 </label>
-                                <select asp-for="EducationLevelID" class="form-control">
+                                <select asp-for="EducationLevelID" class="form-control" disabled>
                                     <option selected value="">--Select Education--</option>
                                     @foreach (var EduLevel in ViewBag.EducationLevel)
                                     {
@@ -172,7 +172,7 @@
                                     سن/عمر/Age
 
                                 </label>
-                                <input asp-for="Age" class="form-control" />
+                                <input asp-for="Age" class="form-control" disabled />
                                 <span asp-validation-for="Age" class="text-danger"></span>
                             </div>
                         </div>
@@ -182,7 +182,7 @@
                                     جنسیت/جنسیت/Gender
 
                                 </label>
-                                <select asp-for="GenderTypeId" class="form-control">
+                                <select asp-for="GenderTypeId" class="form-control" disabled>
                                     <option selected value="">--Select Gender--</option>
                                     @foreach (var GenderType in ViewBag.GenderType)
                                     {
@@ -205,7 +205,7 @@
                                     ولایت/ولایت/Province
 
                                 </label>
-                                <select asp-for="PerProvinceId" id="PerProvince" class="form-control">
+                                <select asp-for="PerProvinceId" id="PerProvince" class="form-control" disabled>
                                     <option selected value="">--Select--</option>
                                     @foreach (var Perprovince in ViewBag.Perprovince)
                                     {
@@ -222,7 +222,7 @@
                                     ولسوالی/ولسوالۍ/District
 
                                 </label>
-                                <select asp-for="PerDistrictId" id="PerDistrict" class="form-control">
+                                <select asp-for="PerDistrictId" id="PerDistrict" class="form-control" disabled>
                                     <option selected value="">--Select--</option>
                                     @foreach (var Perdistrict in ViewBag.Perdistrict)
                                     {
@@ -240,12 +240,12 @@
 
                                 </label>
 
-                                <input asp-for="PerNahia" class="form-control" />
+                                <input asp-for="PerNahia" class="form-control" disabled />
                                 <span asp-validation-for="PerNahia" class="text-danger"></span>
                                 @*<select asp-for="PreVillageNahiaId" id="PreVillageNahia" class="form-control" style="height: 3rem">
-                <option selected value="">--Select--</option>
-            </select>
-            <span asp-validation-for="PreVillageNahiaId" class="text-danger"></span>*@
+                                        <option selected value="">--Select--</option>
+                                    </select>
+                                    <span asp-validation-for="PreVillageNahiaId" class="text-danger"></span>*@
                             </div>
                         </div>
                     </div>
@@ -260,7 +260,7 @@
                                     ولایت/ولایت/Province
 
                                 </label>
-                                <select asp-for="PreProvinceId" id="PreProvince" class="form-control">
+                                <select asp-for="PreProvinceId" id="PreProvince" class="form-control" disabled>
                                     <option selected value="">--Select--</option>
                                     @foreach (var Preprovince in ViewBag.Preprovince)
                                     {
@@ -276,7 +276,7 @@
                                     ولسوالی/ولسوالۍ/District
 
                                 </label>
-                                <select asp-for="PreDistrictId" id="PreDistrict" class="form-control">
+                                <select asp-for="PreDistrictId" id="PreDistrict" class="form-control" disabled>
                                     <option selected value="">--Select--</option>
                                     @foreach (var Predistrict in ViewBag.Predistrict)
                                     {
@@ -294,16 +294,16 @@
 
                                 </label>
 
-                                <input asp-for="PreNahia" class="form-control" />
+                                <input asp-for="PreNahia" class="form-control" disabled />
                                 <span asp-validation-for="PreNahia" class="text-danger"></span>
                                 @*<select asp-for="PreVillageNahiaId" id="PreVillageNahia" class="form-control" style="height: 3rem">
-                <option selected value="">--Select--</option>
-            </select>
-            <span asp-validation-for="PreVillageNahiaId" class="text-danger"></span>*@
+                                        <option selected value="">--Select--</option>
+                                    </select>
+                                    <span asp-validation-for="PreVillageNahiaId" class="text-danger"></span>*@
                             </div>
                         </div>
                     </div>
-                    <input type="submit" value="ثبت/ثبت/Save" class="btn btn-outline-success" />
+                   @*k*@ <input type="submit" value="ثبت/ثبت/Save" class="btn btn-outline-success" disabled/>
 
 
                     <div style="float:left;">
@@ -319,7 +319,7 @@
     function Next() {
         var sid = '@schoolid';
         if (sid.length != 0) {
-            window.location.href = '@Url.Action("Edit","School",new {schoolId=schoolid })';
+            window.location.href = '@Url.Action("NoEdit","School",new {schoolId=schoolid })';
         } else {
 
         window.location.href = '@Url.Action("Create","School")';
@@ -470,6 +470,7 @@
         });
 </script>
 <style>
+
     .btn-file {
         position: relative;
         overflow: hidden;

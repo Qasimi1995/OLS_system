@@ -1,14 +1,15 @@
 ﻿@model OLS.ViewModels.SchoolViewModel
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "NoEdit";
 }
 
 <div class="row">
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                @await Html.PartialAsync("../steps");
+                @await Html.PartialAsync("../steps")
+
                 <div style="text-align:center;background-color: steelblue;">
                     <h3 style="padding:5px;color: white;">معلومات مکتب/د ښوونځي په اړه مالومات/School Information</h3>
                 </div>
@@ -24,50 +25,50 @@
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
-                            @ViewBag.Message 
+                            @ViewBag.Message
                         </div>
 
                     }
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="SchoolName">
-                                اسم مکتب /د ښوونځي نوم/School Name
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="SchoolName">
+                                    اسم مکتب /د ښوونځي نوم/School Name
 
-                            </label>
-                            <input asp-for="SchoolName" class="form-control" />
-                            <span asp-validation-for="SchoolName" class="text-danger"></span>
+                                </label>
+                                <input asp-for="SchoolName" class="form-control" disabled/>
+                                <span asp-validation-for="SchoolName" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="SchoolName">
+                                    اسم مکتب انگلیسی /د انگلیسی ښوونځي نوم/English School Name
+
+                                </label>
+                                <input asp-for="SchoolEnglishName" class="form-control" disabled />
+                                <span asp-validation-for="SchoolEnglishName" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="LastName">
+                                    سطح مکتب/د ښوونځي درجه/School Level
+
+                                </label>
+                                <select asp-for="SchoolLevelId" class="form-control" disabled>
+                                    <option selected value="">--Select--</option>
+                                    @foreach (var SchoolLevel in ViewBag.SchoolLevel)
+                                    {
+                                        <option value="@SchoolLevel.SchoolLevelId">@SchoolLevel.SchoolLevelNameDari - @SchoolLevel.SchoolLevelName</option>
+                                    }
+                                </select>
+                                <span asp-validation-for="SchoolLevelId" class="text-danger"></span>
+                            </div>
                         </div>
                     </div>
-
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="SchoolName">
-                                اسم مکتب انگلیسی /د انگلیسی ښوونځي نوم/English School Name
-
-                            </label>
-                            <input asp-for="SchoolEnglishName" class="form-control" />
-                            <span asp-validation-for="SchoolEnglishName" class="text-danger"></span>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="LastName">
-                                سطح مکتب/د ښوونځي درجه/School Level
-
-                            </label>
-                            <select asp-for="SchoolLevelId" class="form-control">
-                                <option selected value="">--Select--</option>
-                                @foreach (var SchoolLevel in ViewBag.SchoolLevel)
-                                {
-                                    <option value="@SchoolLevel.SchoolLevelId">@SchoolLevel.SchoolLevelNameDari - @SchoolLevel.SchoolLevelName</option>
-                                }
-                            </select>
-                            <span asp-validation-for="SchoolLevelId" class="text-danger"></span>
-                        </div>
-                    </div>
-                </div>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -75,7 +76,7 @@
                                     جنسیت  مکتب/د ښوونځي جنس/School Gender
 
                                 </label>
-                                <select asp-for="SchoolGenderTypeId" class="form-control">
+                                <select asp-for="SchoolGenderTypeId" class="form-control" disabled>
                                     <option selected value="">--Select--</option>
                                     @foreach (var SchoolGenderType in ViewBag.SchoolGenderType)
                                     {
@@ -91,7 +92,7 @@
                                     تعداد اطاق/د اطاقونو شمېر/#Rooms
 
                                 </label>
-                                <input asp-for="Nrooms" class="form-control" />
+                                <input asp-for="Nrooms" class="form-control" disabled />
                                 <span asp-validation-for="Nrooms" class="text-danger"></span>
                             </div>
                         </div>
@@ -103,7 +104,7 @@
                                     فاصله از مکاتب دولتی همجوار/تر ټولو نېږدې دولتي ښوونځي څخه واټن/Distance from Government School
 
                                 </label>
-                                <input asp-for="DistancefromPuSchool" class="form-control" />
+                                <input asp-for="DistancefromPuSchool" class="form-control" disabled />
                                 <span asp-validation-for="DistancefromPuSchool" class="text-danger"></span>
                             </div>
                         </div>
@@ -113,7 +114,7 @@
                                     فاصله از مکاتب خصوصی همجوار/تر ټولو نېږدې خصوصي ښوونځي څخه واټن/Distance from Private School
 
                                 </label>
-                                <input asp-for="DistanceFromPrSchool" class="form-control" />
+                                <input asp-for="DistanceFromPrSchool" class="form-control" disabled />
                                 <span asp-validation-for="DistanceFromPrSchool" class="text-danger"></span>
                             </div>
                         </div>
@@ -130,7 +131,7 @@
                                     ولایت/ولایت/Province
 
                                 </label>
-                                <select asp-for="ProvinceId" id="Province" class="form-control">
+                                <select asp-for="ProvinceId" id="Province" class="form-control" disabled>
                                     <option selected value="">--Select--</option>
                                     @foreach (var province in ViewBag.province)
                                     {
@@ -147,7 +148,7 @@
                                     ولسوالی/ولسوالۍ/District
 
                                 </label>
-                                <select asp-for="DistrictId" id="District" class="form-control">
+                                <select asp-for="DistrictId" id="District" class="form-control" disabled>
                                     <option selected value="">--Select--</option>
                                     @foreach (var district in ViewBag.district)
                                     {
@@ -162,16 +163,16 @@
                                 <label for="PerVillageNahiaId">
                                     قریه یا ناحیه/کلی یا ناحیه/Village or Nahia
                                 </label>
-                                <input asp-for="Nahia" class="form-control" />
+                                <input asp-for="Nahia" class="form-control" disabled/>
                                 <span asp-validation-for="Nahia" class="text-danger"></span>
                                 @*<select asp-for="VillageNahiaId" id="VillageNahia" class="form-control">
-                                <option selected value="">--Select--</option>
-                                @foreach (var villageNahia in ViewBag.villageNahia)
-                                {
-                                    <option value="@villageNahia.VillageNahiaId"> @villageNahia.VillageNameEng</option>
-                                }
-                            </select>
-                            <span asp-validation-for="VillageNahiaId" class="text-danger"></span>*@
+                                        <option selected value="">--Select--</option>
+                                        @foreach (var villageNahia in ViewBag.villageNahia)
+                                        {
+                                            <option value="@villageNahia.VillageNahiaId"> @villageNahia.VillageNameEng</option>
+                                        }
+                                    </select>
+                                    <span asp-validation-for="VillageNahiaId" class="text-danger"></span>*@
                             </div>
                         </div>
 
@@ -181,7 +182,7 @@
                                     عرض البلد مکتب /د  ښوونځي عرض البلد/Latitude
 
                                 </label>
-                                <input type="number" asp-for="SchoolLatitude" class="form-control" />
+                                <input type="number" asp-for="SchoolLatitude" class="form-control" disabled />
                                 <span asp-validation-for="SchoolLatitude" class="text-danger"></span>
                             </div>
                         </div>
@@ -192,7 +193,7 @@
                                     طول البلد مکتب  /د ښوونځي طول البلد/longitude
 
                                 </label>
-                                <input type="number" asp-for="SchoolLongitude" class="form-control" />
+                                <input type="number" asp-for="SchoolLongitude" class="form-control" disabled />
                                 <span asp-validation-for="SchoolLongitude" class="text-danger"></span>
                             </div>
                         </div>
@@ -211,7 +212,7 @@
 
                                 </label>
 
-                                <select asp-for="HasTeachingBooks" class="form-control">
+                                <select asp-for="HasTeachingBooks" class="form-control" disabled>
                                     <option selected value="">--Select--</option>
                                     <option value="1">بلی/هو/Yes</option>
                                     <option value="0">نخیر/نه/No</option>
@@ -225,7 +226,7 @@
                                     مواد ممد درسی/د تدریس مرستیال مواد/Teaching Aids Available
 
                                 </label>
-                                <select asp-for="HasTeachingAids" class="form-control">
+                                <select asp-for="HasTeachingAids" class="form-control" disabled>
                                     <option selected value="">--Select--</option>
                                     <option value="1">بلی/هو/Yes</option>
                                     <option value="0">نخیر/نه/No</option>
@@ -242,7 +243,7 @@
                                     میز و چوکی معلم/د ښوونکي مېز او څوکۍ/Desk and chair of Teacher
 
                                 </label>
-                                <input asp-for="NteachDeskChair" class="form-control" />
+                                <input asp-for="NteachDeskChair" class="form-control" disabled />
                                 <span asp-validation-for="NteachDeskChair" class="text-danger"></span>
                             </div>
                         </div>
@@ -252,7 +253,7 @@
                                     میز و چوکی شاګرد/د زده کوونکو مېز او څوکۍ/Desk and Chair of Student
 
                                 </label>
-                                <input asp-for="NstudentDeskChair" class="form-control" />
+                                <input asp-for="NstudentDeskChair" class="form-control" disabled />
                                 <span asp-validation-for="NstudentDeskChair" class="text-danger"></span>
                             </div>
                         </div>
@@ -265,7 +266,7 @@
                                     کتابخانه/کتابتون/Library
 
                                 </label>
-                                <select asp-for="HasLibrary" class="form-control">
+                                <select asp-for="HasLibrary" class="form-control" disabled>
                                     <option selected value="">--Select--</option>
                                     <option value="1">بلی/هو/Yes</option>
                                     <option value="0">نخیر/نه/No</option>
@@ -278,7 +279,7 @@
                                 <label for="Nbooks">
                                     تعداد کتب کتابخانه/په کتابتون کې د کتابونو شمېر/No# of Books in Library
                                 </label>
-                                <input asp-for="Nbooks" class="form-control" />
+                                <input asp-for="Nbooks" class="form-control" disabled />
                                 <span asp-validation-for="Nbooks" class="text-danger"></span>
                             </div>
                         </div>
@@ -291,7 +292,7 @@
                                 <label for="Nboards">
                                     تخته/تخته/Board
                                 </label>
-                                <input asp-for="Nboards" class="form-control" />
+                                <input asp-for="Nboards" class="form-control" disabled />
                                 <span asp-validation-for="Nboards" class="text-danger"></span>
                             </div>
                         </div>
@@ -300,7 +301,7 @@
                                 <label for="LaboratoryMaterialTypeId">
                                     وسایل لابراتواری/د لابراتوار توکي/Laboratory Material
                                 </label>
-                                <select asp-for="LaboratoryMaterialTypeId" class="form-control">
+                                <select asp-for="LaboratoryMaterialTypeId" class="form-control"disabled>
                                     <option selected value="">--Select--</option>
                                     @foreach (var LabMaterialType in ViewBag.LabMaterialType)
                                     {
@@ -319,7 +320,7 @@
                                 <label for="HasComputerLab">
                                     لابراتوار کمپیوتر/د کمپیوټر خونه/Computer Lab
                                 </label>
-                                <select asp-for="HasComputerLab" class="form-control">
+                                <select asp-for="HasComputerLab" class="form-control" disabled>
                                     <option selected value="">--Select--</option>
                                     <option value="1">بلی/هو/Yes</option>
                                     <option value="0">نخیر/نه/No</option>
@@ -332,7 +333,7 @@
                                 <label for="Ncomputers">
                                     تعداد کمپیوتر/د کمپیوټرونو شمېر/No# of Computers
                                 </label>
-                                <input asp-for="Ncomputers" class="form-control" />
+                                <input asp-for="Ncomputers" class="form-control" disabled />
                                 <span asp-validation-for="Ncomputers" class="text-danger"></span>
                             </div>
                         </div>
@@ -347,7 +348,7 @@
                                 <label for="HasDrinkingWater">
                                     آب اشامیدنی صحی/د څښلو صحي اوبه/Drinking Water
                                 </label>
-                                <select asp-for="HasDrinkingWater" class="form-control">
+                                <select asp-for="HasDrinkingWater" class="form-control" disabled>
                                     <option selected value="">--Select--</option>
                                     <option value="1">بلی/هو/Yes</option>
                                     <option value="0">نخیر/نه/No</option>
@@ -360,7 +361,7 @@
                                 <label for="NwashRooms">
                                     تعداد تشناب های صحی/د پاکو تشنابونو شمېر/No# of Washrooms
                                 </label>
-                                <input asp-for="NwashRooms" class="form-control" />
+                                <input asp-for="NwashRooms" class="form-control" disabled />
                                 <span asp-validation-for="NwashRooms" class="text-danger"></span>
                             </div>
                         </div>
@@ -373,7 +374,7 @@
                                 <label for="HasFirstAid">
                                     کمک های اولیه صحی/د لومړنیو مرستو اسانتیاوې/First Aid Facilities
                                 </label>
-                                <select asp-for="HasFirstAid" class="form-control">
+                                <select asp-for="HasFirstAid" class="form-control" disabled>
                                     <option selected value="">--Select--</option>
                                     <option value="1">بلی/هو/Yes</option>
                                     <option value="0">نخیر/نه/No</option>
@@ -386,12 +387,12 @@
                                 <label for="HasFireDistinguisher">
                                     وسایل اطفایه ضد حریق/د اور وژنې وسایل/Fire Distinguisher Tools
                                 </label>
-                                <select asp-for="HasFireDistinguisher" class="form-control">
+                                <select asp-for="HasFireDistinguisher" class="form-control" disabled>
                                     <option selected value="">--Select--</option>
                                     <option value="1">بلی/هو/Yes</option>
                                     <option value="0">نخیر/نه/No</option>
                                 </select>
-                                <span asp-validation-for="HasFireDistinguisher" class="text-danger"></span>
+                                <span asp-validation-for="HasFireDistinguisher" class="text-danger" ></span>
                             </div>
                         </div>
                     </div>
@@ -403,7 +404,7 @@
                                 <label for="HasTransportation">
                                     وسایل نقلیه/ترانسپورت/Transportation
                                 </label>
-                                <select asp-for="HasTransportation" class="form-control">
+                                <select asp-for="HasTransportation" class="form-control" disabled>
                                     <option selected value="">--Select--</option>
                                     <option value="1">بلی/هو/Yes</option>
                                     <option value="0">نخیر/نه/No</option>
@@ -416,7 +417,7 @@
                                 <label for="HasSportFacilities">
                                     امکانات ورزشی/ورزشي اسانتیاوې/Sports Facilities
                                 </label>
-                                <select asp-for="HasSportFacilities" class="form-control">
+                                <select asp-for="HasSportFacilities" class="form-control" disabled>
                                     <option selected value="">--Select--</option>
                                     <option value="1">بلی/هو/Yes</option>
                                     <option value="0">نخیر/نه/No</option>
@@ -427,7 +428,7 @@
                     </div>
 
 
-                    <input type="submit" id="btnSave" value="ثبت/ثبت/Save" class="btn btn-outline-success" />
+                    @*<input type="submit" id="btnSave" value="ثبت/ثبت/Save" class="btn btn-outline-success" />*@
                     <div style="float:left;">
                         <button type="button" id="nextBtn" onclick="@("window.location.href='" + @Url.Action("Navigate", "Founder") + "'");" class="btn btn-primary">قبلی/مخکی/Previous</button>
                         <button type="button" id="nextBtn" onclick="@("window.location.href='" + @Url.Action("Navigate", "FinancialResource") + "'");" class="btn btn-primary">بعدی/وروسته/Next</button>

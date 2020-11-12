@@ -41,11 +41,77 @@ namespace OLS.Controllers
         [HttpGet]
         public IActionResult Navigate() {
             var UserId = _userManager.GetUserId(User);
+            var id = _applicationContext.Process.Where(p => p.ProcessId == Guid.Parse("88A9020D-D188-417C-9B11-7FDA9613B197")).Select(p => p.ProcessId).FirstOrDefault();
+            var schoolid = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User)).Select(p => p.SchoolId).FirstOrDefault();
+
+            var displayPlan = (from process in _applicationContext.Process
+                               join subProcess in _applicationContext.SubProcess on process.ProcessId equals subProcess.ProcessId into processgroup
+                               from a in processgroup.DefaultIfEmpty()
+                               join processProgress in _applicationContext.ProcessProgress on a.SubProcessId equals processProgress.SubProcessId into processProgressGroup
+                               from b in processProgressGroup.DefaultIfEmpty()
+                               join School in _applicationContext.School on b.SchoolId equals School.SchoolId into schoolGroup
+                               from c in schoolGroup.DefaultIfEmpty()
+                               join zProcessStatus in _applicationContext.ZProcessStatus on b.ProcessStatusId equals zProcessStatus.ProcessStatusId into zProcessStatusGroup
+                               from d in zProcessStatusGroup.DefaultIfEmpty()
+                               join subProcessStatus in _applicationContext.SubProcessStatus on new { a = a.SubProcessId.ToString(), b = b.ProcessStatusId.ToString() } equals new { a = subProcessStatus.SubProcessId.ToString(), b = subProcessStatus.ProcessStatusId.ToString() } into subProcessStatusGroup
+                               from e in subProcessStatusGroup.DefaultIfEmpty()
+                               where process.ProcessId == id && c.SchoolId == schoolid
+
+                               select new SubProcessViewModel
+                               {
+                                   SubProcessId = a.SubProcessId,
+                                   ProcessId = process.ProcessId,
+                                   ProcessName = process.ProcessName,
+                                   SubProcesName = a.SubProcesName,
+                                   SubProcesNameDari = a.SubProcesNameDari,
+                                   OrderNumber = a.OrderNumber,
+                                   TimelineInDays = a.TimelineInDays,
+                                   StatusNamePast = d.StatusNamePast,
+                                   StatusNameDariPast = d.StatusNameDariPast,
+                                   CompletionFlag = e.CompletionFlag,
+                                   Remarks = b.Remarks,
+                                   StatusDate = b.StatusDate,
+
+                               }).OrderBy(p => p.OrderNumber).ToList();
 
             var school = _applicationContext.School.Where(p => p.CreatedBy == UserId).FirstOrDefault();
             if (school != null)
             {
-                return RedirectToAction("Edit", new { schoolId = school.SchoolId });
+                for (int i = 0; i < displayPlan.Count; i++)
+                {
+                    if (displayPlan[i].OrderNumber == 1 && displayPlan[i].CompletionFlag == 0)
+                    {
+
+                        return RedirectToAction("Edit", new { schoolId = school.SchoolId });
+                    }
+                    else if (displayPlan[i].OrderNumber == 2 && displayPlan[i].CompletionFlag == 0)
+                    {
+
+                        return RedirectToAction("Edit", new { schoolId = school.SchoolId });
+                    }
+                    else if (displayPlan[i].OrderNumber == 3 && displayPlan[i].CompletionFlag == 0)
+                    {
+
+                        return RedirectToAction("Edit", new { schoolId = school.SchoolId });
+                    }
+                    else if (displayPlan[i].OrderNumber == 4 && displayPlan[i].CompletionFlag == 0)
+                    {
+
+                        return RedirectToAction("Edit", new { schoolId = school.SchoolId });
+                    }
+                    else if (displayPlan[i].OrderNumber == 5 && displayPlan[i].CompletionFlag == 0)
+                    {
+
+                        return RedirectToAction("Edit", new { schoolId = school.SchoolId });
+                    }
+                    else if (displayPlan[i].OrderNumber == 4 && displayPlan[i].CompletionFlag == 0)
+                    {
+
+                        return RedirectToAction("Edit", new { schoolId = school.SchoolId });
+                    }
+                }
+
+                return RedirectToAction("NoEdit", new { schoolId = school.SchoolId });
             }
 
 
@@ -616,6 +682,71 @@ namespace OLS.Controllers
             }
 
 
+        }
+
+        [Route("NoEdit/{schoolId}")]
+        [HttpGet]
+        public IActionResult NoEdit(Guid schoolId)
+        {
+            if (schoolId != null)
+            {
+
+                var province = _applicationContext.ZProvince;
+                ViewBag.Province = province;
+
+                var SchoolLevel = _applicationContext.ZSchoolLevel.OrderBy(o => o.OrderNumber);
+                ViewBag.SchoolLevel = SchoolLevel;
+
+                var SchoolGenderType = _applicationContext.ZSchoolGenderType.OrderBy(o => o.OrderNumber);
+                ViewBag.SchoolGenderType = SchoolGenderType;
+
+                var LabMaterialType = _applicationContext.ZLaboratoryMaterialType.OrderBy(o => o.OrderNumber);
+                ViewBag.LabMaterialType = LabMaterialType;
+                School school = _applicationContext.School.Find(schoolId);
+                PartyAddress schoolAddress = _applicationContext.PartyAddress.Where(p => p.PartyId == school.SchoolId).FirstOrDefault();
+                SchoolViewModel schoolViewModel = new SchoolViewModel
+                {
+                    SchoolId = school.SchoolId,
+                    SchoolLevelId = school.SchoolLevelId,
+                    SchoolName = school.SchoolName,
+                    SchoolEnglishName = school.SchoolEnglishName,
+                    SchoolLongitude = school.SchoolLongitude,
+                    SchoolLatitude = school.SchoolLatitude,
+                    SchoolGenderTypeId = school.SchoolGenderTypeId,
+                    Nrooms = school.Nrooms,
+                    DistancefromPuSchool = school.DistancefromPuSchool,
+                    DistanceFromPrSchool = school.DistanceFromPrSchool,
+                    HasTeachingBooks = school.HasTeachingBooks,
+                    HasTeachingAids = school.HasTeachingAids,
+                    NteachDeskChair = school.NteachDeskChair,
+                    NstudentDeskChair = school.NstudentDeskChair,
+                    HasLibrary = school.HasLibrary,
+                    Nbooks = school.Nbooks,
+                    Nboards = school.Nboards,
+                    LaboratoryMaterialTypeId = school.LaboratoryMaterialTypeId,
+                    HasComputerLab = school.HasComputerLab,
+                    Ncomputers = school.Ncomputers,
+                    HasDrinkingWater = school.HasDrinkingWater,
+                    NwashRooms = school.NwashRooms,
+                    HasFirstAid = school.HasFirstAid,
+                    HasFireDistinguisher = school.HasFireDistinguisher,
+                    HasTransportation = school.HasTransportation,
+                    HasSportFacilities = school.HasTransportation,
+                    ProvinceId = schoolAddress.ProvinceId,
+                    DistrictId = schoolAddress.DistrictId,
+                    Nahia = schoolAddress.Nahia
+                };
+
+                var district = _applicationContext.ZDistrict.Where(d => d.ProvinceId == schoolAddress.ProvinceId);
+                ViewBag.district = district;
+                var villageNahia = _applicationContext.ZVillageNahia.Where(v => v.DistrictId == schoolAddress.DistrictId);
+                ViewBag.villageNahia = villageNahia;
+                HttpContext.Session.SetString("SchoolID", schoolViewModel.SchoolId.ToString());
+                return View(schoolViewModel);
+            }
+
+
+            return View();
         }
 
         [Route("Edit/{schoolId}")]
