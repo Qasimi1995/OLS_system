@@ -10,7 +10,7 @@
             <div class="card-body">
                 @await Html.PartialAsync("../steps")
 
-                <div style="text-align:center;background-color: steelblue;">
+                <div style="text-align:center;background-color: #0193df;">
                     <h3 style="padding:5px;color: white;">معلومات مکتب/د ښوونځي په اړه مالومات/School Information</h3>
                 </div>
                 <form asp-action="Edit" method="post">
@@ -430,8 +430,8 @@
 
                     @*<input type="submit" id="btnSave" value="ثبت/ثبت/Save" class="btn btn-outline-success" />*@
                     <div style="float:left;">
-                        <button type="button" id="nextBtn" onclick="@("window.location.href='" + @Url.Action("Navigate", "Founder") + "'");" class="btn btn-primary">قبلی/مخکی/Previous</button>
-                        <button type="button" id="nextBtn" onclick="@("window.location.href='" + @Url.Action("Navigate", "FinancialResource") + "'");" class="btn btn-primary">بعدی/وروسته/Next</button>
+                        <button type="button" id="nextBtn" style="background-color:#0193df;" onclick="@("window.location.href='" + @Url.Action("Navigate", "Founder") + "'");" class="btn btn-primary">قبلی/مخکی/Previous</button>
+                        <button type="button" id="nextBtn" style="background-color:#0193df;" onclick="@("window.location.href='" + @Url.Action("Navigate", "FinancialResource") + "'");" class="btn btn-primary">بعدی/وروسته/Next</button>
                     </div>
 
                 </form>

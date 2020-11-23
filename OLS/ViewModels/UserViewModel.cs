@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -10,11 +11,14 @@ namespace OLS.ViewModels
     {
         public string Id { get; set; }
 
+
         [Required(ErrorMessage = "لطف نموده این بخش را پر نماید / مهرباني وکړئ دا برخه ډکه کړئ ")]
         //[RegularExpression(@"([A-Za-z])\w+$", ErrorMessage = "لطف نموده از فارمت ذیل برای نام کابر استفاده نماید/مهرباني وکړئ د کارونکي نوم لپاره لاندې مثال وکاروئ Abc_2010, Xyz_123, Xyz_abc_123")]
         public string UserName { get; set; }
         [Required(ErrorMessage = "لطف نموده این بخش را پر نماید / مهرباني وکړئ دا برخه ډکه کړئ ")]
-        [RegularExpression(@"^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$$", ErrorMessage = "لطف نموده از فارمت ذیل برای ایمل استفاده نماید/مهرباني وکړئ د ایمل لپاره لاندې مثال وکاروئ Abc@gmail.com, abc@yahoo.com, etc..")]
+        [EmailAddress(ErrorMessage = "فارمت ایمیل درست نیست / ورکړل شوی برېښنالیک سم نه دی / Email Format is not valid")]
+        [Remote(action: "IsEmailUnique", controller: "Account")]
+        //[RegularExpression(@"^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$$", ErrorMessage = "لطف نموده از فارمت ذیل برای ایمل استفاده نماید/مهرباني وکړئ د ایمل لپاره لاندې مثال وکاروئ Abc@gmail.com, abc@yahoo.com, etc..")]
         public string Email { get; set; }
         [Required(ErrorMessage = "لطف نموده این بخش را پر نماید / مهرباني وکړئ دا برخه ډکه کړئ ")]
         // [MaxLength(ErrorMessage = "حد اکثر طول رمز باید 8 عدد باشد/د پټنوم اعظمي حد باید 8 وي ")]
@@ -26,6 +30,8 @@ namespace OLS.ViewModels
         public string LastName { get; set; }
         [Required(ErrorMessage = "لطف نموده این بخش را انتخاب نماید/ مهرباني وکړئ دا برخه وټاکئ")]
         public string Role { get; set; }
+       //[Required(ErrorMessage = "لطف نموده این بخش را انتخاب نماید/ مهرباني وکړئ دا برخه وټاکئ")]
+        public string RoleId { get; set; }
         public Guid? ProvinceId { get; set; }
 
         public byte IsActive { get; set; }

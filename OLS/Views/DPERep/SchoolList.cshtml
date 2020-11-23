@@ -58,7 +58,11 @@
                                 @if (ViewBag.roleid == "EFD684C6-F47C-407C-B9B7-DA2245E3869B")
                                 {
                                     <th> بازدید راپور/د راپور لیدل</th>
-                                    <th>جواز مکتب/د ښوونځي جواز</th>
+                                    @if (ViewBag.OrderNumber == 6 && ViewBag.CompletionFlag == 1) 
+                                    {
+                                        <th>جواز مکتب/د ښوونځي جواز</th> 
+                                    }
+                                    
                                 }
                             </tr>
                         </thead>
@@ -89,8 +93,8 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => Model[i].VillageNahia)
                                 </td>
-                                <td>            
-                                   @* @Convert.ToString(string.Format("{0:dd/MM/yyyy}", Model[i].StatusDate))*@
+                                <td>
+                                    @* @Convert.ToString(string.Format("{0:dd/MM/yyyy}", Model[i].StatusDate))*@
                                     @Model[i].StatusDate
                                 </td>
                                 <td>
@@ -113,10 +117,13 @@
                                     <td>
                                         <a href="~/PED/@Model[i].SchoolId/@Model[i].SchoolId-schoolVisitReport.pdf">دیدن راپور</a>
                                     </td>
-
+                                    @if (ViewBag.OrderNumber == 6 && ViewBag.CompletionFlag == 1)
+                                    {
                                     <td class="text-nowrap">
                                         @Html.ActionLink("جواز / د ښوونځي جواز /License ", "SchoolLicense", new { schoolid = Model[i].SchoolId })
                                     </td>
+                                    }
+                                        
                                 }
 
                             </tr>

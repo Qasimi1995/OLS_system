@@ -43,11 +43,86 @@ namespace OLS.Controllers
         public IActionResult Navigate()
         {
             var UserId = _userManager.GetUserId(User);
+            var id = _applicationContext.Process.Where(p => p.ProcessId == Guid.Parse("88A9020D-D188-417C-9B11-7FDA9613B197")).Select(p => p.ProcessId).FirstOrDefault();
+            var schoolid = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User)).Select(p => p.SchoolId).FirstOrDefault();
 
+            var displayPlan = (from process in _applicationContext.Process
+                               join subProcess in _applicationContext.SubProcess on process.ProcessId equals subProcess.ProcessId into processgroup
+                               from a in processgroup.DefaultIfEmpty()
+                               join processProgress in _applicationContext.ProcessProgress on a.SubProcessId equals processProgress.SubProcessId into processProgressGroup
+                               from b in processProgressGroup.DefaultIfEmpty()
+                               join school in _applicationContext.School on b.SchoolId equals school.SchoolId into schoolGroup
+                               from c in schoolGroup.DefaultIfEmpty()
+                               join zProcessStatus in _applicationContext.ZProcessStatus on b.ProcessStatusId equals zProcessStatus.ProcessStatusId into zProcessStatusGroup
+                               from d in zProcessStatusGroup.DefaultIfEmpty()
+                               join subProcessStatus in _applicationContext.SubProcessStatus on new { a = a.SubProcessId.ToString(), b = b.ProcessStatusId.ToString() } equals new { a = subProcessStatus.SubProcessId.ToString(), b = subProcessStatus.ProcessStatusId.ToString() } into subProcessStatusGroup
+                               from e in subProcessStatusGroup.DefaultIfEmpty()
+                               where process.ProcessId == id && c.SchoolId == schoolid
+
+                               select new SubProcessViewModel
+                               {
+                                   SubProcessId = a.SubProcessId,
+                                   ProcessId = process.ProcessId,
+                                   ProcessName = process.ProcessName,
+                                   SubProcesName = a.SubProcesName,
+                                   SubProcesNameDari = a.SubProcesNameDari,
+                                   OrderNumber = a.OrderNumber,
+                                   TimelineInDays = a.TimelineInDays,
+                                   StatusNamePast = d.StatusNamePast,
+                                   StatusNameDariPast = d.StatusNameDariPast,
+                                   CompletionFlag = e.CompletionFlag,
+                                   Remarks = b.Remarks,
+                                   StatusDate = b.StatusDate,
+
+                               }).OrderBy(p => p.OrderNumber).ToList();
+            
             var principle = _applicationContext.Person.Where(p => p.CreatedBy == UserId && p.PartyRoleTypeId== Guid.Parse("FD744DE3-476C-428F-B7E0-381A9DD286FE")).FirstOrDefault();
+            ViewBag.principle = principle;
             if (principle != null)
             {
-                return RedirectToAction("Edit", new { principleid = principle.PersonId });
+                if (displayPlan.Count > 0)
+                {
+                    for (int i = 0; i < displayPlan.Count; i++)
+                    {
+                        if (displayPlan[i].OrderNumber == 1 && displayPlan[i].CompletionFlag == 0)
+                        {
+
+                            return RedirectToAction("Edit", new { principleid = principle.PersonId });
+                        }
+                        else if (displayPlan[i].OrderNumber == 2 && displayPlan[i].CompletionFlag == 0)
+                        {
+
+                            return RedirectToAction("Edit", new { principleid = principle.PersonId });
+                        }
+                        else if (displayPlan[i].OrderNumber == 3 && displayPlan[i].CompletionFlag == 0)
+                        {
+
+                            return RedirectToAction("Edit", new { principleid = principle.PersonId });
+                        }
+                        else if (displayPlan[i].OrderNumber == 4 && displayPlan[i].CompletionFlag == 0)
+                        {
+
+                            return RedirectToAction("Edit", new { principleid = principle.PersonId });
+                        }
+                        else if (displayPlan[i].OrderNumber == 5 && displayPlan[i].CompletionFlag == 0)
+                        {
+
+                            return RedirectToAction("Edit", new { principleid = principle.PersonId });
+                        }
+                        else if (displayPlan[i].OrderNumber == 4 && displayPlan[i].CompletionFlag == 0)
+                        {
+
+                            return RedirectToAction("Edit", new { principleid = principle.PersonId });
+                        }
+                    }
+                    return RedirectToAction("NoEdit", new { principleid = principle.PersonId });
+                }
+                else
+                {
+                    return RedirectToAction("Edit", new { principleid = principle.PersonId });
+                }
+
+                
             }
 
 
@@ -207,6 +282,93 @@ namespace OLS.Controllers
             return View();
 
         }
+
+
+        [Route("NoEdit/{principleid}")]
+        [HttpGet]
+        public IActionResult NoEdit(Guid principleid)
+        {
+            try
+            {
+                if (principleid != null)
+                {
+                    Guid DropPID = Guid.NewGuid();
+
+                    var EducationLevel = _applicationContext.ZEducationLevel.OrderBy(o => o.OrderNumber);
+                    ViewBag.EducationLevel = EducationLevel;
+
+                    var GenderType = _applicationContext.ZGenderType.OrderBy(o => o.OrderNumber);
+                    ViewBag.GenderType = GenderType;
+
+                    var FacultyType = _applicationContext.ZFacultyType.OrderBy(o => o.OrderNumber);
+                    ViewBag.FacultyType = FacultyType;
+
+                    var principledetails = _applicationContext.Person.Find(principleid);
+                    var principlePhone = _applicationContext.ContactDetails.Where(p => p.PartyId == principleid && p.ContactMechanismTypeId == Guid.Parse("B1B3DB1A-A3FB-43B9-839F-47A38C7F93CB")).FirstOrDefault();
+                    var principleEmail = _applicationContext.ContactDetails.Where(p => p.PartyId == principleid && p.ContactMechanismTypeId == Guid.Parse("1BE17772-A613-49A5-A67B-C1538DCBF647")).FirstOrDefault();
+                    var principleEducation = _applicationContext.PersonEducation.Where(p => p.PersonId == principleid).FirstOrDefault();
+                    var principlePerAddress = _applicationContext.PartyAddress.Where(p => p.PartyId == principleid && p.AddressTypeId == Guid.Parse("EDDCDD48-67D0-4BAE-B96E-B7ACB5C87DF7")).FirstOrDefault();
+                    var principlePreAddress = _applicationContext.PartyAddress.Where(p => p.PartyId == principleid && p.AddressTypeId == Guid.Parse("28048D3E-BF94-4068-9735-6E798BA9FD52")).FirstOrDefault();
+
+                    var Perprovince = _applicationContext.ZProvince;
+                    ViewBag.Perprovince = Perprovince;
+                    var Perdistrict = _applicationContext.ZDistrict.Where(d => d.ProvinceId == principlePerAddress.ProvinceId);
+                    ViewBag.Perdistrict = Perdistrict;
+                    //  var PervillageNahia = _applicationContext.ZVillageNahia.Where(v => v.DistrictId == principlePerAddress.DistrictId);
+                    // ViewBag.PervillageNahia = PervillageNahia;
+
+                    var Preprovince = _applicationContext.ZProvince;
+                    ViewBag.Preprovince = Preprovince;
+                    var Predistrict = _applicationContext.ZDistrict.Where(d => d.ProvinceId == principlePreAddress.ProvinceId);
+                    ViewBag.Predistrict = Predistrict;
+                    //var PrevillageNahia = _applicationContext.ZVillageNahia.Where(v => v.DistrictId == principlePreAddress.DistrictId);
+                    //ViewBag.PrevillageNahia = PrevillageNahia;
+
+                    PrincipleEditViewModel principle = new PrincipleEditViewModel
+                    {
+                        PersonId = principledetails.PersonId,
+                        Name = principledetails.Name,
+                        LastName = principledetails.LastName,
+                        FatherName = principledetails.FatherName,
+                        GrandFatherName = principledetails.GrandFatherName,
+                        Nidnumber = principledetails.Nidnumber,
+                        Age = principledetails.Age,
+                        GenderTypeId = principledetails.GenderTypeId,
+                        Eduservice = principledetails.Eduservice,
+                        PhonNumber = principlePhone.Value,
+                        Email = principleEmail.Value,
+                        EducationLevelID = principleEducation.EducationLevelId,
+                        FacultyTypeId = principleEducation.FacultyTypeId,
+                        GraduationDate = principleEducation.GraduationDate,
+                        PerProvinceId = principlePerAddress.ProvinceId,
+                        PerDistrictId = principlePerAddress.DistrictId,
+                        PerNahia = principlePerAddress.Nahia,
+                        PreProvinceId = principlePreAddress.ProvinceId,
+                        PreDistrictId = principlePreAddress.DistrictId,
+                        PreNahia = principlePreAddress.Nahia,
+                        ExistingPhotoPath = principledetails.Photo,
+
+                    };
+                    HttpContext.Session.SetString("FounderID", principledetails.PersonId.ToString());
+                    return View(principle);
+                }
+                else
+                {
+                    return View("index");
+
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+
+                return View("Index");
+            }
+
+        }
+
+
 
         [Route("Edit/{principleid}")]
         [HttpGet]

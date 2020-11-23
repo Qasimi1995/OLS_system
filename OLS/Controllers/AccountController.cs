@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using EmailService;
+using Microsoft.EntityFrameworkCore;
 
 namespace OLS.Controllers
 {
@@ -172,27 +173,29 @@ namespace OLS.Controllers
         {
             try
             {
-                var province = _applicationContext.ZProvince;
-                ViewBag.province = province;
-
-                ViewBag.roles = _applicationContext.Roles.Where(p =>p.Name != "Applicant").ToList();
+               
                 if (Id != null)
                 {
                     var userInfo = (from user in _applicationContext.Users
                                 join userrole in _applicationContext.UserRoles on user.Id equals userrole.UserId
                                 join role in _applicationContext.Roles on userrole.RoleId equals role.Id
                                 where user.Id == Id
-                                    select new UserViewModel
+                                select new UserViewModel
                                 {
                                     Id = user.Id,
+                                    UserName=user.UserName,
                                     FirstName = user.FirstName,
                                     LastName = user.LastName,
                                     Email = user.Email,
                                     ProvinceId=user.ProvinceId,
                                     IsActive=user.IsActive,
+                                    RoleId=role.Id,
+                                    Role=role.Name
                                     
                                 }).FirstOrDefault();
-
+                    var province = _applicationContext.ZProvince;
+                    ViewBag.province = province;
+                    ViewBag.roles = _applicationContext.Roles.Where(p => p.Name != "Applicant").ToList();
                     return View(userInfo);
                 }
                 else
@@ -211,34 +214,41 @@ namespace OLS.Controllers
         }
 
         [HttpPost]
-        public IActionResult EditUserInfo(UserViewModel userViewModel)
+        public async Task<IActionResult> EditUserInfoAsync(UserViewModel userViewModel)
         {
-           
             try
             {
-                
-                    var user = _applicationContext.Users.Where(p => p.Id == userViewModel.Id).FirstOrDefault();
+               //for the role revocation it used
+                var user = _applicationContext.Users.Where(p => p.Id == userViewModel.Id).FirstOrDefault();
+                var userof = await _userManager.FindByIdAsync(user.Id);
+                var currentUserRole = await _userManager.GetRolesAsync(user).ConfigureAwait(true);
+
+                    user.UserName = userViewModel.UserName;
                     user.FirstName = userViewModel.FirstName;
                     user.LastName = userViewModel.LastName;
                     user.Email = userViewModel.Email;
                     user.ProvinceId = userViewModel.ProvinceId;
                     user.IsActive = userViewModel.IsActive;
-
-                    _applicationContext.Update(user);
-                    _applicationContext.SaveChanges();
-
-                    ViewBag.Message = "Record Updated Successfully";
-                    //return RedirectToAction("EditUserInfo");
+                //used to check weather the the role for user get change
+                if(currentUserRole[0] != userViewModel.Role)
+                {
+                    var removeRole = await _userManager.RemoveFromRoleAsync(user, currentUserRole[0]).ConfigureAwait(true);
+                    var AddRole = await _userManager.AddToRoleAsync(user, userViewModel.Role).ConfigureAwait(true);
+                }
+                _applicationContext.Entry(user).State = EntityState.Modified;
+                _applicationContext.Update(user);
+                _applicationContext.SaveChanges();
                 
-                    return View(userViewModel);
+                ViewBag.Message = "Record Updated Successfully";
+                //return RedirectToAction("EditUserInfo");
 
-
-
+                var province = _applicationContext.ZProvince;
+                ViewBag.province = province;
+                ViewBag.roles = _applicationContext.Roles.Where(p => p.Name != "Applicant").ToList();
+                return View(userViewModel);
             }
-
             catch (Exception ex)
             {
-
                 var province = _applicationContext.ZProvince;
                 ViewBag.province = province;
 
@@ -414,6 +424,24 @@ namespace OLS.Controllers
             return RedirectToAction("Login","Account");
         }
 
+
+        [AcceptVerbs("Get", "Post")]
+        [Route("IsEmailUnique")]
+        public async Task<IActionResult> IsEmailUnique(string email)
+        {
+
+            var founder = _applicationContext.ContactDetails.Where(p => p.Value == email).FirstOrDefault();
+            if (founder == null)
+            {
+
+                return Json(true);
+            }
+            else
+            {
+                return Json($" ایمیل قبلا استفاده شده است / ورکړل شوی برېښنالیک کارول شوی ده/ Email already in use");
+            }
+
+        }
 
     }
 }

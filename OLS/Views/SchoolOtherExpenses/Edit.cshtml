@@ -6,9 +6,9 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                @await Html.PartialAsync("../steps");
+                @await Html.PartialAsync("../steps")
 
-                <div style="text-align:center;background-color: steelblue;">
+                <div style="text-align:center;background-color: #0193df;">
                     <h3 style="padding:5px;color: white;">دیگر مصارف/نور لګښتونه/Other expenses</h3>
                 </div>
 
@@ -38,7 +38,7 @@
                                                 @Model[i].OtherExpenseTypeName
                                             </td>
                                             <td>
-                                                @Html.EditorFor(m => Model[i].ExpensePerMonth)
+                                                @Html.EditorFor(m => Model[i].ExpensePerMonth, new { htmlAttributes = new { @class = "form-control" } })
                                                 @Html.ValidationMessageFor(m => Model[i].ExpensePerMonth, null, new { @class = "text-danger" })
                                             </td>
 
@@ -52,12 +52,12 @@
                     </div>
                     <input type="submit" id="btnSave" value="ثبت/ثبت/Save" class="btn btn-outline-success" />
                     <div style="float:left;">
-                        <button type="button" id="nextBtn" onclick="@("window.location.href='" + @Url.Action("Navigate", "SchoolStaffExpenses") + "'");" class="btn btn-primary">قبلی/مخکی/Previous</button>
+                        <button type="button" id="nextBtn" style="background-color:#0193df;" onclick="@("window.location.href='" + @Url.Action("Navigate", "SchoolStaffExpenses") + "'");" class="btn btn-primary">قبلی/مخکی/Previous</button>
 
 
                         @if (ViewBag.AppSubmitButton == null)
                         {
-                    <button type="button" id="nextBtn" onclick="@("window.location.href='" + @Url.Action("RecieveApplication", "SchoolOtherExpenses") + "'");" class="btn btn-primary">
+                    <button type="button" id="nextBtn" style="background-color:#0193df;" onclick="@("window.location.href='" + @Url.Action("RecieveApplication", "SchoolOtherExpenses") + "'");" class="btn btn-primary">
                         تسلیم درخواستی / غوښتنلیک وسپارئ / Submit
                     
                     </button>

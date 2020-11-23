@@ -4,9 +4,9 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                @await Html.PartialAsync("../steps");
+                @await Html.PartialAsync("../steps")
 
-                <div style="text-align:center;background-color: steelblue;">
+                <div style="text-align:center;background-color: #0193df;">
                     <h3 style="padding:5px;color: white;"> بودیجوي پلان(@year)/پلان بودیجوی(@year)/Financial Plan (@year) </h3>
                 </div>
 
@@ -45,16 +45,16 @@
                                                 @Model[i].SchoolSubLevelName
                                             </td>
                                             <td>
-                                                <input type="number" name="[@i].FeeAmount" value="@Model[i].FeeAmount" @required />
+                                                <input class="input form-control" type="number" name="[@i].FeeAmount" value="@Model[i].FeeAmount" @required  />
                                             </td>
                                             <td>
-                                                <input type="number" name="[@i].NfreeStudents" value="@Model[i].NfreeStudents" @required />
+                                                <input class="input form-control"  type="number" name="[@i].NfreeStudents" value="@Model[i].NfreeStudents" @required />
                                             </td>
                                             <td>
-                                                <input type="number" name="[@i].NpaidStudents" value="@Model[i].NpaidStudents" @required />
+                                                <input class="input form-control"  type="number" name="[@i].NpaidStudents" value="@Model[i].NpaidStudents" @required />
                                             </td>
                                             <td>
-                                                <input type="number" name="[@i].AdmissionFee" value="@Model[i].AdmissionFee" @required />
+                                                <input class="input form-control"  type="number" name="[@i].AdmissionFee" value="@Model[i].AdmissionFee" @required />
                                             </td>
                                         </tr>
 
@@ -98,11 +98,11 @@
                             </tbody>
                         </table>
                     </div>
-                    <input type="submit" id="btnSave" value="ثبت/ثبت/Save" class="btn btn-primary" />
+                    <input type="submit" id="btnSave" style="background-color:#0193df;" value="ثبت/ثبت/Save" class="btn btn-primary" />
                     <div style="float:left;">
-                        <button type="button" id="nextBtn" onclick="@("window.location.href='" + @Url.Action("NavigateNextY", "EnrollmentPlan") + "'");" class="btn btn-primary">قبلی/مخکی/Previous</button>
+                        <button type="button" id="nextBtn" style="background-color: #0193df;" onclick="@("window.location.href='" + @Url.Action("NavigateNextY", "EnrollmentPlan") + "'");" class="btn btn-primary">قبلی/مخکی/Previous</button>
                         @*<button type="button" id="nextBtn" onclick="@("window.location.href='" + @Url.Action("Navigate", "SchoolStaffExpenses") + "'");" class="btn btn-primary">بعدی/وروسته/Next</button>*@
-                        <input type="submit" class="btn btn-primary" value="بعدی/وروسته/Next" />
+                        <input type="submit" class="btn btn-primary" style="background-color:#0193df;" value="بعدی/وروسته/Next" />
                         @if (ViewBag.Message != null)
                         {
                             //  <div><span class="text-info">@ViewBag.Message</span></div>
@@ -139,7 +139,7 @@
 @section Scripts{
     <script>
         $(document).ready(function () {
-            $("input").focusout(function () {
+            $(".input").focusout(function () {
                 if ($(this).val() == '') {
                     $(this).css('border', 'solid 2px red');
                 }

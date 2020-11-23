@@ -75,44 +75,51 @@ namespace OLS.Controllers
                                }).OrderBy(p => p.OrderNumber).ToList();
 
             var school = _applicationContext.School.Where(p => p.CreatedBy == UserId).FirstOrDefault();
+            ViewBag.school = school;
             if (school != null)
             {
-                for (int i = 0; i < displayPlan.Count; i++)
+                if (displayPlan.Count > 0)
                 {
-                    if (displayPlan[i].OrderNumber == 1 && displayPlan[i].CompletionFlag == 0)
+                    for (int i = 0; i < displayPlan.Count; i++)
                     {
+                        if (displayPlan[i].OrderNumber == 1 && displayPlan[i].CompletionFlag == 0)
+                        {
 
-                        return RedirectToAction("Edit", new { schoolId = school.SchoolId });
-                    }
-                    else if (displayPlan[i].OrderNumber == 2 && displayPlan[i].CompletionFlag == 0)
-                    {
+                            return RedirectToAction("Edit", new { schoolId = school.SchoolId });
+                        }
+                        else if (displayPlan[i].OrderNumber == 2 && displayPlan[i].CompletionFlag == 0)
+                        {
 
-                        return RedirectToAction("Edit", new { schoolId = school.SchoolId });
-                    }
-                    else if (displayPlan[i].OrderNumber == 3 && displayPlan[i].CompletionFlag == 0)
-                    {
+                            return RedirectToAction("Edit", new { schoolId = school.SchoolId });
+                        }
+                        else if (displayPlan[i].OrderNumber == 3 && displayPlan[i].CompletionFlag == 0)
+                        {
 
-                        return RedirectToAction("Edit", new { schoolId = school.SchoolId });
-                    }
-                    else if (displayPlan[i].OrderNumber == 4 && displayPlan[i].CompletionFlag == 0)
-                    {
+                            return RedirectToAction("Edit", new { schoolId = school.SchoolId });
+                        }
+                        else if (displayPlan[i].OrderNumber == 4 && displayPlan[i].CompletionFlag == 0)
+                        {
 
-                        return RedirectToAction("Edit", new { schoolId = school.SchoolId });
-                    }
-                    else if (displayPlan[i].OrderNumber == 5 && displayPlan[i].CompletionFlag == 0)
-                    {
+                            return RedirectToAction("Edit", new { schoolId = school.SchoolId });
+                        }
+                        else if (displayPlan[i].OrderNumber == 5 && displayPlan[i].CompletionFlag == 0)
+                        {
 
-                        return RedirectToAction("Edit", new { schoolId = school.SchoolId });
-                    }
-                    else if (displayPlan[i].OrderNumber == 4 && displayPlan[i].CompletionFlag == 0)
-                    {
+                            return RedirectToAction("Edit", new { schoolId = school.SchoolId });
+                        }
+                        else if (displayPlan[i].OrderNumber == 4 && displayPlan[i].CompletionFlag == 0)
+                        {
 
-                        return RedirectToAction("Edit", new { schoolId = school.SchoolId });
+                            return RedirectToAction("Edit", new { schoolId = school.SchoolId });
+                        }
                     }
+                    return RedirectToAction("NoEdit", new { schoolId = school.SchoolId });
                 }
-
-                return RedirectToAction("NoEdit", new { schoolId = school.SchoolId });
-            }
+                else
+                {
+                    return RedirectToAction("Edit", new { schoolId = school.SchoolId });
+                }
+             }
 
 
             return RedirectToAction("Create");
@@ -123,12 +130,85 @@ namespace OLS.Controllers
         public IActionResult NavigateDoc()
         {
             var UserId = _userManager.GetUserId(User);
+            var id = _applicationContext.Process.Where(p => p.ProcessId == Guid.Parse("88A9020D-D188-417C-9B11-7FDA9613B197")).Select(p => p.ProcessId).FirstOrDefault();
+            var schoolid = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User)).Select(p => p.SchoolId).FirstOrDefault();
+
+            var displayPlan = (from process in _applicationContext.Process
+                               join subProcess in _applicationContext.SubProcess on process.ProcessId equals subProcess.ProcessId into processgroup
+                               from a in processgroup.DefaultIfEmpty()
+                               join processProgress in _applicationContext.ProcessProgress on a.SubProcessId equals processProgress.SubProcessId into processProgressGroup
+                               from b in processProgressGroup.DefaultIfEmpty()
+                               join School in _applicationContext.School on b.SchoolId equals School.SchoolId into schoolGroup
+                               from c in schoolGroup.DefaultIfEmpty()
+                               join zProcessStatus in _applicationContext.ZProcessStatus on b.ProcessStatusId equals zProcessStatus.ProcessStatusId into zProcessStatusGroup
+                               from d in zProcessStatusGroup.DefaultIfEmpty()
+                               join subProcessStatus in _applicationContext.SubProcessStatus on new { a = a.SubProcessId.ToString(), b = b.ProcessStatusId.ToString() } equals new { a = subProcessStatus.SubProcessId.ToString(), b = subProcessStatus.ProcessStatusId.ToString() } into subProcessStatusGroup
+                               from e in subProcessStatusGroup.DefaultIfEmpty()
+                               where process.ProcessId == id && c.SchoolId == schoolid
+
+                               select new SubProcessViewModel
+                               {
+                                   SubProcessId = a.SubProcessId,
+                                   ProcessId = process.ProcessId,
+                                   ProcessName = process.ProcessName,
+                                   SubProcesName = a.SubProcesName,
+                                   SubProcesNameDari = a.SubProcesNameDari,
+                                   OrderNumber = a.OrderNumber,
+                                   TimelineInDays = a.TimelineInDays,
+                                   StatusNamePast = d.StatusNamePast,
+                                   StatusNameDariPast = d.StatusNameDariPast,
+                                   CompletionFlag = e.CompletionFlag,
+                                   Remarks = b.Remarks,
+                                   StatusDate = b.StatusDate,
+
+                               }).OrderBy(p => p.OrderNumber).ToList();
             var PartDocument = _applicationContext.PartyDocument.Where(p => p.PartyId == _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User)).Select(p => p.SchoolId).FirstOrDefault()
             && p.DocCategoryId==Guid.Parse("39C691C9-E88C-4F1F-A431-C0C7F723348A")
             );
             if (PartDocument.Count() != 0)
             {
-                return RedirectToAction("UploadDocumentsEdit");
+                if (displayPlan.Count > 0)
+                {
+                    for (int i = 0; i < displayPlan.Count; i++)
+                    {
+                        if (displayPlan[i].OrderNumber == 1 && displayPlan[i].CompletionFlag == 0)
+                        {
+
+                            return RedirectToAction("UploadDocumentsEdit");
+                        }
+                        else if (displayPlan[i].OrderNumber == 2 && displayPlan[i].CompletionFlag == 0)
+                        {
+
+                            return RedirectToAction("UploadDocumentsEdit");
+                        }
+                        else if (displayPlan[i].OrderNumber == 3 && displayPlan[i].CompletionFlag == 0)
+                        {
+
+                            return RedirectToAction("UploadDocumentsEdit");
+                        }
+                        else if (displayPlan[i].OrderNumber == 4 && displayPlan[i].CompletionFlag == 0)
+                        {
+
+                            return RedirectToAction("UploadDocumentsEdit"); ;
+                        }
+                        else if (displayPlan[i].OrderNumber == 5 && displayPlan[i].CompletionFlag == 0)
+                        {
+
+                            return RedirectToAction("UploadDocumentsEdit");
+                        }
+                        else if (displayPlan[i].OrderNumber == 4 && displayPlan[i].CompletionFlag == 0)
+                        {
+
+                            return RedirectToAction("UploadDocumentsEdit");
+                        }
+                    }
+                    return RedirectToAction("NoUploadDocumentsEdit");
+                }
+                else
+                {
+                    return RedirectToAction("UploadDocumentsEdit");
+                }
+                
             }
 
             return RedirectToAction("UploadDocuments");
@@ -155,6 +235,31 @@ namespace OLS.Controllers
         }
 
         [HttpGet]
+        [Route("NoUploadDocumentsEdit")]
+        public IActionResult NoUploadDocumentsEdit()
+        {
+
+            var DocumentList = (from zDocType in _applicationContext.ZDocType
+                                join partyDocument in _applicationContext.PartyDocument on zDocType.DocTypeId equals partyDocument.DocTypeId
+                                where zDocType.DocCategoryId == Guid.Parse("39C691C9-E88C-4F1F-A431-C0C7F723348A")
+                                && partyDocument.PartyId == _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User)).Select(p => p.SchoolId).FirstOrDefault()
+                                orderby zDocType.OrderNumber
+                                select new DocTypeViewModelEdit
+                                {
+                                    DocTypeName = zDocType.DocTypeNameDari + "/" + zDocType.DocTypeNamePashto + "/" + zDocType.DocTypeName,
+                                    DocTypeNameEng = zDocType.DocTypeName,
+                                    DocTypeId = zDocType.DocTypeId,
+                                    DocPath = partyDocument.DocPath,
+                                    SchoolId = partyDocument.PartyId,
+                                    DocTypeNameDari = zDocType.DocTypeNameDari,
+                                }).ToList();
+
+            return View(DocumentList);
+
+        }
+
+
+        [HttpGet]
         [Route("UploadDocumentsEdit")]
         public IActionResult UploadDocumentsEdit()
         {
@@ -177,6 +282,8 @@ namespace OLS.Controllers
             return View(DocumentList);
 
         }
+
+
         [HttpPost]
         [Route("UploadDocumentsEdit")]
         public IActionResult UploadDocumentsEdit(IList<DocTypeViewModelEdit> docTypeViewModels)

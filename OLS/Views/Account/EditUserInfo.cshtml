@@ -18,14 +18,33 @@
                 <form class="form-horizontal form-material" id="loginform" asp-action="EditUserInfo">
                     @if (ViewBag.Message != null)
                     {
+
                         //  <div><span class="text-info">@ViewBag.Message</span></div>
-                        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+                        @*<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>*@
                         <script src="~/sweetalert/sweetalert.min.js"></script>
                         <script type="text/javascript">
-                            swal("@ViewBag.Message", "ریکارد موفقانه ثبت گردید / تاسو په بریالیتوب ریکارد ثبت کړی", "success");
+                                               
+                                                    swal({
+                                                        title: "@ViewBag.Message",
+                                                        text: "حساب موفقانه ایجاد گردید / تاسو په بریالیتوب سره یو حساب جوړ کړی",
+                                                        icon: "success",
+                                                        button: "OK",
+                                                    })
+                                                        .then(okay => {
+                                                        if (okay) {
+                                                            window.location.href = "/Account/RegisterStaff";
+                                                        }
+                                                    });
                         </script>
+
                     }
 
+                    <div class="form-group">
+                        <div>
+                            <input asp-for="UserName" class="form-control" required="" disabled placeholder="نام کاربر / کارن نوم / User Name">
+                            <span asp-validation-for="UserName" class="text-danger"></span>
+                        </div>
+                    </div>
                     <div class="form-group ">
                         <div>
                             <input asp-for="Email" class="form-control" required="" placeholder="ایمیل">
@@ -51,7 +70,7 @@
                             ولایت/ولایت/Province:
 
                         </label>
-                        <select asp-for="ProvinceId" id="PerProvince" class="form-control">
+                        <select asp-for="ProvinceId" id="PerProvince" class="form-control selectTwo" style="width:100%;">
                             <option selected value="">--Select--</option>
                             @if (ViewBag.province != null)
                             {
@@ -70,7 +89,7 @@
                             د حساب حالت/حالت حساب/Status
 
                         </label>
-                        <select asp-for="IsActive" class="form-control">
+                        <select asp-for="IsActive" class="form-control selectTwo" style="width:100%;">
                             <option selected value="">Select</option>
                             <option value="1">Active</option>
                             <option value="0">In-active</option>
@@ -79,12 +98,29 @@
                         <span asp-validation-for="IsActive" class="text-danger"></span>
                     </div>
 
+                    <div class="form-group">
+                        <label for="EducationLevelID">
+                            درول/ رول / Role:
+                        </label>
+                        <select asp-for="Role" class="form-control selectTwo" style="width:100%;">
+                            <option selected value="">--Select Role--</option>
+                            @if (ViewBag.roles != null)
+                            {
+                                @foreach (var role in ViewBag.roles)
+                                {
+                                    <option value="@role.NormalizedName">@role.Name</option>
+                                }
+                            }
+                        </select>
+                        <span asp-validation-for="Role" class="text-danger"></span>
+                    </div>
+
 
                     <div class="form-group mt-3">
                         <div>
-                            <button class="btn btn-info text-uppercase waves-effect waves-light" type="submit"> ثبت / ثبت / Save </button>
+                            <button class="btn btn-info text-uppercase " style="background-color:#0193df;" type="submit"> ثبت / ثبت / Save </button>
 
-                            <a class="btn btn-info text-uppercase waves-effect waves-light" asp-controller="Account" asp-action="RegisterStaff"> قبلی/مخکی/Back </a>
+                            <a class="btn btn-info text-uppercase " style="background-color:#0193df;" asp-controller="Account" asp-action="RegisterStaff"> قبلی/مخکی/Back </a>
                         </div>
                     </div>
 
@@ -94,3 +130,9 @@
         </div>
     </div>
 </div>
+<script>
+    // In your Javascript (external .js resource or <script> tag)
+    $(document).ready(function () {
+        $('.selectTwo').select2();
+    });
+</script>

@@ -9,7 +9,7 @@
             <div class="card-body">
                 @await Html.PartialAsync("../steps");
 
-                <div style="text-align:center;background-color: steelblue;">
+                <div style="text-align:center;background-color: #0193df;">
                     <h3 style="padding:5px;color: white;"> بودیجوي پلان(@year)/پلان بودیجوی(@year)/Financial Plan (@year) </h3>
                 </div>
 
@@ -49,16 +49,16 @@
                                                 @Model[i].SchoolSubLevelName
                                             </td>
                                             <td>
-                                                <input type="number" name="[@i].FeeAmount" value="@Model[i].FeeAmount" @required />
+                                                <input class="input form-control" type="number" name="[@i].FeeAmount" value="@Model[i].FeeAmount" @required />
                                             </td>
                                             <td>
-                                                <input type="number" name="[@i].NfreeStudents" value="@Model[i].NfreeStudents" @required />
+                                                <input class="input form-control" type="number" name="[@i].NfreeStudents" value="@Model[i].NfreeStudents" @required />
                                             </td>
                                             <td>
-                                                <input type="number" name="[@i].NpaidStudents" value="@Model[i].NpaidStudents" @required />
+                                                <input class="input form-control" type="number" name="[@i].NpaidStudents" value="@Model[i].NpaidStudents" @required />
                                             </td>
                                             <td>
-                                                <input type="number" name="[@i].AdmissionFee" value="@Model[i].AdmissionFee" @required />
+                                                <input class="input form-control" type="number" name="[@i].AdmissionFee" value="@Model[i].AdmissionFee" @required />
                                             </td>
                                         </tr>
 
@@ -77,7 +77,7 @@
                                 <div style="margin:5px;">
                                     <span class="text-info font-weight-bold">ده فیصد(@ViewBag.Tax) افغانی درامد کلی به حیث تضمین بانکی ضرورت میباشد.</span>
                                 </div>
-                                <div style="margin:5px;">
+                                <div style="        margin: 5px;">
                                     <span class="text-info font-weight-bold ">د بانکي تضمین لپاره د ټولې بودیجې ۱۰ سلنه(@ViewBag.Tax) باید ورکړل شي</span>
                                 </div>
                             </div>
@@ -88,8 +88,8 @@
                     </div>
                     <input type="submit" id="btnSave" value="ثبت/ثبت/Save" class="btn btn-outline-success" />
                     <div style="float:left;">
-                        <button type="button" id="nextBtn" onclick="@("window.location.href='" + @Url.Action("NavigateNextY", "EnrollmentPlan") + "'");" class="btn btn-primary">قبلی/مخکی/Previous</button>
-                        <button type="button" id="nextBtn" onclick="@("window.location.href='" + @Url.Action("Navigate", "SchoolStaffExpenses") + "'");" class="btn btn-primary">بعدی/وروسته/Next</button>
+                        <button type="button" id="nextBtn" style="background-color:#0193df;" onclick="@("window.location.href='" + @Url.Action("NavigateNextY", "EnrollmentPlan") + "'");" class="btn btn-primary">قبلی/مخکی/Previous</button>
+                        <button type="button" id="nextBtn" style="background-color:#0193df;" onclick="@("window.location.href='" + @Url.Action("Navigate", "SchoolStaffExpenses") + "'");" class="btn btn-primary">بعدی/وروسته/Next</button>
                     </div>
                 </form>
             </div>
@@ -99,8 +99,15 @@
 
 @section Scripts{
     <script>
+        //Automatically close alert
+        window.setTimeout(function () {
+            $(".alert").fadeTo(500, 0).slideUp(500, function () {
+                $(this).remove();
+            });
+        }, 5000);
+
         $(document).ready(function () {
-            $("input").focusout(function () {
+            $(".input").focusout(function () {
                 if ($(this).val() == '') {
                     $(this).css('border', 'solid 2px red');
                 }

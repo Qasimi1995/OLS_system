@@ -74,42 +74,50 @@ namespace OLS.Controllers
                                }).OrderBy(p => p.OrderNumber).ToList();
 
             var FinancialResource = _applicationContext.SchoolFinancialResource.Where(p => p.CreatedBy == UserId).FirstOrDefault();
+            ViewBag.FinancialResource = FinancialResource;
             if (FinancialResource != null)
             {
-                for (int i = 0; i < displayPlan.Count; i++)
+                if (displayPlan.Count > 0)
                 {
-                    if (displayPlan[i].OrderNumber == 1 && displayPlan[i].CompletionFlag == 0)
+                    for (int i = 0; i < displayPlan.Count; i++)
                     {
+                        if (displayPlan[i].OrderNumber == 1 && displayPlan[i].CompletionFlag == 0)
+                        {
 
-                        return RedirectToAction("Edit", new { schoolId = FinancialResource.SchoolId });
-                    }
-                    else if (displayPlan[i].OrderNumber == 2 && displayPlan[i].CompletionFlag == 0)
-                    {
+                            return RedirectToAction("Edit", new { schoolId = FinancialResource.SchoolId });
+                        }
+                        else if (displayPlan[i].OrderNumber == 2 && displayPlan[i].CompletionFlag == 0)
+                        {
 
-                        return RedirectToAction("Edit", new { schoolId = FinancialResource.SchoolId });
-                    }
-                    else if (displayPlan[i].OrderNumber == 3 && displayPlan[i].CompletionFlag == 0)
-                    {
+                            return RedirectToAction("Edit", new { schoolId = FinancialResource.SchoolId });
+                        }
+                        else if (displayPlan[i].OrderNumber == 3 && displayPlan[i].CompletionFlag == 0)
+                        {
 
-                        return RedirectToAction("Edit", new { schoolId = FinancialResource.SchoolId });
-                    }
-                    else if (displayPlan[i].OrderNumber == 4 && displayPlan[i].CompletionFlag == 0)
-                    {
+                            return RedirectToAction("Edit", new { schoolId = FinancialResource.SchoolId });
+                        }
+                        else if (displayPlan[i].OrderNumber == 4 && displayPlan[i].CompletionFlag == 0)
+                        {
 
-                        return RedirectToAction("Edit", new { schoolId = FinancialResource.SchoolId });
-                    }
-                    else if (displayPlan[i].OrderNumber == 5 && displayPlan[i].CompletionFlag == 0)
-                    {
+                            return RedirectToAction("Edit", new { schoolId = FinancialResource.SchoolId });
+                        }
+                        else if (displayPlan[i].OrderNumber == 5 && displayPlan[i].CompletionFlag == 0)
+                        {
 
-                        return RedirectToAction("Edit", new { schoolId = FinancialResource.SchoolId });
-                    }
-                    else if (displayPlan[i].OrderNumber == 6 && displayPlan[i].CompletionFlag == 0)
-                    {
+                            return RedirectToAction("Edit", new { schoolId = FinancialResource.SchoolId });
+                        }
+                        else if (displayPlan[i].OrderNumber == 6 && displayPlan[i].CompletionFlag == 0)
+                        {
 
-                        return RedirectToAction("Edit", new { schoolId = FinancialResource.SchoolId });
+                            return RedirectToAction("Edit", new { schoolId = FinancialResource.SchoolId });
+                        }
                     }
+                    return RedirectToAction("NoEdit", new { schoolId = FinancialResource.SchoolId });
                 }
-                return RedirectToAction("NoEdit", new { schoolId = FinancialResource.SchoolId });
+                else
+                {
+                    return RedirectToAction("Edit", new { schoolId = FinancialResource.SchoolId });
+                }
             }
             return RedirectToAction("Create");
 

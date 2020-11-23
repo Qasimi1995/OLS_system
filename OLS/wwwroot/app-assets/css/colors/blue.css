@@ -25,10 +25,12 @@ File: scss
 
 .btn-primary,
 .btn-outline-primary {
-  box-shadow: 0 2px 2px rgba(116, 96, 238, 0.05); }
-  .btn-primary:hover,
-  .btn-outline-primary:hover {
-    box-shadow: 0 8px 15px rgba(116, 96, 238, 0.3); }
+    box-shadow: 0 2px 2px #0193df;
+}
+    .btn-primary:hover,
+    .btn-outline-primary:hover {
+        box-shadow: 0 8px 15px #0193df;
+    }
 
 .btn-secondary,
 .btn-outline-secondary {
@@ -153,9 +155,11 @@ File: scss
 /*Top bar
 *******************/
 .topbar {
-  background: #85276b; }
-  .topbar .top-navbar .navbar-header {
-    background: #85276b; }
+    background: #0193df;
+}
+    .topbar .top-navbar .navbar-header {
+        background: #0193df;
+    }
   .topbar .top-navbar .navbar-header .navbar-brand .dark-logo {
     display: none; }
   .topbar .top-navbar .navbar-header .navbar-brand .light-logo {
@@ -170,10 +174,12 @@ File: scss
 /*General Elements
 *******************/
 a.link:hover, a.link:focus {
-  color: #85276b !important; }
+    color: #0193df !important;
+}
 
 .bg-theme {
-  background-color: #85276b !important; }
+    background-color: #0193df !important;
+}
 
 .pagination > .active > a,
 .pagination > .active > span,
@@ -181,40 +187,49 @@ a.link:hover, a.link:focus {
 .pagination > .active > span:hover,
 .pagination > .active > a:focus,
 .pagination > .active > span:focus {
-  background-color: #85276b;
-  border-color: #85276b; }
+    background-color: #0193df;
+    border-color: #0193df;
+}
 
 .right-sidebar .rpanel-title {
-  background: #85276b; }
+    background: #0193df;
+}
 
 .stylish-table tbody tr:hover, .stylish-table tbody tr.active {
-  border-left: 4px solid #85276b; }
+    border-left: 4px solid #0193df;
+}
 
 .text-themecolor {
-  color: #85276b !important; }
+    color: #0193df !important;
+}
 
 .profile-tab li a.nav-link.active,
 .customtab li a.nav-link.active {
-  border-bottom: 2px solid #85276b;
-  color: #85276b; }
+    border-bottom: 2px solid #0193df;
+    color: #0193df;
+}
 
 .profile-tab li a.nav-link:hover,
 .customtab li a.nav-link:hover {
-  color: #85276b; }
+    color: #0193df;
+}
+/*previous color is #85276b */
 
 /*******************
 /*Buttons
 *******************/
 .btn-themecolor,
 .btn-themecolor.disabled {
-  background: #85276b;
-  color: #fff;
-  border: 1px solid #85276b; }
-  .btn-themecolor:hover,
-  .btn-themecolor.disabled:hover {
     background: #85276b;
-    opacity: 0.7;
-    border: 1px solid #85276b; }
+    color: #fff;
+    border: 1px solid #0193df;
+}
+    .btn-themecolor:hover,
+    .btn-themecolor.disabled:hover {
+        background: #85276b;
+        opacity: 0.7;
+        border: 1px solid #0193df;
+    }
   .btn-themecolor.active, .btn-themecolor:focus,
   .btn-themecolor.disabled.active,
   .btn-themecolor.disabled:focus {
@@ -225,23 +240,27 @@ a.link:hover, a.link:focus {
 *******************/
 .sidebar-nav {
   background: #fff; }
-  .sidebar-nav ul li a {
-    color: #607d8b; }
+    .sidebar-nav ul li a {
+        color: #0193df;
+    }
     .sidebar-nav ul li a.active, .sidebar-nav ul li a:hover {
-      color: #26c6da; }
+        color: #0193df;
+    }
     .sidebar-nav ul li a.active {
       color: #212529; }
   .sidebar-nav ul li.nav-small-cap {
     color: #99abb4; }
-  .sidebar-nav > ul > li.active > a, .sidebar-nav > ul > li.active:hover > a {
-    color: #fff !important;
-    background: #26c6da !important; }
+    .sidebar-nav > ul > li.active > a, .sidebar-nav > ul > li.active:hover > a {
+        color: #fff !important;
+        background: #0193df !important;
+    }
     .sidebar-nav > ul > li.active > a i, .sidebar-nav > ul > li.active:hover > a i {
       color: #fff !important; }
     .sidebar-nav > ul > li.active > a:after, .sidebar-nav > ul > li.active:hover > a:after {
       border-color: #fff; }
-  .sidebar-nav > ul > li > a.active i, .sidebar-nav > ul > li > a:hover i {
-    color: #26c6da; }
+    .sidebar-nav > ul > li > a.active i, .sidebar-nav > ul > li > a:hover i {
+        color: #0193df;
+    }
   .sidebar-nav > ul > li > a i {
     color: #99abb4; }
   .sidebar-nav > ul > li > a.active {

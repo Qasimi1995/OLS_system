@@ -33,7 +33,7 @@
 
                 @if (ViewBag.CompletionFlag != 1)
                 {
-                <button type="button" class="btn btn-info" data-toggle="modal"
+                <button type="button" class="btn btn-info" style="background-color:#0193df;" data-toggle="modal"
                         data-target="#bs-example-modal-lg">
                     طی مراحل نماید/پروسس یې کړئ/Process School
                 </button>
@@ -47,7 +47,7 @@
 
                                 <div class="modal-body">
                                     <div class="card card-outline-info">
-                                        <div class="card-header">
+                                        <div class="card-header" style="background-color:#0193df;">
                                             <h4 class="mb-0 text-white">طی مراحل نماید/پروسس یې کړئ/Process School</h4>
                                         </div>
                                         <form asp-action="Check" method="post" id="myform2" enctype="multipart/form-data">
@@ -111,7 +111,7 @@
                                             }
                                             <hr />
                                             <div class="form-actions">
-                                                <button type="submit" class="btn btn-success">
+                                                <button type="submit" class="btn btn-primary" style="background-color:#0193df;">
                                                     <i class="fa fa-check"></i>
                                                     ثبت / ثبت / Save
                                                 </button>
@@ -1491,12 +1491,12 @@
 
 
     <div class="btn-group">
-        <a class="btn btn-themecolor" href="@Url.Action("index","DPERep")">
+        <a class="btn btn-primary" style="background-color:#0193df;" href="@Url.Action("index","DPERep")">
             برگشت به داشبورد/ داشبورډ ته بېرته ستنېدل / Back Dashboard
         </a>
     </div>
     <div class="btn-group">
-        <a class="btn btn-primary" href="@Url.Action("schoolList","DPERep", new { OrderNumber = ViewBag.OrderNumber, ProcessStatusId = ViewBag.ProcessStatusId, CompletionFlag = ViewBag.CompletionFlag })">
+        <a class="btn btn-primary" style="background-color:#0193df;" href="@Url.Action("schoolList","DPERep", new { OrderNumber = ViewBag.OrderNumber, ProcessStatusId = ViewBag.ProcessStatusId, CompletionFlag = ViewBag.CompletionFlag })">
             قبلی/مخکی/Back
         </a>
     </div>

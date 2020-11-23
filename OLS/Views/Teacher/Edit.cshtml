@@ -12,15 +12,16 @@
         <div class="card">
             <div class="card-body">
 
-                <div style="text-align:center;background-color: steelblue;">
+                <div style="text-align:center;background-color: #0193df;">
                     <h3 style="padding:5px;color: white;">تغیر معلومات استاد/Teacher Information Update</h3>
                 </div>
 
                 <div style="margin:5px;">
-                    <button type="button" class="btn btn-primary" onclick="@("window.location.href='" + @Url.Action("GetTeachersList", "Teacher") + "'");">
+                    <button type="button" class="btn btn-primary" style="background-color:#0193df;" onclick="@("window.location.href='" + @Url.Action("GetTeachersList", "Teacher") + "'");">
                         Return to teachers list
                     </button>
                 </div>
+                <br />
                 <form asp-action="Edit" method="post" enctype="multipart/form-data">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <fieldset>
@@ -36,7 +37,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="Name">
-                                        اسم /نوم/Name 
+                                        اسم /نوم/Name
 
                                     </label>
                                     <input asp-for="Name" class="form-control" />
@@ -89,7 +90,7 @@
                                         نمبر تذکیره /د تذکرې شمېره/NID Number
 
                                     </label>
-                                    <input type="number" asp-for="Nidnumber" class="form-control" />
+                                    <input type="text" asp-for="Nidnumber" class="form-control" />
                                     <span asp-validation-for="Nidnumber" class="text-danger"></span>
                                 </div>
                             </div>
@@ -99,7 +100,7 @@
                                         درجه تحصیل/د زده کړو درجه/Education Level:
 
                                     </label>
-                                    <select asp-for="EducationLevelID" class="form-control">
+                                    <select asp-for="EducationLevelID" class="form-control selectTwo" style="width:100%">
                                         <option selected value="">--Select Education--</option>
                                         @foreach (var EduLevel in ViewBag.EducationLevel)
                                         {
@@ -118,7 +119,7 @@
                                         رشته تحصیلی/د زده کړو رشته/Education field:
 
                                     </label>
-                                    <select asp-for="FacultyTypeId" class="form-control">
+                                    <select asp-for="FacultyTypeId" class="form-control selectTwo" style="width:100%">
                                         <option selected value="">--Select--</option>
                                         @foreach (var FacultyType in ViewBag.FacultyType)
                                         {
@@ -157,7 +158,7 @@
                                         جنسبت/جنسبت/Gender
 
                                     </label>
-                                    <select asp-for="GenderTypeId" class="form-control">
+                                    <select asp-for="GenderTypeId" class="form-control selectTwo" style="width:100%">
                                         <option selected value="">--Select Gender--</option>
                                         @foreach (var GenderType in ViewBag.GenderType)
                                         {
@@ -172,7 +173,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="Eduservice">
-                                         مدت خدمت در معارف/په ښوونه او روزنه کې د خدمت موده/Duration of Service in Education/Duration of Service in Education
+                                        مدت خدمت در معارف/په ښوونه او روزنه کې د خدمت موده/Duration of Service in Education/Duration of Service in Education
 
                                     </label>
                                     <input asp-for="Eduservice" class="form-control" />
@@ -182,7 +183,8 @@
 
                         </div>
 
-                        <input type="submit" id="btnSave" value="ثبت/ثبت/Save" class="btn btn-primary" style="float:right;" />
+                        <input type="submit" id="btnSave" value="ثبت/ثبت/Save" class="btn btn-success" />
+                        <a class="btn btn-primary text-uppercase " style="background-color:#0193df;" asp-controller="Teacher" asp-action="GetTeachersList"> قبلی/مخکی/Back </a>
 
                     </fieldset>
                 </form>
@@ -191,3 +193,9 @@
         </div>
     </div>
 </div>
+<script>
+    // In your Javascript (external .js resource or <script> tag)
+    $(document).ready(function () {
+        $('.selectTwo').select2();
+    });
+</script>

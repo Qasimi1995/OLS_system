@@ -7,7 +7,7 @@
             <div class="card-body">
                 @await Html.PartialAsync("../steps");
 
-                <div style="text-align:center;background-color: steelblue;">
+                <div style="text-align:center;background-color: #0193df;">
                     <h3 style="padding:5px;color: white;">مصارف کارمندان/د کار کوونکو لګښت/Staff Expenses </h3>
                 </div>
 
@@ -37,11 +37,11 @@
                                                 @Model[i].PartyRoleType
                                             </td>
                                             <td>
-                                                @Html.EditorFor(m => Model[i].Salary)
+                                                @Html.EditorFor(m => Model[i].Salary, new { htmlAttributes = new { @class = "form-control" } })
                                                 @Html.ValidationMessageFor(m => Model[i].Salary, null, new { @class = "text-danger" })
                                             </td>
                                             <td>
-                                                @Html.EditorFor(m => Model[i].Amount)
+                                                @Html.EditorFor(m => Model[i].Amount, new { htmlAttributes = new { @class = "form-control" } })
                                                 @Html.ValidationMessageFor(m => Model[i].Amount, null, new { @class = "text-danger" })
                                             </td>
 
@@ -52,11 +52,11 @@
                             </tbody>
                         </table>
                     </div>
-                    <input type="submit" id="btnSave" value="ثبت/ثبت/Save" class="btn btn-primary" />
+                    <input type="submit" id="btnSave" style="background-color:#0193df;" value="ثبت/ثبت/Save" class="btn btn-primary" />
                     <div style="float:left;">
-                        <button type="button" id="nextBtn" onclick="@("window.location.href='" + @Url.Action("Navigate", "SchoolFinancialPlan") + "'");" class="btn btn-primary">قبلی/مخکی/Previous</button>
+                        <button type="button" id="nextBtn" style="background-color:#0193df;" onclick="@("window.location.href='" + @Url.Action("Navigate", "SchoolFinancialPlan") + "'");" class="btn btn-primary">قبلی/مخکی/Previous</button>
                         @*<button type="button" id="nextBtn" onclick="@("window.location.href='" + @Url.Action("Navigate", "SchoolOtherExpenses") + "'");" class="btn btn-primary">بعدی/وروسته/Next</button>*@
-                        <input type="submit" class="btn btn-primary" value="بعدی/وروسته/Next" />
+                        <input type="submit" class="btn btn-primary" style="background-color:#0193df;" value="بعدی/وروسته/Next" />
                         @if (ViewBag.Message != null)
                         {
                             //  <div><span class="text-info">@ViewBag.Message</span></div>

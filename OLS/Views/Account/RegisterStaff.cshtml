@@ -12,7 +12,7 @@
             <div class="card">
                 <div class="card-body">
 
-                    <button type="button" class="btn btn-info" data-toggle="modal"
+                    <button type="button" class="btn btn-primary" style="background-color:#0193df;" data-toggle="modal"
                             data-target="#bs-example-modal-lg">
                         ایجاد حساب / حساب جوړول / User Creation
                     </button>
@@ -25,8 +25,8 @@
 
                                 <div class="modal-body">
                                     <div class="card card-outline-info">
-                                        <div class="card-header">
-                                            <h4 class="mb-0 text-white">ایجاد حساب / حساب جوړول / User Creation</h4>
+                                        <div class="card-header" style="background-color:#0193df;">
+                                            <h4 class="mb-0 text-white" >ایجاد حساب / حساب جوړول / User Creation</h4>
                                         </div>
 
                                         <form class="form-horizontal form-material" id="loginform" asp-action="RegisterStaff">
@@ -77,7 +77,7 @@
                                                     درول/ رول / Role:
 
                                                 </label>
-                                                <select asp-for="RoleId" class="form-control">
+                                                <select asp-for="RoleId" class="form-control selectTwo" style="width:100%;">
                                                     <option selected value="">--Select Role--</option>
                                                     @foreach (var role in ViewBag.roles)
                                                     {
@@ -91,7 +91,7 @@
                                                     د حساب حالت / حالت حساب / Status
 
                                                 </label>
-                                                <select asp-for="IsActive" class="form-control">
+                                                <select asp-for="IsActive" class="form-control selectTwo" style="width:100%;">
                                                     <option selected value="">Select</option>
                                                     <option value="1">Active</option>
                                                     <option value="0">In-active</option>
@@ -104,7 +104,7 @@
                                                     ولایت/ولایت/Province:
 
                                                 </label>
-                                                <select asp-for="ProvinceId" id="PerProvince" class="form-control">
+                                                <select asp-for="ProvinceId" id="PerProvince" class="form-control selectTwo" style="width:100%;">
                                                     <option selected value="">--Select--</option>
                                                     @if (ViewBag.province != null)
                                                     {
@@ -122,7 +122,7 @@
 
                                             <div class="form-group mt-3">
                                                 <div>
-                                                    <button class="btn btn-info text-uppercase waves-effect waves-light" type="submit">ایجاد حساب / حساب جوړول/ User Creation</button>
+                                                    <button class="btn btn-primary text-uppercase " style="background-color:#0193df;" type="submit">ایجاد حساب / حساب جوړول/ User Creation</button>
                                                 </div>
                                             </div>
                                             @if (ViewBag.Message != null)
@@ -226,4 +226,9 @@
             </div>
     </div>
 </div>
-
+<script>
+    // In your Javascript (external .js resource or <script> tag)
+    $(document).ready(function () {
+        $('.selectTwo').select2();
+    });
+</script>

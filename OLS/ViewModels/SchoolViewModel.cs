@@ -15,8 +15,10 @@ namespace OLS.ViewModels
         [Required(ErrorMessage = "*")]
         public Guid?    SchoolLevelId           { get; set; }
         [Required(ErrorMessage = "*")]
+       // [RegularExpression("^(?![ .]+$)[a-zA-Z .]*$", ErrorMessage = "لطف نموده نام مکتب درست را وارد نماید/ورکړل شوی دښوونځي نوم سم نه دی/Please Enter Valid School Name")]
         public string   SchoolName              { get; set; }
         [Required(ErrorMessage = "*")]
+       // [RegularExpression("^(?![ .]+$)[a-zA-Z .]*$", ErrorMessage = "لطف نموده نام انگلیسی مکتب درست را وارد نماید/ورکړل شوی دانگلیسی ښوونځي نوم سم نه دی/Please Enter Valid School Name")]
         public string SchoolEnglishName { get; set; }
         [Required(ErrorMessage = "*")]
         public double? SchoolLatitude { get; set; }
@@ -47,7 +49,7 @@ namespace OLS.ViewModels
         public int?     NstudentDeskChair       { get; set; }
         [Required(ErrorMessage = "*")]
         public byte?    HasLibrary              { get; set; }
-        [Required(ErrorMessage = "*")]
+        //[Required(ErrorMessage = "*")]
         [Remote(action: "ValidateNbooks", controller: "School", AdditionalFields = "SchoolLevelId,Nbooks")]
         public int?     Nbooks                   { get; set; }
         [Required(ErrorMessage = "*")]
@@ -56,7 +58,7 @@ namespace OLS.ViewModels
         [Required(ErrorMessage = "*")]
         public Guid?    LaboratoryMaterialTypeId { get; set; }
         public byte?    HasComputerLab              { get; set; }
-        [Required(ErrorMessage = "*")]
+       // [Required(ErrorMessage = "*")]
         [Remote(action: "ValidateNcomputers", controller: "School", AdditionalFields = "SchoolLevelId,Ncomputers")]
         public int?     Ncomputers                  { get; set; }
   

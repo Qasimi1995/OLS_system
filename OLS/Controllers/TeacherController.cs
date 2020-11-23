@@ -42,12 +42,83 @@ namespace OLS.Controllers
         [HttpGet]
         public IActionResult Navigate()
         {
-            return RedirectToAction("GetTeachersList");
+            var UserId = _userManager.GetUserId(User);
+            var id = _applicationContext.Process.Where(p => p.ProcessId == Guid.Parse("88A9020D-D188-417C-9B11-7FDA9613B197")).Select(p => p.ProcessId).FirstOrDefault();
+            var schoolid = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User)).Select(p => p.SchoolId).FirstOrDefault();
+
+            var displayPlan = (from process in _applicationContext.Process
+                               join subProcess in _applicationContext.SubProcess on process.ProcessId equals subProcess.ProcessId into processgroup
+                               from a in processgroup.DefaultIfEmpty()
+                               join processProgress in _applicationContext.ProcessProgress on a.SubProcessId equals processProgress.SubProcessId into processProgressGroup
+                               from b in processProgressGroup.DefaultIfEmpty()
+                               join school in _applicationContext.School on b.SchoolId equals school.SchoolId into schoolGroup
+                               from c in schoolGroup.DefaultIfEmpty()
+                               join zProcessStatus in _applicationContext.ZProcessStatus on b.ProcessStatusId equals zProcessStatus.ProcessStatusId into zProcessStatusGroup
+                               from d in zProcessStatusGroup.DefaultIfEmpty()
+                               join subProcessStatus in _applicationContext.SubProcessStatus on new { a = a.SubProcessId.ToString(), b = b.ProcessStatusId.ToString() } equals new { a = subProcessStatus.SubProcessId.ToString(), b = subProcessStatus.ProcessStatusId.ToString() } into subProcessStatusGroup
+                               from e in subProcessStatusGroup.DefaultIfEmpty()
+                               where process.ProcessId == id && c.SchoolId == schoolid
+
+                               select new SubProcessViewModel
+                               {
+                                   SubProcessId = a.SubProcessId,
+                                   ProcessId = process.ProcessId,
+                                   ProcessName = process.ProcessName,
+                                   SubProcesName = a.SubProcesName,
+                                   SubProcesNameDari = a.SubProcesNameDari,
+                                   OrderNumber = a.OrderNumber,
+                                   TimelineInDays = a.TimelineInDays,
+                                   StatusNamePast = d.StatusNamePast,
+                                   StatusNameDariPast = d.StatusNameDariPast,
+                                   CompletionFlag = e.CompletionFlag,
+                                   Remarks = b.Remarks,
+                                   StatusDate = b.StatusDate,
+
+                               }).OrderBy(p => p.OrderNumber).ToList();
+
+            if (displayPlan.Count > 0)
+            {
+                for (int i = 0; i < displayPlan.Count; i++)
+                {
+                    if (displayPlan[i].OrderNumber == 1 && displayPlan[i].CompletionFlag == 0)
+                    {
+
+                        return RedirectToAction("GetTeachersList");
+                    }
+                    else if (displayPlan[i].OrderNumber == 2 && displayPlan[i].CompletionFlag == 0)
+                    {
+
+                        return RedirectToAction("GetTeachersList");
+                    }
+                    else if (displayPlan[i].OrderNumber == 3 && displayPlan[i].CompletionFlag == 0)
+                    {
+
+                        return RedirectToAction("GetTeachersList");
+                    }
+                    else if (displayPlan[i].OrderNumber == 4 && displayPlan[i].CompletionFlag == 0)
+                    {
+
+                        return RedirectToAction("GetTeachersList");
+                    }
+                    else if (displayPlan[i].OrderNumber == 5 && displayPlan[i].CompletionFlag == 0)
+                    {
+
+                        return RedirectToAction("GetTeachersList");
+                    }
+                    else if (displayPlan[i].OrderNumber == 4 && displayPlan[i].CompletionFlag == 0)
+                    {
+
+                        return RedirectToAction("GetTeachersList");
+                    }
+                }
+                return RedirectToAction("NoGetTeachersList");
+            }
+            else
+            {
+                return RedirectToAction("GetTeachersList");
+            }
+            
         }
-
-
-    
-
 
         [AcceptVerbs("Get", "Post")]
         [Route("IsNIDUnique")]
@@ -91,6 +162,52 @@ namespace OLS.Controllers
 
         }
 
+        [Route("NoGetTeachersList")]
+        [HttpGet]
+        public IActionResult NoGetTeachersList()
+        {
+
+            var teacherList = (from person in _applicationContext.Person
+                               join personEducation in _applicationContext.PersonEducation
+                               on person.PersonId equals personEducation.PersonId
+                               join zEducation in _applicationContext.ZEducationLevel on personEducation.EducationLevelId equals zEducation.EducationLevelId
+                               join zGender in _applicationContext.ZGenderType on person.GenderTypeId equals zGender.GenderTypeId
+                               join zfaculty in _applicationContext.ZFacultyType on personEducation.FacultyTypeId equals zfaculty.FacultyTypeId
+                               where person.PartyRoleTypeId == Guid.Parse("E15C4649-0ABA-4B88-95AA-3936A863450D")
+                               && person.CreatedBy == _userManager.GetUserId(User)
+                               select new
+                               {
+                                   PersonId = person.PersonId,
+                                   Name = person.Name,
+                                   LastName = person.LastName,
+                                   FatherName = person.FatherName,
+                                   GrandFatherName = person.GrandFatherName,
+                                   Nidnumber = person.Nidnumber,
+                                   Age = person.Age,
+                                   GenderType = zGender.GenderTypeNameDari,
+                                   Eduservice = person.Eduservice,
+                                   EducationLevel = zEducation.EducationLevelNameDari,
+                                   FacultyType = zfaculty.FacultypeName,
+                                   GraduationDate = personEducation.GraduationDate,
+                               }).ToList()
+                               .Select(x => new TeacherViewModelDisplay()
+                               {
+                                   PersonId = x.PersonId,
+                                   Name = x.Name,
+                                   LastName = x.LastName,
+                                   FatherName = x.FatherName,
+                                   GrandFatherName = x.GrandFatherName,
+                                   Nidnumber = x.Nidnumber,
+                                   Age = x.Age,
+                                   GenderType = x.GenderType,
+                                   Eduservice = x.Eduservice,
+                                   EducationLevel = x.EducationLevel,
+                                   FacultyType = x.FacultyType,
+                                   GraduationDate = x.GraduationDate,
+                               });
+
+            return View(teacherList);
+        }
 
 
         [Route("GetTeachersList")]

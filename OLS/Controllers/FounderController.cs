@@ -78,42 +78,50 @@ namespace OLS.Controllers
 
 
             var founder = _applicationContext.Person.Where(p => p.CreatedBy == UserId && p.PartyRoleTypeId == Guid.Parse("CAE7466D-198A-423B-903F-BB64D58C0236")).FirstOrDefault();
+            ViewBag.found = founder;
             if (founder != null)
             {
-                for (int i = 0; i < displayPlan.Count; i++)
-                { 
-                    if(displayPlan[i].OrderNumber == 1 && displayPlan[i].CompletionFlag == 0)
+                if (displayPlan.Count > 0)
+                {
+                    for (int i = 0; i < displayPlan.Count; i++)
                     {
-                       
-                        return RedirectToAction("Edit", new { founderid = founder.PersonId });
-                    }
-                    else if (displayPlan[i].OrderNumber == 2 && displayPlan[i].CompletionFlag == 0)
-                    {
+                        if (displayPlan[i].OrderNumber == 1 && displayPlan[i].CompletionFlag == 0)
+                        {
 
-                        return RedirectToAction("Edit", new { founderid = founder.PersonId });
-                    }
-                    else if (displayPlan[i].OrderNumber == 3 && displayPlan[i].CompletionFlag == 0)
-                    {
+                            return RedirectToAction("Edit", new { founderid = founder.PersonId });
+                        }
+                        else if (displayPlan[i].OrderNumber == 2 && displayPlan[i].CompletionFlag == 0)
+                        {
 
-                        return RedirectToAction("Edit", new { founderid = founder.PersonId });
-                    }
-                    else if (displayPlan[i].OrderNumber == 4 && displayPlan[i].CompletionFlag == 0)
-                    {
+                            return RedirectToAction("Edit", new { founderid = founder.PersonId });
+                        }
+                        else if (displayPlan[i].OrderNumber == 3 && displayPlan[i].CompletionFlag == 0)
+                        {
 
-                        return RedirectToAction("Edit", new { founderid = founder.PersonId });
-                    }
-                    else if (displayPlan[i].OrderNumber == 5 && displayPlan[i].CompletionFlag == 0)
-                    {
+                            return RedirectToAction("Edit", new { founderid = founder.PersonId });
+                        }
+                        else if (displayPlan[i].OrderNumber == 4 && displayPlan[i].CompletionFlag == 0)
+                        {
 
-                        return RedirectToAction("Edit", new { founderid = founder.PersonId });
-                    }
-                    else if (displayPlan[i].OrderNumber == 4 && displayPlan[i].CompletionFlag == 0)
-                    {
+                            return RedirectToAction("Edit", new { founderid = founder.PersonId });
+                        }
+                        else if (displayPlan[i].OrderNumber == 5 && displayPlan[i].CompletionFlag == 0)
+                        {
 
-                        return RedirectToAction("Edit", new { founderid = founder.PersonId });
+                            return RedirectToAction("Edit", new { founderid = founder.PersonId });
+                        }
+                        else if (displayPlan[i].OrderNumber == 4 && displayPlan[i].CompletionFlag == 0)
+                        {
+
+                            return RedirectToAction("Edit", new { founderid = founder.PersonId });
+                        }
                     }
+                    return RedirectToAction("NoEdit", new { founderid = founder.PersonId });
                 }
-                return RedirectToAction("NoEdit", new { founderid = founder.PersonId });
+                else
+                {
+                    return RedirectToAction("Edit", new { founderid = founder.PersonId });
+                }
 
             }
 
@@ -705,7 +713,8 @@ namespace OLS.Controllers
                 ViewBag.Message = "معلومات ثبت گردید / معلومات په بریالیتوب سره ثبت شوي/ record Saved Successfuly";
                 HttpContext.Session.SetString("FounderID", Pid.ToString());
                
-                return RedirectToAction("Edit", new { founderid = Pid });
+               return RedirectToAction("Edit", new { founderid = Pid });
+               
             }
             return View("Create"); 
            

@@ -8,9 +8,9 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                @await Html.PartialAsync("../steps");
+                @await Html.PartialAsync("../steps")
 
-                <div style="text-align:center;background-color: steelblue;">
+                <div style="text-align:center;background-color: #0193df;">
                     <h3 style="padding:5px;color: white;"> منابع مالی/مالی زیرمی/Financial Resources</h3>
                 </div>
                 <form asp-action="Edit">
@@ -21,7 +21,7 @@
                         // <div><span class="text-info">@ViewBag.Message</span></div>
 
                         <div class="alert alert-success alert-dismissible fade show">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <button type="button" class="close" data-dismiss="alert" role="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                             @ViewBag.Message
@@ -32,7 +32,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label asp-for="SchoolBussinessTypeId" class="control-label"> نوعیت موسسه/د ښوونځي ډول/Type of School</label>
-                                <select asp-for="SchoolBussinessTypeId" class="form-control">
+                                <select asp-for="SchoolBussinessTypeId" class="form-control selectTwo">
                                     <option selected value="">--Select--</option>
                                     @foreach (var BussinessType in ViewBag.BussinessType)
                                     {
@@ -51,10 +51,10 @@
                         </div>
                     </div>
 
-                    <input type="submit" value="ثبت/ثبت/Save" class="btn btn-outline-success" />
+                    <input type="submit" value="ثبت/ثبت/Save"  class="btn btn-outline-success" />
                     <div style="float:left;">
-                        <button type="button" id="nextBtn" onclick="@("window.location.href='" + @Url.Action("Navigate", "School") + "'");" class="btn btn-primary">قبلی/مخکی/Previous</button>
-                        <button type="button" id="nextBtn" onclick="@("window.location.href='" + @Url.Action("Navigate", "Principle") + "'");" class="btn btn-primary">بعدی/وروسته/Next</button>
+                        <button type="button" id="nextBtn" style="background-color: #0193df; " onclick="@("window.location.href='" + @Url.Action("Navigate", "School") + "'");" class="btn btn-primary">قبلی/مخکی/Previous</button>
+                        <button type="button" id="nextBtn" style="background-color:#0193df;" onclick="@("window.location.href='" + @Url.Action("Navigate", "Principle") + "'");" class="btn btn-primary">بعدی/وروسته/Next</button>
                     </div>
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 </form>
@@ -63,3 +63,16 @@
         </div>
     </div>
 </div>
+<script>
+    //Automatically close alert
+    window.setTimeout(function () {
+        $(".alert").fadeTo(500, 0).slideUp(500, function () {
+            $(this).remove();
+        });
+    }, 5000);
+
+    // In your Javascript (external .js resource or <script> tag)
+    $(document).ready(function () {
+        $('.selectTwo').select2();
+    });
+</script>

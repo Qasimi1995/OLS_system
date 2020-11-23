@@ -11,13 +11,13 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                @await Html.PartialAsync("../steps");
-                <div style="text-align:center;background-color: steelblue;">
+                @await Html.PartialAsync("../steps")
+                <div style="text-align:center;background-color: #0193df;">
                     <h3 style="padding:5px;color: white;">معلومات اساتید/د ښوونکو په اړه مالومات/Teachers' Information</h3>
                 </div>
 
                 <div style="margin:5px;">
-                    <button type="button" class="btn btn-primary" onclick="@("window.location.href='" + @Url.Action("Create", "Teacher") + "'");">
+                    <button type="button" class="btn btn-primary" style="background-color:#0193df;" onclick="@("window.location.href='" + @Url.Action("Create", "Teacher") + "'");">
                         استاد جدید اضافه نماید/د نوي ښوونکي اضافه کول/Add New Teacher
                     </button>
                 </div>
@@ -81,8 +81,8 @@
                 </div>
 
                 <div style="float:left;">
-                    <button type="button" id="nextBtn" onclick="@("window.location.href='" + @Url.Action("Navigate", "Principle") + "'");" class="btn btn-primary">قبلی/مخکی/Previous</button>
-                    <button type="button" id="nextBtn" onclick="@("window.location.href='" + @Url.Action("Navigate", "EnrollmentPlan") + "'");" class="btn btn-primary">بعدی/وروسته/Next</button>
+                    <button type="button" id="nextBtn" style="background-color:#0193df;" onclick="@("window.location.href='" + @Url.Action("Navigate", "Principle") + "'");" class="btn btn-primary">قبلی/مخکی/Previous</button>
+                    <button type="button" id="nextBtn" style="background-color:#0193df;" onclick="@("window.location.href='" + @Url.Action("Navigate", "EnrollmentPlan") + "'");" class="btn btn-primary">بعدی/وروسته/Next</button>
                 </div>
             </div>
         </div>

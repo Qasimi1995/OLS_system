@@ -17,7 +17,7 @@
                 @await Html.PartialAsync("../steps")
 
 
-                <div style="text-align:center;background-color: steelblue;">
+                <div style="text-align:center;background-color: #0193df;">
                     <h3 style="padding:5px;color: white;">معلومات موسس/د مؤسس پېژندنه/Founder Information</h3>
                  
                 </div>
@@ -34,7 +34,7 @@
                        // <div><span class="text-info">@ViewBag.Message</span></div>
 
                         <div class="alert alert-success alert-dismissible fade show">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <button type="button" class="close" data-dismiss="alert" role="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                             @ViewBag.Message
@@ -63,8 +63,9 @@
 
                         </div>
                     </div>
+
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="Name">
                                     اسم /نوم/Name
@@ -74,19 +75,17 @@
                                 <span asp-validation-for="Name" class="text-danger"></span>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="LastName">
-                                    تخلص /تخلص/Last Name 
+                                    تخلص /تخلص/Last Name
 
                                 </label>
                                 <input asp-for="LastName" class="form-control" />
                                 <span asp-validation-for="LastName" class="text-danger"></span>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="FatherName">
                                     ولد /د پلار نوم/Father Name
@@ -97,7 +96,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-6">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="GrandFatherName">
                                     ولدیت/د نیکه نوم/Grand Father Name
@@ -107,22 +106,22 @@
                                 <span asp-validation-for="GrandFatherName" class="text-danger"></span>
                             </div>
                         </div>
-
                     </div>
 
                     <div class="row">
 
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="Email">
                                     ایمیل/ایمیل/Email
 
                                 </label>
-                                <input  asp-for="Email" class="form-control" />
+                                <input asp-for="Email" class="form-control" />
                                 <span asp-validation-for="Email" class="text-danger"></span>
                             </div>
                         </div>
-                        <div class="col-md-6">
+
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="PhonNumber">
                                     شماره تماس/د اړیکې شمېره/Phone No
@@ -132,27 +131,28 @@
                                 <span asp-validation-for="PhonNumber" class="text-danger"></span>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="row">
-
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="Nidnumber">
                                     نمبر تذکره /د تذکرې شمېره/NID Number
 
                                 </label>
-                                <input type="number" asp-for="Nidnumber" class="form-control" />
+                                <input type="text" asp-for="Nidnumber" class="form-control" />
                                 <span asp-validation-for="Nidnumber" class="text-danger"></span>
                             </div>
                         </div>
-                        <div class="col-md-6">
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4" style="width:auto;">
                             <div class="form-group">
                                 <label for="EducationLevelID">
                                     درجه تحصیل/د زده کړو درجه/Education Level:
 
                                 </label>
-                                <select asp-for="EducationLevelID" class="form-control">
+                                <select asp-for="EducationLevelID" class="form-control selectTwo" style="width:100%;">
                                     <option selected value="">--Select Education--</option>
                                     @foreach (var EduLevel in ViewBag.EducationLevel)
                                     {
@@ -162,27 +162,13 @@
                                 <span asp-validation-for="EducationLevelID" class="text-danger"></span>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="row">
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="Nidnumber">
-                                    سن/عمر/Age
-
-                                </label>
-                                <input asp-for="Age" class="form-control" />
-                                <span asp-validation-for="Age" class="text-danger"></span>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="Nidnumber">
                                     جنسیت/جنسیت/Gender
-
                                 </label>
-                                <select asp-for="GenderTypeId" class="form-control">
+                                <select asp-for="GenderTypeId" class="form-control selectTwo" style="width:100%;">
                                     <option selected value="">--Select Gender--</option>
                                     @foreach (var GenderType in ViewBag.GenderType)
                                     {
@@ -192,8 +178,19 @@
                                 <span asp-validation-for="GenderTypeId" class="text-danger"></span>
                             </div>
                         </div>
-                    </div>
 
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="Nidnumber">
+                                    سن/عمر/Age
+
+                                </label>
+                                <input asp-for="Age" class="form-control" />
+                                <span asp-validation-for="Age" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                    </div>
 
                     <div class="card-header" style="background-color: gainsboro; margin-bottom:10px">
                         <strong>آدرس دایمی/اصلي استوګنځای/Permenant Address</strong>
@@ -205,7 +202,7 @@
                                     ولایت/ولایت/Province
 
                                 </label>
-                                <select asp-for="PerProvinceId" id="PerProvince" class="form-control">
+                                <select asp-for="PerProvinceId" id="PerProvince" class="form-control selectTwo" style="width:100%;">
                                     <option selected value="">--Select--</option>
                                     @foreach (var Perprovince in ViewBag.Perprovince)
                                     {
@@ -222,7 +219,7 @@
                                     ولسوالی/ولسوالۍ/District
 
                                 </label>
-                                <select asp-for="PerDistrictId" id="PerDistrict" class="form-control">
+                                <select asp-for="PerDistrictId" id="PerDistrict" class="form-control selectTwo" style="width:100%;">
                                     <option selected value="">--Select--</option>
                                     @foreach (var Perdistrict in ViewBag.Perdistrict)
                                     {
@@ -260,7 +257,7 @@
                                     ولایت/ولایت/Province
 
                                 </label>
-                                <select asp-for="PreProvinceId" id="PreProvince" class="form-control">
+                                <select asp-for="PreProvinceId" id="PreProvince" class="form-control selectTwo" style="width:100%;">
                                     <option selected value="">--Select--</option>
                                     @foreach (var Preprovince in ViewBag.Preprovince)
                                     {
@@ -276,7 +273,7 @@
                                     ولسوالی/ولسوالۍ/District
 
                                 </label>
-                                <select asp-for="PreDistrictId" id="PreDistrict" class="form-control">
+                                <select asp-for="PreDistrictId" id="PreDistrict" class="form-control selectTwo" style="width:100%;">
                                     <option selected value="">--Select--</option>
                                     @foreach (var Predistrict in ViewBag.Predistrict)
                                     {
@@ -307,7 +304,7 @@
 
 
                     <div style="float:left;">
-                        <button type="button" id="nextBtn" onclick="Next();" class="btn btn-primary">بعدی/وروسته/Next</button>
+                        <button type="button" id="nextBtn" style="background-color:#0193df;" onclick="Next();" class="btn btn-primary">بعدی/وروسته/Next</button>
                     </div>
                 </form>
             </div>
@@ -316,6 +313,19 @@
 </div>
 
 <script>
+    //Automatically close alert
+    window.setTimeout(function () {
+        $(".alert").fadeTo(500, 0).slideUp(500, function () {
+            $(this).remove();
+        });
+    }, 5000);
+
+    // In your Javascript (external .js resource or <script> tag)
+    $(document).ready(function () {
+        $('.selectTwo').select2();
+    });
+
+
     function Next() {
         var sid = '@schoolid';
         if (sid.length != 0) {

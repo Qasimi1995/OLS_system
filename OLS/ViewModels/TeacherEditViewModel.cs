@@ -14,12 +14,16 @@ namespace OLS.ViewModels
     {
         public Guid PersonId { get; set; }
          [Required(ErrorMessage ="*")]
+       // [RegularExpression("^(?![ .]+$)[a-zA-Z .]*$", ErrorMessage = "لطف نموده نام درست را وارد نماید/ورکړل شوی نوم سم نه دی/Please Enter Valid Name")]
         public string Name { get; set; }
          [Required(ErrorMessage ="*")]
+        //[RegularExpression("^(?![ .]+$)[a-zA-Z .]*$", ErrorMessage = "لطف نموده تخلص درست را وارد نماید/ورکړل شوی تخلص سم نه دی/Please Enter Valid Last Name")]
         public string LastName { get; set; }
          [Required(ErrorMessage ="*")]
+        //[RegularExpression("^(?![ .]+$)[a-zA-Z .]*$", ErrorMessage = "لطف نموده نام پدر درست را وارد نماید/ورکړل شوی پلارنوم سم نه دی/Please Enter Valid Father Name")]
         public string FatherName { get; set; }
          [Required(ErrorMessage ="*")]
+        //[RegularExpression("^(?![ .]+$)[a-zA-Z .]*$", ErrorMessage = "لطف نموده نام پدرکلان درست را وارد نماید/ورکړل شوی د نیکه نوم سم نه دی/Please Enter Valid Grand Father Name")]
         public string GrandFatherName { get; set; }
         [Required(ErrorMessage = "*")]
         [Remote(action: "IsNIDUniqueEdit", controller: "Teacher", AdditionalFields = "NIDNumber,PersonId")]

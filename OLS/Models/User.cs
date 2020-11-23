@@ -16,6 +16,6 @@ namespace OLS.Models
         public string LastName { get; set; }
         public byte IsActive { get; set; }
         public Guid? ProvinceId { get; set; }
-       
+        
     }
 }

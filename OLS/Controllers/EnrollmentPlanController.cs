@@ -33,12 +33,84 @@ namespace OLS.Controllers
         public IActionResult Navigate()
         {
             var UserId = _userManager.GetUserId(User);
+            var id = _applicationContext.Process.Where(p => p.ProcessId == Guid.Parse("88A9020D-D188-417C-9B11-7FDA9613B197")).Select(p => p.ProcessId).FirstOrDefault();
+            var schoolid = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User)).Select(p => p.SchoolId).FirstOrDefault();
+            var displayPlan = (from process in _applicationContext.Process
+                               join subProcess in _applicationContext.SubProcess on process.ProcessId equals subProcess.ProcessId into processgroup
+                               from a in processgroup.DefaultIfEmpty()
+                               join processProgress in _applicationContext.ProcessProgress on a.SubProcessId equals processProgress.SubProcessId into processProgressGroup
+                               from b in processProgressGroup.DefaultIfEmpty()
+                               join school in _applicationContext.School on b.SchoolId equals school.SchoolId into schoolGroup
+                               from c in schoolGroup.DefaultIfEmpty()
+                               join zProcessStatus in _applicationContext.ZProcessStatus on b.ProcessStatusId equals zProcessStatus.ProcessStatusId into zProcessStatusGroup
+                               from d in zProcessStatusGroup.DefaultIfEmpty()
+                               join subProcessStatus in _applicationContext.SubProcessStatus on new { a = a.SubProcessId.ToString(), b = b.ProcessStatusId.ToString() } equals new { a = subProcessStatus.SubProcessId.ToString(), b = subProcessStatus.ProcessStatusId.ToString() } into subProcessStatusGroup
+                               from e in subProcessStatusGroup.DefaultIfEmpty()
+                               where process.ProcessId == id && c.SchoolId == schoolid
+                               select new SubProcessViewModel
+                               {
+                                   SubProcessId = a.SubProcessId,
+                                   ProcessId = process.ProcessId,
+                                   ProcessName = process.ProcessName,
+                                   SubProcesName = a.SubProcesName,
+                                   SubProcesNameDari = a.SubProcesNameDari,
+                                   OrderNumber = a.OrderNumber,
+                                   TimelineInDays = a.TimelineInDays,
+                                   StatusNamePast = d.StatusNamePast,
+                                   StatusNameDariPast = d.StatusNameDariPast,
+                                   CompletionFlag = e.CompletionFlag,
+                                   Remarks = b.Remarks,
+                                   StatusDate = b.StatusDate,
+
+                               }).OrderBy(p => p.OrderNumber).ToList();
 
             var year = _applicationContext.StudentEnrollmentPlan.Where(p => p.CreatedBy == _userManager.GetUserId(User)).Select(p => p.Year).Min();
             var studentEnrollmentPlan = _applicationContext.StudentEnrollmentPlan.Where(p => p.CreatedBy == UserId && p.Year == year);
+
             if (studentEnrollmentPlan.Count() != 0)
             {
-                return RedirectToAction("Edit");
+                if (displayPlan.Count > 0)
+                {
+                    for (int i = 0; i < displayPlan.Count; i++)
+                    {
+                        if (displayPlan[i].OrderNumber == 1 && displayPlan[i].CompletionFlag == 0)
+                        {
+
+                            return RedirectToAction("Edit");
+                        }
+                        else if (displayPlan[i].OrderNumber == 2 && displayPlan[i].CompletionFlag == 0)
+                        {
+
+                            return RedirectToAction("Edit");
+                        }
+                        else if (displayPlan[i].OrderNumber == 3 && displayPlan[i].CompletionFlag == 0)
+                        {
+
+                            return RedirectToAction("Edit");
+                        }
+                        else if (displayPlan[i].OrderNumber == 4 && displayPlan[i].CompletionFlag == 0)
+                        {
+
+                            return RedirectToAction("Edit");
+                        }
+                        else if (displayPlan[i].OrderNumber == 5 && displayPlan[i].CompletionFlag == 0)
+                        {
+
+                            return RedirectToAction("Edit");
+                        }
+                        else if (displayPlan[i].OrderNumber == 4 && displayPlan[i].CompletionFlag == 0)
+                        {
+
+                            return RedirectToAction("Edit");
+                        }
+                    }
+                    return RedirectToAction("NoEdit");
+                }
+                else
+                {
+                    return RedirectToAction("Edit");
+                }
+              
             }
 
 
@@ -47,11 +119,83 @@ namespace OLS.Controllers
         public IActionResult NavigateNextY()
         {
             var UserId = _userManager.GetUserId(User);
+            var id = _applicationContext.Process.Where(p => p.ProcessId == Guid.Parse("88A9020D-D188-417C-9B11-7FDA9613B197")).Select(p => p.ProcessId).FirstOrDefault();
+            var schoolid = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User)).Select(p => p.SchoolId).FirstOrDefault();
+            var displayPlan = (from process in _applicationContext.Process
+                               join subProcess in _applicationContext.SubProcess on process.ProcessId equals subProcess.ProcessId into processgroup
+                               from a in processgroup.DefaultIfEmpty()
+                               join processProgress in _applicationContext.ProcessProgress on a.SubProcessId equals processProgress.SubProcessId into processProgressGroup
+                               from b in processProgressGroup.DefaultIfEmpty()
+                               join school in _applicationContext.School on b.SchoolId equals school.SchoolId into schoolGroup
+                               from c in schoolGroup.DefaultIfEmpty()
+                               join zProcessStatus in _applicationContext.ZProcessStatus on b.ProcessStatusId equals zProcessStatus.ProcessStatusId into zProcessStatusGroup
+                               from d in zProcessStatusGroup.DefaultIfEmpty()
+                               join subProcessStatus in _applicationContext.SubProcessStatus on new { a = a.SubProcessId.ToString(), b = b.ProcessStatusId.ToString() } equals new { a = subProcessStatus.SubProcessId.ToString(), b = subProcessStatus.ProcessStatusId.ToString() } into subProcessStatusGroup
+                               from e in subProcessStatusGroup.DefaultIfEmpty()
+                               where process.ProcessId == id && c.SchoolId == schoolid
+                               select new SubProcessViewModel
+                               {
+                                   SubProcessId = a.SubProcessId,
+                                   ProcessId = process.ProcessId,
+                                   ProcessName = process.ProcessName,
+                                   SubProcesName = a.SubProcesName,
+                                   SubProcesNameDari = a.SubProcesNameDari,
+                                   OrderNumber = a.OrderNumber,
+                                   TimelineInDays = a.TimelineInDays,
+                                   StatusNamePast = d.StatusNamePast,
+                                   StatusNameDariPast = d.StatusNameDariPast,
+                                   CompletionFlag = e.CompletionFlag,
+                                   Remarks = b.Remarks,
+                                   StatusDate = b.StatusDate,
+
+                               }).OrderBy(p => p.OrderNumber).ToList();
+
             var year = _applicationContext.StudentEnrollmentPlan.Where(p => p.CreatedBy == _userManager.GetUserId(User)).Select(p => p.Year);
             var studentEnrollmentPlan = _applicationContext.StudentEnrollmentPlan.Where(p => p.CreatedBy == UserId).Select(p =>p.Year).Distinct().ToList();
             if (studentEnrollmentPlan.Count() >1)
             {
-                return RedirectToAction("EditNextY");
+                if (displayPlan.Count > 0)
+                {
+                    for (int i = 0; i < displayPlan.Count; i++)
+                    {
+                        if (displayPlan[i].OrderNumber == 1 && displayPlan[i].CompletionFlag == 0)
+                        {
+
+                            return RedirectToAction("EditNextY");
+                        }
+                        else if (displayPlan[i].OrderNumber == 2 && displayPlan[i].CompletionFlag == 0)
+                        {
+
+                            return RedirectToAction("EditNextY");
+                        }
+                        else if (displayPlan[i].OrderNumber == 3 && displayPlan[i].CompletionFlag == 0)
+                        {
+
+                            return RedirectToAction("EditNextY");
+                        }
+                        else if (displayPlan[i].OrderNumber == 4 && displayPlan[i].CompletionFlag == 0)
+                        {
+
+                            return RedirectToAction("EditNextY");
+                        }
+                        else if (displayPlan[i].OrderNumber == 5 && displayPlan[i].CompletionFlag == 0)
+                        {
+
+                            return RedirectToAction("EditNextY");
+                        }
+                        else if (displayPlan[i].OrderNumber == 4 && displayPlan[i].CompletionFlag == 0)
+                        {
+
+                            return RedirectToAction("EditNextY");
+                        }
+                    }
+                    return RedirectToAction("NoEditNextY");
+                }
+                else
+                {
+                    return RedirectToAction("EditNextY");
+                }
+                
             }
 
 
@@ -78,13 +222,10 @@ namespace OLS.Controllers
                 }
                 _applicationContext.UpdateRange(enrollmentPlans);
                 _applicationContext.SaveChanges();
-
-               
-
+                ViewBag.Message = "معلومات موفقانه تصحیح گردید / معلومات په بریالیتوب سره اصلاح شول / Record Successfully updated ";
                 return RedirectToAction("Edit");
                 
             }
-            ViewBag.Message = "معلومات تصحیح گردید";
             return View();
         }
         public IActionResult Edit()
@@ -105,12 +246,27 @@ namespace OLS.Controllers
 
                                }).ToList();
 
-                             
+            return View(displayPlan);
+        }
+        [Route("NoEdit")]
+        [HttpGet]
+        public IActionResult NoEdit()
+        {
+            var schoolId = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User)).Select(p => p.SchoolId).FirstOrDefault();
+            var year = _applicationContext.StudentEnrollmentPlan.Where(p => p.CreatedBy == _userManager.GetUserId(User)).Select(p => p.Year).Min();
+            var displayPlan = (from studentEnrollmentPlan in _applicationContext.StudentEnrollmentPlan
+                               join schoolSubLevel in _applicationContext.ZSchoolSubLevel on studentEnrollmentPlan.SchoolSubLevelId equals schoolSubLevel.SchoolSubLevelId
+                               where studentEnrollmentPlan.SchoolId == schoolId && studentEnrollmentPlan.Year == year
+                               orderby schoolSubLevel.OrderNumber, studentEnrollmentPlan.GenderTypeId
+                               select new EnrollmentPlanEditViewModel
+                               {
+                                   Id = studentEnrollmentPlan.Id,
+                                   NumberOfStudents = studentEnrollmentPlan.NumberOfStudents,
+                                   SchoolSubLevelName = schoolSubLevel.SubLevelNameDari + "/" + schoolSubLevel.SubLevelNamePashto + "/" + schoolSubLevel.SubLevelName,
+                                   GenderTypeId = studentEnrollmentPlan.GenderTypeId
 
-        
-            
 
-
+                               }).ToList();
 
             return View(displayPlan);
         }
@@ -231,10 +387,34 @@ namespace OLS.Controllers
 
                 _applicationContext.UpdateRange(enrollmentPlans);
                 _applicationContext.SaveChanges();
+                ViewBag.Message = "معلومات تصحیح گردید";
                 return RedirectToAction("NavigateNextY");
             }
             return View();
         }
+        [Route("NoEditNextY")]
+        [HttpGet]
+        public IActionResult NoEditNextY()
+        {
+            var schoolId = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User)).Select(p => p.SchoolId).FirstOrDefault();
+            var year = _applicationContext.StudentEnrollmentPlan.Where(p => p.CreatedBy == _userManager.GetUserId(User)).Select(p => p.Year).Max();
+
+            var displayPlan = (from studentEnrollmentPlan in _applicationContext.StudentEnrollmentPlan
+                               join schoolSubLevel in _applicationContext.ZSchoolSubLevel on studentEnrollmentPlan.SchoolSubLevelId equals schoolSubLevel.SchoolSubLevelId
+                               where studentEnrollmentPlan.SchoolId == schoolId && studentEnrollmentPlan.Year == year
+                               orderby schoolSubLevel.OrderNumber, studentEnrollmentPlan.GenderTypeId
+                               select new EnrollmentPlanEditViewModel
+                               {
+                                   Id = studentEnrollmentPlan.Id,
+                                   NumberOfStudents = studentEnrollmentPlan.NumberOfStudents,
+                                   SchoolSubLevelName = schoolSubLevel.SubLevelNameDari + "/" + schoolSubLevel.SubLevelNamePashto + "/" + schoolSubLevel.SubLevelName,
+                                   GenderTypeId = studentEnrollmentPlan.GenderTypeId
+
+
+                               }).ToList();
+            return View(displayPlan);
+        }
+
 
         public IActionResult EditNextY()
         {

@@ -38,9 +38,9 @@
     <a href="@Url.Action("Navigate","FinancialResource")"><span class="step @if (controllerName=="FinancialResource") { @Active}">3</span></a>
     <a href="@Url.Action("Navigate","Principle")"><span class="step @if (controllerName=="Principle") { @Active}">4</span></a>
     <a href="@Url.Action("Navigate","Teacher")"><span class="step @if (controllerName=="Teacher") { @Active}">5</span></a>
-    <a href="@Url.Action("Navigate","EnrollmentPlan")"><span class="step @if (controllerName=="EnrollmentPlan" && (action=="Edit" || action=="Create" )) { @Active}">6</span></a>
-    <a href="@Url.Action("NavigateNextY","EnrollmentPlan")"><span class="step @if (controllerName=="EnrollmentPlan" && (action=="EditNextY" || action=="CreateNextY" )) { @Active}">7</span></a>
-    <a href="@Url.Action("Navigate","SchoolFinancialPlan")"><span class="step @if (controllerName=="SchoolFinancialPlan") { @Active}">8</span></a>
+    <a href="@Url.Action("Navigate","EnrollmentPlan")"><span class="step @if (controllerName=="EnrollmentPlan" && (action=="Edit" || action=="Create" ||action=="NoEdit" )) { @Active}">6</span></a>
+    <a href="@Url.Action("NavigateNextY","EnrollmentPlan")"><span class="step @if (controllerName=="EnrollmentPlan" && (action=="EditNextY" || action=="CreateNextY" ||action=="NoEditNextY" )) { @Active}">7</span></a>
+    <a href="@Url.Action("Navigate","SchoolFinancialPlan")"><span class="step @if (controllerName=="SchoolFinancialPlan" ) { @Active}">8</span></a>
     <a href="@Url.Action("Navigate","SchoolStaffExpenses")"><span class="step @if (controllerName=="SchoolStaffExpenses") { @Active}">9</span></a>
     <a href="@Url.Action("Navigate","SchoolOtherExpenses")"><span class="step @if (controllerName=="SchoolOtherExpenses") { @Active}">10</span></a>
 </div>
