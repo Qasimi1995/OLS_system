@@ -54,7 +54,8 @@ namespace OLS
                     //opt.SignIn.RequireConfirmedEmail = true;
                 })
                 .AddEntityFrameworkStores<ApplicationContext>().AddDefaultTokenProviders();
-            services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MyConnection")));
+                services.AddDbContext<ApplicationContext>(
+                options => options.UseSqlServer(Configuration.GetConnectionString("MyConnection")));
 
             //services.Configure<IdentityOptions>(options =>
             //{
