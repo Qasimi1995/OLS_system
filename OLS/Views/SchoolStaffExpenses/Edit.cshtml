@@ -1,6 +1,9 @@
 ﻿@model IList<OLS.ViewModels.SchoolStaffExpensesViewModel>
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
 
-
+@{ var culture = Context.Features.Get<Microsoft.AspNetCore.Localization.IRequestCultureFeature>().RequestCulture.UICulture.Name;
+    double total_counter = 0.00;
+    double total = 0.00;}
 
 <div class="row">
     <div class="col-12">
@@ -8,7 +11,7 @@
             <div class="card-body">
                 @await Html.PartialAsync("../steps");
                 <div style="text-align:center;background-color: #0193df;">
-                    <h3 style="padding:5px;color: white;">مصارف کارمندان/د کار کوونکو لګښت/Staff Expenses </h3>
+                    <h3 style="padding:5px;color: white;">@localizer["StaffExpenses"]  </h3>
                 </div>
 
                 <form asp-action="Edit" method="post">
@@ -18,11 +21,10 @@
                         <table class="table table-bordered no-wrap">
                             <thead>
                                 <tr>
-                                    <th class="text-wrap">پوست کارمند/کار کوونکي/Position</th>
-                                    <th class="text-wrap">معاش/تنخواه/Salary</th>
-                                    <th class="text-wrap">تعداد/مقدار/Amount</th>
-
-
+                                    <th class="text-wrap"> @localizer["Position"] </th>
+                                    <th class="text-wrap"> @localizer["Salary"] </th>
+                                    <th class="text-wrap"> @localizer["Amount"] </th>
+                                    <td class="text-wrap">@localizer["Total"]</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -30,35 +32,65 @@
                                 {
                                     for (int i = 0; i < Model.Count; i++)
                                     {
-                                        @Html.HiddenFor(m => Model[i].Id)
+                            @Html.HiddenFor(m => Model[i].Id)
 
-                                        <tr>
+                                <tr>
 
-                                            <td>
+                                    <td>
 
 
-                                                @Model[i].PartyRoleType
-                                            </td>
-                                            <td>
-                                                @Html.EditorFor(m => Model[i].Salary, new { htmlAttributes = new { @class = "form-control" } })
-                                                @Html.ValidationMessageFor(m => Model[i].Salary, null, new { @class = "text-danger" })
-                                            </td>
-                                            <td>
-                                                @Html.EditorFor(m => Model[i].Amount, new { htmlAttributes = new { @class = "form-control" } })
-                                                @Html.ValidationMessageFor(m => Model[i].Amount, null, new { @class = "text-danger" })
-                                            </td>
-                                        </tr>
-                                    }
-                                }
+                                        @if (culture == "en")
+                                        {
+                                @Model[i].PartyRoleType.Split("/")[2] }
+                            else if (culture == "fa")
+                            {
+                                @Model[i].PartyRoleType.Split("/")[0] }
+                            else
+                            {
+                                @Model[i].PartyRoleType.Split("/")[1]}
+                                    </td>
+                                    <td>
+                                        @Html.EditorFor(m => Model[i].Salary, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(m => Model[i].Salary, null, new { @class = "text-danger" })
+                                    </td>
+                                    <td>
+                                        @Html.EditorFor(m => Model[i].Amount, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(m => Model[i].Amount, null, new { @class = "text-danger" })
+                                    </td>
+                                    @{ total = (double)(Model[i].Amount * @Model[i].Salary);}
+                                    <td class="total">
+                                        <input id="@i" type="text" class="form-control" value="@total" disabled />
+
+
+                                    </td>
+                                    @{ total_counter += total;}
+                                </tr>}
+                                                            }
+
+                                <tr class="overal-total">
+                                    <td>@localizer["TotalAll"]</td>
+                                    <td>
+                                        <input type="text" id="overall_total" value="@total_counter" class="form-control" disabled />
+
+                                    </td>
+                                </tr>
 
                             </tbody>
                         </table>
 
                     </div>
-                    <input type="submit" id="btnSave" value="ثبت/ثبت/Save" class="btn btn-outline-success" />
-                    <div style="float:left;">
-                        <button type="button" id="nextBtn" style="background-color:#0193df;" onclick="@("window.location.href='" + @Url.Action("Navigate", "SchoolFinancialPlan") + "'");" class="btn btn-primary">قبلی/مخکی/Previous</button>
-                        <button type="button" id="nextBtn" style="background-color:#0193df;" onclick="@("window.location.href='" + @Url.Action("Navigate", "SchoolOtherExpenses") + "'");" class="btn btn-primary">بعدی/وروسته/Next</button>
+                    <input type="submit" id="btnSave" value="@localizer["Save"] " class="btn btn-outline-success" />
+                     @{ 
+                        var floatValue = "left";
+                        if (culture == "en")
+                        {
+                            floatValue = "right";
+                        }
+
+                    }
+                    <div style="float:@floatValue;">
+                        <button type="button" id="nextBtn" style="background-color:#0193df;" onclick="@("window.location.href='" + @Url.Action("Navigate", "SchoolFinancialPlan") + "'");" class="btn btn-primary">@localizer["Previous"] </button>
+                        <button type="button" id="nextBtn" style="background-color:#0193df;" onclick="@("window.location.href='" + @Url.Action("Navigate", "SchoolOtherExpenses") + "'");" class="btn btn-primary">@localizer["Next"] </button>
                     </div>
                 </form>
 
@@ -67,5 +99,101 @@
         </div>
     </div>
 </div>
+
+
+
+<script>
+    $(document).ready(function () {
+
+
+
+        $('#z0__Salary').on('keyup', function () {
+            $('#0').val($(this).val() * $('#z0__Amount').val());
+            overallTotalValue();
+
+
+        });
+
+        $('#z1__Salary').on('keyup', function () {
+            $('#1').val($(this).val() * $('#z1__Amount').val());
+            overallTotalValue();
+        });
+
+        $('#z2__Salary').on('keyup', function () {
+            $('#2').val($(this).val() * $('#z2__Amount').val());
+            overallTotalValue();
+        });
+
+        $('#z3__Salary').on('keyup', function () {
+            $('#3').val($(this).val() * $('#z3__Amount').val());
+            overallTotalValue();
+        });
+        $('#z4__Salary').on('keyup', function () {
+            $('#4').val($(this).val() * $('#z4__Amount').val());
+            overallTotalValue();
+        });
+        $('#z5__Salary').on('keyup', function () {
+            $('#5').val($(this).val() * $('#z5__Amount').val());
+            overallTotalValue();
+        });
+        $('#z6__Salary').on('keyup', function () {
+            $('#6').val($(this).val() * $('#z6__Amount').val());
+            overallTotalValue();
+        });
+
+
+
+
+        $('#z0__Amount').on('keyup', function () {
+            $('#0').val($(this).val() * $('#z0__Salary').val());
+            overallTotalValue();
+        });
+
+        $('#z1__Amount').on('keyup', function () {
+            $('#1').val($(this).val() * $('#z1__Salary').val());
+            overallTotalValue();
+        });
+        $('#z2__Amount').on('keyup', function () {
+            $('#2').val($(this).val() * $('#z2__Salary').val());
+            overallTotalValue();
+        });
+        $('#z3__Amount').on('keyup', function () {
+            $('#3').val($(this).val() * $('#z3__Salary').val());
+            overallTotalValue();
+        });
+        $('#z4__Amount').on('keyup', function () {
+            $('#4').val($(this).val() * $('#z4__Salary').val());
+            overallTotalValue();
+        });
+        $('#z5__Amount').on('keyup', function () {
+            $('#5').val($(this).val() * $('#z5__Salary').val());
+            overallTotalValue();
+        });
+        $('#z6__Amount').on('keyup', function () {
+            $('#6').val($(this).val() * $('#z6__Salary').val());
+            overallTotalValue();
+        });
+
+
+
+
+
+
+
+
+
+
+    });
+
+
+    function overallTotalValue() {
+        $("#overall_total").val(parseInt($('#0').val()) + parseInt($('#1').val()) + parseInt($('#2').val()) + parseInt($('#3').val()) + parseInt($('#4').val()) + parseInt($('#5').val()) + parseInt($('#6').val()));
+    }
+
+
+
+
+
+</script>
 
 

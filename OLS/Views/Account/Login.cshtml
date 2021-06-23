@@ -1,7 +1,10 @@
 ﻿@model OLS.ViewModels.LoginViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
 @{
     ViewData["Title"] = "Login";
     Layout = "";
+    var culture = Context.Features.Get<Microsoft.AspNetCore.Localization.IRequestCultureFeature>().RequestCulture.UICulture.Name;
+    
 }
 
 <!DOCTYPE html>
@@ -19,7 +22,7 @@
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="~/assets/images/favicon.png">
     <title>ریاست مکاتب خصوصی</title>
- 
+
     <!-- Custom CSS -->
     <!-- Custom CSS -->
     <link href="~/app-assets/css/style.css" rel="stylesheet">
@@ -31,7 +34,19 @@
     <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+
+
     <![endif]-->
+
+    @if (culture == "en")
+    {
+
+
+        <link href="~/assets/css/LTR.css" rel="stylesheet" />
+        
+     }
+
+
 </head>
 
 <body>
@@ -47,8 +62,11 @@
     <!-- Main wrapper - style you can find in pages.scss -->
     <!-- ============================================================== -->
     <section id="wrapper" class="login-register login-sidebar" style="background-image:url(../assets/images/background/login_student.jpg);">
+
+      
         <div class="login-box card">
             <div class="card-body">
+                <partial name="_LanguageChange" />
                 <form class="form-horizontal form-material" id="loginform" asp-action="login">
                     <br />
                     <a href="#" class="text-center d-block"><img src="../assets/images/MOE_logo.png" style="height:120px;width:auto" alt="Home" /></a>
@@ -56,40 +74,44 @@
                     <br />
                     @if (@ViewBag.RoleError != null)
                     {
-                        <label class="text-info"> @ViewBag.RoleError</label>
-                    }
+            <label class="text-info"> @ViewBag.RoleError</label>}
+
+
+
+                  
                     <div class="form-group mt-4">
                         <div class="col-xs-12">
-                            <input class="form-control" asp-for="UserName" placeholder="نام کابر/ د کارونکي نوم / User Name">
+                            <input class="form-control" asp-for="UserName" placeholder="@localizer["UserName"]">
                             <span asp-validation-for="UserName" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-xs-12">
-                            <input asp-for="Password" class="form-control" type="password" placeholder="رمز عبور/رمز /Abcd@123 - Password  ">
+                            <input asp-for="Password" class="form-control" type="password" placeholder="@localizer["Password"]">
                             <span asp-validation-for="Password" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="d-flex no-block align-items-center">
                             <div class="checkbox checkbox-primary pt-0">
-                                <input asp-for="RememberMe" id="checkbox-signup" type="checkbox">
+
+                           
+                                
+                            <input asp-for="RememberMe" id="checkbox-signup" type="checkbox">
+
+
                                 <label for="checkbox-signup">
-                                    <span>مرا به یاد داشته باش</span>
-                                    <span>/</span>
-                                    <span>
-                                        ما په یاد ولره
-                                    </span>
-                                    <span>/</span>
-                                    <span>
-                                        Remember Me
-                                    </span>
+                                    <span>@localizer["Remember"] </span>
                                 </label>
+
+                               
+                                
+                          
                                 <br />
                                 <br />
                                 <span>
                                     <a class="font-weight-bold text-muted" style="font-size:11px;" asp-action="ForgotPassword" asp-controller="Account">
-                                        <i class="fa fa-lock mr-1"></i> رمز عبور فراموش کردید / خپل پټ نوم درڅخه هیر دی / Forgot Password
+                                        <i class="fa fa-lock mr-1"></i> @localizer["ForgotPassword"]
                                     </a>
                                 </span>
                             </div>
@@ -101,22 +123,18 @@
                     </div>
                     <div class="form-group text-center mt-3">
                         <div class="col-xs-12">
-                            <button class="btn btn-primary btn-lg btn-block text-uppercase waves-effect waves-light" style="background-color:#0193df;" type="submit">وارد شوید / داخل شئ / Login</button>
+                            <button class="btn btn-primary btn-lg btn-block text-uppercase waves-effect waves-light" style="background-color:#0193df;" type="submit">@localizer["Login"]</button>
                         </div>
                     </div>
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    @*<div class="form-group mb-0">
-                        <div class="col-sm-12 text-center">
-                            حساب ندارید؟ <a href="@Url.Action("Register","Account")" class="text-primary ml-1"><b>حساب باز کنید</b></a>
-                        </div>
-                    </div>*@
+                 
 
                     <div class="form-group mb-0">
                         <div class="col-sm-12 text-center">
-                            <span>حساب ندارید / ایا حساب نه لری / Do not have account ؟</span>
+                            <span> @localizer["DoNotHaveAccount"]</span>
                             <br />
                             <br />
-                            <span><a href="@Url.Action("Register","Account")" class="text-info ml-1"><b style="color:#0193df;">ایجاد حساب / حساب جوړول/ User Creation</b></a></span>
+                            <span><a href="@Url.Action("Register","Account")" class="text-info ml-1"><b style="color:#0193df;"> @localizer["CreateAccount"]</b></a></span>
                         </div>
                     </div>
 

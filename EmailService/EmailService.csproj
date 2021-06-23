@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AspNetCoreHero.ToastNotification" Version="1.1.0" />
     <PackageReference Include="MimeKit" Version="2.9.1" />
     <PackageReference Include="NETCore.MailKit" Version="2.0.3" />
   </ItemGroup>

@@ -8,8 +8,10 @@ namespace OLS.ViewModels
 {
     public class ForgotPasswordViewModel
     {
-        [Required(ErrorMessage = "لطف نموده این بخش را پر نماید / مهرباني وکړئ دا برخه ډکه کړئ ")]
-        [EmailAddress(ErrorMessage = "لطف نموده از فارمت ذیل برای نام کابر استفاده نماید/مهرباني وکړئ د کارونکي نوم لپاره لاندې مثال وکاروئ Abc_2010, Xyz_123, xyz")]
+      //  [Required(ErrorMessage = "لطف نموده این بخش را پر نماید / مهرباني وکړئ دا برخه ډکه کړئ ")]
+        [Required(ErrorMessage = "*")]
+        //[EmailAddress(ErrorMessage = "لطف نموده از فارمت ذیل برای نام کابر استفاده نماید/مهرباني وکړئ د کارونکي نوم لپاره لاندې مثال وکاروئ Abc_2010, Xyz_123, xyz")]
+        [EmailAddress(ErrorMessage = "*")]
         public string Email { get; set; }
     }
 }

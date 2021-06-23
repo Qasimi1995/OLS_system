@@ -1,5 +1,9 @@
 ﻿@model IList<OLS.ViewModels.SchoolFinancialPlanViewModel>
-@{ var year = DateTime.Now.Year;}
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@{ var year = DateTime.Now.Year;
+
+    var culture = Context.Features.Get<Microsoft.AspNetCore.Localization.IRequestCultureFeature>().RequestCulture.UICulture.Name;
+ }
 <div class="row">
     <div class="col-12">
         <div class="card">
@@ -7,7 +11,7 @@
                 @await Html.PartialAsync("../steps")
 
                 <div style="text-align:center;background-color: #0193df;">
-                    <h3 style="padding:5px;color: white;"> بودیجوي پلان(@year)/پلان بودیجوی(@year)/Financial Plan (@year) </h3>
+                    <h3 style="padding:5px;color: white;"> @localizer["FinancialPlan"] (@year) </h3>
                 </div>
 
                 <form asp-action="Create" method="post">
@@ -17,11 +21,11 @@
                         <table class="table table-bordered no-wrap">
                             <thead>
                                 <tr>
-                                    <th class="text-wrap">صنف/ټولګی/Class</th>
-                                    <th class="text-wrap">مقدار فیس/د فیس اندازه/Fee amount</th>
-                                    <th class="text-wrap">تعداد شاگردان غیرمجانی/د فیس ورکوونکو زده کوونکو شمېر/#Paid Students</th>
-                                    <th class="text-wrap">تعداد شاگردان مجانی/د وړیا زده کوونکو شمېر/#Free Students/</th>
-                                    <th class="text-wrap">فیس داخله/د داخلې فیس/Admission Fee</th>
+                                    <th class="text-wrap"> @localizer["Class"]</th>
+                                    <th class="text-wrap"> @localizer["FeeAmount"]</th>
+                                    <th class="text-wrap"> @localizer["PaidStudents"]</th>
+                                    <th class="text-wrap">@localizer["FreeStudents"] </th>
+                                    <th class="text-wrap">@localizer["AdmissionFee"]</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -36,79 +40,95 @@
                                     }
                                     for (int i = 0; i < Model.Count; i++)
                                     {
-                                        @Html.HiddenFor(m => Model[i].Id)
+                    @Html.HiddenFor(m => Model[i].Id)
                                         @Html.HiddenFor(m => Model[i].SchoolSubLevelId)
-                                        @Html.HiddenFor(m => Model[i].SchoolId);
+                                                            @Html.HiddenFor(m => Model[i].SchoolId);
 
                                         <tr>
                                             <td>
-                                                @Model[i].SchoolSubLevelName
+                                                @if (culture == "en")
+                                                {
+                                                    @Model[i].SchoolSubLevelName.Split("/")[2] }
+                                                else if (culture == "fa")
+                                                {
+                                                    @Model[i].SchoolSubLevelName.Split("/")[0] 
+                                                }
+                                                else
+                                                {
+                                                    @Model[i].SchoolSubLevelName.Split("/")[1]
+                                                }
+
                                             </td>
                                             <td>
-                                                <input class="input form-control" type="number" name="[@i].FeeAmount" value="@Model[i].FeeAmount" @required  />
+                                                <input class="input form-control" type="number" name="[@i].FeeAmount" value="@Model[i].FeeAmount" @required />
                                             </td>
                                             <td>
-                                                <input class="input form-control"  type="number" name="[@i].NfreeStudents" value="@Model[i].NfreeStudents" @required />
+                                                <input class="input form-control" type="number" name="[@i].NfreeStudents" value="@Model[i].NfreeStudents" @required />
                                             </td>
                                             <td>
-                                                <input class="input form-control"  type="number" name="[@i].NpaidStudents" value="@Model[i].NpaidStudents" @required />
+                                                <input class="input form-control" type="number" name="[@i].NpaidStudents" value="@Model[i].NpaidStudents" @required />
                                             </td>
                                             <td>
-                                                <input class="input form-control"  type="number" name="[@i].AdmissionFee" value="@Model[i].AdmissionFee" @required />
+                                                <input class="input form-control" type="number" name="[@i].AdmissionFee" value="@Model[i].AdmissionFee" @required />
                                             </td>
-                                        </tr>
+                                        </tr> }
 
-                                    }
+                                } @*@if (Model != null)
+                                        {
+                                            for (int i = 0; i < Model.Count; i++)
+                                            {
+                                                @Html.HiddenFor(m => Model[i].SchoolSubLevelId)
 
-                                }
+                                                <tr>
 
-                                @*@if (Model != null)
-        {
-            for (int i = 0; i < Model.Count; i++)
-            {
-                @Html.HiddenFor(m => Model[i].SchoolSubLevelId)
-
-                <tr>
-
-                    <td>
+                                                    <td>
 
 
-                        @Model[i].SchoolSubLevelName
-                    </td>
-                    <td>
-                        @Html.EditorFor(m => Model[i].FeeAmount)
-                        @Html.ValidationMessageFor(m => Model[i].FeeAmount, null, new { @class = "text-danger" })
-                    </td>
-                    <td>
-                        @Html.EditorFor(m => Model[i].NfreeStudents)
-                        @Html.ValidationMessageFor(m => Model[i].NfreeStudents, null, new { @class = "text-danger" })
-                    </td>
-                    <td>
-                        @Html.EditorFor(m => Model[i].NpaidStudents)
-                        @Html.ValidationMessageFor(m => Model[i].NpaidStudents, null, new { @class = "text-danger" })
-                    </td>
-                    <td>
-                        @Html.EditorFor(m => Model[i].AdmissionFee)
-                        @Html.ValidationMessageFor(m => Model[i].AdmissionFee, null, new { @class = "text-danger" })
-                    </td>
-                </tr>
-            }
-        }*@
+                                                        @Model[i].SchoolSubLevelName
+                                                    </td>
+                                                    <td>
+                                                        @Html.EditorFor(m => Model[i].FeeAmount)
+                                                        @Html.ValidationMessageFor(m => Model[i].FeeAmount, null, new { @class = "text-danger" })
+                                                    </td>
+                                                    <td>
+                                                        @Html.EditorFor(m => Model[i].NfreeStudents)
+                                                        @Html.ValidationMessageFor(m => Model[i].NfreeStudents, null, new { @class = "text-danger" })
+                                                    </td>
+                                                    <td>
+                                                        @Html.EditorFor(m => Model[i].NpaidStudents)
+                                                        @Html.ValidationMessageFor(m => Model[i].NpaidStudents, null, new { @class = "text-danger" })
+                                                    </td>
+                                                    <td>
+                                                        @Html.EditorFor(m => Model[i].AdmissionFee)
+                                                        @Html.ValidationMessageFor(m => Model[i].AdmissionFee, null, new { @class = "text-danger" })
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }*@
 
                             </tbody>
                         </table>
                     </div>
-                    <input type="submit" id="btnSave" style="background-color:#0193df;" value="ثبت/ثبت/Save" class="btn btn-primary" />
-                    <div style="float:left;">
-                        <button type="button" id="nextBtn" style="background-color: #0193df;" onclick="@("window.location.href='" + @Url.Action("NavigateNextY", "EnrollmentPlan") + "'");" class="btn btn-primary">قبلی/مخکی/Previous</button>
+                    <input type="submit" id="btnSave" style="background-color:#0193df;" value="@localizer["Save"]" class="btn btn-primary" />
+                    @{ 
+                        var floatValue = "left";
+                        if (culture == "en")
+                        {
+                            floatValue = "right";
+                        }
+
+                    }
+
+                    <div style="float:@floatValue;">
+                        <button type="button" id="nextBtn" style="background-color: #0193df;" onclick="@("window.location.href='" + @Url.Action("NavigateNextY", "EnrollmentPlan") + "'");" class="btn btn-primary">@localizer["Previous"]</button>
                         @*<button type="button" id="nextBtn" onclick="@("window.location.href='" + @Url.Action("Navigate", "SchoolStaffExpenses") + "'");" class="btn btn-primary">بعدی/وروسته/Next</button>*@
-                        <input type="submit" class="btn btn-primary" style="background-color:#0193df;" value="بعدی/وروسته/Next" />
+                        <input type="submit" class="btn btn-primary" style="background-color:#0193df;" value="@localizer["Next"]" />
                         @if (ViewBag.Message != null)
                         {
                             //  <div><span class="text-info">@ViewBag.Message</span></div>
-                            <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-                            <script src="~/sweetalert/sweetalert.min.js"></script>
-                            <script type="text/javascript">
+                <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+                                <script src="~/sweetalert/sweetalert.min.js"></script>
+                                                <script type="text/javascript">
                                                     @*swal({
                                                         "@ViewBag.Message",
                                                         "حساب موفقانه ایجاد گردید / تاسو په بریالیتوب سره یو حساب جوړ کړی",
@@ -116,7 +136,7 @@
                                                         })*@
                                                     swal({
                                                         title: "@ViewBag.Message",
-                                                        text: "حساب موفقانه ایجاد گردید / تاسو په بریالیتوب سره یو حساب جوړ کړ",
+                                                        text: "@localizer["Message"]",
                                                         icon: "success",
                                                         button: "OK",
                                                     })
@@ -125,8 +145,7 @@
                                                             window.location.href = "/SchoolStaffExpenses/Create";
                                                         }
                                                     });
-                            </script>
-                        }
+                                                </script>}
 
                     </div>
                 </form>
@@ -136,22 +155,22 @@
     </div>
 </div>
 
-@section Scripts{
-    <script>
-        $(document).ready(function () {
-            $(".input").focusout(function () {
-                if ($(this).val() == '') {
-                    $(this).css('border', 'solid 2px red');
-                }
-                else {
+@*@section Scripts{
+        <script>
+            $(document).ready(function () {
+                $(".input").focusout(function () {
+                    if ($(this).val() == '') {
+                        $(this).css('border', 'solid 2px red');
+                    }
+                    else {
 
-                    // If it is not blank.
-                    $(this).css('border', 'solid 2px green');
-                }
-            }).trigger("focusout");
-        });
-    </script>
-}
+                        // If it is not blank.
+                        $(this).css('border', 'solid 2px green');
+                    }
+                }).trigger("focusout");
+            });
+        </script>
+    }*@
 
 
 

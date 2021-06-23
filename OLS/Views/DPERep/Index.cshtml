@@ -1,91 +1,151 @@
-﻿
-@{
-    ViewData["Title"] = "Index";
-}
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+
+@{ ViewData["Title"] = "Index";
+    var culture = Context.Features.Get<Microsoft.AspNetCore.Localization.IRequestCultureFeature>().RequestCulture.UICulture.Name;}
 <div class="row page-titles">
     <div class="col-md-5 col-12 align-self-center">
-        <h3 class="text-themecolor">داشبورد / Dashboard</h3>
+        <h3 class="text-themecolor"> @localizer["Dashboard"] </h3>
     </div>
 </div>
 
 @if (ViewBag.ProcessList.Count > 1)
 {
     for (int j = 0; j < ViewBag.ProcessList.Count; j++)
-    {    
-        <div style="text-align:center;background-color: #0193df;">
-            <h3 style="padding:5px;color: white;">@ViewBag.ProcessList[j].SubProcesNameDari</h3>
-        </div>
-        <div class="row">
+    {
+<div style="text-align:center;background-color: #0193df;">
+    <h3 style="padding:5px;color: white;">@ViewBag.ProcessList[j].SubProcesNameDari</h3>
+</div>
+                    <div class="row">
 
-            @if (ViewBag.DashBoardStatuses != null)
-            {
-                @for (int i = 0; i < ViewBag.DashBoardStatuses.Count; i++)
-                {
-
-                    if (j == 0)
-                    { @if (ViewBag.DashBoardStatuses[i].OrderNumber <= ViewBag.ProcessList[j].OrderNumber)
+                        @if (ViewBag.DashBoardStatuses != null)
                         {
-                            <!-- Column -->
-                            <div class="col-lg-4 col-md-12">
-                                <div class="card card-inverse card-primary">
-                                    <div class="card-body" style = "background-color:#0193df;">
+    @for (int i = 0; i < ViewBag.DashBoardStatuses.Count; i++)
+    {
 
-                                        <a href="@Url.Action("SchoolList","DPERep",new
+        if (j == 0)
+        {@if (ViewBag.DashBoardStatuses[i].OrderNumber <= ViewBag.ProcessList[j].OrderNumber)
+            {<!-- Column -->
+                                    <div class="col-lg-4 col-md-12">
+                                        <div class="card card-inverse card-primary">
+                                            <div class="card-body" style="background-color:#0193df;">
+
+                                                <a href="@Url.Action("SchoolList","DPERep",new
                         {OrderNumber=ViewBag.DashBoardStatuses[i].OrderNumber
                         ,ProcessStatusID=ViewBag.DashBoardStatuses[i].ProcessStatusID
 
                         ,CompletionFlag=ViewBag.DashBoardStatuses[i].CompletionFlag
                         }
                         )">
-                                            <div class="d-flex">
+                                                    <div class="d-flex">
 
-                                                <div class="mr-3 align-self-center">
-                                                    <h1 class="text-white"><i class="ti-pie-chart"></i></h1>
-                                                </div>
-                                                <div>
-                                                    <h3 class="card-title">
-                                                        @ViewBag.DashBoardStatuses[i].StatusNameDashDari/@ViewBag.DashBoardStatuses[i].StatusNameDash
-                                                    </h3>
-                                                    <h6 class="card-subtitle">@(DateTime.Now)</h6>
-                                                </div>
+                                                        <div class="mr-3 align-self-center">
+                                                            <h1 class="text-white"><i class="ti-pie-chart"></i></h1>
+                                                        </div>
+                                                        <div>
+                                                            <h3 class="card-title">
+                                                                @if (culture == "en")
+                                                                {
+                                                                    @ViewBag.DashBoardStatuses[i].StatusNameDash
+                                                                }
+                                                                else if (culture == "fa")
+                                                                {
+                                                                     @ViewBag.DashBoardStatuses[i].StatusNameDashDari.Split("/")[0]
+                                                                }
+                                                                else
+                                                                {
+                                                                     @ViewBag.DashBoardStatuses[i].StatusNameDashDari.Split("/")[1]
+                                                                }
+                                                               
+
+                                                            </h3>
+                                                            <h6 class="card-subtitle">@(DateTime.Now)</h6>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-4 align-self-center">
+                                                            <h1 class="mb-0 font-weight-light text-white">
+                                                                @ViewBag.DashBoardStatuses[i].Count
+                                                            </h1>
+                                                        </div>
+                                                        <div class="col-8 pb-3 pt-2 align-self-center">
+                                                            <div class="usage chartist-chart" style="height:65px"></div>
+                                                        </div>
+                                                    </div>
+                                                </a>
+
                                             </div>
-                                            <div class="row">
-                                                <div class="col-4 align-self-center">
-                                                    <h1 class="mb-0 font-weight-light text-white">
-                                                        @ViewBag.DashBoardStatuses[i].Count
-                                                    </h1>
-                                                </div>
-                                                <div class="col-8 pb-3 pt-2 align-self-center">
-                                                    <div class="usage chartist-chart" style="height:65px"></div>
-                                                </div>
-                                            </div>
-                                        </a>
+                                        </div>
+                                    </div> <!-- Column -->} }
 
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Column -->
+                                    if (j > 0)
+                                    {
+        @if (ViewBag.DashBoardStatuses[i].OrderNumber <= ViewBag.ProcessList[j].OrderNumber && ViewBag.DashBoardStatuses[i].OrderNumber > ViewBag.ProcessList[j - 1].OrderNumber)
+        {<!-- Column -->
+                                    <div class="col-lg-4 col-md-12">
+                                        <div class="card card-inverse card-primary">
+                                            <div class="card-body" style="background-color:#0193df;">
 
+                                                <a href="@Url.Action("SchoolList","DPERep",new
+                        {OrderNumber=ViewBag.DashBoardStatuses[i].OrderNumber
+                        ,ProcessStatusID=ViewBag.DashBoardStatuses[i].ProcessStatusID
+
+                        ,CompletionFlag=ViewBag.DashBoardStatuses[i].CompletionFlag
                         }
+                        )">
+                                                    <div class="d-flex">
 
+                                                        <div class="mr-3 align-self-center">
+                                                            <h1 class="text-white"><i class="ti-pie-chart"></i></h1>
+                                                        </div>
+                                                        <div>
+                                                            <h3 class="card-title">
+                                                                @if (culture == "en")
+                                                                {
+                                                            @ViewBag.DashBoardStatuses[i].StatusNameDash }
+                                                                                                else if (culture == "fa")
+                                                                                                {
+                                                            @ViewBag.DashBoardStatuses[i].StatusNameDashDari.Split("/")[0] }
+                                                                                                else
+                                                                                                {
+                                                            @ViewBag.DashBoardStatuses[i].StatusNameDashDari.Split("/")[1]}
+                                                            </h3>
+                                                            <h6 class="card-subtitle">@(DateTime.Now)</h6>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-4 align-self-center">
+                                                            <h1 class="mb-0 font-weight-light text-white">
+                                                                @ViewBag.DashBoardStatuses[i].Count
+                                                            </h1>
+                                                        </div>
+                                                        <div class="col-8 pb-3 pt-2 align-self-center">
+                                                            <div class="usage chartist-chart" style="height:65px"></div>
+                                                        </div>
+                                                    </div>
+                                                </a>
 
-                }
+                                            </div>
+                                        </div>
+                                    </div> <!-- Column -->}}
+                                }}
 
-                if (j > 0)
-                {
-                    @if (ViewBag.DashBoardStatuses[i].OrderNumber <= ViewBag.ProcessList[j].OrderNumber && ViewBag.DashBoardStatuses[i].OrderNumber > ViewBag.ProcessList[j - 1].OrderNumber)
-                    {
+                    </div> }
+                                }
+                                else
+                                {
+                    <div class="row">
 
-
-                        <!-- Column -->
+                        @if (ViewBag.DashBoardStatuses != null)
+                        {
+        @for (int i = 0; i < ViewBag.DashBoardStatuses.Count; i++)
+        {<!-- Column -->
                         <div class="col-lg-4 col-md-12">
                             <div class="card card-inverse card-primary">
-                                <div class="card-body" style = "background-color:#0193df;">
+                                <div class="card-body" style="background-color:#0193df;">
 
                                     <a href="@Url.Action("SchoolList","DPERep",new
                         {OrderNumber=ViewBag.DashBoardStatuses[i].OrderNumber
                         ,ProcessStatusID=ViewBag.DashBoardStatuses[i].ProcessStatusID
-
                         ,CompletionFlag=ViewBag.DashBoardStatuses[i].CompletionFlag
                         }
                         )">
@@ -95,7 +155,17 @@
                                                 <h1 class="text-white"><i class="ti-pie-chart"></i></h1>
                                             </div>
                                             <div>
-                                                <h3 class="card-title"> @ViewBag.DashBoardStatuses[i].StatusNameDashDari/@ViewBag.DashBoardStatuses[i].StatusNameDash</h3>
+                                                <h3 class="card-title">
+                                                    @if (culture == "en")
+                                                    {
+                                                @ViewBag.DashBoardStatuses[i].StatusNameDash }
+                                                                        else if (culture == "fa")
+                                                                        {
+                                                @ViewBag.DashBoardStatuses[i].StatusNameDashDari.Split("/")[0] }
+                                                                        else
+                                                                        {
+                                                @ViewBag.DashBoardStatuses[i].StatusNameDashDari.Split("/")[1]}
+                                                </h3>
                                                 <h6 class="card-subtitle">@(DateTime.Now)</h6>
                                             </div>
                                         </div>
@@ -106,74 +176,13 @@
                                                 </h1>
                                             </div>
                                             <div class="col-8 pb-3 pt-2 align-self-center">
-                                                <div class="usage chartist-chart" style="height:65px"></div>
+                                                <div class="usage chartist-chart" style="height: 65px;"></div>
                                             </div>
                                         </div>
                                     </a>
 
                                 </div>
                             </div>
-                        </div>
-                        <!-- Column -->
-
-                    }
-                }
-            }
-            }
-
-        </div>
-    }
-}
-else
-{
-    <div class="row">
-
-        @if (ViewBag.DashBoardStatuses != null)
-        {
-            @for (int i = 0; i < ViewBag.DashBoardStatuses.Count; i++)
-            {
-
-                <!-- Column -->
-                <div class="col-lg-4 col-md-12">
-                    <div class="card card-inverse card-primary">
-                        <div class="card-body" style = "background-color:#0193df;">
-
-                            <a href="@Url.Action("SchoolList","DPERep",new
-                        {OrderNumber=ViewBag.DashBoardStatuses[i].OrderNumber
-                        ,ProcessStatusID=ViewBag.DashBoardStatuses[i].ProcessStatusID
-                        ,CompletionFlag=ViewBag.DashBoardStatuses[i].CompletionFlag
-                        }
-                        )">
-                                <div class="d-flex">
-
-                                    <div class="mr-3 align-self-center">
-                                        <h1 class="text-white"><i class="ti-pie-chart"></i></h1>
-                                    </div>
-                                    <div>
-                                        <h3 class="card-title"> @ViewBag.DashBoardStatuses[i].StatusNameDashDari/@ViewBag.DashBoardStatuses[i].StatusNameDash</h3>
-                                        <h6 class="card-subtitle">@(DateTime.Now)</h6>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-4 align-self-center">
-                                        <h1 class="mb-0 font-weight-light text-white">
-                                            @ViewBag.DashBoardStatuses[i].Count
-                                        </h1>
-                                    </div>
-                                    <div class="col-8 pb-3 pt-2 align-self-center">
-                                        <div class="usage chartist-chart" style="height: 65px;"></div>
-                                    </div>
-                                </div>
-                            </a>
-
-                        </div>
-                    </div>
-                </div>
-                <!-- Column -->
-            }
-
-        }
-    </div>
-
-}
+                        </div> <!-- Column -->}}
+                    </div>}
 

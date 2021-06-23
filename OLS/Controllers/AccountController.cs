@@ -11,6 +11,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using EmailService;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Localization;
 
 namespace OLS.Controllers
 {
@@ -22,14 +25,18 @@ namespace OLS.Controllers
         private readonly SignInManager<User> _signInManager;
         private readonly IEmailSender _emailSender;
 
-        public AccountController(ApplicationContext applicationContext,UserManager<User> userManager,ILogger<AccountController> logger,SignInManager<User> signInManager, IEmailSender emailSender) {
+        private readonly IHtmlLocalizer _localizer;
+    
+
+    public AccountController(ApplicationContext applicationContext,IHtmlLocalizer<AccountController> localizer,UserManager<User> userManager,ILogger<AccountController> logger,SignInManager<User> signInManager, IEmailSender emailSender) {
 
             _userManager = userManager;
             _logger = logger;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _applicationContext = applicationContext;
-
+            _localizer = localizer;
+            
 
         }
 
@@ -39,7 +46,7 @@ namespace OLS.Controllers
         {
             if (token == null || email == null)
             {
-                ModelState.AddModelError("", "Invalid password reset token");
+                ModelState.AddModelError("", _localizer["InvalidPasswordResetToken"].Value);
             }
             return View();
         }
@@ -57,7 +64,7 @@ namespace OLS.Controllers
                     var result = await _userManager.ResetPasswordAsync(user, model.Token, model.Password);
                     if (result.Succeeded)
                     {
-                        ViewBag.Message = "Password Recoverd Successfully";
+                        ViewBag.Message = _localizer["PasswordRecoveredSuccessfully"].Value;
                         return View("ResetPasswordConfirmation");
                         
                     }
@@ -67,7 +74,7 @@ namespace OLS.Controllers
                     }
                     return View(model);
                 }
-                ViewBag.Message = "Password Recoverd Successfully";
+                ViewBag.Message = _localizer["PasswordRecoveredSuccessfully"].Value;
                 return View("ResetPasswordConfirmation");
                 
             }
@@ -96,16 +103,16 @@ namespace OLS.Controllers
 
                     var passwordResetLink = Url.Action("RessetPassword", "Account", new { email = model.Email, token = token }, Request.Scheme);
 
-                    var message = new Message(new string[] { model.Email }, "Password Reset ", "Hey Dear Please use the following link to reset your password.  if you did not request this password reset please ignore this  email. Token time for reset password is 2 hours please reset password within the token time range" + "\n" + passwordResetLink );
+                    var message = new Message(new string[] { model.Email }, _localizer["PasswordReset"].Value, _localizer["PasswordResetMessage"].Value + "\n" + passwordResetLink );
                     _emailSender.SendEmail(message);
 
                     //  _logger.Log(LogLevel.Warning, passwordResetLink);
-                    ViewBag.Message = "Successfully Sent the Reset Password Link To your Email";
+                    ViewBag.Message = _localizer["SuccessfullSentMessage"].Value;
                     return View("ForgotPasswordConfirmation");
                 }
                 else
                 {
-                    ViewBag.Message = "Enterd Email address not exist please confirm if its not wrong";
+                    ViewBag.Message = _localizer["EmailNotExist"].Value;
                     return View("ForgotPasswordConfirmationError");
                 }
                 
@@ -114,7 +121,7 @@ namespace OLS.Controllers
             return View(model);
         }
 
-    
+        [Authorize(Roles = "Admin")]
         public IActionResult Index()
         {
             return View();
@@ -145,7 +152,7 @@ namespace OLS.Controllers
                 }
 
                 var result = await _userManager.ChangePasswordAsync(user, changePasswordViewModel.CurrentPassword, changePasswordViewModel.NewPassword);
-
+              
                 if (!result.Succeeded)
                 {
 
@@ -160,7 +167,7 @@ namespace OLS.Controllers
 
                 }
                 await _signInManager.RefreshSignInAsync(user);
-                ViewBag.Message = "Password Updated successfully";
+                ViewBag.Message = _localizer["PasswordUpdatedSuccessfully"];
                 return View("ChangePassword");
             }
 
@@ -169,6 +176,7 @@ namespace OLS.Controllers
 
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IActionResult EditUserInfo(string Id)
         {
             try
@@ -190,7 +198,10 @@ namespace OLS.Controllers
                                     ProvinceId=user.ProvinceId,
                                     IsActive=user.IsActive,
                                     RoleId=role.Id,
-                                    Role=role.Name
+                                    Role=role.Name,
+                                   
+                                   
+                              
                                     
                                 }).FirstOrDefault();
                     var province = _applicationContext.ZProvince;
@@ -214,7 +225,8 @@ namespace OLS.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditUserInfoAsync(UserViewModel userViewModel)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> EditUserInfo(UserViewModel userViewModel)
         {
             try
             {
@@ -223,14 +235,18 @@ namespace OLS.Controllers
                 var userof = await _userManager.FindByIdAsync(user.Id);
                 var currentUserRole = await _userManager.GetRolesAsync(user).ConfigureAwait(true);
 
+
+                    
                     user.UserName = userViewModel.UserName;
                     user.FirstName = userViewModel.FirstName;
                     user.LastName = userViewModel.LastName;
                     user.Email = userViewModel.Email;
                     user.ProvinceId = userViewModel.ProvinceId;
                     user.IsActive = userViewModel.IsActive;
+                    user.UpdatedBy = _userManager.GetUserId(User);
+                    user.UpdatedAt = DateTime.Now;
                 //used to check weather the the role for user get change
-                if(currentUserRole[0] != userViewModel.Role)
+                if (currentUserRole[0] != userViewModel.Role)
                 {
                     var removeRole = await _userManager.RemoveFromRoleAsync(user, currentUserRole[0]).ConfigureAwait(true);
                     var AddRole = await _userManager.AddToRoleAsync(user, userViewModel.Role).ConfigureAwait(true);
@@ -239,7 +255,7 @@ namespace OLS.Controllers
                 _applicationContext.Update(user);
                 _applicationContext.SaveChanges();
                 
-                ViewBag.Message = "Record Updated Successfully";
+                ViewBag.Message = _localizer["RecordUpdatedSuccessfully"];
                 //return RedirectToAction("EditUserInfo");
 
                 var province = _applicationContext.ZProvince;
@@ -265,6 +281,7 @@ namespace OLS.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult RegisterStaff()
         {
             ViewBag.userList = (from user in _applicationContext.Users
@@ -290,6 +307,7 @@ namespace OLS.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> RegisterStaff(RegistrationStaffViewModel model)
         {
             ViewBag.roles = _applicationContext.Roles.ToList();
@@ -305,6 +323,8 @@ namespace OLS.Controllers
                     LastName = model.LastName,
                     ProvinceId=model.ProvinceId,
                     IsActive=model.IsActive,
+                    CreatedAt=DateTime.Now,
+                    CreatedBy=_userManager.GetUserId(User)
                 };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 var addedToRole = await _userManager.AddToRoleAsync(user, model.RoleId);
@@ -312,7 +332,7 @@ namespace OLS.Controllers
                 if (result.Succeeded && addedToRole.Succeeded)
                 {
                     //return RedirectToAction("RegisterStaff");
-                    ViewBag.Message = "Sucessful";
+                    ViewBag.Message = _localizer["Successful"].Value;
                 }
                 else
                 {
@@ -327,7 +347,43 @@ namespace OLS.Controllers
 
             return View();
         }
+
+
         [HttpPost]
+        [Authorize(Roles ="Admin")]
+        public async Task<IActionResult> ChangeUserStatus(Guid userId)
+        {
+
+            var user = _applicationContext.Users.Where(p => p.Id == userId.ToString()).FirstOrDefault();
+
+
+
+
+            if (user.IsActive == 0)
+            {
+                user.IsActive = 1;
+
+            }
+            else
+            {
+                user.IsActive = 0;
+
+            }
+
+
+
+
+
+            _applicationContext.Entry(user).State = EntityState.Modified;
+            _applicationContext.Update(user);
+            _applicationContext.SaveChanges();
+
+            return RedirectToAction("RegisterStaff");
+        }
+
+
+        [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> Register(RegistrationViewModel model) 
         {
             if (ModelState.IsValid)
@@ -343,7 +399,7 @@ namespace OLS.Controllers
                 
                 };
               var result= await _userManager.CreateAsync(user,model.Password).ConfigureAwait(true);
-              var addedToRole = await _userManager.AddToRoleAsync(user, "APPLICANT").ConfigureAwait(true);
+              var addedToRole = await _userManager.AddToRoleAsync(user, "Applicant").ConfigureAwait(true);
                 
                 if (result.Succeeded && addedToRole.Succeeded)
                 {
@@ -352,7 +408,7 @@ namespace OLS.Controllers
                     //_applicationContext.Update(TheUser);
                     //_applicationContext.SaveChanges();
 
-                    ViewBag.Message = "Account Created";
+                    ViewBag.Message = _localizer["AccountCreated"].Value;
                     return View(model);
                 }
                 else {
@@ -401,25 +457,29 @@ namespace OLS.Controllers
                     }
                     else {
 
-                        ModelState.TryAddModelError("", "Account is inactive, please contact administrator");
+                        ModelState.TryAddModelError("", _localizer["AccountInActiveMessage"].Value);
                     }
 
                 }
                 else {
 
-                    ModelState.TryAddModelError("", "نام کاربر و یا رمز عبور اشتباه است / کارن نوم یا رمز غلط دی");
+                    ModelState.TryAddModelError("", _localizer["LoginFailedMessage"].Value);
                 }
             }
 
             return View();
         }
 
-
+       
         public async Task<IActionResult> Logout() {
 
             if (User.Identity.IsAuthenticated) {
                await _signInManager.SignOutAsync();
-            
+
+                HttpContext.Session.Remove("mySchoolId");
+                HttpContext.Session.Remove("new");
+                HttpContext.Session.Remove("SchoolID");
+
             }
             return RedirectToAction("Login","Account");
         }
@@ -430,7 +490,7 @@ namespace OLS.Controllers
         public async Task<IActionResult> IsEmailUnique(string email)
         {
 
-            var founder = _applicationContext.ContactDetails.Where(p => p.Value == email).FirstOrDefault();
+            var founder = _applicationContext.Users.Where(p => p.Email == email).FirstOrDefault();
             if (founder == null)
             {
 
@@ -438,9 +498,60 @@ namespace OLS.Controllers
             }
             else
             {
-                return Json($" ایمیل قبلا استفاده شده است / ورکړل شوی برېښنالیک کارول شوی ده/ Email already in use");
+                return Json(_localizer["EmailUniqueMessage"].Value);
             }
 
+        }
+
+
+        public async Task<IActionResult> ChangePasswordofOtherUsers(string UserEmail)
+        {
+            ViewBag.UserEmail = UserEmail;
+            return View();
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePasswordofOtherUsers(ChangeOtherUsersPasswordViewModel changePasswordViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByEmailAsync(changePasswordViewModel.UserEmail);
+
+
+                if (user != null)
+                {
+                    var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+                    var result = await _userManager.ResetPasswordAsync(user, token, changePasswordViewModel.NewPassword);
+                    if (result.Succeeded)
+                    {
+                        ViewBag.Message = _localizer["PasswordRecoveredSuccessfully"];
+                        return View("RegisterStaff");
+
+                    }
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                    }
+                    return View(changePasswordViewModel);
+                }
+              
+
+            }
+            return View();
+
+        }
+
+
+        [HttpPost]
+
+        public IActionResult LanguageChange(string languageName,string returnedUrl)
+        {
+            Response.Cookies.Append(CookieRequestCultureProvider.DefaultCookieName, CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(languageName)),
+                new CookieOptions { Expires=DateTimeOffset.Now.AddDays(30) });
+
+
+            return LocalRedirect(returnedUrl);
         }
 
     }

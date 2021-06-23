@@ -1,10 +1,12 @@
 ﻿
 @model OLS.ViewModels.TeacherEditViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
 
 
 @{
     ViewData["Title"] = "Edit";
     var schoolid = Model.SchoolId;
+    var culture = Context.Features.Get<Microsoft.AspNetCore.Localization.IRequestCultureFeature>().RequestCulture.UICulture.Name;
 }
 
 <div class="row">
@@ -13,12 +15,13 @@
             <div class="card-body">
 
                 <div style="text-align:center;background-color: #0193df;">
-                    <h3 style="padding:5px;color: white;">تغیر معلومات استاد/Teacher Information Update</h3>
+                    <h3 style="padding:5px;color: white;">@localizer["TeacherInformation"]</h3>
                 </div>
 
                 <div style="margin:5px;">
                     <button type="button" class="btn btn-primary" style="background-color:#0193df;" onclick="@("window.location.href='" + @Url.Action("GetTeachersList", "Teacher") + "'");">
-                        Return to teachers list
+                      
+                         @localizer["ReturnToTeachersList"]
                     </button>
                 </div>
                 <br />
@@ -37,7 +40,8 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="Name">
-                                        اسم /نوم/Name
+                                      
+                                        @localizer["Name"]
 
                                     </label>
                                     <input asp-for="Name" class="form-control" />
@@ -47,7 +51,8 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="LastName">
-                                        تخلص /تخلص/Last Name :
+                                      
+                                        @localizer["LastName"]
 
                                     </label>
                                     <input asp-for="LastName" class="form-control" />
@@ -59,7 +64,8 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="FatherName">
-                                        ولد /د پلار نوم/Father Name
+                                       
+                                        @localizer["FatherName"]
 
                                     </label>
                                     <input asp-for="FatherName" class="form-control" />
@@ -70,7 +76,8 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="GrandFatherName">
-                                        ولدیت/د نیکه نوم/Grand Father Name
+                                     
+                                        @localizer["GrandFatherName"]
 
                                     </label>
                                     <input asp-for="GrandFatherName" class="form-control" />
@@ -87,7 +94,8 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="Nidnumber">
-                                        نمبر تذکیره /د تذکرې شمېره/NID Number
+                                        
+                                        @localizer["NIDNumber"]
 
                                     </label>
                                     <input type="text" asp-for="Nidnumber" class="form-control" />
@@ -97,14 +105,32 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="EducationLevelID">
-                                        درجه تحصیل/د زده کړو درجه/Education Level:
+                                       
+                                        @localizer["EducationLevel"]
 
                                     </label>
                                     <select asp-for="EducationLevelID" class="form-control selectTwo" style="width:100%">
-                                        <option selected value="">--Select Education--</option>
-                                        @foreach (var EduLevel in ViewBag.EducationLevel)
+                                        <option selected value="">--   @localizer["Select"] --</option>
+                                        @if (culture == "en")
                                         {
-                                            <option value="@EduLevel.EducationLevelId">@EduLevel.EducationLevelNameDari - @EduLevel.EducationLevelName</option>
+                                            @foreach (var EduLevel in ViewBag.EducationLevel)
+                                            {
+                                                <option value="@EduLevel.EducationLevelId"> @EduLevel.EducationLevelName</option>
+                                            }
+                                        }
+                                        else if (culture == "fa")
+                                        {
+                                            @foreach (var EduLevel in ViewBag.EducationLevel)
+                                            {
+                                                <option value="@EduLevel.EducationLevelId">@EduLevel.EducationLevelNameDari.Split("-")[0] </option>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            @foreach (var EduLevel in ViewBag.EducationLevel)
+                                            {
+                                                <option value="@EduLevel.EducationLevelId">@EduLevel.EducationLevelNameDari.Split("-")[1] </option>
+                                            }
                                         }
                                     </select>
                                     <span asp-validation-for="EducationLevelID" class="text-danger"></span>
@@ -116,14 +142,32 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="FacultyTypeId">
-                                        رشته تحصیلی/د زده کړو رشته/Education field:
+                                      
+                                        @localizer["EducationField"]
 
                                     </label>
                                     <select asp-for="FacultyTypeId" class="form-control selectTwo" style="width:100%">
-                                        <option selected value="">--Select--</option>
-                                        @foreach (var FacultyType in ViewBag.FacultyType)
+                                        <option selected value="">--  @localizer["Select"]--</option>
+                                        @if (culture == "en")
                                         {
-                                            <option value="@FacultyType.FacultyTypeId">@FacultyType.FacultypeNameDari - @FacultyType.FacultypeName</option>
+                                            @foreach (var FacultyType in ViewBag.FacultyType)
+                                            {
+                                                <option value="@FacultyType.FacultyTypeId">@FacultyType.FacultypeName</option>
+                                            }
+                                        }
+                                        else if (culture == "fa")
+                                        {
+                                            @foreach (var FacultyType in ViewBag.FacultyType)
+                                            {
+                                                <option value="@FacultyType.FacultyTypeId">@FacultyType.FacultypeNameDari.Split("/")[0]</option>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            @foreach (var FacultyType in ViewBag.FacultyType)
+                                            {
+                                                <option value="@FacultyType.FacultyTypeId">@FacultyType.FacultypeNameDari.Split("/")[1]</option>
+                                            }
                                         }
                                     </select>
                                     <span asp-validation-for="FacultyTypeId" class="text-danger"></span>
@@ -132,9 +176,17 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="GraduationDate">
-                                        سال فراغت/د فراغت کال/Year of Graduation
+                                       
+                                        @localizer["GraduationYear"]
                                     </label>
-                                    <input asp-for="GraduationDate" class="form-control" />
+                                    @*<input asp-for="GraduationDate" class="form-control" />*@
+                                    <select asp-for="GraduationDate" class="form-control selectTwo">
+                                        <option value="@Model.GraduationDate">@Model.GraduationDate</option>
+                                        @for (int i = 1300; i <= 1410; i++)
+                                        {
+                                            <option value="@i">@i</option>
+                                        }
+                                    </select>
                                     <span asp-validation-for="GraduationDate" class="text-danger"></span>
                                 </div>
                             </div>
@@ -145,7 +197,8 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="Nidnumber">
-                                        سن/عمر/Age
+                                       
+                                        @localizer["Age"]
 
                                     </label>
                                     <input asp-for="Age" class="form-control" />
@@ -155,14 +208,25 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="Nidnumber">
-                                        جنسبت/جنسبت/Gender
+                                      
+                                        @localizer["Gender"]
 
                                     </label>
                                     <select asp-for="GenderTypeId" class="form-control selectTwo" style="width:100%">
-                                        <option selected value="">--Select Gender--</option>
-                                        @foreach (var GenderType in ViewBag.GenderType)
+                                        <option selected value="">--  @localizer["Select"] --</option>
+                                        @if (culture == "en")
                                         {
-                                            <option value="@GenderType.GenderTypeId">@GenderType.GenderTypeName - @GenderType.GenderTypeNameDari</option>
+                                            @foreach (var GenderType in ViewBag.GenderType)
+                                            {
+                                                <option value="@GenderType.GenderTypeId">@GenderType.GenderTypeName </option>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            @foreach (var GenderType in ViewBag.GenderType)
+                                            {
+                                                <option value="@GenderType.GenderTypeId">@GenderType.GenderTypeNameDari</option>
+                                            }
                                         }
                                     </select>
                                     <span asp-validation-for="GenderTypeId" class="text-danger"></span>
@@ -173,8 +237,8 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="Eduservice">
-                                        مدت خدمت در معارف/په ښوونه او روزنه کې د خدمت موده/Duration of Service in Education/Duration of Service in Education
-
+                                    
+                                        @localizer["DurationOfService"]
                                     </label>
                                     <input asp-for="Eduservice" class="form-control" />
                                     <span asp-validation-for="Eduservice" class="text-danger"></span>
@@ -183,8 +247,8 @@
 
                         </div>
 
-                        <input type="submit" id="btnSave" value="ثبت/ثبت/Save" class="btn btn-success" />
-                        <a class="btn btn-primary text-uppercase " style="background-color:#0193df;" asp-controller="Teacher" asp-action="GetTeachersList"> قبلی/مخکی/Back </a>
+                        <input type="submit" id="btnSave" value="@localizer["Save"]" class="btn btn-success" />
+                        <a class="btn btn-primary text-uppercase " style="background-color:#0193df;" asp-controller="Teacher" asp-action="GetTeachersList">   @localizer["Back"] </a>
 
                     </fieldset>
                 </form>
@@ -197,5 +261,24 @@
     // In your Javascript (external .js resource or <script> tag)
     $(document).ready(function () {
         $('.selectTwo').select2();
+
+        $('#FacultyTypeId').select2({
+            tags: true
+        });
+
+        $('#FacultyTypeId').on('change', function () {
+            var value = $(this).val();
+            var textValue = $("#FacultyTypeId option:selected").text();
+            if (value === textValue) {
+                $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action("InsertNewFacultyType", "Principle")/' + textValue,
+                    success: function (result) {
+                        $("#FacultyTypeId option:selected").val(result);
+                    }
+                });
+            }
+
+        })
     });
 </script>

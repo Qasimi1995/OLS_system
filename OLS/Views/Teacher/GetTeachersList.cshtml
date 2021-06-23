@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<OLS.ViewModels.TeacherViewModelDisplay>
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
 @using OLS.ViewModels
 
 
-@{
-    ViewData["Title"] = "GetTeachersList";
-}
+@{ ViewData["Title"] = "GetTeachersList";
+    var culture = Context.Features.Get<Microsoft.AspNetCore.Localization.IRequestCultureFeature>().RequestCulture.UICulture.Name;}
 
 
 <div class="row">
@@ -13,76 +13,103 @@
             <div class="card-body">
                 @await Html.PartialAsync("../steps")
                 <div style="text-align:center;background-color: #0193df;">
-                    <h3 style="padding:5px;color: white;">معلومات اساتید/د ښوونکو په اړه مالومات/Teachers' Information</h3>
+                    <h3 style="padding:5px;color: white;">@localizer["TeacherInformation"]</h3>
                 </div>
 
                 <div style="margin:5px;">
                     <button type="button" class="btn btn-primary" style="background-color:#0193df;" onclick="@("window.location.href='" + @Url.Action("Create", "Teacher") + "'");">
-                        استاد جدید اضافه نماید/د نوي ښوونکي اضافه کول/Add New Teacher
+                       
+                        @localizer["AddNewTeacher"]
                     </button>
                 </div>
 
                 <div class="table-responsive">
-                    <table class="table table-bordered no-wrap">
+                    <table class="table table-bordered no-wrap" >
                         <thead>
                             <tr>
-                                <th>اسم /نوم/Name</th>
-                                <th>تخلص /تخلص/Last Name</th>
-                                <th> نمبر تذکره /د تذکرې شمېره/NID Number</th>
-                                <th> سن/عمر/Age</th>
-                                <th>جنسیت/جنسیت/Gender</th>
-                                <th> درجه تحصیل/د زده کړو درجه/Education Level</th>
-                                <th>سال فراغت/د فراغت کال/Gradution Date</th>
-                                <th>  مدت خدمت در معارف/په ښوونه او روزنه کې د خدمت موده/Duration of Service in Education</th>
-                                <th>Action</th>
+                                <th>@localizer["Name"]</th>
+                                <th>  @localizer["LastName"]</th>
+                                <th> @localizer["NIDNumber"]</th>
+                                <th>   @localizer["Age"]</th>
+                                <th>  @localizer["Gender"]</th>
+                                <th>   @localizer["EducationLevel"]</th>
+                                <th>  @localizer["GraduationYear"]</th>
+                                <th>    @localizer["DurationOfService"]</th>
+                                <th> @localizer["Action"]</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (var item in Model)
                             {
-                                <tr>
+                <tr>
 
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Name)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.LastName)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Nidnumber)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Age)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.GenderType)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.EducationLevel)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.GraduationDate)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Eduservice)
-                                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nidnumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Age)
+                    </td>
+                    <td>
+                        @if (culture == "en")
+                        {
+                            @item.GenderType.Split("/")[1]
+                        }
+                        else
+                        {
+                            @item.GenderType.Split("/")[0]
+                        }
+                      
+                    </td>
+                    <td>
+                          @if (culture == "en")
+                        {
+                            @item.EducationLevel.Split("/")[1]
+                        }
+                        else if(culture=="fa")
+                        {
+                            @item.EducationLevel.Split("-")[0]
+                         }
+                        else
+                        {
+                               @item.EducationLevel.Split("-")[1].Split("/")[0]
+                        }
+                       
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.GraduationDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Eduservice)
+                    </td>
 
-                                    <td class="text-nowrap">
-                                        @Html.ActionLink("دیدن/تغیر معلومات", "Edit", new { id = item.PersonId }) |
+                    <td class="text-nowrap">
+                        @Html.ActionLink(localizer["Edit"].Value, "Edit", new { id = item.PersonId }) 
 
-                                        @Html.ActionLink("حذف نمایید", "Delete", new { id = item.PersonId })
-                                    </td>
-                                </tr>
-                            }
+                        @*@Html.ActionLink(localizer["Delete"].Value, "Delete", new { id = item.PersonId })*@
+                    </td>
+                </tr>}
 
 
                         </tbody>
                     </table>
                 </div>
+                 @{ 
+                        var floatValue = "right";
+                        if (culture == "en")
+                        {
+                            floatValue = "left";
+                        }
 
-                <div style="float:left;">
-                    <button type="button" id="nextBtn" style="background-color:#0193df;" onclick="@("window.location.href='" + @Url.Action("Navigate", "Principle") + "'");" class="btn btn-primary">قبلی/مخکی/Previous</button>
-                    <button type="button" id="nextBtn" style="background-color:#0193df;" onclick="@("window.location.href='" + @Url.Action("Navigate", "EnrollmentPlan") + "'");" class="btn btn-primary">بعدی/وروسته/Next</button>
+                    }
+                <div style="float:@floatValue;">
+                    <button type="button" id="nextBtn" style="background-color:#0193df;" onclick="@("window.location.href='" + @Url.Action("Navigate", "Principle") + "'");" class="btn btn-primary"> @localizer["Previous"]</button>
+                    <button type="button" id="nextBtn" style="background-color:#0193df;" onclick="@("window.location.href='" + @Url.Action("Navigate", "EnrollmentPlan") + "'");" class="btn btn-primary"> @localizer["Next"]</button>
                 </div>
             </div>
         </div>

@@ -1,10 +1,8 @@
-﻿
-@{
-    var controllerName = this.ViewContext.RouteData.Values["controller"].ToString();
-    var action = this.ViewContext.RouteData.Values["action"].ToString();
-    var name = controllerName;
-    string Active = "active";
-}
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@{ var controllerName = this.ViewContext.RouteData.Values["controller"].ToString();
+                var action = this.ViewContext.RouteData.Values["action"].ToString();
+                var name = controllerName;
+                string Active = "active"; }
 
 <!-- Circles which indicates the steps of the form: -->
 <style>
@@ -33,14 +31,14 @@
 </style>
 
 <div style="text-align:center; margin:10px; ">
-    <a href="@Url.Action("Navigate","Founder")"><span class="step @if (controllerName=="Founder") { @Active}">1</span></a>  
-    <a href="@Url.Action("Navigate","School")"><span class="step @if (controllerName=="School") { @Active}">2</span></a>
-    <a href="@Url.Action("Navigate","FinancialResource")"><span class="step @if (controllerName=="FinancialResource") { @Active}">3</span></a>
-    <a href="@Url.Action("Navigate","Principle")"><span class="step @if (controllerName=="Principle") { @Active}">4</span></a>
-    <a href="@Url.Action("Navigate","Teacher")"><span class="step @if (controllerName=="Teacher") { @Active}">5</span></a>
-    <a href="@Url.Action("Navigate","EnrollmentPlan")"><span class="step @if (controllerName=="EnrollmentPlan" && (action=="Edit" || action=="Create" ||action=="NoEdit" )) { @Active}">6</span></a>
-    <a href="@Url.Action("NavigateNextY","EnrollmentPlan")"><span class="step @if (controllerName=="EnrollmentPlan" && (action=="EditNextY" || action=="CreateNextY" ||action=="NoEditNextY" )) { @Active}">7</span></a>
-    <a href="@Url.Action("Navigate","SchoolFinancialPlan")"><span class="step @if (controllerName=="SchoolFinancialPlan" ) { @Active}">8</span></a>
-    <a href="@Url.Action("Navigate","SchoolStaffExpenses")"><span class="step @if (controllerName=="SchoolStaffExpenses") { @Active}">9</span></a>
-    <a href="@Url.Action("Navigate","SchoolOtherExpenses")"><span class="step @if (controllerName=="SchoolOtherExpenses") { @Active}">10</span></a>
+    <a href="@Url.Action("Navigate","Founder")"><span class="step @if (controllerName=="Founder") { @Active}">@localizer["1"]</span></a>
+    <a href="@Url.Action("Navigate","School")"><span class="step @if (controllerName=="School") { @Active}">@localizer["2"]</span></a>
+    <a href="@Url.Action("Navigate","FinancialResource")"><span class="step @if (controllerName=="FinancialResource") { @Active}">@localizer["3"]</span></a>
+    <a href="@Url.Action("Navigate","Principle")"><span class="step @if (controllerName=="Principle") { @Active}">@localizer["4"]</span></a>
+    <a href="@Url.Action("Navigate","Teacher")"><span class="step @if (controllerName=="Teacher") { @Active}">@localizer["5"]</span></a>
+    <a href="@Url.Action("Navigate","EnrollmentPlan")"><span class="step @if (controllerName=="EnrollmentPlan" && (action=="Edit" || action=="Create" ||action=="NoEdit" )) { @Active}">@localizer["6"]</span></a>
+    <a href="@Url.Action("NavigateNextY","EnrollmentPlan")"><span class="step @if (controllerName=="EnrollmentPlan" && (action=="EditNextY" || action=="CreateNextY" ||action=="NoEditNextY" )) { @Active}">@localizer["7"]</span></a>
+    <a href="@Url.Action("Navigate","SchoolFinancialPlan")"><span class="step @if (controllerName=="SchoolFinancialPlan" ) { @Active}">@localizer["8"]</span></a>
+    <a href="@Url.Action("Navigate","SchoolStaffExpenses")"><span class="step @if (controllerName=="SchoolStaffExpenses") { @Active}">@localizer["9"]</span></a>
+    <a href="@Url.Action("Navigate","SchoolOtherExpenses")"><span class="step @if (controllerName=="SchoolOtherExpenses") { @Active}">@localizer["10"]</span></a>
 </div>

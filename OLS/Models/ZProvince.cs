@@ -11,7 +11,7 @@ namespace OLS.Models
             ZDistrict = new HashSet<ZDistrict>();
         }
 
-        public Guid ProvinceId { get; set; }
+        public int ProvinceId { get; set; }
         public string ProvNaEng { get; set; }
         public string ProvNaDar { get; set; }
 

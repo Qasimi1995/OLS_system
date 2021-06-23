@@ -12,21 +12,28 @@ using System.IO;
 using OLS.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Mvc.Localization;
+
 namespace OLS.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Applicant")]
     [Route("School")]
     public class SchoolController : Controller
     {
         private ApplicationContext _applicationContext;
         IHostingEnvironment _env;
         private readonly UserManager<User> _userManager;
+        private readonly INotyfService notyfService;
+        private readonly IHtmlLocalizer _localizer;
 
-        public SchoolController(ApplicationContext applicationContext, IHostingEnvironment environment,UserManager<User> userManager)
+        public SchoolController(ApplicationContext applicationContext, IHostingEnvironment environment,UserManager<User> userManager, INotyfService notyfService, IHtmlLocalizer<SchoolController> localizer)
         {
             _applicationContext = applicationContext;
             _env = environment;
             _userManager = userManager;
+            _localizer = localizer;
+            this.notyfService = notyfService;
         }
 
         [Route("index")]
@@ -42,7 +49,39 @@ namespace OLS.Controllers
         public IActionResult Navigate() {
             var UserId = _userManager.GetUserId(User);
             var id = _applicationContext.Process.Where(p => p.ProcessId == Guid.Parse("88A9020D-D188-417C-9B11-7FDA9613B197")).Select(p => p.ProcessId).FirstOrDefault();
-            var schoolid = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User)).Select(p => p.SchoolId).FirstOrDefault();
+            var schoolid = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User)).OrderByDescending(p=>p.CreatedAt).Select(p => p.SchoolId).FirstOrDefault();
+
+
+           //New Changes
+
+            var sch_id = HttpContext.Session.GetString("mySchoolId");
+            if (sch_id != null)
+            {
+                schoolid = Guid.Parse(sch_id);
+            }
+
+            var newSchool = HttpContext.Session.GetString("new");
+            if (newSchool != null)
+            {
+                schoolid = Guid.NewGuid();
+            }
+
+            var myschoolid = HttpContext.Session.GetString("SchoolID");
+
+            if (myschoolid != null)
+            {
+                schoolid = Guid.Parse(myschoolid);
+            }
+            if(myschoolid==null && sch_id==null)
+            {
+                schoolid = Guid.NewGuid();
+            }
+
+
+            
+
+            //End New Changes
+
 
             var displayPlan = (from process in _applicationContext.Process
                                join subProcess in _applicationContext.SubProcess on process.ProcessId equals subProcess.ProcessId into processgroup
@@ -74,7 +113,10 @@ namespace OLS.Controllers
 
                                }).OrderBy(p => p.OrderNumber).ToList();
 
-            var school = _applicationContext.School.Where(p => p.CreatedBy == UserId).FirstOrDefault();
+            
+
+
+            var school = _applicationContext.School.Where(p => p.CreatedBy == UserId && p.SchoolId==schoolid).OrderByDescending(p=>p.CreatedAt).FirstOrDefault();
             ViewBag.school = school;
             if (school != null)
             {
@@ -126,13 +168,13 @@ namespace OLS.Controllers
         }
 
         [HttpGet]
-        [Route("NavigateDoc")]
-        public IActionResult NavigateDoc()
+        [Route("NavigateDoc/{SchID}")]
+        public IActionResult NavigateDoc(Guid SchID)
         {
+
             var UserId = _userManager.GetUserId(User);
             var id = _applicationContext.Process.Where(p => p.ProcessId == Guid.Parse("88A9020D-D188-417C-9B11-7FDA9613B197")).Select(p => p.ProcessId).FirstOrDefault();
-            var schoolid = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User)).Select(p => p.SchoolId).FirstOrDefault();
-
+            var schoolid = SchID;
             var displayPlan = (from process in _applicationContext.Process
                                join subProcess in _applicationContext.SubProcess on process.ProcessId equals subProcess.ProcessId into processgroup
                                from a in processgroup.DefaultIfEmpty()
@@ -162,9 +204,7 @@ namespace OLS.Controllers
                                    StatusDate = b.StatusDate,
 
                                }).OrderBy(p => p.OrderNumber).ToList();
-            var PartDocument = _applicationContext.PartyDocument.Where(p => p.PartyId == _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User)).Select(p => p.SchoolId).FirstOrDefault()
-            && p.DocCategoryId==Guid.Parse("39C691C9-E88C-4F1F-A431-C0C7F723348A")
-            );
+            var PartDocument = _applicationContext.PartyDocument.Where(p => p.PartyId == schoolid && p.DocCategoryId==Guid.Parse("39C691C9-E88C-4F1F-A431-C0C7F723348A"));
             if (PartDocument.Count() != 0)
             {
                 if (displayPlan.Count > 0)
@@ -174,50 +214,50 @@ namespace OLS.Controllers
                         if (displayPlan[i].OrderNumber == 1 && displayPlan[i].CompletionFlag == 0)
                         {
 
-                            return RedirectToAction("UploadDocumentsEdit");
+                            return RedirectToAction("UploadDocumentsEdit",new { SchID = schoolid });
                         }
                         else if (displayPlan[i].OrderNumber == 2 && displayPlan[i].CompletionFlag == 0)
                         {
 
-                            return RedirectToAction("UploadDocumentsEdit");
+                            return RedirectToAction("UploadDocumentsEdit", new { SchID = schoolid });
                         }
                         else if (displayPlan[i].OrderNumber == 3 && displayPlan[i].CompletionFlag == 0)
                         {
 
-                            return RedirectToAction("UploadDocumentsEdit");
+                            return RedirectToAction("UploadDocumentsEdit", new { SchID = schoolid });
                         }
                         else if (displayPlan[i].OrderNumber == 4 && displayPlan[i].CompletionFlag == 0)
                         {
 
-                            return RedirectToAction("UploadDocumentsEdit"); ;
+                            return RedirectToAction("UploadDocumentsEdit", new { SchID = schoolid });
                         }
                         else if (displayPlan[i].OrderNumber == 5 && displayPlan[i].CompletionFlag == 0)
                         {
 
-                            return RedirectToAction("UploadDocumentsEdit");
+                            return RedirectToAction("UploadDocumentsEdit", new { SchID = schoolid });
                         }
                         else if (displayPlan[i].OrderNumber == 4 && displayPlan[i].CompletionFlag == 0)
                         {
 
-                            return RedirectToAction("UploadDocumentsEdit");
+                            return RedirectToAction("UploadDocumentsEdit", new { SchID = schoolid });
                         }
                     }
-                    return RedirectToAction("NoUploadDocumentsEdit");
+                    return RedirectToAction("NoUploadDocumentsEdit", new { SchID = schoolid });
                 }
                 else
                 {
-                    return RedirectToAction("UploadDocumentsEdit");
+                    return RedirectToAction("UploadDocumentsEdit", new { SchID = schoolid });
                 }
                 
             }
 
-            return RedirectToAction("UploadDocuments");
+            return RedirectToAction("UploadDocuments",new { SchID=schoolid});
         }
 
 
         [HttpGet]
-        [Route("UploadDocuments")]
-        public IActionResult UploadDocuments() {
+        [Route("UploadDocuments/{SchID}")]
+        public IActionResult UploadDocuments(Guid SchID) {
 
             var DocumentList = (from zDocType in _applicationContext.ZDocType
                                 where zDocType.DocCategoryId== Guid.Parse("39C691C9-E88C-4F1F-A431-C0C7F723348A")
@@ -230,19 +270,21 @@ namespace OLS.Controllers
 
 
                                }).ToList();
+
+            ViewBag.SchoolId = SchID;
             return View(DocumentList);
 
         }
 
         [HttpGet]
-        [Route("NoUploadDocumentsEdit")]
-        public IActionResult NoUploadDocumentsEdit()
+        [Route("NoUploadDocumentsEdit/{SchID}")]
+        public IActionResult NoUploadDocumentsEdit(Guid SchID)
         {
 
             var DocumentList = (from zDocType in _applicationContext.ZDocType
                                 join partyDocument in _applicationContext.PartyDocument on zDocType.DocTypeId equals partyDocument.DocTypeId
                                 where zDocType.DocCategoryId == Guid.Parse("39C691C9-E88C-4F1F-A431-C0C7F723348A")
-                                && partyDocument.PartyId == _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User)).Select(p => p.SchoolId).FirstOrDefault()
+                                && partyDocument.PartyId == SchID
                                 orderby zDocType.OrderNumber
                                 select new DocTypeViewModelEdit
                                 {
@@ -260,14 +302,14 @@ namespace OLS.Controllers
 
 
         [HttpGet]
-        [Route("UploadDocumentsEdit")]
-        public IActionResult UploadDocumentsEdit()
+        [Route("UploadDocumentsEdit/{SchID}")]
+        public IActionResult UploadDocumentsEdit(Guid SchID)
         {
 
             var DocumentList = (from zDocType in _applicationContext.ZDocType
                                 join partyDocument in _applicationContext.PartyDocument on zDocType.DocTypeId equals partyDocument.DocTypeId
                                 where zDocType.DocCategoryId == Guid.Parse("39C691C9-E88C-4F1F-A431-C0C7F723348A")
-                                && partyDocument.PartyId == _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User)).Select(p => p.SchoolId).FirstOrDefault()
+                                && partyDocument.PartyId == SchID
                                 orderby zDocType.OrderNumber
                                 select new DocTypeViewModelEdit
                                 {
@@ -285,13 +327,13 @@ namespace OLS.Controllers
 
 
         [HttpPost]
-        [Route("UploadDocumentsEdit")]
-        public IActionResult UploadDocumentsEdit(IList<DocTypeViewModelEdit> docTypeViewModels)
+        [Route("UploadDocumentsEdit/{SchID}")]
+        public IActionResult UploadDocumentsEdit(IList<DocTypeViewModelEdit> docTypeViewModels,string SchID)
         {
             var DocumentList = (from zDocType in _applicationContext.ZDocType
                                 join partyDocument in _applicationContext.PartyDocument on zDocType.DocTypeId equals partyDocument.DocTypeId
                                 where zDocType.DocCategoryId == Guid.Parse("39C691C9-E88C-4F1F-A431-C0C7F723348A")
-                                && partyDocument.PartyId == _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User)).Select(p => p.SchoolId).FirstOrDefault()
+                                && partyDocument.PartyId == Guid.Parse(SchID)
                                 orderby zDocType.OrderNumber
                                 select new DocTypeViewModelEdit
                                 {
@@ -313,7 +355,7 @@ namespace OLS.Controllers
                     string FilePath = "";
                     string DocPath = "";
 
-                    Guid? Pid = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User)).Select(p => p.SchoolId).FirstOrDefault();
+                    Guid? Pid = Guid.Parse(SchID);
                     if (docTypeViewModels[i].Document != null)
                     {
 
@@ -336,15 +378,15 @@ namespace OLS.Controllers
             }
             else
             {
-                
+                ViewBag.SchoolId = SchID;
                 return View(DocumentList);
             }
 
         }
 
         [HttpPost]
-        [Route("UploadDocuments")]
-        public IActionResult UploadDocuments(IList<DocTypeViewModel> docTypeViewModels)
+        [Route("UploadDocuments/{SchID}")]
+        public IActionResult UploadDocuments(IList<DocTypeViewModel> docTypeViewModels,Guid SchID)
         {
 
             var DocumentList = (from zDocType in _applicationContext.ZDocType
@@ -368,7 +410,7 @@ namespace OLS.Controllers
                     string FilePath = "";
                     string DocPath = "";
 
-                    Guid? Pid = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User)).Select(p => p.SchoolId).FirstOrDefault();
+                    Guid? Pid = SchID;
                     if (docTypeViewModels[i].Document != null)
                     {
 
@@ -390,16 +432,18 @@ namespace OLS.Controllers
                     PartyDocument partyDocument = new PartyDocument
                     {
                         PartyDocumentId = Guid.NewGuid(),
-                        PartyId = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User)).Select(p => p.SchoolId).FirstOrDefault(),
+                        PartyId = SchID,
 
                         DocCategoryId =Guid.Parse("39C691C9-E88C-4F1F-A431-C0C7F723348A"),
                         DocTypeId = docTypeViewModels[i].DocTypeId,
                         DocPath= DocPath,
+                        CreatedBy = _userManager.GetUserId(User),
+                        CreatedAt = DateTime.Now
 
                     };
                     partyDocuments.Add(partyDocument);
                 }
-                var processprogress = _applicationContext.ProcessProgress.Where(p => p.SchoolId== _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User)).Select(p => p.SchoolId).FirstOrDefault()
+                var processprogress = _applicationContext.ProcessProgress.Where(p => p.SchoolId== SchID
                  && p.SubProcessId==Guid.Parse("FBF66EB9-E2E8-46D6-8CE9-5703E4B6D2C3")).FirstOrDefault();
                 ProcessHistory processHistory = new ProcessHistory
                 {
@@ -434,12 +478,13 @@ namespace OLS.Controllers
             else
             {
 
+                ViewBag.SchoolId = SchID;
                 return View(DocumentList);
             }
 
         }
         [Route("FindDistrict/{ProvinceId}")]
-        public IActionResult FindDistrict(Guid ProvinceId)
+        public IActionResult FindDistrict(int ProvinceId)
         {
             var districts = _applicationContext.ZDistrict.Where(district => district.ProvinceId == ProvinceId).Select(distict => new {
                 Id = distict.DistrictId,
@@ -450,7 +495,7 @@ namespace OLS.Controllers
             return new JsonResult(districts);
         }
         [Route("FindVillagNahia/{DistrictId}")]
-        public IActionResult FindVillagNahia(Guid DistrictId)
+        public IActionResult FindVillagNahia(int DistrictId)
         {
             var VillageNahias = _applicationContext.ZVillageNahia.Where(villigaeNahia => villigaeNahia.DistrictId == DistrictId)
                 .Select(villageNahia => new {
@@ -473,7 +518,7 @@ namespace OLS.Controllers
                     return Json(true); }
                 else
                 {
-                    return Json($"تعداد اطاق باید بالاتر از 5 باشد /د خونو شمېر باید له ۵ څخه ډېر وي / Number of Rooms must be greater than 5.");
+                    return Json(_localizer["RoomsGreaterFive"].Value);
                 }
             }
 
@@ -485,7 +530,8 @@ namespace OLS.Controllers
                 }
                 else
                 {
-                    return Json($" د خونو شمېر باید له 8 څخه ډېر وي/تعداد اطاق باید بالاتر از 8 باشد/ Number of Rooms must be greater than 8.");
+                   
+                    return Json(_localizer["RoomsGreaterEight"].Value);
                 }
             }
             if (SchoolLevelId == Guid.Parse("FF48CD0D-914F-44A6-B7F0-A66064ACC6CE"))
@@ -496,7 +542,8 @@ namespace OLS.Controllers
                 }
                 else
                 {
-                    return Json($"د خونو شمېر باید له 11 څخه ډېر وي/تعداد اطاق باید بالاتر از 11 باشد/ Number of Rooms must be greater than 11.");
+                  
+                    return Json(_localizer["RoomsGreaterEleven"].Value);
                 }
             }
             else {
@@ -521,9 +568,7 @@ namespace OLS.Controllers
 
             }
             else {
-                return Json($" لږ تر لږه باید 500 متر وي /حد اقل باید 500 متر باشد/ Minimum shoud be 500m");
-
-
+                return Json(_localizer["Min500"].Value);
             }
 
 
@@ -543,7 +588,7 @@ namespace OLS.Controllers
             }
             else
             {
-                return Json($"لږ تر لږه باید 200 متر وي /حد اقل باید 200 متر باشد/ Minimum shoud be 200m");
+                return Json(_localizer["Min200"].Value);
 
 
             }
@@ -565,7 +610,7 @@ namespace OLS.Controllers
                 }
                 else
                 {
-                    return Json($"لږ تر لږه باید 8 وي /حد اقل باید 8 باشد/ Minimum shoud be 8");
+                    return Json(_localizer["Min8"].Value);
                 }
             }
 
@@ -577,7 +622,7 @@ namespace OLS.Controllers
                 }
                 else
                 {
-                    return Json($"لږ تر لږه باید 13 وي /حد اقل باید 13 باشد/ Minimum shoud be 13");
+                    return Json(_localizer["Min13"].Value);
                 }
             }
             if (SchoolLevelId == Guid.Parse("FF48CD0D-914F-44A6-B7F0-A66064ACC6CE"))
@@ -588,7 +633,7 @@ namespace OLS.Controllers
                 }
                 else
                 {
-                    return Json($"لږ تر لږه باید 18 وي /حد اقل باید 18 باشد/ Minimum shoud be 18");
+                    return Json(_localizer["Min18"].Value);
                 }
             }
             else
@@ -614,7 +659,7 @@ namespace OLS.Controllers
                 }
                 else
                 {
-                    return Json($"لږ تر لږه باید 60 وي /حد اقل باید 60 باشد/ Minimum shoud be 60");
+                    return Json(_localizer["Min60"].Value);
                 }
             }
 
@@ -626,7 +671,7 @@ namespace OLS.Controllers
                 }
                 else
                 {
-                    return Json($"لږ تر لږه باید 90 وي /حد اقل باید 90 باشد/ Minimum shoud be 90");
+                    return Json(_localizer["Min90"].Value);
                 }
             }
             if (SchoolLevelId == Guid.Parse("FF48CD0D-914F-44A6-B7F0-A66064ACC6CE"))
@@ -637,7 +682,8 @@ namespace OLS.Controllers
                 }
                 else
                 {
-                    return Json($"لږ تر لږه باید 120 وي /حد اقل باید 120 باشد/ Minimum shoud be 120");
+                 
+                    return Json(_localizer["Min120"].Value);
                 }
             }
             else
@@ -661,7 +707,7 @@ namespace OLS.Controllers
                 }
                 else
                 {
-                    return Json($"لږ تر لږه باید 500 وي /حد اقل باید 500 باشد/ Minimum shoud be 500");
+                    return Json(_localizer["Min500Books"].Value);
                 }
             }
 
@@ -673,7 +719,8 @@ namespace OLS.Controllers
                 }
                 else
                 {
-                    return Json($"لږ تر لږه باید 800 وي /حد اقل باید 800 باشد/ Minimum shoud be 800");
+                    
+                    return Json(_localizer["Min800Books"].Value);
                 }
             }
             if (SchoolLevelId == Guid.Parse("FF48CD0D-914F-44A6-B7F0-A66064ACC6CE"))
@@ -684,7 +731,7 @@ namespace OLS.Controllers
                 }
                 else
                 {
-                    return Json($"لږ تر لږه باید 1000 وي /حد اقل باید 1000 باشد/ Minimum shoud be 1000");
+                    return Json(_localizer["Min100Books"].Value);
                 }
             }
             else
@@ -708,7 +755,7 @@ namespace OLS.Controllers
                 }
                 else
                 {
-                    return Json($"لږ تر لږه باید 6 وي /حد اقل باید 6 باشد/ Minimum shoud be 6");
+                    return Json(_localizer["Min6"].Value);
                 }
             }
 
@@ -720,7 +767,8 @@ namespace OLS.Controllers
                 }
                 else
                 {
-                    return Json($"لږ تر لږه باید 9 وي /حد اقل باید 9 باشد/ Minimum shoud be 9");
+                  
+                    return Json(_localizer["Min9"].Value);
                 }
             }
             if (SchoolLevelId == Guid.Parse("FF48CD0D-914F-44A6-B7F0-A66064ACC6CE"))
@@ -731,7 +779,8 @@ namespace OLS.Controllers
                 }
                 else
                 {
-                    return Json($"لږ تر لږه باید 12 وي /حد اقل باید 12 باشد/ Minimum shoud be 12");
+                   
+                    return Json(_localizer["Min12"].Value);
                 }
             }
             else
@@ -756,7 +805,7 @@ namespace OLS.Controllers
                 }
                 else
                 {
-                    return Json($"لږ تر لږه باید 10 وي /حد اقل باید 10 باشد/ Minimum shoud be 10");
+                    return Json(_localizer["Min10"].Value);
                 }
             }
 
@@ -768,7 +817,7 @@ namespace OLS.Controllers
                 }
                 else
                 {
-                    return Json($"لږ تر لږه باید 15 وي /حد اقل باید 15 باشد/ Minimum shoud be 15");
+                    return Json(_localizer["Min15"].Value);
                 }
             }
             if (SchoolLevelId == Guid.Parse("FF48CD0D-914F-44A6-B7F0-A66064ACC6CE"))
@@ -779,7 +828,8 @@ namespace OLS.Controllers
                 }
                 else
                 {
-                    return Json($"لږ تر لږه باید 20 وي /حد اقل باید 20 باشد/ Minimum shoud be 20");
+                   
+                    return Json(_localizer["Min20"].Value);
                 }
             }
             else
@@ -848,7 +898,7 @@ namespace OLS.Controllers
                 ViewBag.district = district;
                 var villageNahia = _applicationContext.ZVillageNahia.Where(v => v.DistrictId == schoolAddress.DistrictId);
                 ViewBag.villageNahia = villageNahia;
-                HttpContext.Session.SetString("SchoolID", schoolViewModel.SchoolId.ToString());
+              
                 return View(schoolViewModel);
             }
 
@@ -912,9 +962,32 @@ namespace OLS.Controllers
                         ViewBag.district = district;
                         var villageNahia = _applicationContext.ZVillageNahia.Where(v => v.DistrictId == schoolAddress.DistrictId);
                         ViewBag.villageNahia = villageNahia;
-                        HttpContext.Session.SetString("SchoolID", schoolViewModel.SchoolId.ToString());
+                        
                 return View(schoolViewModel);
-                }          
+                }
+
+
+            var pro = _applicationContext.ZProvince;
+            ViewBag.Province = pro;
+
+            var SchLevel = _applicationContext.ZSchoolLevel.OrderBy(o => o.OrderNumber);
+            ViewBag.SchoolLevel = SchLevel;
+
+            var SchGender= _applicationContext.ZSchoolGenderType.OrderBy(o => o.OrderNumber);
+            ViewBag.SchoolGenderType = SchGender;
+
+            var LabMatType = _applicationContext.ZLaboratoryMaterialType.OrderBy(o => o.OrderNumber);
+            ViewBag.LabMaterialType = LabMatType;
+
+
+            School sch = _applicationContext.School.Find(schoolId);
+            PartyAddress schAddress = _applicationContext.PartyAddress.Where(p => p.PartyId == sch.SchoolId).FirstOrDefault();
+
+
+            var dist = _applicationContext.ZDistrict.Where(d => d.ProvinceId == schAddress.ProvinceId);
+            ViewBag.district = dist;
+            var vilAndNah = _applicationContext.ZVillageNahia.Where(v => v.DistrictId == schAddress.DistrictId);
+            ViewBag.villageNahia = vilAndNah;
 
 
             return View();
@@ -971,6 +1044,8 @@ namespace OLS.Controllers
                 schoolAddress.ProvinceId = schoolViewModel.ProvinceId;
                 schoolAddress.DistrictId = schoolViewModel.DistrictId;
                 schoolAddress.Nahia = schoolViewModel.Nahia;
+                schoolAddress.UpdatedBy = _userManager.GetUserId(User);
+                schoolAddress.UpdatedAt = DateTime.Now;
 
                 var province = _applicationContext.ZProvince;
                 ViewBag.Province = province;
@@ -983,11 +1058,36 @@ namespace OLS.Controllers
                 _applicationContext.Update(schoolAddress);
                 _applicationContext.SaveChanges();
                
-                HttpContext.Session.SetString("SchoolID", schoolViewModel.SchoolId.ToString());
-                ViewBag.Message = "معلومات موفقانه تصحیح گردید / معلومات په بریالیتوب سره اصلاح شول / Record Successfully updated ";
+                
+                notyfService.Custom(_localizer["SchoolUpdated"].Value, 10, "#67757c", "fa fa-check");
+                ViewBag.Message = _localizer["RecordUpdated"].Value;
                 return View(schoolViewModel);
 
             }
+
+
+            var pro = _applicationContext.ZProvince;
+            ViewBag.Province = pro;
+
+            var SchLevel = _applicationContext.ZSchoolLevel.OrderBy(o => o.OrderNumber);
+            ViewBag.SchoolLevel = SchLevel;
+
+            var SchGender = _applicationContext.ZSchoolGenderType.OrderBy(o => o.OrderNumber);
+            ViewBag.SchoolGenderType = SchGender;
+
+            var LabMatType = _applicationContext.ZLaboratoryMaterialType.OrderBy(o => o.OrderNumber);
+            ViewBag.LabMaterialType = LabMatType;
+
+
+            School sch = _applicationContext.School.Find(schoolViewModel.SchoolId);
+            PartyAddress schAddress = _applicationContext.PartyAddress.Where(p => p.PartyId == sch.SchoolId).FirstOrDefault();
+
+
+            var dist = _applicationContext.ZDistrict.Where(d => d.ProvinceId == schAddress.ProvinceId);
+            ViewBag.district = dist;
+            var vilAndNah = _applicationContext.ZVillageNahia.Where(v => v.DistrictId == schAddress.DistrictId);
+            ViewBag.villageNahia = vilAndNah;
+
 
             return View();
 
@@ -1008,6 +1108,18 @@ namespace OLS.Controllers
 
             var LabMaterialType = _applicationContext.ZLaboratoryMaterialType.OrderBy(o => o.OrderNumber);
             ViewBag.LabMaterialType = LabMaterialType;
+
+
+           
+
+            var founderId = HttpContext.Session.GetString("FounderID");
+
+            if (founderId == null)
+            {
+                return RedirectToAction("Navigate", "Founder");
+            }
+
+
             return View();
         }
 
@@ -1074,6 +1186,8 @@ namespace OLS.Controllers
                     ProvinceId = schoolModel.ProvinceId,
                     DistrictId = schoolModel.DistrictId,
                     Nahia = schoolModel.Nahia,
+                    CreatedBy = _userManager.GetUserId(User),
+                    CreatedAt = DateTime.Now
                 };
 
                 Person founder = _applicationContext.Person.Where(p => p.PersonId == pid).FirstOrDefault();
@@ -1084,9 +1198,22 @@ namespace OLS.Controllers
                 _applicationContext.Update(founder);
                 _applicationContext.SaveChanges();
                 HttpContext.Session.SetString("SchoolID",schoolId.ToString());
-                ViewBag.Message = "معلومات ثبت گردید";
-                return RedirectToAction("Edit", new { schoolId=schoolId });
+                notyfService.Custom(_localizer["SchoolCreated"].Value, 10, "#67757c", "fa fa-check");
+                ViewBag.Message = _localizer["RecordSaved"].Value;
+                // return RedirectToAction("Edit", new { schoolId=schoolId });
+                return RedirectToAction("Create", "FinancialResource");
             }
+            var pro = _applicationContext.ZProvince;
+            ViewBag.Province = pro;
+
+            var SchoolLev = _applicationContext.ZSchoolLevel.OrderBy(o => o.OrderNumber);
+            ViewBag.SchoolLevel = SchoolLev;
+
+            var SchoolGenderT = _applicationContext.ZSchoolGenderType.OrderBy(o => o.OrderNumber);
+            ViewBag.SchoolGenderType = SchoolGenderT;
+
+            var LabMaterialT = _applicationContext.ZLaboratoryMaterialType.OrderBy(o => o.OrderNumber);
+            ViewBag.LabMaterialType = LabMaterialT;
             return View(schoolModel);
         }
 
@@ -1094,7 +1221,7 @@ namespace OLS.Controllers
         [Route("Notification")]
         public IActionResult Notification()
         {
-            ViewBag.Message = "Documents Uploaded Successfully!";
+            ViewBag.Message = _localizer["DocumentsUploaded"].Value;
             return View();
         }
 

@@ -12,22 +12,29 @@ using System.IO;
 using OLS.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
+using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Mvc.Localization;
 
 namespace OLS.Controllers
 {
     [Route("Teacher")]
-    [Authorize]
+    [Authorize(Roles = "Applicant")]
     public class TeacherController : Controller
     {
         private ApplicationContext _applicationContext;
-        IHostingEnvironment _env;
+        IWebHostEnvironment _env;
         private readonly UserManager<User> _userManager;
+        private readonly INotyfService notyfService;
+        private readonly IHtmlLocalizer _localizer;
 
-        public TeacherController(ApplicationContext applicationContext,IHostingEnvironment environment,UserManager<User> userManager)
+        public TeacherController(ApplicationContext applicationContext,IWebHostEnvironment environment,UserManager<User> userManager, IHtmlLocalizer<TeacherController> localizer,
+         INotyfService notyfService)
         {
             _applicationContext = applicationContext;
             _env = environment;
+            _localizer = localizer;
             _userManager = userManager;
+            this.notyfService = notyfService;
         }
 
         [Route("index")]
@@ -44,7 +51,37 @@ namespace OLS.Controllers
         {
             var UserId = _userManager.GetUserId(User);
             var id = _applicationContext.Process.Where(p => p.ProcessId == Guid.Parse("88A9020D-D188-417C-9B11-7FDA9613B197")).Select(p => p.ProcessId).FirstOrDefault();
-            var schoolid = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User)).Select(p => p.SchoolId).FirstOrDefault();
+            var schoolid = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User)).OrderByDescending(p=>p.CreatedAt).Select(p => p.SchoolId).FirstOrDefault();
+
+
+            //New Changes
+
+            var sch_id = HttpContext.Session.GetString("mySchoolId");
+            if (sch_id != null)
+            {
+                schoolid = Guid.Parse(sch_id);
+            }
+
+            var newSchool = HttpContext.Session.GetString("new");
+            if (newSchool != null)
+            {
+                schoolid = Guid.NewGuid();
+            }
+
+            var myschoolid = HttpContext.Session.GetString("SchoolID");
+
+            if (myschoolid != null)
+            {
+                schoolid = Guid.Parse(myschoolid);
+            }
+
+            if (myschoolid == null && sch_id == null)
+            {
+                schoolid = Guid.NewGuid();
+            }
+
+
+
 
             var displayPlan = (from process in _applicationContext.Process
                                join subProcess in _applicationContext.SubProcess on process.ProcessId equals subProcess.ProcessId into processgroup
@@ -133,7 +170,7 @@ namespace OLS.Controllers
             }
             else
             {
-                return Json($"Tazkira number {NIDNumber} already in use");
+                return Json(_localizer["NIDNumberInUse"].Value);
             }
 
         }
@@ -152,7 +189,7 @@ namespace OLS.Controllers
             }
 
             else if (NIDCountOther.Count >0) {
-                return Json($"Tazkira number {NIDNumber} already in use");
+                return Json(_localizer["NIDNumberInUse"].Value);
 
             }
             else
@@ -167,6 +204,31 @@ namespace OLS.Controllers
         public IActionResult NoGetTeachersList()
         {
 
+            var schoolid = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User)).OrderByDescending(p => p.CreatedAt).Select(p => p.SchoolId).FirstOrDefault();
+
+            //New Changes
+
+            var sch_id = HttpContext.Session.GetString("mySchoolId");
+            if (sch_id != null)
+            {
+                schoolid = Guid.Parse(sch_id);
+            }
+
+            var newSchool = HttpContext.Session.GetString("new");
+            if (newSchool != null)
+            {
+                schoolid = Guid.NewGuid();
+            }
+
+            var myschoolid = HttpContext.Session.GetString("SchoolID");
+
+            if (myschoolid != null)
+            {
+                schoolid = Guid.Parse(myschoolid);
+            }
+
+
+
             var teacherList = (from person in _applicationContext.Person
                                join personEducation in _applicationContext.PersonEducation
                                on person.PersonId equals personEducation.PersonId
@@ -174,7 +236,7 @@ namespace OLS.Controllers
                                join zGender in _applicationContext.ZGenderType on person.GenderTypeId equals zGender.GenderTypeId
                                join zfaculty in _applicationContext.ZFacultyType on personEducation.FacultyTypeId equals zfaculty.FacultyTypeId
                                where person.PartyRoleTypeId == Guid.Parse("E15C4649-0ABA-4B88-95AA-3936A863450D")
-                               && person.CreatedBy == _userManager.GetUserId(User)
+                               && person.CreatedBy == _userManager.GetUserId(User) && person.SchoolId==schoolid
                                select new
                                {
                                    PersonId = person.PersonId,
@@ -184,10 +246,10 @@ namespace OLS.Controllers
                                    GrandFatherName = person.GrandFatherName,
                                    Nidnumber = person.Nidnumber,
                                    Age = person.Age,
-                                   GenderType = zGender.GenderTypeNameDari,
+                                   GenderType = zGender.GenderTypeNameDari + "/" + zGender.GenderTypeName,
                                    Eduservice = person.Eduservice,
-                                   EducationLevel = zEducation.EducationLevelNameDari,
-                                   FacultyType = zfaculty.FacultypeName,
+                                   EducationLevel = zEducation.EducationLevelNameDari + "/" + zEducation.EducationLevelName,
+                                   FacultyType = zfaculty.FacultypeName + "/" + zfaculty.FacultypeNameDari,
                                    GraduationDate = personEducation.GraduationDate,
                                }).ToList()
                                .Select(x => new TeacherViewModelDisplay()
@@ -214,6 +276,45 @@ namespace OLS.Controllers
         [HttpGet]
         public IActionResult GetTeachersList() {
 
+
+            var schoolid = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User)).OrderByDescending(p => p.CreatedAt).Select(p => p.SchoolId).FirstOrDefault();
+
+            //New Changes
+
+            var sch_id = HttpContext.Session.GetString("mySchoolId");
+            if (sch_id != null)
+            {
+                schoolid = Guid.Parse(sch_id);
+            }
+
+            var newSchool = HttpContext.Session.GetString("new");
+            if (newSchool != null)
+            {
+                schoolid = Guid.NewGuid();
+            }
+
+            var myschoolid = HttpContext.Session.GetString("SchoolID");
+
+            if (myschoolid != null)
+            {
+                schoolid = Guid.Parse(myschoolid);
+            }
+
+
+            if (myschoolid == null)
+            {
+                return RedirectToAction("Navigate", "School");
+            }
+
+
+            var principle = HttpContext.Session.GetString("Principle");
+
+            if (principle == null)
+            {
+                return RedirectToAction("Navigate", "Principle");
+            }
+
+
             var teacherList = (from person in _applicationContext.Person
                                join personEducation in _applicationContext.PersonEducation                              
                                on person.PersonId equals personEducation.PersonId
@@ -221,7 +322,7 @@ namespace OLS.Controllers
                                join zGender in _applicationContext.ZGenderType on person.GenderTypeId equals zGender.GenderTypeId
                                join zfaculty in _applicationContext.ZFacultyType on personEducation.FacultyTypeId equals zfaculty.FacultyTypeId
                                where person.PartyRoleTypeId==Guid.Parse("E15C4649-0ABA-4B88-95AA-3936A863450D") 
-                               && person.CreatedBy==_userManager.GetUserId(User)
+                               && person.CreatedBy==_userManager.GetUserId(User) && person.SchoolId==schoolid
                                select new
                                {
                                    PersonId = person.PersonId,
@@ -231,10 +332,10 @@ namespace OLS.Controllers
                                    GrandFatherName = person.GrandFatherName,
                                    Nidnumber = person.Nidnumber,
                                    Age = person.Age,
-                                   GenderType = zGender.GenderTypeNameDari,
+                                   GenderType = zGender.GenderTypeNameDari+"/"+zGender.GenderTypeName,
                                    Eduservice = person.Eduservice,
-                                   EducationLevel = zEducation.EducationLevelNameDari,
-                                   FacultyType = zfaculty.FacultypeName,
+                                   EducationLevel = zEducation.EducationLevelNameDari+"/"+zEducation.EducationLevelName,
+                                   FacultyType = zfaculty.FacultypeName+"/"+zfaculty.FacultypeNameDari,
                                    GraduationDate = personEducation.GraduationDate,
                                }).ToList()
                                .Select(x => new TeacherViewModelDisplay() {
@@ -373,16 +474,28 @@ namespace OLS.Controllers
                     personEducation.EducationLevelId = teacher.EducationLevelID;
                     personEducation.FacultyTypeId = teacher.FacultyTypeId;
                     personEducation.GraduationDate = teacher.GraduationDate;
+                    personEducation.UpdatedBy = _userManager.GetUserId(User);
+                    personEducation.UpdatedAt = DateTime.Now;
 
                     _applicationContext.Update(person);                
                     _applicationContext.Update(personEducation);               
-                    await _applicationContext.SaveChangesAsync();
-                    ViewBag.Message = "معلومات ثبت گردید";
+                    await _applicationContext.SaveChangesAsync().ConfigureAwait(true);
+                    notyfService.Custom(_localizer["TeacherUpdated"].Value, 10, "#67757c", "fa fa-check");
+                   
                     HttpContext.Session.SetString("teacherID", teacher.PersonId.ToString());
                     return View(teacher);
 
-                }              
-                return View("index");
+                }
+                var EducationL = _applicationContext.ZEducationLevel.OrderBy(o => o.OrderNumber);
+                ViewBag.EducationLevel = EducationL;
+
+                var GenderT = _applicationContext.ZGenderType.OrderBy(o => o.OrderNumber);
+                ViewBag.GenderType = GenderT;
+
+                var FacultyT = _applicationContext.ZFacultyType.OrderBy(o => o.OrderNumber);
+                ViewBag.FacultyType = FacultyT;
+
+                return View();
             } catch (Exception ex) {
                 return View("index");
             }
@@ -396,7 +509,33 @@ namespace OLS.Controllers
         [Route("Create")]
         public IActionResult Create()
         {
- 
+
+
+
+            var sch_id = HttpContext.Session.GetString("mySchoolId");
+
+
+
+
+            var myschoolid = HttpContext.Session.GetString("SchoolID");
+
+            if (myschoolid == null)
+            {
+                return RedirectToAction("Navigate", "School");
+            }
+
+            var principle = HttpContext.Session.GetString("Principle");
+
+            if (principle == null)
+            {
+                return RedirectToAction("Navigate", "Principle");
+            }
+
+
+
+
+
+
             Guid DropPID = Guid.NewGuid();
             var province = _applicationContext.ZProvince;
             ViewBag.Province = province;
@@ -436,7 +575,8 @@ namespace OLS.Controllers
                 Guid Pid = Guid.NewGuid();
                 Party party = new Party() { PartyId = Pid };
                 var UserId = _userManager.GetUserId(User);
-                var school = _applicationContext.School.Where(p => p.CreatedBy == UserId).FirstOrDefault();
+                var schoolId = Guid.Parse(HttpContext.Session.GetString("SchoolID"));
+                var school = _applicationContext.School.Where(p => p.CreatedBy == UserId && p.SchoolId==schoolId).FirstOrDefault();
                 Person person = new Person()
                 {
                     PersonId = Pid,
@@ -451,7 +591,7 @@ namespace OLS.Controllers
                     PartyRoleTypeId = Guid.Parse("E15C4649-0ABA-4B88-95AA-3936A863450D"),
                     SchoolId=school.SchoolId,
                     CreatedBy=_userManager.GetUserId(User),
-                    CreatedAt= DateTime.Now,
+                    CreatedAt= DateTime.Now
                 };
                 Guid personEductionID = Guid.NewGuid();
                 PersonEducation personEducation = new PersonEducation()
@@ -461,18 +601,35 @@ namespace OLS.Controllers
                     EducationLevelId = teacher.EducationLevelID,
                     FacultyTypeId=teacher.FacultyTypeId,
                     GraduationDate=teacher.GraduationDate,
+                    CreatedBy = _userManager.GetUserId(User),
+                    CreatedAt = DateTime.Now
                 };             
                 _applicationContext.Add(party);
                 _applicationContext.Add(person);               
                 _applicationContext.Add(personEducation);              
-                await _applicationContext.SaveChangesAsync();
+                await _applicationContext.SaveChangesAsync().ConfigureAwait(true);
                 HttpContext.Session.SetString("teacherid", Pid.ToString());
+                notyfService.Custom(_localizer["TeacherCreated"].Value, 10, "#67757c", "fa fa-check");
 
-                ViewBag.Message = "Created Sucessfully";
+
+
+                HttpContext.Session.SetString("Teacher", "Create");
 
                 return RedirectToAction("GetTeachersList");
             }
-            return View("GetTeachersList"); 
+
+            var prov = _applicationContext.ZProvince;
+            ViewBag.Province = prov;
+
+            var EducationL = _applicationContext.ZEducationLevel.OrderBy(o => o.OrderNumber);
+            ViewBag.EducationLevel = EducationL;
+
+            var GenderT = _applicationContext.ZGenderType.OrderBy(o => o.OrderNumber);
+            ViewBag.GenderType = GenderT;
+
+            var FacultyT = _applicationContext.ZFacultyType.OrderBy(o => o.OrderNumber);
+            ViewBag.FacultyType = FacultyT;
+            return View(); 
            
         }
     }

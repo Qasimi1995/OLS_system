@@ -63,6 +63,10 @@ namespace OLS.Models
         public virtual DbSet<ZStatusType> ZStatusType { get; set; }
         public virtual DbSet<ZVillageNahia> ZVillageNahia { get; set; }
 
+        public virtual DbSet<LicensePrintingLog> LicensePrintingLog { get; set; } 
+       
+
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
 //            if (!optionsBuilder.IsConfigured)

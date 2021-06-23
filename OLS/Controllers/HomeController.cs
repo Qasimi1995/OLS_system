@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Localization;
 using Microsoft.Extensions.Logging;
 using OLS.Models;
 
@@ -14,10 +15,12 @@ namespace OLS.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IHtmlLocalizer _localizer;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IHtmlLocalizer<HomeController> localizer)
         {
             _logger = logger;
+            _localizer = localizer;
         }
 
         public IActionResult Index()
@@ -28,7 +31,7 @@ namespace OLS.Controllers
         public IActionResult Navigate() {
             if (User.IsInRole("Applicant"))
             {
-                return RedirectToAction("Navigate", "Founder");
+                return RedirectToAction("PreviousApplications", "Process");
 
             }
             else if (User.IsInRole("DPERep"))
@@ -46,6 +49,11 @@ namespace OLS.Controllers
             else if (User.IsInRole("Admin"))
             {
                 return RedirectToAction("RegisterStaff", "Account");
+            }
+
+            else if (User.IsInRole("LicenseIssuer"))
+            {
+                return RedirectToAction("Index", "DPERep");
             }
 
             ViewBag.RoleError = "Role verification erro, please contact administrator";

@@ -58,7 +58,7 @@ namespace OLS.ViewModels
         [Required(ErrorMessage = "*")]
         public Guid?    LaboratoryMaterialTypeId { get; set; }
         public byte?    HasComputerLab              { get; set; }
-       // [Required(ErrorMessage = "*")]
+        //[Required(ErrorMessage = "*")]
         [Remote(action: "ValidateNcomputers", controller: "School", AdditionalFields = "SchoolLevelId,Ncomputers")]
         public int?     Ncomputers                  { get; set; }
   
@@ -77,9 +77,9 @@ namespace OLS.ViewModels
         public byte?    HasSportFacilities           { get; set; }
         public string   Remarks                         { get; set; }
         [Required(ErrorMessage = "*")]
-        public Guid?    ProvinceId                      { get; set; }
+        public int?    ProvinceId                      { get; set; }
         [Required(ErrorMessage = "*")]
-        public Guid?    DistrictId                      { get; set; }
+        public int?    DistrictId                      { get; set; }
         [Required(ErrorMessage = "*")]
         public string Nahia { get; set; }
 

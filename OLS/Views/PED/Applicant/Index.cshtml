@@ -1,0 +1,18 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+
+<div style="text-align:center;text-align: -webkit-center;">
+    <div style="margin:50px;width:35%;">
+        <button type="button" class="btn btn-lg btn-block btn-outline-primary mb-2" onclick="@("window.location.href='" + @Url.Action("Create", "founder") + "'");"> درخواستی جدید New Application</button>
+    </div>
+
+    <div style="margin:50px;width:35%;">
+        <button type="button" class="btn btn-lg btn-block btn-outline-primary mb-2" onclick="@("window.location.href='" + @Url.Action("GetFounderByPhoneOrEmail", "founder") + "'");">درخواستی نامکمل Incomplete Application </button>
+    </div>
+    <div style="margin:50px;width:35%;">
+        <button type="button" class="btn btn-lg btn-block btn-outline-primary mb-2">تعقیب درخواستی Application Status </button>
+    </div>
+</div>

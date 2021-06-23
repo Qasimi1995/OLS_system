@@ -1,0 +1,144 @@
+﻿@model IList<OLS.ViewModels.SchoolDisplayViewModel>
+
+@{
+    ViewData["Title"] = "GetTeachersList";
+}
+
+    <div class="row page-titles">
+        <div class="col-md-5 col-12 align-self-center">
+            <h3 class="text-themecolor">
+                لست
+                @if (ViewBag.header != null)
+                {
+
+                    @ViewBag.header.StatusNameDashDari
+
+                }
+
+            </h3>
+        </div>
+        <div class="col-md-7 col-12 align-self-center d-none d-md-block">
+            <div class="d-flex mt-2 justify-content-end">
+                <a href="@Url.Action("index","DPERep")">
+                    <h4 class="text-themecolor">
+                        برگشت به داشبورد/ داشبورډ ته بېرته ستنېدل / Back Dashboard
+
+                    </h4>
+                </a>
+   
+
+            </div>
+        </div>
+
+    </div>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+
+                <div class="table-responsive mt-4">
+                    <table class="display nowrap table table-hover table-striped table-bordered"  cellspacing="0" width="100%" id="example23">
+                        <thead>
+                            <tr>
+                                <th>شماره /شمېره</th>
+                                <th>اسم مکتب/ د ښوونځي نوم</th>
+                                <th>سطح مکتب/د ښوونځي درجه</th>
+                                <th>جنسیت  مکتب/د ښوونځي جنسیت</th>
+                                <th> ولایت</th>
+                                <th>ولسوالی</th>
+                                <th>قریه/کلی</th>
+                                <th>تاریخ</th>
+                                <th>مدت روز</th>
+                                <th>اجراات/اجرات/Action</th>
+                                @if (ViewBag.roleid == "DB70DAE4-9422-4A2F-A14B-7552702F026B")
+                                {
+                                    <th>چک لست</th>
+                                }
+                                @if (ViewBag.roleid == "EFD684C6-F47C-407C-B9B7-DA2245E3869B")
+                                {
+                                    <th> بازدید راپور/د راپور لیدل</th>
+                                    @if (ViewBag.OrderNumber == 6 && ViewBag.CompletionFlag == 1) 
+                                    {
+                                        <th>جواز مکتب/د ښوونځي جواز</th> 
+                                    }
+                                    
+                                }
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < Model.Count(); i++)
+                            {
+
+                            <tr>
+                                <td>
+                                    @(i + 1)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => Model[i].SchoolName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => Model[i].SchoolLevel)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => Model[i].SchoolGenderType)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => Model[i].Province)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => Model[i].District)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => Model[i].VillageNahia)
+                                </td>
+                                <td>
+                                    @* @Convert.ToString(string.Format("{0:dd/MM/yyyy}", Model[i].StatusDate))*@
+                                    @Model[i].StatusDate
+                                </td>
+                                <td>
+                                    @Model[i].No_days  <span>روز / ورز / Days</span>
+                                </td>
+
+                                <td class="text-nowrap">
+                                    @Html.ActionLink("مشاهده / View", "Check", new { schoolid = Model[i].SchoolId, OrderNumber = ViewBag.OrderNumber, ProcessStatusId = ViewBag.ProcessStatusId, CompletionFlag = ViewBag.CompletionFlag })
+                                </td>
+
+                                @if (ViewBag.roleid == "DB70DAE4-9422-4A2F-A14B-7552702F026B")
+                                {
+
+                                    <td class="text-nowrap">
+                                        @Html.ActionLink("چک لست/CheckList ", "CheckList", new { schoolid = Model[i].SchoolId })
+                                    </td>
+                                }
+                                @if (ViewBag.roleid == "EFD684C6-F47C-407C-B9B7-DA2245E3869B")
+                                {
+                                    <td>
+                                        <a href="~/PED/@Model[i].SchoolId/@Model[i].SchoolId-schoolVisitReport.pdf">دیدن راپور</a>
+                                    </td>
+                                    @if (ViewBag.OrderNumber == 6 && ViewBag.CompletionFlag == 1)
+                                    {
+                                    <td class="text-nowrap">
+                                        @Html.ActionLink("جواز / د ښوونځي جواز /License ", "SchoolLicense", new { schoolid = Model[i].SchoolId })
+                                    </td>
+                                    }
+                                        
+                                }
+
+                            </tr>
+                            }
+
+
+                        </tbody>
+                    </table>
+                </div>
+               @if (ViewBag.Result!=null) {
+
+                   @ViewBag.Result;
+               }
+
+            </div>
+        </div>
+    </div>
+</div>

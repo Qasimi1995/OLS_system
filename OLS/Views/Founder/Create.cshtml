@@ -1,9 +1,10 @@
-﻿
-@model OLS.ViewModels.FounderViewModel
+﻿@model OLS.ViewModels.FounderViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
 
 
 @{
     ViewData["Title"] = "Create";
+    var culture = Context.Features.Get<Microsoft.AspNetCore.Localization.IRequestCultureFeature>().RequestCulture.UICulture.Name;
 }
 
 <div class="row">
@@ -15,29 +16,30 @@
 
 
                 <div style="text-align:center;background-color: #0193df;">
-                    <h3 style="padding:5px;color: white;">معلومات موسس/د مؤسس پېژندنه/Founder Information</h3>
+                    <h3 style="padding:5px;color: white;"> @localizer["FounderInformation"]   </h3>
                 </div>
                 <form asp-action="Create" method="post" enctype="multipart/form-data">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-                    <div style="text-align:left;margin-top:5px;">
-                        <img id='img-upload' style="width:120px; height:150px;" />
+                    <div style="margin-top:5px;">
                         <div class="input-group">
-                            <span class="btn btn-outline-accent-4 btn-file font-weight-bold" title="لطفا عکس را انتخاب کنید / مهرباني وکړئ یو عکس غوره کړئ">
-                               Choose Photo
-                                <input asp-for="Photo"  id="imgInp">
+                            <span class="btn btn-outline-accent-4 btn-file font-weight-bold" title="  @localizer["Title"]">
+                                <img id='img-upload' style="width:120px; height:150px;cursor:pointer" />
+                                <input asp-for="Photo" id="imgInp">
                             </span>
-                          
                             <div><span asp-validation-for="Photo" class="text-danger"></span></div>
-
                         </div>
+                        <div class=" font-weight-bold " style="text-align:left;margin-left:25px;">@localizer["ChoosePhoto"]</div>
+                        
+
                     </div>
 
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="Name">
-                                    اسم /نوم/Name
+                                   
+                                    @localizer["Name"]
 
                                 </label>
                                 <input asp-for="Name" class="form-control" />
@@ -47,7 +49,8 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="LastName">
-                                    تخلص /تخلص/Last Name
+                                  
+                                    @localizer["LastName"]
 
                                 </label>
                                 <input asp-for="LastName" class="form-control" />
@@ -58,7 +61,8 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="FatherName">
-                                    ولد /د پلار نوم/Father Name
+                                    
+                                    @localizer["FatherName"]
 
                                 </label>
                                 <input asp-for="FatherName" class="form-control" />
@@ -69,7 +73,8 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="GrandFatherName">
-                                    ولدیت/د نیکه نوم/Grand Father Name
+                                    
+                                    @localizer["GrandFatherName"]
 
                                 </label>
                                 <input asp-for="GrandFatherName" class="form-control" />
@@ -78,12 +83,13 @@
                         </div>
 
                     </div>
-                   
+
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="Email">
-                                    ایمیل/ایمیل/Email
+                                  
+                                    @localizer["Email"]
 
                                 </label>
                                 <input asp-for="Email" class="form-control" />
@@ -93,7 +99,8 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="PhonNumber">
-                                    شماره تماس/د اړیکې شمېره/Phone No
+                                  
+                                    @localizer["PhoneNo"]
 
                                 </label>
                                 <input type="number" asp-for="PhonNumber" class="form-control" />
@@ -103,7 +110,8 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="Nidnumber">
-                                    نمبر تذکره /د تذکرې شمېره/NID Number
+                                   
+                                    @localizer["NIDNumber"]
 
                                 </label>
                                 <input type="text" asp-for="Nidnumber" class="form-control " />
@@ -117,14 +125,39 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="EducationLevelID">
-                                    درجه تحصیل/د زده کړو درجه/Education Level
+                                  
+                                    @localizer["EducationLevel"]
                                 </label>
                                 <select asp-for="EducationLevelID" class="form-control selectTwo " style="width:100%;">
-                                    <option selected value="">--Select Education--</option>
-                                    @foreach (var EduLevel in ViewBag.EducationLevel)
+                                    <option selected value="">--@localizer["Select"]--</option>
+
+                                    @if (culture == "en")
                                     {
-                                        <option value="@EduLevel.EducationLevelId">@EduLevel.EducationLevelNameDari - @EduLevel.EducationLevelName</option>
+                                        @foreach (var EduLevel in ViewBag.EducationLevel)
+                                        {
+                                            <option value="@EduLevel.EducationLevelId">@EduLevel.EducationLevelName</option>
+                                        }
                                     }
+                                    else if (culture == "fa")
+                                    {
+                                        @foreach (var EduLevel in ViewBag.EducationLevel)
+                                        {
+
+                                            <option value="@EduLevel.EducationLevelId">@EduLevel.EducationLevelNameDari.Split("-")[0]</option>
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        @foreach (var EduLevel in ViewBag.EducationLevel)
+                                        {
+
+                                            <option value="@EduLevel.EducationLevelId">@EduLevel.EducationLevelNameDari.Split("-")[1] </option>
+                                        }
+                                    }
+
+
+
                                 </select>
                                 <span asp-validation-for="EducationLevelID" class="text-danger"></span>
                             </div>
@@ -133,15 +166,30 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="Nidnumber">
-                                    جنسبت/جنسبت/Gender
+                                  
+                                    @localizer["Gender"]
 
                                 </label>
                                 <select asp-for="GenderTypeId" class="form-control selectTwo" style="width:100%;">
-                                    <option selected value="">--Select Gender--</option>
-                                    @foreach (var GenderType in ViewBag.GenderType)
+                                    <option selected value="">--@localizer["Select"]--</option>
+
+                                    @if (culture == "en")
                                     {
-                                        <option value="@GenderType.GenderTypeId">@GenderType.GenderTypeName - @GenderType.GenderTypeNameDari</option>
+                                        @foreach (var GenderType in ViewBag.GenderType)
+                                        {
+                                            <option value="@GenderType.GenderTypeId">@GenderType.GenderTypeName</option>
+                                        }
                                     }
+                                    else
+                                    {
+                                        @foreach (var GenderType in ViewBag.GenderType)
+                                        {
+                                            <option value="@GenderType.GenderTypeId">@GenderType.GenderTypeNameDari</option>
+                                        }
+                                    }
+
+
+
                                 </select>
                                 <span asp-validation-for="GenderTypeId" class="text-danger"></span>
                             </div>
@@ -150,7 +198,8 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="Nidnumber">
-                                    سن/عمر/Age
+                                   
+                                    @localizer["Age"]
 
                                 </label>
                                 <input asp-for="Age" class="form-control" />
@@ -160,21 +209,33 @@
                     </div>
 
                     <div class="card-header" style="background-color: gainsboro; margin-bottom:10px">
-                        <strong>آدرس دایمی/اصلي استوګنځای/Permenant Address</strong>
+                        <strong> @localizer["PermenantAddress"]</strong>
                     </div>
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="PerProvinceId">
-                                    ولایت/ولایت/Province
+                                  
+                                    @localizer["Province"]
 
                                 </label>
                                 <select asp-for="PerProvinceId" id="PerProvince" class="form-control selectTwo" style="width:100%;">
-                                    <option selected value="">--Select--</option>
-                                    @foreach (var province in ViewBag.province)
+                                    <option selected value="">--@localizer["Select"]--</option>
+                                    @if (culture == "en")
                                     {
-                                        <option value="@province.ProvinceId">@province.ProvNaDar - @province.ProvNaEng</option>
+                                        @foreach (var province in ViewBag.province)
+                                        {
+                                            <option value="@province.ProvinceId">@province.ProvNaEng</option>
+                                        }
                                     }
+                                    else
+                                    {
+                                        @foreach (var province in ViewBag.province)
+                                        {
+                                            <option value="@province.ProvinceId">@province.ProvNaDar </option>
+                                        }
+                                    }
+
                                 </select>
 
                                 <span asp-validation-for="PerProvinceId" class="text-danger"></span>
@@ -183,11 +244,12 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="PerDistrictId">
-                                    ولسوالی/ولسوالۍ/District
+                                 
+                                    @localizer["District"]
 
                                 </label>
                                 <select asp-for="PerDistrictId" id="PerDistrict" class="form-control selectTwo" style="width:100%;">
-                                    <option selected value="">--Select--</option>
+                                    <option selected value="">-- @localizer["Select"]--</option>
                                 </select>
                                 <span asp-validation-for="PerDistrictId" class="text-danger"></span>
                             </div>
@@ -195,35 +257,50 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="PerVillageNahiaId">
-                                    قریه یا ناحیه/کلی یا ناحیه/Village or Nahia
+                                    
+                                    @localizer["Village"]
                                 </label>
 
                                 <input asp-for="PerNahia" class="form-control" />
                                 <span asp-validation-for="PerNahia" class="text-danger"></span>
                                 @*<select asp-for="PerNahia" id="PerVillageNahia" class="form-control">
-                                    <option selected value="">--Select--</option>
-                                </select>
-                                <span asp-validation-for="PerNahia" class="text-danger"></span>*@
+                                        <option selected value="">--Select--</option>
+                                    </select>
+                                    <span asp-validation-for="PerNahia" class="text-danger"></span>*@
                             </div>
                         </div>
                     </div>
 
                     <div class="card-header" style="background-color: gainsboro; margin-bottom:10px">
-                        <strong>سکونت فعلی/فعلي استوګنځای/Current Address</strong>
+                        <strong>  @localizer["CurrentAddress"]</strong>
                     </div>
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="PreProvinceId">
-                                    ولایت/ولایت/Province
+                                
+                                    @localizer["Province"]
 
                                 </label>
                                 <select asp-for="PreProvinceId" id="PreProvince" class="form-control selectTwo" style="width:100%;">
-                                    <option selected value="">--Select--</option>
-                                    @foreach (var province in ViewBag.province)
+                                    <option selected value="">--@localizer["Select"]--</option>
+
+                                    @if (culture == "en")
                                     {
-                                        <option value="@province.ProvinceId">@province.ProvNaDar - @province.ProvNaEng</option>
+                                        @foreach (var province in ViewBag.province)
+                                        {
+                                            <option value="@province.ProvinceId">@province.ProvNaEng</option>
+                                        }
                                     }
+                                    else
+                                    {
+                                        @foreach (var province in ViewBag.province)
+                                        {
+                                            <option value="@province.ProvinceId">@province.ProvNaDar </option>
+                                        }
+                                    }
+
+                                  
                                 </select>
                                 <span asp-validation-for="PreProvinceId" class="text-danger"></span>
                             </div>
@@ -231,11 +308,12 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="PreDistrictId">
-                                    ولسوالی/ولسوالۍ/District
+                                    
+                                    @localizer["District"]
 
                                 </label>
                                 <select asp-for="PreDistrictId" id="PreDistrict" class="form-control selectTwo" style="width:100%;">
-                                    <option selected value="">--Select--</option>
+                                    <option selected value="">--@localizer["Select"]--</option>
                                 </select>
                                 <span asp-validation-for="PreDistrictId" class="text-danger"></span>
                             </div>
@@ -243,25 +321,34 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="PreVillageNahiaId">
-                                    قریه یا ناحیه/کلی یا ناحیه/Village or Nahia
+                                  
+                                    @localizer["Village"]
 
                                 </label>
 
                                 <input asp-for="PreNahia" class="form-control" />
                                 <span asp-validation-for="PreNahia" class="text-danger"></span>
                                 @*<select asp-for="PreVillageNahiaId" id="PreVillageNahia" class="form-control" style="height: 3rem">
-                                    <option selected value="">--Select--</option>
-                                </select>
-                                <span asp-validation-for="PreVillageNahiaId" class="text-danger"></span>*@
+                                        <option selected value="">--Select--</option>
+                                    </select>
+                                    <span asp-validation-for="PreVillageNahiaId" class="text-danger"></span>*@
                             </div>
                         </div>
                     </div>
-                    <input type="submit" id="btnSave" style="background-color:#0193df;" value="ثبت/ثبت/Save" class="btn btn-primary" />
+                    <input type="submit" id="btnSave" style="background-color:#0193df;" value="@localizer["Save"]" class="btn btn-primary" />
                     <div style="overflow:auto;">
-                        <div style="float:left;">
+                        @{
+                            var floatValue = "left";
+                            if (culture == "en") {
+                                floatValue = "right";
+                            }
+
+                        }
+
+                        <div style="float:@floatValue">
                             @*<button type="button" id="nextBtn" onclick="@("window.location.href='" + @Url.Action("Navigate", "School") + "'");" class="btn btn-primary">بعدی/وروسته/Next</button>*@
 
-                            <input type="submit" class="btn btn-primary" style="background-color:#0193df;"  value="بعدی/وروسته/Next" />
+                            <input type="submit" class="btn btn-primary" style="background-color:#0193df;" value="@localizer["Next"]" />
                             @if (ViewBag.Message != null)
                             {
                                 //  <div><span class="text-info">@ViewBag.Message</span></div>
@@ -275,7 +362,7 @@
                                                         })*@
                                                     swal({
                                                         title: "@ViewBag.Message",
-                                                        text: "حساب موفقانه ایجاد گردید / تاسو په بریالیتوب سره یو حساب جوړ کړ",
+                                                        text: "   @localizer["Message"]",
                                                         icon: "success",
                                                         button: "OK",
                                                     })
@@ -292,7 +379,7 @@
                     </div>
 
                 </form>
-           
+
 
 
             </div>
@@ -308,10 +395,13 @@
     $(document).ready(function () {
         $('.selectTwo').select2();
     });
-    
-        $(document).ready(function(){
+
+    $(document).ready(function () {
+             var culture = "@culture";
             $('#PerProvince').on('change', function () {
                 $('#PerDistrict option').remove();
+
+
                 var provinceid = $('#PerProvince option:selected').val();
                 if (provinceid != -1) {
 
@@ -319,11 +409,18 @@
 
                             type: 'GET',
                             url: '@Url.Action("FindDistrict","Founder")/' + provinceid,
-                            success: function(result) {
-                            var s = ' <option value="-1">--Select--</option>';
-                                for(var i = 0;i<result.length; i++) {
-                                     s += ' <option value="'+result[i].id+'">'+result[i].distNameDar+'-'+result[i].distNameEng+'</option>';
+                        success: function (result) {
+                            var s = ' <option value="-1">--@localizer["Select"]--</option>';
+                                if (culture == "en") {
+                                    for (var i = 0; i < result.length; i++) {
+                                        s += ' <option value="' + result[i].id + '">' +  result[i].distNameEng + '</option>';
+                                    }
+                                } else {
+                                    for (var i = 0; i < result.length; i++) {
+                                        s += ' <option value="' + result[i].id + '">' + result[i].distNameDar + '</option>';
+                                    }
                                 }
+
                                   $('#PerDistrict').html(s);
                             }
 
@@ -363,7 +460,8 @@
         });*@
 
         //Current address
-          $(document).ready(function(){
+         $(document).ready(function () {
+               var culture = "@culture";
             $('#PreProvince').on('change', function () {
                 $('#PreDistrict option').remove();
                 var provinceid = $('#PreProvince option:selected').val();
@@ -374,10 +472,17 @@
                             type: 'GET',
                             url: '@Url.Action("FindDistrict","Founder")/' + provinceid,
                             success: function(result) {
-                            var s = ' <option value="-1">--Select--</option>';
-                                for(var i = 0;i<result.length; i++) {
-                                     s += ' <option value="'+result[i].id+'">'+result[i].distNameDar+'-'+result[i].distNameEng+'</option>';
+                                var s = ' <option value="-1">--@localizer["Select"]--</option>';
+                                if (culture == "en") {
+                                    for (var i = 0; i < result.length; i++) {
+                                        s += ' <option value="' + result[i].id + '">' + result[i].distNameEng + '</option>';
+                                    }
+                                } else {
+                                    for (var i = 0; i < result.length; i++) {
+                                        s += ' <option value="' + result[i].id + '">' + result[i].distNameDar +'</option>';
+                                    }
                                 }
+
                                   $('#PreDistrict').html(s);
                             }
 
@@ -470,7 +575,7 @@
             opacity: 0;
             outline: none;
             background: white;
-            cursor: inherit;
+            cursor: pointer;
             display: block;
         }
 

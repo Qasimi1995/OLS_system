@@ -1,6 +1,10 @@
 ﻿@model IList<OLS.ViewModels.EnrollmentPlanEditViewModel>
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
 
 
+@{
+    var culture = Context.Features.Get<Microsoft.AspNetCore.Localization.IRequestCultureFeature>().RequestCulture.UICulture.Name;
+            }
 <div class="row">
     <div class="col-12">
         <div class="card">
@@ -8,7 +12,7 @@
                 @await Html.PartialAsync("../steps")
 
                 <div style="text-align:center;background-color: #0193df;">
-                    <h3 style="padding:5px;color: white;">پلان جذب شاګردان سال بعدی/د زده کوونکو د جذب پلان-راتلونکی کال/Next Year Enrollment Plan</h3>
+                    <h3 style="padding:5px;color: white;">@localizer["NextYearEnrollmentPlan"]</h3>
                 </div>
 
                 <form asp-action="EditNextY" method="post">
@@ -18,9 +22,10 @@
                         <table class="table table-bordered no-wrap">
                             <thead>
                                 <tr>
-                                    <th>صنف/ټولګی/Class</th>
-                                    <th>تعداد ذکور/د نارینه زده کوونکو شمېر /Number of Male</th>
-                                    <th>تعداد اناث/د ښځینه زده کوونکو شمېر/Number of Female </th>
+                                    <th>@localizer["Class"]</th>
+
+                                    <th>@localizer["NumberOfMale"]      </th>
+                                    <th> @localizer["NumberOfFemale"]</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -33,10 +38,21 @@
                                         <tr>
                                             @if (Model[i].GenderTypeId == Guid.Parse("E575CE44-2BBE-4175-A334-CE5ABC3CDDDA"))
                                             {
-                                                <td>
+                                            <td>
 
-                                                    @Model[i].SchoolSubLevelName
-                                                </td>
+                                                @if (culture == "en")
+                                                {
+                                                    @Model[i].SchoolSubLevelName.Split("/")[2]
+                                                }
+                                                else if (culture == "fa")
+                                                {
+                                                    @Model[i].SchoolSubLevelName.Split("/")[0]
+                                                }
+                                                else
+                                                {
+                                                    @Model[i].SchoolSubLevelName.Split("/")[1]
+                                                }
+                                            </td>
                                             }
                                             @if (Model[i].GenderTypeId == Guid.Parse("E575CE44-2BBE-4175-A334-CE5ABC3CDDDA"))
                                             {
@@ -55,7 +71,7 @@
 
                                                     <td>
 
-                                                        @Html.TextBoxFor(m => Model[i + 1].NumberOfStudents, new { disabled="disabled",@class = "form-control", @value = Model[i + 1].NumberOfStudents, @rowid = Model[i].Id, type = "number" })
+                                                        @Html.TextBoxFor(m => Model[i + 1].NumberOfStudents, new { disabled = "disabled", @class = "form-control", @value = Model[i + 1].NumberOfStudents, @rowid = Model[i].Id, type = "number" })
                                                         @Html.ValidationMessageFor(m => Model[i + 1].NumberOfStudents, null, new { @class = "text-danger" })
                                                     </td>
                                                 }
@@ -85,9 +101,17 @@
                     </div>
                     @*<input type="submit" id="btnSave" value="ثبت/ثبت/Save" class="btn btn-outline-success" />*@
 
-                    <div style="float:left;">
-                        <button type="button" id="nextBtn" style="background-color:#0193df;" onclick="@("window.location.href='" + @Url.Action("Navigate", "EnrollmentPlan") + "'");" class="btn btn-primary">قبلی/مخکی/Previous</button>
-                        <button type="button" id="nextBtn" style="background-color:#0193df;" onclick="@("window.location.href='" + @Url.Action("Navigate", "SchoolFinancialPlan") + "'");" class="btn btn-primary">بعدی/وروسته/Next</button>
+                     @{ 
+                        var floatValue = "left";
+                        if (culture == "en")
+                        {
+                            floatValue = "right";
+                        }
+
+                    }
+                    <div style="float:@floatValue;">
+                        <button type="button" id="nextBtn" style="background-color:#0193df;" onclick="@("window.location.href='" + @Url.Action("Navigate", "EnrollmentPlan") + "'");" class="btn btn-primary">@localizer["Previous"]</button>
+                        <button type="button" id="nextBtn" style="background-color:#0193df;" onclick="@("window.location.href='" + @Url.Action("Navigate", "SchoolFinancialPlan") + "'");" class="btn btn-primary">@localizer["Next"]</button>
                     </div>
 
                 </form>
