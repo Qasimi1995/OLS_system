@@ -1,0 +1,51 @@
+﻿@model IList<OLS.ViewModels.PreviousApplicationViewModel>
+@{
+    ViewData["Title"] = "View";
+
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <section>
+                    <h2 class="text-themecolor text-center shadow-lg p-3 mb-5 bg-white rounded">
+                        All Previous Applications
+                    </h2>
+
+
+
+
+                    @if (Model != null)
+                    {
+                        @foreach (var school in @Model)
+                        {
+                            <div class="card">
+                                <div class="card-body">
+                                    <a href="@Url.Action("Navigate","founder",new { mySchoolId=school.SchoolId})" style="background:white">
+
+                                        <div class="col-md-6">
+                                            <p>@school.SchoolName</p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p>تاریخ شروع درخواستی : @school.ApplicationDate.ToString("dd-MM-yyy")</p>
+                                        </div>
+
+                                    </a>
+
+                                </div>
+                            </div>
+
+                        }
+
+
+                    }
+
+
+
+
+                </section>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,107 @@
+﻿@model IList<OLS.ViewModels.EnrollmentPlanEditViewModel>
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                @await Html.PartialAsync("../steps")
+
+                <div style="text-align:center;background-color: #0193df;">
+                    <h3 style="padding:5px;color: white;">پلان جذب شاګردان سال بعدی/د زده کوونکو د جذب پلان-راتلونکی کال/Next Year Enrollment Plan</h3>
+                </div>
+
+                <form asp-action="EditNextY" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="table-responsive">
+                        <table class="table table-bordered no-wrap">
+                            <thead>
+                                <tr>
+                                    <th>صنف/ټولګی/Class</th>
+                                    <th>تعداد ذکور/د نارینه زده کوونکو شمېر /Number of Male</th>
+                                    <th>تعداد اناث/د ښځینه زده کوونکو شمېر/Number of Female </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model != null)
+                                {
+                                    for (int i = 0; i < Model.Count; i++)
+                                    {
+
+                                        @Html.HiddenFor(m => Model[i].Id)
+                                        <tr>
+                                            @if (Model[i].GenderTypeId == Guid.Parse("E575CE44-2BBE-4175-A334-CE5ABC3CDDDA"))
+                                            {
+                                                <td>
+
+                                                    @Model[i].SchoolSubLevelName
+                                                </td>
+                                            }
+                                            @if (Model[i].GenderTypeId == Guid.Parse("E575CE44-2BBE-4175-A334-CE5ABC3CDDDA"))
+                                            {
+
+                                                <td>
+
+                                                    @Html.TextBoxFor(m => Model[i].NumberOfStudents, new { @class = "form-control", @value = Model[i].NumberOfStudents, @rowid = Model[i].Id, type = "number" })
+                                                    @Html.ValidationMessageFor(m => Model[i].NumberOfStudents, null, new { @class = "text-danger" })
+                                                </td>
+                                            }
+
+                                            @if (i < Model.Count - 1)
+                                            {
+                                                @if (Model[i + 1].GenderTypeId == Guid.Parse("A10E9D59-C1B9-4983-97A0-F0A97A85F71D"))
+                                                {
+
+                                                    <td>
+
+                                                        @Html.TextBoxFor(m => Model[i + 1].NumberOfStudents, new { @class = "form-control", @value = Model[i + 1].NumberOfStudents, @rowid = Model[i].Id, type = "number" })
+                                                        @Html.ValidationMessageFor(m => Model[i + 1].NumberOfStudents, null, new { @class = "text-danger" })
+                                                    </td>
+                                                }
+
+
+                                            }
+
+
+
+
+
+
+                                        </tr>
+
+
+
+                                    }
+
+
+
+                                }
+
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <input type="submit" id="btnSave" value="ثبت/ثبت/Save" class="btn btn-outline-success" />
+
+                    <div style="float:left;">
+                        <button type="button" id="nextBtn" style="background-color:#0193df;" onclick="@("window.location.href='" + @Url.Action("Navigate", "EnrollmentPlan") + "'");" class="btn btn-primary">قبلی/مخکی/Previous</button>
+                        <button type="button" id="nextBtn" style="background-color:#0193df;" onclick="@("window.location.href='" + @Url.Action("Navigate", "SchoolFinancialPlan") + "'");" class="btn btn-primary">بعدی/وروسته/Next</button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+

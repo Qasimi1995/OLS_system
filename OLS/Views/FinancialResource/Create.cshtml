@@ -1,8 +1,8 @@
 ﻿@model OLS.Models.SchoolFinancialResource
-
-@{
-    ViewData["Title"] = "Create";
-}
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@{ ViewData["Title"] = "Create";
+    var culture = Context.Features.Get<Microsoft.AspNetCore.Localization.IRequestCultureFeature>().RequestCulture.UICulture.Name;
+    }
 
 
 <div class="row">
@@ -11,54 +11,68 @@
             <div class="card-body">
                 @await Html.PartialAsync("../steps")
                 <div style="text-align:center;background-color: #0193df;">
-                    <h3 style="padding:5px;color: white;"> منابع مالی/مالی زیرمی/Financial Resources</h3>
+                    <h3 style="padding:5px;color: white;"> @localizer["FinancialResources"]</h3>
                 </div>
                 <form asp-action="Create">
 
 
                     @if (ViewBag.Message != null)
                     {
-                        <div><span class="text-info">@ViewBag.Message</span></div>
-
-                    }
+        <div><span class="text-info">@ViewBag.Message</span></div>}
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label asp-for="SchoolBussinessTypeId" class="control-label"> نوعیت موسسه/د ښوونځي ډول/Type of School</label>
+                                <label asp-for="SchoolBussinessTypeId" class="control-label"> @localizer["TypeOfSchool"]</label>
                                 <select asp-for="SchoolBussinessTypeId" class="form-control selectTwo">
-                                    <option selected value="">--Select--</option>
-                                    @foreach (var BussinessType in ViewBag.BussinessType)
+                                    <option selected value="">--@localizer["Select"]--</option>
+                                    @if (culture == "en")
                                     {
-                                        <option value="@BussinessType.SchoolBussinessTypeId">@BussinessType.BussinessTypeNameDari - @BussinessType.BussinessTypeName</option>
-                                    }
+                                @foreach (var BussinessType in ViewBag.BussinessType)
+                                {
+                                <option value="@BussinessType.SchoolBussinessTypeId">@BussinessType.BussinessTypeName</option>} }
+                                            else
+                                            {
+                                @foreach (var BussinessType in ViewBag.BussinessType)
+                                {
+                                <option value="@BussinessType.SchoolBussinessTypeId">@BussinessType.BussinessTypeNameDari</option>
+                                } }
+
                                 </select>
                                 <span asp-validation-for="SchoolBussinessTypeId" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label asp-for="FundingSourceName" class="control-label"> منابع تمویل/د مالي ملاتړ زېرمه/Sources of Fund</label>
+                                <label asp-for="FundingSourceName" class="control-label"> @localizer["SourcesOfFund"] </label>
                                 <input asp-for="FundingSourceName" class="form-control" />
                                 <span asp-validation-for="FundingSourceName" class="text-danger"></span>
                             </div>
                         </div>
                     </div>
 
-                    <input type="submit" style="background-color:#0193df;" value="ثبت/ثبت/Save" class="btn btn-primary" />
-                    <div style="float:left;">
-                        <button type="button" id="nextBtn" style="background-color:#0193df;" onclick="@("window.location.href='" + @Url.Action("Navigate", "School") + "'");" class="btn btn-primary">قبلی/مخکی/Previous</button>
+                    <input type="submit" style="background-color:#0193df;" value="@localizer["Save"]" class="btn btn-primary" />
+                     @{ 
+                        var floatValue = "left";
+                        if (culture == "en")
+                        {
+                            floatValue = "right";
+                        }
+
+                    }
+                    <div style="float:@floatValue;">
+                        <button type="button" id="nextBtn" style="background-color:#0193df;" onclick="@("window.location.href='" + @Url.Action("Navigate", "School") + "'");" class="btn btn-primary">@localizer["Previous"]</button>
                         @*<button type="button" id="nextBtn" onclick="@("window.location.href='" + @Url.Action("Navigate", "Principle") + "'");" class="btn btn-primary">بعدی/وروسته/Next</button>*@
-                        <input type="submit" class="btn btn-primary" style="background-color:#0193df;" value="بعدی/وروسته/Next" />
+                        <input type="submit" class="btn btn-primary" style="background-color:#0193df;" value="@localizer["Next"]" />
                         @if (ViewBag.Message != null)
                         {
                             //  <div><span class="text-info">@ViewBag.Message</span></div>
-                            <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+            <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
                             <script src="~/sweetalert/sweetalert.min.js"></script>
-                            <script type="text/javascript">
+                                            <script type="text/javascript">
 
                                 swal({
                                     title: "@ViewBag.Message",
-                                    text: "حساب موفقانه ایجاد گردید / تاسو په بریالیتوب سره یو حساب جوړ کړ",
+                                    text: "@localizer["Message"]",
                                     icon: "success",
                                     button: "OK",
                                 }).then(okay => {
@@ -66,9 +80,7 @@
                                         window.location.href = "/Principle/Create";
                                     }
                                 });
-                            </script>
-
-                        }
+                                            </script>}
                     </div>
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 

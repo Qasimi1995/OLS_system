@@ -1,16 +1,18 @@
 ﻿@model IList<OLS.ViewModels.DocTypeViewModelEdit>
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
 
 @{
 
     var ext = ".pdf";
- }
+    var culture = Context.Features.Get<Microsoft.AspNetCore.Localization.IRequestCultureFeature>().RequestCulture.UICulture.Name;
+}
 
 <div class="row">
     <div class="col-12">
         <div class="card">
             <div class="card-body">
                 <div style="text-align:center;background-color: #0193df;">
-                    <h3 style="padding:5px;color: white;">تسلیم اسناد/د اسنادو تسلیمول/Document Submit</h3>
+                    <h3 style="padding:5px;color: white;">@localizer["DocumensSubmit"]</h3>
                 </div>
 
                 <form asp-action="UploadDocumentsEdit" method="post" enctype="multipart/form-data">
@@ -34,9 +36,9 @@
                             <thead>
                                 <tr>
 
-                                    <th class="text-wrap">نوع سند/د سند ډول/Document Type</th>
-                                    <th class="text-wrap">فایل/فایل/File</th>
-                                    <th class="text-wrap">آپلود/آپلود/Upload</th>
+                                    <th class="text-wrap"> @localizer["DocumentType"]</th>
+                                    <th class="text-wrap"> @localizer["File"]</th>
+                                    <th class="text-wrap"> @localizer["Upload"]</th>
 
                                 </tr>
                             </thead>
@@ -49,7 +51,15 @@
                                         @Html.HiddenFor(m => Model[i].DocTypeNameEng)
                                         <tr>
                                             <td>
-                                                @Model[i].DocTypeName
+                                                @if (culture == "en")
+                                                {
+                                                    @Model[i].DocTypeName.Split("/")[2] }
+                                                else if (culture == "fa")
+                                                {
+                                                    @Model[i].DocTypeName.Split("/")[0] }
+                                                else
+                                                {
+                                                    @Model[i].DocTypeName.Split("/")[1]}
                                             </td>
                                             <td>
                                                 @*<a href="~/PartyDocuments/@Model[i].SchoolId/@Model[i].SchoolId-@Model[i].DocTypeNameEng@(ext)">@Model[i].DocTypeNameDari</a>*@
@@ -57,7 +67,15 @@
                                                 <a href="~/PartyDocuments/@Model[i].SchoolId/@Model[i].SchoolId-@Model[i].DocTypeNameEng@(ext)"
                                                    target="popup"
                                                    onclick="window.open(href='/PartyDocuments/@Model[i].SchoolId/@Model[i].SchoolId-@Model[i].DocTypeNameEng@(ext)' , 'popup','width=600,height=600,scrollbars=no,resizable=no'); return false;">
-                                                    @Model[i].DocTypeNameDari
+                                                    @if (culture == "en")
+                                                    {
+                                                        @Model[i].DocTypeName.Split("/")[2] }
+                                                    else if (culture == "fa")
+                                                    {
+                                                        @Model[i].DocTypeName.Split("/")[0] }
+                                                    else
+                                                    {
+                                                        @Model[i].DocTypeName.Split("/")[1]}
                                                 </a>
                                             </td>
                                             <td>
@@ -73,8 +91,15 @@
                             </tbody>
                         </table>
                     </div>
-                    <input type="submit" id="btnSave" value="ثبت/ثبت/Save" class="btn btn-success" />
+                    <input type="submit" id="btnSave" value="@localizer["Save"]" class="btn btn-success" />
                 </form>
+
+                <hr />
+                <hr />
+
+                <div style="text-align:center;background-color: #0193df;">
+                    <h3 style="padding:5px;color: white;"> @localizer["Message"]</h3>
+                </div>
 
             </div>
         </div>

@@ -13,22 +13,28 @@ using OLS.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Mvc.Localization;
 
 namespace OLS.Controllers
 {
     [Route("Founder")]
-    [Authorize]
+    [Authorize(Roles = "Applicant")]
     public class FounderController : Controller
     {
         private ApplicationContext _applicationContext;
         IHostingEnvironment _env;
         private readonly UserManager<User> _userManager;
+        private readonly INotyfService notyfService;
+        private readonly IHtmlLocalizer _localizer;
 
-        public FounderController(ApplicationContext applicationContext,IHostingEnvironment environment,UserManager<User> userManager)
+        public FounderController(ApplicationContext applicationContext, IHtmlLocalizer<FounderController> localizer, IHostingEnvironment environment,UserManager<User> userManager, INotyfService notyfService)
         {
             _applicationContext = applicationContext;
             _env = environment;
             _userManager = userManager;
+            this.notyfService = notyfService;
+            _localizer = localizer;
         }
 
         [Route("index")]
@@ -40,11 +46,69 @@ namespace OLS.Controllers
          
         }
         [HttpGet]
-        public IActionResult Navigate()
+        public IActionResult Navigate(string? newSchool,string? mySchoolId)
         {
             var UserId = _userManager.GetUserId(User);
             var id = _applicationContext.Process.Where(p => p.ProcessId == Guid.Parse("88A9020D-D188-417C-9B11-7FDA9613B197")).Select(p => p.ProcessId).FirstOrDefault();
-            var schoolid = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User)).Select(p => p.SchoolId).FirstOrDefault();
+            var schoolid = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User)).OrderByDescending(p => p.CreatedAt).Select(p => p.SchoolId).FirstOrDefault();
+
+
+
+
+
+
+
+
+
+            //New codes for applying multiple applications
+
+
+            var result = _applicationContext.ProcessProgress.Where(p => p.SchoolId == schoolid && p.SubProcessId == Guid.Parse("E592365F-2FB6-4B0F-9C5E-01277BE052F0")).FirstOrDefault();
+            var re_schoolid = schoolid;
+
+
+            if (mySchoolId != null)
+            {
+                HttpContext.Session.Clear();
+                HttpContext.Session.SetString("mySchoolId", mySchoolId);
+             
+            }
+
+
+            var sch_id = HttpContext.Session.GetString("mySchoolId");
+            if (sch_id != null)
+            {
+                schoolid = Guid.Parse(sch_id);
+            }
+
+            if (newSchool != null)
+            {
+                HttpContext.Session.Clear();
+                HttpContext.Session.SetString("new", "new");
+               
+            }
+            var new_sch = HttpContext.Session.GetString("new");
+            if (new_sch != null)
+            {
+                schoolid = Guid.NewGuid();
+            }
+
+
+            var myschoolid = HttpContext.Session.GetString("SchoolID");
+
+            if (myschoolid != null)
+            {
+                schoolid =Guid.Parse(myschoolid);
+            }
+
+            if (result == null)
+            {
+                schoolid = re_schoolid;
+            }
+
+
+            //End New Changes
+
 
             var displayPlan = (from process in _applicationContext.Process
                                join subProcess in _applicationContext.SubProcess on process.ProcessId equals subProcess.ProcessId into processgroup
@@ -77,9 +141,78 @@ namespace OLS.Controllers
                                }).OrderBy(p => p.OrderNumber).ToList();
 
 
-            var founder = _applicationContext.Person.Where(p => p.CreatedBy == UserId && p.PartyRoleTypeId == Guid.Parse("CAE7466D-198A-423B-903F-BB64D58C0236")).FirstOrDefault();
+
+
+
+            var founder = new Person();
+
+
+             founder = _applicationContext.Person.Where(p => p.CreatedBy == UserId &&  p.PartyRoleTypeId == Guid.Parse("CAE7466D-198A-423B-903F-BB64D58C0236")).OrderByDescending(p => p.CreatedAt).FirstOrDefault();
+
+            if (result==null)
+            {
+                
+                    founder = _applicationContext.Person.Where(p => p.CreatedBy == UserId && p.SchoolId==schoolid && p.PartyRoleTypeId == Guid.Parse("CAE7466D-198A-423B-903F-BB64D58C0236")).OrderByDescending(p => p.CreatedAt).FirstOrDefault();
+            }
+            else if(result!=null && founder!=null)
+
+            {
+                if (founder.SchoolId == null)
+                {
+                    founder = _applicationContext.Person.Where(p => p.CreatedBy == UserId && p.PartyRoleTypeId == Guid.Parse("CAE7466D-198A-423B-903F-BB64D58C0236")).OrderByDescending(p => p.CreatedAt).FirstOrDefault();
+                } 
+                else if (founder.SchoolId != null)
+                {
+                    founder = _applicationContext.Person.Where(p => p.CreatedBy == UserId && p.SchoolId == schoolid && p.PartyRoleTypeId == Guid.Parse("CAE7466D-198A-423B-903F-BB64D58C0236")).OrderByDescending(p => p.CreatedAt).FirstOrDefault();
+                }
+                else
+                {
+                    founder = null;
+                }
+                    
+            }
+          
+            //else
+            //{
+              
+
+
+            //    if (newSchool != null && sch_check!=null)
+            //    {
+            //        founder = null;
+            //    }
+            //    else
+            //    {
+            //        //    var founder_id = HttpContext.Session.GetString("FounderID");
+            //        //    var personId = Guid.NewGuid();
+            //        //    if (founder_id != null)
+            //        //    {
+            //        //        personId = Guid.Parse(founder_id);
+            //        //    }
+
+
+            //        //    founder = _applicationContext.Person.Where(p => p.PersonId == personId && p.PartyRoleTypeId == Guid.Parse("CAE7466D-198A-423B-903F-BB64D58C0236")).OrderByDescending(p => p.CreatedAt).FirstOrDefault();
+
+            //        founder = _applicationContext.Person.Where(p => p.CreatedBy == UserId && p.PartyRoleTypeId == Guid.Parse("CAE7466D-198A-423B-903F-BB64D58C0236")).OrderByDescending(p => p.CreatedAt).FirstOrDefault();
+            //    }
+
+
+
+            //        //if (sch_id != null || myschoolid != null)
+            //        //{
+            //        //    founder = _applicationContext.Person.Where(p => p.CreatedBy == UserId && p.SchoolId == schoolid && p.PartyRoleTypeId == Guid.Parse("CAE7466D-198A-423B-903F-BB64D58C0236")).OrderByDescending(p => p.CreatedAt).FirstOrDefault();
+
+            //        //}
+
+                   
+            //    }
+
+     
+
+          
+          
             ViewBag.found = founder;
-            if (founder != null)
+            if (founder != null && founder.CreatedBy !=null)
             {
                 if (displayPlan.Count > 0)
                 {
@@ -131,7 +264,7 @@ namespace OLS.Controllers
         }
 
         [Route("FindDistrict/{ProvinceId}")]
-        public IActionResult FindDistrict(Guid ProvinceId)
+        public IActionResult FindDistrict(int ProvinceId)
         {
             var districts = _applicationContext.ZDistrict.Where(district => district.ProvinceId == ProvinceId).Select(distict => new { 
             Id=distict.DistrictId,
@@ -142,7 +275,7 @@ namespace OLS.Controllers
             return new JsonResult(districts);
         }
         [Route("FindVillagNahia/{DistrictId}")]
-        public IActionResult FindVillagNahia(Guid DistrictId)
+        public IActionResult FindVillagNahia(int DistrictId)
         {
             var VillageNahias = _applicationContext.ZVillageNahia.Where(villigaeNahia => villigaeNahia.DistrictId == DistrictId)
                 .Select(villageNahia =>new { 
@@ -166,7 +299,7 @@ namespace OLS.Controllers
                 return Json(true);
             }
             else {
-                return Json($" ایمیل قبلا استفاده شده است / ورکړل شوی برېښنالیک کارول شوی ده/Email {email} already in use");
+                return Json(_localizer["EmailInUse"].Value);
             }
 
         }
@@ -185,7 +318,7 @@ namespace OLS.Controllers
             }
             else if (EmailCountOther.Count>0) {
 
-                return Json($"ایمیل قبلا استفاده شده است / ورکړل شوی برېښنالیک کارول شوی ده/ Email {Email} already in use ");
+                return Json(_localizer["EmailInUse"].Value);
             }
             else
             {
@@ -203,7 +336,7 @@ namespace OLS.Controllers
             var founder = _applicationContext.ContactDetails.Where(p => p.Value == PhonNumber).FirstOrDefault();
             if (PhonNumber.Length != 10) {
 
-                return Json($"شماره باید 10 نمبر باشد/ د اړیکې شمېره باید 10  وي/Phone number must be 10 digits");
+                return Json(_localizer["PhoneNumberDigits"].Value);
             }
             if (founder == null)
             {
@@ -212,7 +345,7 @@ namespace OLS.Controllers
             }
             else
             {
-                return Json($" شماره قبلا استفاده شده است / د اړیکې شمېره کارول شوې ده/Phone number {PhonNumber} already in use");
+                return Json(_localizer["PhoneNumberInUse"].Value);
             }
 
         }
@@ -226,7 +359,7 @@ namespace OLS.Controllers
             if (PhonNumber.Length != 10)
             {
 
-                return Json($"د اړیکې شمېره باید 10  وي/ شماره باید 10 نمبر باشد/Phone number must be 10 digits");
+                return Json(_localizer["PhoneNumberDigits"].Value);
             }
             if (PhoneCount.Count == 1)
             {
@@ -234,7 +367,7 @@ namespace OLS.Controllers
                 return Json(true);
             }
             else if (PhoneCountOther.Count>0) {
-                return Json($"د اړیکې شمېره کارول شوې ده/ شماره قبلا استفاده شده است/Phone number {PhonNumber} already in use");
+                return Json(_localizer["PhoneNumberInUse"].Value);
 
             }
             else
@@ -258,7 +391,7 @@ namespace OLS.Controllers
             }
             else
             {
-                return Json($" شماره تذکره استفاده شده است /د تذکرې شمېره کارول شوې ده / Tazkira number {NIDNumber} already in use");
+                return Json(_localizer["NIDNumberInUse"].Value);
             }
 
         }
@@ -276,7 +409,7 @@ namespace OLS.Controllers
             }
             else if (NIDCountOther.Count > 0)
             {
-                return Json($"د تذکرې شمېره کارول شوې ده/ شماره تذکره استفاده شده است / Tazkira number {NIDNumber} already in use");
+                return Json(_localizer["NIDNumberInUse"].Value);
 
             }
             else
@@ -367,7 +500,7 @@ namespace OLS.Controllers
                         ExistingPhotoPath = foundedetails.Photo,
                         SchoolId = foundedetails.SchoolId
                     };
-                    HttpContext.Session.SetString("FounderID", foundedetails.PersonId.ToString());
+                    
                     return View(founder);
                 }
                 else
@@ -443,7 +576,9 @@ namespace OLS.Controllers
                         ExistingPhotoPath = foundedetails.Photo,
                         SchoolId = foundedetails.SchoolId
                     };
-                    HttpContext.Session.SetString("FounderID", foundedetails.PersonId.ToString());
+
+                    HttpContext.Session.SetString("FounderID", founderid.ToString());
+
                     return View(founder);
                 }
                 else {
@@ -504,28 +639,39 @@ namespace OLS.Controllers
                     person.Nidnumber = founderModel.Nidnumber;
                     person.Age = founderModel.Age;
                     person.GenderTypeId = founderModel.GenderTypeId;
-                    person.UpdatedBy = _userManager.GetUserId(User);
+                    person.UpdatedBy = _userManager.GetUserId(User).ToString();
                     person.UpdatedAt = DateTime.Now;
 
 
                     ContactDetails PhoneNumber = _applicationContext.ContactDetails.Where(p => p.PartyId == founderModel.PersonId && p.ContactMechanismTypeId == Guid.Parse("B1B3DB1A-A3FB-43B9-839F-47A38C7F93CB")).FirstOrDefault();
                     PhoneNumber.Value = founderModel.PhonNumber;
+                    PhoneNumber.UpdatedBy = _userManager.GetUserId(User).ToString();
+                    PhoneNumber.UpdatedAt = DateTime.Now;
 
                     ContactDetails Email = _applicationContext.ContactDetails.Where(p => p.PartyId == founderModel.PersonId && p.ContactMechanismTypeId == Guid.Parse("1BE17772-A613-49A5-A67B-C1538DCBF647")).FirstOrDefault();
                     Email.Value = founderModel.Email;
+                    Email.UpdatedBy = _userManager.GetUserId(User).ToString();
+                    Email.UpdatedAt = DateTime.Now;
+
 
                     PersonEducation personEducation = _applicationContext.PersonEducation.Where(p => p.PersonId == founderModel.PersonId).FirstOrDefault();
                     personEducation.EducationLevelId = founderModel.EducationLevelID;
+                    personEducation.UpdatedBy = _userManager.GetUserId(User).ToString();
+                    personEducation.UpdatedAt = DateTime.Now;
 
                     PartyAddress PermenantAddress = _applicationContext.PartyAddress.Where(p => p.PartyId == founderModel.PersonId && p.AddressTypeId == Guid.Parse("EDDCDD48-67D0-4BAE-B96E-B7ACB5C87DF7")).FirstOrDefault();
                     PermenantAddress.ProvinceId = founderModel.PerProvinceId;
                     PermenantAddress.DistrictId = founderModel.PerDistrictId;
                     PermenantAddress.Nahia = founderModel.PerNahia;
+                    PermenantAddress.UpdatedBy = _userManager.GetUserId(User).ToString();
+                    PermenantAddress.UpdatedAt = DateTime.Now;
 
                     PartyAddress CurrentAddress = _applicationContext.PartyAddress.Where(p => p.PartyId == founderModel.PersonId && p.AddressTypeId == Guid.Parse("28048D3E-BF94-4068-9735-6E798BA9FD52")).FirstOrDefault();
                     CurrentAddress.ProvinceId = founderModel.PreProvinceId;
                     CurrentAddress.DistrictId = founderModel.PreDistrictId;
                     CurrentAddress.Nahia = founderModel.PreNahia;
+                    CurrentAddress.UpdatedBy = _userManager.GetUserId(User).ToString();
+                    CurrentAddress.UpdatedAt = DateTime.Now;
 
 
                     string FilePath = "";
@@ -554,7 +700,7 @@ namespace OLS.Controllers
                         }
                         else
                         {
-                            ViewBag.photoerror = " only .jpg, png and jpeg format is allowed and max of 500 kb / فارمت های ذیل را میتوان استفاده نمود و حد اکثر حجم فایل باید 500 ک ب باشد ";
+                            ViewBag.photoerror = _localizer["PhotoError"].Value;
                             return View(founderModel);
                            
                         }
@@ -567,16 +713,50 @@ namespace OLS.Controllers
                     _applicationContext.Update(PermenantAddress);
                     _applicationContext.Update(CurrentAddress);
                     await _applicationContext.SaveChangesAsync();
-                    ViewBag.Message = "معلومات موفقانه تصحیح گردید / معلومات په بریالیتوب سره اصلاح شول / Record Successfully updated ";
-                    HttpContext.Session.SetString("FounderID", founderModel.PersonId.ToString());
+                    notyfService.Custom(_localizer["FounderUpdated"].Value, 10, "#67757c", "fa fa-check");
+                    ViewBag.Message = _localizer["RecordSaved"].Value;
+                    
                     return View(founderModel);
 
-                }              
-                return View("index");
+                }
+
+
+                var EducationL = _applicationContext.ZEducationLevel.OrderBy(o => o.OrderNumber);
+                ViewBag.EducationLevel = EducationL;
+
+                var GenderT = _applicationContext.ZGenderType.OrderBy(o => o.OrderNumber);
+                ViewBag.GenderType = GenderT;
+
+
+                var founded = _applicationContext.Person.Find(founderModel.PersonId);
+                var founderPh = _applicationContext.ContactDetails.Where(p => p.PartyId == founderModel.PersonId && p.ContactMechanismTypeId == Guid.Parse("B1B3DB1A-A3FB-43B9-839F-47A38C7F93CB")).FirstOrDefault();
+                var founderEm = _applicationContext.ContactDetails.Where(p => p.PartyId == founderModel.PersonId && p.ContactMechanismTypeId == Guid.Parse("1BE17772-A613-49A5-A67B-C1538DCBF647")).FirstOrDefault();
+                var founderEdu = _applicationContext.PersonEducation.Where(p => p.PersonId == founderModel.PersonId).FirstOrDefault();
+                var founderPerAdd = _applicationContext.PartyAddress.Where(p => p.PartyId == founderModel.PersonId && p.AddressTypeId == Guid.Parse("EDDCDD48-67D0-4BAE-B96E-B7ACB5C87DF7")).FirstOrDefault();
+                var founderPreAdd = _applicationContext.PartyAddress.Where(p => p.PartyId == founderModel.PersonId && p.AddressTypeId == Guid.Parse("28048D3E-BF94-4068-9735-6E798BA9FD52")).FirstOrDefault();
+
+
+                var Perpro = _applicationContext.ZProvince.Where(p => p.ProvinceId == founderPerAdd.ProvinceId);
+                ViewBag.Perprovince = Perpro;
+                var Perdist = _applicationContext.ZDistrict.Where(d => d.ProvinceId == founderPerAdd.ProvinceId);
+                ViewBag.Perdistrict = Perdist;
+                //var PervillageNahia = _applicationContext.ZVillageNahia.Where(v => v.DistrictId == founderPerAddress.DistrictId);
+                //ViewBag.PervillageNahia = PervillageNahia;
+
+                var Prepro = _applicationContext.ZProvince.Where(p => p.ProvinceId == founderPreAdd.ProvinceId);
+                ViewBag.Preprovince = Prepro;
+                var Predist = _applicationContext.ZDistrict.Where(d => d.ProvinceId == founderPreAdd.ProvinceId);
+                ViewBag.Predistrict = Predist;
+
+
+
+
+
+                return View();
 
             } catch (Exception ex) {
 
-                return View("index");
+                return View("Index");
             }
 
          
@@ -661,7 +841,9 @@ namespace OLS.Controllers
                     ContactDetailId = PhoneCid,
                     PartyId = Pid,
                     ContactMechanismTypeId = Guid.Parse("B1B3DB1A-A3FB-43B9-839F-47A38C7F93CB"),
-                    Value = founder.PhonNumber
+                    Value = founder.PhonNumber,
+                    CreatedBy = _userManager.GetUserId(User),
+                    CreatedAt = DateTime.Now
                 };
 
                 Guid EmailCid = Guid.NewGuid();
@@ -670,7 +852,9 @@ namespace OLS.Controllers
                     ContactDetailId = EmailCid,
                     PartyId = Pid,
                     ContactMechanismTypeId = Guid.Parse("1BE17772-A613-49A5-A67B-C1538DCBF647"),
-                    Value = founder.Email
+                    Value = founder.Email,
+                    CreatedBy = _userManager.GetUserId(User),
+                    CreatedAt = DateTime.Now
                 };
 
                 Guid personEductionID = Guid.NewGuid();
@@ -679,6 +863,8 @@ namespace OLS.Controllers
                     PersonId = Pid,
                     PersonEducationId = personEductionID,
                     EducationLevelId = founder.EducationLevelID,
+                    CreatedBy = _userManager.GetUserId(User),
+                    CreatedAt = DateTime.Now
                 };
 
                 Guid PerAaddressId = Guid.NewGuid();
@@ -690,6 +876,8 @@ namespace OLS.Controllers
                     ProvinceId = founder.PerProvinceId,
                     DistrictId = founder.PerDistrictId,
                     Nahia = founder.PerNahia,
+                    CreatedBy = _userManager.GetUserId(User),
+                    CreatedAt = DateTime.Now
                 };
                 Guid CurrAaddressId = Guid.NewGuid();
                 PartyAddress CurrentAddress = new PartyAddress()
@@ -700,6 +888,8 @@ namespace OLS.Controllers
                     ProvinceId = founder.PreProvinceId,
                     DistrictId = founder.PreDistrictId,
                     Nahia = founder.PreNahia,
+                    CreatedBy = _userManager.GetUserId(User),
+                    CreatedAt = DateTime.Now
                 };
                 _applicationContext.Add(party);
                 _applicationContext.Add(person);
@@ -710,12 +900,25 @@ namespace OLS.Controllers
                 _applicationContext.Add(CurrentAddress);
                 await _applicationContext.SaveChangesAsync();
 
-                ViewBag.Message = "معلومات ثبت گردید / معلومات په بریالیتوب سره ثبت شوي/ record Saved Successfuly";
+                HttpContext.Session.Remove("new");
+                notyfService.Custom(_localizer["FounderCreated"].Value, 10, "#67757c", "fa fa-check");
+                ViewBag.Message = _localizer["RecordSaved"].Value;
                 HttpContext.Session.SetString("FounderID", Pid.ToString());
-               
-               return RedirectToAction("Edit", new { founderid = Pid });
+
+                // return RedirectToAction("Edit", new { founderid = Pid });
+                return RedirectToAction("Navigate", "SChool");
                
             }
+
+
+            var prov = _applicationContext.ZProvince;
+            ViewBag.Province = prov;
+
+            var EducationL = _applicationContext.ZEducationLevel.OrderBy(o => o.OrderNumber);
+            ViewBag.EducationLevel = EducationL;
+
+            var GType = _applicationContext.ZGenderType.OrderBy(o => o.OrderNumber);
+            ViewBag.GenderType = GType;
             return View("Create"); 
            
         }

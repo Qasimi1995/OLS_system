@@ -11,8 +11,8 @@ namespace OLS.Models
             ZVillageNahia = new HashSet<ZVillageNahia>();
         }
 
-        public Guid DistrictId { get; set; }
-        public Guid? ProvinceId { get; set; }
+        public int DistrictId { get; set; }
+        public int? ProvinceId { get; set; }
         public string DistNaEng { get; set; }
         public string DistNaDar { get; set; }
 

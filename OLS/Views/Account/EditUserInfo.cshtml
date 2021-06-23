@@ -1,15 +1,18 @@
 ﻿@model OLS.ViewModels.UserViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
 
 @{
     ViewData["Title"] = "EditUserInfo";
+    
+        var culture = Context.Features.Get<Microsoft.AspNetCore.Localization.IRequestCultureFeature>().RequestCulture.UICulture.Name;
 }
 
-    <div class="row page-titles">
-        <div class="col-md-5 col-12 align-self-center">
-            <h3 class="text-themecolor">معلومات کاربر / د کارونکي معلومات / User Information</h3>
-        </div>
-
+<div class="row page-titles">
+    <div class="col-md-5 col-12 align-self-center">
+        <h3 class="text-themecolor"> @localizer["UserInformation"] </h3>
     </div>
+
+</div>
 <div class="row">
     <div class="col-12">
         <div class="card">
@@ -23,10 +26,10 @@
                         @*<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>*@
                         <script src="~/sweetalert/sweetalert.min.js"></script>
                         <script type="text/javascript">
-                                               
+
                                                     swal({
                                                         title: "@ViewBag.Message",
-                                                        text: "حساب موفقانه ایجاد گردید / تاسو په بریالیتوب سره یو حساب جوړ کړی",
+                                                        text: "  @localizer["Text"]  ",
                                                         icon: "success",
                                                         button: "OK",
                                                     })
@@ -41,43 +44,58 @@
 
                     <div class="form-group">
                         <div>
-                            <input asp-for="UserName" class="form-control" required="" disabled placeholder="نام کاربر / کارن نوم / User Name">
+                            <input asp-for="UserName" class="form-control" required placeholder="@localizer["UserName"]">
                             <span asp-validation-for="UserName" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="form-group ">
                         <div>
-                            <input asp-for="Email" class="form-control" required="" placeholder="ایمیل">
+                            <input asp-for="Email" class="form-control" required placeholder="@localizer["Email"]">
                             <span asp-validation-for="Email" class="text-danger"></span>
                         </div>
                     </div>
 
                     <div class="form-group ">
                         <div>
-                            <input asp-for="FirstName" class="form-control" required="" placeholder="اسم /نوم/Name">
+                            <input asp-for="FirstName" class="form-control" required placeholder="@localizer["Name"]">
                             <span asp-validation-for="FirstName" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="form-group ">
                         <div>
-                            <input asp-for="LastName" class="form-control" required="" placeholder="تخلص /تخلص/Last Name">
+                            <input asp-for="LastName" class="form-control" required placeholder=" @localizer["LastName"] ">
                             <span asp-validation-for="LastName" class="text-danger"></span>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="PerProvinceId">
-                            ولایت/ولایت/Province:
+                            @localizer["Province"]
 
                         </label>
                         <select asp-for="ProvinceId" id="PerProvince" class="form-control selectTwo" style="width:100%;">
-                            <option selected value="">--Select--</option>
+                            <option selected value="">@localizer["Select"]</option>
                             @if (ViewBag.province != null)
                             {
-                                foreach (var province in ViewBag.province)
-                                {
-                                    <option value="@province.ProvinceId">@province.ProvNaDar - @province.ProvNaEng</option>
-                                }
+                        @if (culture == "en")
+                        {
+                            foreach (var province in ViewBag.province)
+                            {
+                        <option value="@province.ProvinceId">@province.ProvNaEng</option> }
+                                        }
+
+
+                                        else
+                                        {
+
+
+                                            foreach (var province in ViewBag.province)
+                                            {
+                        <option value="@province.ProvinceId">@province.ProvNaDar</option>
+}
+                }}
+
+
                             }
 
                         </select>
@@ -86,13 +104,13 @@
                     </div>
                     <div class="form-group">
                         <label for="EducationLevelID">
-                            د حساب حالت/حالت حساب/Status
+                            @localizer["Status"]
 
                         </label>
                         <select asp-for="IsActive" class="form-control selectTwo" style="width:100%;">
-                            <option selected value="">Select</option>
-                            <option value="1">Active</option>
-                            <option value="0">In-active</option>
+                            <option selected value="">@localizer["Select"]</option>
+                            <option value="1">@localizer["Active"]</option>
+                            <option value="0">@localizer["InActive"]</option>
 
                         </select>
                         <span asp-validation-for="IsActive" class="text-danger"></span>
@@ -100,10 +118,10 @@
 
                     <div class="form-group">
                         <label for="EducationLevelID">
-                            درول/ رول / Role:
+                            @localizer["Role"]
                         </label>
                         <select asp-for="Role" class="form-control selectTwo" style="width:100%;">
-                            <option selected value="">--Select Role--</option>
+                            <option selected value="">@localizer["Select"]</option>
                             @if (ViewBag.roles != null)
                             {
                                 @foreach (var role in ViewBag.roles)
@@ -118,9 +136,9 @@
 
                     <div class="form-group mt-3">
                         <div>
-                            <button class="btn btn-info text-uppercase " style="background-color:#0193df;" type="submit"> ثبت / ثبت / Save </button>
+                            <button class="btn btn-info text-uppercase " style="background-color:#0193df;" type="submit"> @localizer["Save"] </button>
 
-                            <a class="btn btn-info text-uppercase " style="background-color:#0193df;" asp-controller="Account" asp-action="RegisterStaff"> قبلی/مخکی/Back </a>
+                            <a class="btn btn-info text-uppercase " style="background-color:#0193df;" asp-controller="Account" asp-action="RegisterStaff"> @localizer["Back"] </a>
                         </div>
                     </div>
 

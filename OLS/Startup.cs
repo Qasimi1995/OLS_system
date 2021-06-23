@@ -14,6 +14,12 @@ using OLS.Models;
 using Microsoft.AspNetCore.Identity;
 using OLS.FunctionsLibrary;
 using EmailService;
+using AspNetCoreHero.ToastNotification;
+using Microsoft.AspNetCore.Mvc.Razor;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.Extensions.Options;
+using System.Reflection;
 
 namespace OLS
 {
@@ -39,7 +45,7 @@ namespace OLS
                opt.TokenLifespan = TimeSpan.FromHours(2));
 
             services.AddAuthentication();
-
+            services.AddNotyf(config => { config.DurationInSeconds = 10; config.IsDismissable = true; config.Position = NotyfPosition.TopLeft; });
             services.AddIdentity<User, IdentityRole>(
                 options =>
                 {
@@ -71,9 +77,35 @@ namespace OLS
             //    //opt.SignIn.RequireConfirmedEmail = true;
             //});
 
+            services.AddLocalization(opt => { opt.ResourcesPath = "Resources"; });
+            services.AddMvc().AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix).AddDataAnnotationsLocalization(options=>
+               options.DataAnnotationLocalizerProvider = (type, factory) =>
+               {
+                   var assemblyName = new AssemblyName(typeof(CommonResources).GetTypeInfo().Assembly.FullName);
+                   return factory.Create(nameof(CommonResources), assemblyName.Name);
+               }
+            );
+
+            services.Configure<RequestLocalizationOptions>(opt =>
+            {
+                var supportedCultures = new List<CultureInfo>()
+                {
+                     new CultureInfo("en"),
+                     new CultureInfo("ps"),
+                     new CultureInfo("fa")
+                };
+
+                opt.DefaultRequestCulture = new RequestCulture("en");
+                opt.SupportedCultures = supportedCultures;
+                opt.SupportedUICultures = supportedCultures;
+
+            });
+
+
             services.AddControllersWithViews();
+
             services.AddDistributedMemoryCache();
-            services.AddSession();
+            services.AddSession((options)=> options.IdleTimeout = TimeSpan.FromMinutes(300));
             services.AddTransient(typeof(Functions));
             
 
@@ -105,6 +137,10 @@ namespace OLS
             app.UseRouting();
             
             app.UseAuthorization();
+
+
+            app.UseRequestLocalization(app.ApplicationServices.GetRequiredService<IOptions<RequestLocalizationOptions>>().Value);
+
 
             app.UseSession();
             app.UseEndpoints(endpoints =>

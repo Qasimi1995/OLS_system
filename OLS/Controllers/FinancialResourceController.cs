@@ -9,22 +9,28 @@ using Microsoft.AspNetCore.Mvc;
 using OLS.Models;
 using Microsoft.AspNetCore.Identity;
 using OLS.ViewModels;
+using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Mvc.Localization;
 
 namespace OLS.Controllers
 {
     [Route("FinancialResource")]
-    [Authorize]
+    [Authorize(Roles ="Applicant")]
     public class FinancialResourceController : Controller
     {
         private ApplicationContext _applicationContext;
-        IHostingEnvironment _env;
+        IWebHostEnvironment _env;
         private readonly UserManager<User> _userManager;
+        private readonly INotyfService notyfService;
+        private readonly IHtmlLocalizer _localizer;
 
-        public FinancialResourceController(ApplicationContext applicationContext, IHostingEnvironment environment, UserManager<User> userManager)
+        public FinancialResourceController(ApplicationContext applicationContext, IHtmlLocalizer<FinancialResourceController> localizer, IWebHostEnvironment environment, UserManager<User> userManager, INotyfService notyfService)
         {
             _applicationContext = applicationContext;
             _env = environment;
             _userManager = userManager;
+            this.notyfService = notyfService;
+            _localizer = localizer;
         }
 
         [Route("index")]
@@ -41,7 +47,54 @@ namespace OLS.Controllers
         {
             var UserId = _userManager.GetUserId(User);
             var id = _applicationContext.Process.Where(p => p.ProcessId == Guid.Parse("88A9020D-D188-417C-9B11-7FDA9613B197")).Select(p => p.ProcessId).FirstOrDefault();
-            var schoolid = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User)).Select(p => p.SchoolId).FirstOrDefault();
+            var schoolid = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User)).OrderByDescending(p=>p.CreatedAt).Select(p => p.SchoolId).FirstOrDefault();
+
+
+            var result = _applicationContext.ProcessProgress.Where(p => p.SchoolId == schoolid && p.SubProcessId == Guid.Parse("E592365F-2FB6-4B0F-9C5E-01277BE052F0")).FirstOrDefault();
+            var re_schoolid = schoolid;
+
+
+
+            //New Changes
+
+            var sch_id = HttpContext.Session.GetString("mySchoolId");
+            if (sch_id != null)
+            {
+                schoolid = Guid.Parse(sch_id);
+            }
+
+            var newSchool = HttpContext.Session.GetString("new");
+            if (newSchool != null)
+            {
+                schoolid = Guid.NewGuid();
+            }
+
+            var myschoolid = HttpContext.Session.GetString("SchoolID");
+
+            if (myschoolid != null)
+            {
+                schoolid = Guid.Parse(myschoolid);
+            }
+
+         
+            if(myschoolid==null && sch_id == null)
+            {
+                schoolid = Guid.NewGuid();
+            }
+
+
+            if (result == null)
+            {
+                schoolid = re_schoolid;
+            }
+
+
+
+            //End New Changes
+
+
+
+
 
             var displayPlan = (from process in _applicationContext.Process
                                join subProcess in _applicationContext.SubProcess on process.ProcessId equals subProcess.ProcessId into processgroup
@@ -73,7 +126,7 @@ namespace OLS.Controllers
 
                                }).OrderBy(p => p.OrderNumber).ToList();
 
-            var FinancialResource = _applicationContext.SchoolFinancialResource.Where(p => p.CreatedBy == UserId).FirstOrDefault();
+            var FinancialResource = _applicationContext.SchoolFinancialResource.Where(p => p.CreatedBy == UserId && p.SchoolId==schoolid).FirstOrDefault();
             ViewBag.FinancialResource = FinancialResource;
             if (FinancialResource != null)
             {
@@ -150,6 +203,11 @@ namespace OLS.Controllers
             if (schoolId != null) {
 
                 SchoolFinancialResource FinancialResource = _applicationContext.SchoolFinancialResource.Find(schoolId);
+
+
+                HttpContext.Session.SetString("FinancialResource", "Create");
+                HttpContext.Session.SetString("SchoolBusinessTypeID", FinancialResource.SchoolBussinessTypeId.ToString());
+
                 return View(FinancialResource);
             }
 
@@ -172,7 +230,8 @@ namespace OLS.Controllers
 
                 _applicationContext.Update(financialResource);
                 _applicationContext.SaveChanges();
-                ViewBag.Message = "معلومات ثبت گردید / معلومات په بریالیتوب سره ثبت شوي/ record Saved Successfuly";
+                notyfService.Custom(_localizer["FinancialResourceUpdated"].Value, 10, "#67757c", "fa fa-check");
+                ViewBag.Message = _localizer["RecordUpdated"].Value;
                 return View(financialResource);
              
             }
@@ -185,6 +244,13 @@ namespace OLS.Controllers
         public IActionResult Create() {
             var BussinessType = _applicationContext.ZSchoolBussinessType.OrderBy(o => o.OrderNumber);
             ViewBag.BussinessType = BussinessType;
+          
+            var myschoolid = HttpContext.Session.GetString("SchoolID");
+
+            if (myschoolid == null )
+            {
+                return RedirectToAction("Navigate", "School");
+            }
 
             return View();
         }
@@ -204,16 +270,20 @@ namespace OLS.Controllers
                     SchoolBussinessTypeId = schoolFinancialResource.SchoolBussinessTypeId,
                     FundingSourceName = schoolFinancialResource.FundingSourceName,
                     CreatedBy = _userManager.GetUserId(User),
-                    CreateAt=DateTime.Now,
+                    CreatedAt=DateTime.Now,
 
                 };
 
                 _applicationContext.Add(FinancialResource);
+                HttpContext.Session.SetString("FinancialResource","Create");
+                HttpContext.Session.SetString("SchoolBusinessTypeID", FinancialResource.SchoolBussinessTypeId.ToString());
                 var result=_applicationContext.SaveChanges();
                 if (result == 1)
                 {
-                    ViewBag.Message = "معلومات ثبت گردید";
-                    return RedirectToAction("Edit", new { schoolId = SchoolID });
+                    notyfService.Custom(_localizer["FinancialResourceCreated"].Value, 10, "#67757c", "fa fa-check");
+                    ViewBag.Message = _localizer["RecordUpdated"].Value;
+                    //  return RedirectToAction("Edit", new { schoolId = SchoolID });
+                    return RedirectToAction("Navigate", "Principle");
                 }
                 else {
 

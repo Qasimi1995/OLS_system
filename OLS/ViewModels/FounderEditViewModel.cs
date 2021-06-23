@@ -30,7 +30,8 @@ namespace OLS.ViewModels
         public string PhonNumber { get; set; }
 
         [Required(ErrorMessage ="*")]
-        [EmailAddress(ErrorMessage = "فارمت ایمیل درست نیست / ورکړل شوی برېښنالیک سم نه دی / Email Format is not valid")]
+      //  [EmailAddress(ErrorMessage = "فارمت ایمیل درست نیست / ورکړل شوی برېښنالیک سم نه دی / Email Format is not valid")]
+        [EmailAddress(ErrorMessage = "*")]
         [Remote(action: "IsEmailUniqueEdit", controller:"Founder", AdditionalFields = "Email,PersonId")]
         public string Email { get; set; }
         [Required(ErrorMessage ="*")]
@@ -49,15 +50,15 @@ namespace OLS.ViewModels
         public Guid? EducationLevelID { get; set; }
 
          [Required(ErrorMessage ="*")]
-        public Guid? PerProvinceId { get; set; }
+        public int? PerProvinceId { get; set; }
          [Required(ErrorMessage ="*")]
-        public Guid? PerDistrictId { get; set; }
+        public int? PerDistrictId { get; set; }
          [Required(ErrorMessage ="*")]
         public string PerNahia { get; set; }
          [Required(ErrorMessage ="*")]
-        public Guid? PreProvinceId { get; set; }
+        public int? PreProvinceId { get; set; }
          [Required(ErrorMessage ="*")]
-        public Guid? PreDistrictId { get; set; }
+        public int? PreDistrictId { get; set; }
          [Required(ErrorMessage ="*")]
         public string PreNahia { get; set; }
         public string ExistingPhotoPath { get; set; }

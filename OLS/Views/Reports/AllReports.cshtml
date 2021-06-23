@@ -1,14 +1,17 @@
 ﻿@model List<OLS.Models.SchoolListAll>
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
 
-@{
-    ViewData["Title"] = "All Reports";
+@{ ViewData["Title"] = "All Reports"; 
+
+
+    var culture = Context.Features.Get<Microsoft.AspNetCore.Localization.IRequestCultureFeature>().RequestCulture.UICulture.Name;
 }
 
 <hr />
 <div class="card">
     <div class="card-body">
         <div class=" card-title text-center">
-            <h2>General Reports of All</h2>
+            <h2>@localizer["GeneralReportsOfAll"]</h2>
         </div>
 
         <form asp-action="AllReports" method="post">
@@ -20,7 +23,7 @@
                         <a data-toggle="collapse" data-parent="#accordionEx" href="#collapseOne1" aria-expanded="true"
                            aria-controls="collapseOne1">
                             <h5 class="mb-0" style="color:green;">
-                                <i class="fas fa-angle-down rotate-icon"></i> جستجو /Search
+                                <i class="fas fa-angle-down rotate-icon"></i> @localizer["Search"]
                             </h5>
                         </a>
                     </div>
@@ -34,7 +37,8 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="Name">
-                                            از تاریخ/From Date
+
+                                            @localizer["FromDate"]
                                         </label>
                                         <input name="startdate" type="date" class="form-control" />
                                         <span class="text-danger"></span>
@@ -45,7 +49,8 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="Name">
-                                            تا تاریخ/ To Date
+
+                                            @localizer["ToDate"]
                                         </label>
                                         <input name="enddate" type="date" class="form-control" />
                                         <span class="text-danger"></span>
@@ -55,15 +60,16 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="LastName">
-                                            نام مکتب / د ښوونځي نوم / School Name
+
+                                            @localizer["SchoolName"]
 
                                         </label>
                                         <select name="schoolname" class="form-control">
-                                            <option selected value="">--Select--</option>
+                                            <option selected value="">--@localizer["Select"]--</option>
                                             @foreach (var Sname in ViewBag.SchoolN)
                                             {
-                                                <option value="@Sname.SchoolName"> @Sname.SchoolName</option>
-                                            }
+                                <option value="@Sname.SchoolName"> @Sname.SchoolName</option>
+}
                                         </select>
 
                                     </div>
@@ -71,15 +77,31 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="LastName">
-                                            جنسیت مکتب / د ښوونځي جنسیت / School Gender
+
+                                            @localizer["SchoolGender"]
 
                                         </label>
                                         <select name="schoolgender" class="form-control">
-                                            <option selected value="">--Select--</option>
+                                            <option selected value="">-- @localizer["Select"]--</option>
                                             @foreach (var Pname in ViewBag.SchoolGenderType)
                                             {
-                                        <option value="@Pname.SchoolGenderTypeName">@Pname.SchoolGenderTypeName - @Pname.SchoolGenderTypeNameDari </option>
+
+
+                                        <option value="@Pname.SchoolGenderTypeName">
+                                            @if (culture == "en")
+                                            {
+                                        @Pname.SchoolGenderTypeName }
+                                    else if (culture == "fa")
+                                    {
+                                        @Pname.SchoolGenderTypeNameDari.Split("/")[0]}
+                                    else
+                                    {
+                                        @Pname.SchoolGenderTypeNameDari.Split("/")[1]
                                             }
+
+
+                                        </option>
+}
                                         </select>
 
                                     </div>
@@ -88,14 +110,15 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="LastName">
-                                            سطح مکتب / د ښوونځي درجه / School Level
+
+                                            @localizer["SchoolLevel"]
 
                                         </label>
                                         <select name="schoollevel" class="form-control">
-                                            <option selected value="">--Select--</option>
-                                            <option value="ابتدایه">ابتدایه- Primary</option>
-                                            <option value="متوسطه">متوسطه - Secondary</option>
-                                            <option value="لیسه">لیسه - High School</option>
+                                            <option selected value="">--@localizer["Select"] --</option>
+                                            <option value="ابتدایه">@localizer["Primary"]</option>
+                                            <option value="متوسطه">@localizer["Secondary"]</option>
+                                            <option value="لیسه">@localizer["HighSchool"]</option>
                                         </select>
                                         @* <span asp-validation-for="SchoolLevelId" class="text-danger"></span>*@
                                     </div>
@@ -104,15 +127,26 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="LastName">
-                                            ولایت / ولایت /province
+
+                                            @localizer["Province"]
 
                                         </label>
                                         <select name="provincename" class="form-control">
-                                            <option selected value="">--Select--</option>
+                                            <option selected value="">--@localizer["Select"]--</option>
                                             @foreach (var Pname in ViewBag.ProvinceN)
                                             {
-                                                <option value="@Pname.ProvNaDar"> @Pname.ProvNaDar - @Pname.ProvNaEng</option>
-                                            }
+
+
+                                        <option value="@Pname.ProvNaDar">
+                                            @if (culture == "en")
+                                            {
+                                        @Pname.ProvNaEng }
+                                                        else
+                                                        {
+                                        @Pname.ProvNaDar}
+
+                                        </option>
+}
                                         </select>
 
                                     </div>
@@ -121,15 +155,31 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="LastName">
-                                            حالت / حالت / Status
+
+                                            @localizer["Status"]
 
                                         </label>
                                         <select name="status" class="form-control">
-                                            <option selected value="">--Select--</option>
+                                            <option selected value="">-- @localizer["Select"]--</option>
                                             @foreach (var Pname in ViewBag.StatusN)
                                             {
-                                                <option value="@Pname.StatusNameDariPast">@Pname.StatusNameDariPast </option>
+                                        <option value="@Pname.StatusNameDariPast">
+
+
+
+
+                                            @if (culture == "en")
+                                            {
+                                        @Pname.StatusNamePast }
+                                    else if (culture == "fa")
+                                    {
+                                        @Pname.StatusNameDariPast.Split("/")[0]}
+                                    else
+                                    {
+                                        @Pname.StatusNameDariPast.Split("/")[1]
                                             }
+                                        </option>
+}
                                         </select>
 
                                     </div>
@@ -138,18 +188,19 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="LastName">
-                                            راپور مجموعی / عمومي راپور / General Report
+
+                                            @localizer["GeneralReport"]
 
                                         </label>
                                         <select name="generalreport" class="form-control">
-                                            <option selected value="">--Select--</option>
-                                            <option value="General">عمومی - General</option>
+                                            <option selected value="">-- @localizer["Select"]--</option>
+                                            <option value="General"> @localizer["General"]</option>
                                         </select>
                                         @* <span asp-validation-for="SchoolLevelId" class="text-danger"></span>*@
                                     </div>
                                 </div>
 
-                                <input type="submit" class="btn btn-primary" style = "background-color:#0193df;" value="جستجو/Search" />
+                                <input type="submit" class="btn btn-primary" style="background-color:#0193df;" value=" @localizer["Search"]" />
                             </div>
 
                         </div>
@@ -163,77 +214,76 @@
 
 
 
-            <hr />
+        <hr />
 
-            <h4 class="card-title">لیست عمومی </h4>
-            <div class="table-responsive mt-4">
-                <table id="example23"
-                       class="display nowrap table table-hover table-striped table-bordered"
-                       cellspacing="0" width="100%">
-                    <thead>
-                        <tr>
-                            <th>شماره</th>
-                            <th>مکتب</th>
-                            <th>سطح مکتب</th>
-                            <th>جنسیت  مکتب</th>
-                            <th> ولایت</th>
-                            <th>ولسوالی</th>
-                            <th> قریه</th>
-                            <th> حالت</th>
-                            <th>تاریخ</th>
-                            <th>مدت روز</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if (Model != null)
-                        {
-                        @for (int i=0; i<Model.Count(); i++)
-                        {
-                            <tr>
-                                <td>
-                                    @(i + 1)
-                                </td>
+        <h4 class="card-title">  @localizer["GeneralList"]  </h4>
+        <div class="table-responsive mt-4">
+            <table id="example23"
+                   class="display nowrap table table-hover table-striped table-bordered"
+                   cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th>  @localizer["No"]</th>
+                        <th>  @localizer["SchoolName"]</th>
+                        <th>  @localizer["SchoolLevel"] </th>
+                        <th>  @localizer["SchoolGender"]  </th>
+                        <th>   @localizer["Province"]</th>
+                        <th> @localizer["District"]</th>
+                        <th>  @localizer["Village"]</th>
+                        <th> @localizer["Status"] </th>
+                        <th> @localizer["Date"]</th>
+                        <th> @localizer["DaysDuration"]</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null)
+                    {
+        @for (int i = 0; i < Model.Count(); i++)
+        {
+<tr>
+    <td>
+        @(i + 1)
+    </td>
 
-                                <td>
-                                    @Html.DisplayFor(modelItem => Model[i].SchoolName) - @Model[i].SchoolEnglishName
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => Model[i].SchoolLevelNameDari)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => Model[i].SchoolGenderTypeNameDari)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => Model[i].PROV_NA_DAR)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => Model[i].DIST_NA_DAR)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => Model[i].Nahia)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => Model[i].StatusNameDariPast)
-                                </td>
-                                <td>@Model[i].StatusDate</td>
+    <td>
+        @Html.DisplayFor(modelItem => Model[i].SchoolName) - @Model[i].SchoolEnglishName
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => Model[i].SchoolLevelNameDari)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => Model[i].SchoolGenderTypeNameDari)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => Model[i].PROV_NA_DAR)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => Model[i].DIST_NA_DAR)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => Model[i].Nahia)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => Model[i].StatusNameDariPast)
+    </td>
+    <td>@Model[i].StatusDate</td>
 
-                                <td>@(Math.Abs((DateTime.Now - Model[i].StatusDate).Value.Days))</td>
+    <td>@(Math.Abs((DateTime.Now - Model[i].StatusDate).Value.Days))</td>
 
-                            </tr>
-                        }
-                        }
-                        else
-                        {
-                         <p>No Data Found</p>
-                        }
-
+</tr>
+} }
+    else
+    {
+<p> @localizer["NoDataFound"]  </p>
+}
 
 
-                    </tbody>
-                </table>
 
-            </div>
+                </tbody>
+            </table>
+
         </div>
     </div>
+</div>
 
 

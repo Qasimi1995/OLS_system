@@ -1,7 +1,10 @@
 ﻿@model IList<OLS.ViewModels.SchoolOtherExpensesViewModel>
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
 
 
-
+@{ 
+    var culture = Context.Features.Get<Microsoft.AspNetCore.Localization.IRequestCultureFeature>().RequestCulture.UICulture.Name;
+}
 <div class="row">
     <div class="col-12">
         <div class="card">
@@ -9,7 +12,7 @@
                 @await Html.PartialAsync("../steps")
 
                 <div style="text-align:center;background-color: #0193df;">
-                    <h3 style="padding:5px;color: white;">دیگر مصارف/نور لګښتونه/Other expenses</h3>
+                    <h3 style="padding:5px;color: white;">@localizer["OtherExpenses"]</h3>
                 </div>
 
                 <form asp-action="Edit" method="post">
@@ -20,8 +23,8 @@
                             <thead>
                                 <tr>
 
-                                    <th class="text-wrap">نوع مصرف/د لګښت ډول/Expense Type</th>
-                                    <th class="text-wrap">مصرف در یک ماه/د یو میاشت لګښت/Expense per Month</th>
+                                    <th class="text-wrap">@localizer["ExpenseType"]</th>
+                                    <th class="text-wrap">@localizer["ExpensePerMonth"]</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -29,59 +32,73 @@
                                 {
                                     for (int i = 0; i < Model.Count; i++)
                                     {
-                                        @Html.HiddenFor(m => Model[i].OtherExpenseId)
+                    @Html.HiddenFor(m => Model[i].OtherExpenseId)
 
                                         <tr>
 
                                             <td>
 
-                                                @Model[i].OtherExpenseTypeName
+                                                @if (culture == "en")
+                                                {
+                                            @Model[i].OtherExpenseTypeName.Split("/")[2] }
+                                        else if (culture == "fa")
+                                        {
+                                            @Model[i].OtherExpenseTypeName.Split("/")[0] }
+                                        else
+                                        {
+                                            @Model[i].OtherExpenseTypeName.Split("/")[1]}
                                             </td>
                                             <td>
                                                 @Html.EditorFor(m => Model[i].ExpensePerMonth, new { htmlAttributes = new { @class = "form-control" } })
+                                               
                                                 @Html.ValidationMessageFor(m => Model[i].ExpensePerMonth, null, new { @class = "text-danger" })
                                             </td>
 
 
-                                        </tr>
-                                    }
-                                }
+                                        </tr>}
+                                                    }
 
                             </tbody>
                         </table>
                     </div>
-                    <input type="submit" id="btnSave" value="ثبت/ثبت/Save" class="btn btn-outline-success" />
-                    <div style="float:left;">
-                        <button type="button" id="nextBtn" style="background-color:#0193df;" onclick="@("window.location.href='" + @Url.Action("Navigate", "SchoolStaffExpenses") + "'");" class="btn btn-primary">قبلی/مخکی/Previous</button>
+                    <input type="submit" id="btnSave" value="@localizer["Save"]" class="btn btn-outline-success" />
+                     @{ 
+                        var floatValue = "left";
+                        if (culture == "en")
+                        {
+                            floatValue = "right";
+                        }
+
+                    }
+                    <div style="float:@floatValue;">
+                        <button type="button" id="nextBtn" style="background-color:#0193df;" onclick="@("window.location.href='" + @Url.Action("Navigate", "SchoolStaffExpenses") + "'");" class="btn btn-primary">@localizer["Previous"]</button>
 
 
                         @if (ViewBag.AppSubmitButton == null)
                         {
                     <button type="button" id="nextBtn" style="background-color:#0193df;" onclick="@("window.location.href='" + @Url.Action("RecieveApplication", "SchoolOtherExpenses") + "'");" class="btn btn-primary">
-                        تسلیم درخواستی / غوښتنلیک وسپارئ / Submit
-                    
-                    </button>
-                        }
+                      
+                        @localizer["Submit"]
+
+                    </button>}
 
 
                     </div>
                 </form>
 
 
-             
+
                 <hr />
-            <div class="">
-                <span class="text-info">
-                    <a href="~/Official-documents/School Verification CheckList.pdf" style="font-size:20px;">
-                        ستاسو ښوونځی به ددې چک لست په اساس وارزل شي. مهرباني وکړئ په دغه متن کلیک او هغه ډونلوډ کړئ، او د لا ښه اماده ګۍ په موخه يې ولولئ.
-                    </a>
-                    <hr />
-                    <a href="~/Official-documents/School Verification CheckList.pdf" style="font-size:20px;">مکتب شما براساس چک لست بررسی خواهد شد. لطفا روی این متن کلک نموده آنرا دانلود و جهت آمادگی مرور فرمایید.</a>
-                    <hr />
-                    <a href="~/Official-documents/School Verification CheckList.pdf" style="font-size:20px;">.Your school will be evaluated based on a checklist. Please click here and download it for your review and preparation accordingly</a>
-                </span>
-            </div>
-               
+                <div class="">
+                    <span class="text-info">
+                        <a href="~/Official-documents/School Verification CheckList.pdf" style="font-size:20px;">
+                           
+                            @localizer["CheckListMessage"]
+                        </a>
+                       
+                    </span>
+                </div>
+
             </div>
         </div>
     </div>

@@ -1,145 +1,169 @@
 ﻿@model OLS.ViewModels.RegistrationStaffViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
 
-    <div class="row page-titles">
-        <div class="col-md-5 col-12 align-self-center">
-            <h3 class="text-themecolor">ایجاد حساب / حساب جوړول / User Creation</h3>
+@{ 
+    var culture = Context.Features.Get<Microsoft.AspNetCore.Localization.IRequestCultureFeature>
+           ().RequestCulture.UICulture.Name;
+}
+   
+        <div class="row page-titles">
+            <div class="col-md-5 col-12 align-self-center">
+                <h3 class="text-themecolor">  @localizer["UserCreation"] </h3>
+            </div>
+
+
         </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
 
+                        <button type="button" class="btn btn-primary" style="background-color:#0193df;" data-toggle="modal"
+                                data-target="#bs-example-modal-lg">
+                            @localizer["UserCreation"]
+                        </button>
+                        <hr />
+                        <!--  Modal content for the above example -->
+                        <div class="modal fade" id="bs-example-modal-lg" tabindex="-1" role="dialog"
+                             aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
 
-    </div>
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-body">
+                                    <div class="modal-body">
+                                        <div class="card card-outline-info">
+                                            <div class="card-header" style="background-color:#0193df;">
+                                                <h4 class="mb-0 text-white">   @localizer["UserCreation"] </h4>
+                                            </div>
 
-                    <button type="button" class="btn btn-primary" style="background-color:#0193df;" data-toggle="modal"
-                            data-target="#bs-example-modal-lg">
-                        ایجاد حساب / حساب جوړول / User Creation
-                    </button>
-                    <hr />
-                    <!--  Modal content for the above example -->
-                    <div class="modal fade" id="bs-example-modal-lg" tabindex="-1" role="dialog"
-                         aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg">
-                            <div class="modal-content">
-
-                                <div class="modal-body">
-                                    <div class="card card-outline-info">
-                                        <div class="card-header" style="background-color:#0193df;">
-                                            <h4 class="mb-0 text-white" >ایجاد حساب / حساب جوړول / User Creation</h4>
-                                        </div>
-
-                                        <form class="form-horizontal form-material" id="loginform" asp-action="RegisterStaff">
-                                            <div class="form-group mt-3">
-                                                <div>
-                                                    <input asp-for="UserName" class="form-control" required="" placeholder="نام کاربر / کارن نوم / User Name">
-                                                    <span asp-validation-for="UserName" class="text-danger"></span>
+                                            <form class="form-horizontal form-material" id="loginform" asp-action="RegisterStaff">
+                                                <div class="form-group mt-3">
+                                                    <div>
+                                                        <input asp-for="UserName" class="form-control" required="" placeholder=" @localizer["UserName"]">
+                                                        <span asp-validation-for="UserName" class="text-danger"></span>
+                                                    </div>
                                                 </div>
-                                            </div>
 
-                                            <div class="form-group ">
-                                                <div>
-                                                    <input asp-for="Email" class="form-control" required="" placeholder="ایمیل / بریښنالیک / Email">
-                                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                                <div class="form-group ">
+                                                    <div>
+                                                        <input asp-for="Email" class="form-control" required="" placeholder="  @localizer["Email"] ">
+                                                        <span asp-validation-for="Email" class="text-danger"></span>
+                                                    </div>
                                                 </div>
-                                            </div>
 
-                                            <div class="form-group ">
-                                                <div>
-                                                    <input asp-for="Password" class="form-control" type="password" required="" placeholder="رمز عبور/ رمز / Password">
-                                                    <span asp-validation-for="Password" class="text-danger"></span>
+                                                <div class="form-group ">
+                                                    <div>
+                                                        <input asp-for="Password" class="form-control" type="password" required="" placeholder=" @localizer["Password"] ">
+                                                        <span asp-validation-for="Password" class="text-danger"></span>
+                                                    </div>
                                                 </div>
-                                            </div>
 
-                                            <div class="form-group ">
-                                                <div>
-                                                    <input asp-for="ConfirmPassword" class="form-control" type="password" placeholder="تایید رمز / د رمز تایید / Password Confirmation">
-                                                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                                                <div class="form-group ">
+                                                    <div>
+                                                        <input asp-for="ConfirmPassword" class="form-control" type="password" placeholder="@localizer["PasswordConfirmation"]">
+                                                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                                                    </div>
                                                 </div>
-                                            </div>
 
-                                            <div class="form-group ">
-                                                <div>
-                                                    <input asp-for="FirstName" class="form-control" placeholder="اسم / نوم / Name">
-                                                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                                                <div class="form-group ">
+                                                    <div>
+                                                        <input asp-for="FirstName" class="form-control" placeholder="@localizer["Name"]">
+                                                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                                                    </div>
                                                 </div>
-                                            </div>
 
-                                            <div class="form-group ">
-                                                <div>
-                                                    <input asp-for="LastName" class="form-control" placeholder=" تخلص / تخلص / Last Name">
-                                                    <span asp-validation-for="LastName" class="text-danger"></span>
+                                                <div class="form-group ">
+                                                    <div>
+                                                        <input asp-for="LastName" class="form-control" placeholder=" @localizer["LastName"]">
+                                                        <span asp-validation-for="LastName" class="text-danger"></span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        
 
 
-                                            <div class="form-group">
-                                                <label for="EducationLevelID">
-                                                    د حساب حالت / حالت حساب / Status
 
-                                                </label>
-                                                <select asp-for="IsActive" class="form-control selectTwo" style="width:100%;">
-                                                    <option selected value="">Select</option>
-                                                    <option value="1">Active</option>
-                                                    <option value="0">In-active</option>
+                                                <div class="form-group">
+                                                    <label for="EducationLevelID">
+                                                        @localizer["Status"]
 
-                                                </select>
-                                                <span asp-validation-for="IsActive" class="text-danger"></span>
-                                            </div>
-                                            <div class="form-group">
+                                                    </label>
+                                                    <select asp-for="IsActive" class="form-control selectTwo" style="width:100%;">
+                                                        <option selected value="">@localizer["Select"]</option>
+                                                        <option value="1">@localizer["Active"]</option>
+                                                        <option value="0">@localizer["InActive"]</option>
 
-                                                <label for="EducationLevelID">
-                                                    درول/ رول / Role:
+                                                    </select>
+                                                    <span asp-validation-for="IsActive" class="text-danger"></span>
+                                                </div>
+                                                <div class="form-group">
 
-                                                </label>
-                                                <select asp-for="RoleId" class="form-control selectTwo" style="width:100%;">
-                                                    <option selected value="">--Select Role--</option>
-                                                    @if (ViewBag.roles != null)
-                                                    {
-                                                        @foreach (var role in ViewBag.roles)
+                                                    <label for="EducationLevelID">
+                                                        @localizer["Role"]
+
+                                                    </label>
+                                                    <select asp-for="RoleId" class="form-control selectTwo" style="width:100%;">
+                                                        <option selected value="">@localizer["Select"]</option>
+                                                        @if (ViewBag.roles != null)
                                                         {
-                                                            <option value="@role.NormalizedName">@role.Name</option>
+                                                            foreach (var role in ViewBag.roles)
+                                                            {
+                                                               <option value="@role.NormalizedName">@role.Name</option>
+                                                               
+                                                             }
                                                         }
 
-                                                    }
+                                                    </select>
+                                                    <span asp-validation-for="RoleId" class="text-danger"></span>
 
-                                                </select>
-                                                <span asp-validation-for="RoleId" class="text-danger"></span>
-
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="PerProvinceId">
-                                                    ولایت/ولایت/Province:
-
-                                                </label>
-                                                <select asp-for="ProvinceId" id="PerProvince" class="form-control selectTwo" style="width:100%;">
-                                                    <option selected value="">--Select--</option>
-                                                    @if (ViewBag.province != null)
-                                                    {
-                                                        foreach (var province in ViewBag.province)
-                                                        {
-                                                            <option value="@province.ProvinceId">@province.ProvNaDar - @province.ProvNaEng</option>
-                                                        }
-                                                    }
-
-                                                </select>
-
-                                                <span asp-validation-for="ProvinceId" class="text-danger"></span>
-                                            </div>
-
-
-                                            <div class="form-group mt-3">
-                                                <div>
-                                                    <button class="btn btn-primary text-uppercase " style="background-color:#0193df;" type="submit">ایجاد حساب / حساب جوړول/ User Creation</button>
                                                 </div>
-                                            </div>
-                                            @if (ViewBag.Message != null)
-                                            {
-                                                //  <div><span class="text-info">@ViewBag.Message</span></div>
-                                                <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-                                                <script src="~/sweetalert/sweetalert.min.js"></script>
-                                                <script type="text/javascript">
+                                                <div class="form-group">
+                                                    <label for="PerProvinceId">
+                                                        @localizer["Province"]
+
+                                                    </label>
+                                                    <select asp-for="ProvinceId" id="PerProvince" class="form-control selectTwo" style="width:100%;">
+                                                        <option selected value="">@localizer["Select"]</option>
+                                                        @if (ViewBag.province != null)
+                                                        {
+                                                                @if (culture == "en")
+                                                                {
+                                                                    foreach (var province in ViewBag.province)
+                                                                    {
+                                                                       <option value="@province.ProvinceId">@province.ProvNaEng</option>
+                                                                 }
+                                                             }
+
+                                                       
+                                                            else
+                                                            {
+
+
+                                                                  foreach (var province in ViewBag.province)
+                                                                     {
+                                                                  <option value="@province.ProvinceId">@province.ProvNaDar</option>}
+                                                                     }
+
+                                                               }
+
+
+                                                        }
+
+
+                                                    </select>
+
+                                                    <span asp-validation-for="ProvinceId" class="text-danger"></span>
+                                                </div>
+
+
+                                                <div class="form-group mt-3">
+                                                    <div>
+                                                        <button class="btn btn-primary text-uppercase " style="background-color:#0193df;" type="submit">  @localizer["UserCreation"]  </button>
+                                                    </div>
+                                                </div>
+                                                @if (ViewBag.Message != null)
+                                                {
+                                                    //  <div><span class="text-info">@ViewBag.Message</span></div>
+                                    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+                                                    <script src="~/sweetalert/sweetalert.min.js"></script>
+                                                                    <script type="text/javascript">
                                                     @*swal({
                                                         "@ViewBag.Message",
                                                         "حساب موفقانه ایجاد گردید / تاسو په بریالیتوب سره یو حساب جوړ کړی",
@@ -147,7 +171,7 @@
                                                         })*@
                                                     swal({
                                                         title: "@ViewBag.Message",
-                                                        text: "حساب موفقانه ایجاد گردید / تاسو په بریالیتوب سره یو حساب جوړ کړ",
+                                                        text: "   @localizer["Text"] ",
                                                         icon: "success",
                                                         button: "OK",
                                                     }).then(okay => {
@@ -155,92 +179,128 @@
                                                             window.location.href = "/Account/RegisterStaff";
                                                         }
                                                     });
-                                                </script>
+                                                                    </script>}
+                                            </form>
 
-                                            }
-                                        </form>
-                                       
+                                        </div>
                                     </div>
+                                </div><!-- /.modal-content -->
+                            </div><!-- /.modal-dialog -->
+                        </div><!-- /.modal -->
+
+
+                        @if (ViewBag.userList != null)
+                        {
+            <div class="table-responsive">
+                <table id="example23"
+                       class="display nowrap table table-hover table-striped table-bordered"
+                       cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th> @localizer["Name"]</th>
+                            <th> @localizer["LastName"]  </th>
+                            <th> @localizer["UserName"] </th>
+                            <th> @localizer["Email"]</th>
+
+                            <th>@localizer["Role"]</th>
+                            <th>@localizer["CurrentStatus"]</th>
+                            <th>
+                                @localizer["PasswordChange"]
+                            </th>
+                            <th>@localizer["Action"]</th>
+
+
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < ViewBag.userList.Count; i++)
+                        {
+                        <tr>
+
+                            <td>
+                                @ViewBag.userList[i].FirstName
+                            </td>
+                            <td>
+                                @ViewBag.userList[i].LastName
+                            </td>
+                            <td>
+                                @ViewBag.userList[i].UserName
+                            </td>
+                            <td>
+                                @ViewBag.userList[i].Email
+                            </td>
+                            <td>
+                                @ViewBag.userList[i].Role
+                            </td>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="@("exampleModal"+i)" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <form method="post" asp-action="ChangeUserStatus">
+                                        <div class="modal-content">
+                                            <div class="modal-header" style="margin:auto">
+                                                <h4 class="modal-title" id="exampleModalLabel" style="text-align:center">تاییدی تغییر حالت کاربر</h4>
+                                                <input type="hidden" name="userId" value="@ViewBag.userList[i].Id"/>
+                                            </div>
+                                            <div class="modal-body" style="text-align:center;margin:auto">
+                                                <h6>
+
+
+                                                    ؟ آیا مطمین هستید که حالت فعلی کاربر را تغییر دهید
+                                                </h6>
+                                            </div>
+                                            <div class="modal-footer" style="text-align:center;margin:auto">
+
+                                                <button type="submit" class="btn " style="background:#0193df;color:white">بلی </button>
+                                                <button type="button" class="btn btn-danger" data-dismiss="modal">نخیر</button>
+                                            </div>
+                                        </div>
+                                    </form>
                                 </div>
-                            </div><!-- /.modal-content -->
-                        </div><!-- /.modal-dialog -->
-                    </div><!-- /.modal -->
+                            </div>
 
 
-                    @if (ViewBag.userList != null)
-                    {
-                        <div class="table-responsive">
-                            <table id="example23"
-                                   class="display nowrap table table-hover table-striped table-bordered"
-                                   cellspacing="0" width="100%">
-                                <thead>
-                                    <tr>
-                                        <th>اسم /نوم/Name</th>
-                                        <th>تخلص /تخلص/Last Name</th>
-                                        <th> نام کاربری /نام کاربری/Username</th>
-                                        <th> ایمیل/ایمیل/Email</th>
-                                        <th>رول/رول/Role</th>
-                                        <th>د حساب اوسنی حالت/حالت حساب/Current Status</th>
-                                        <th>عمل/عمل/Action</th>
+                            <td style="text-align:center">
+                                @if (ViewBag.userList[i].IsActive == 1)
+                                {
+                        <button style="cursor:pointer"  data-toggle="modal" data-target="@("#exampleModal"+i)">
+                            <i class="mdi mdi-check  mdi fc-button-primary" style="color:forestgreen;font-size:18px"></i>
+                        </button>}
+                                @if (ViewBag.userList[i].IsActive == 0)
+                                {
+                        <button style="cursor:pointer"  data-toggle="modal" data-target="@("#exampleModal"+i)">
+                            <i class="mdi mdi-close  mdi fc-button-primary" style="color:red;font-size:18px"></i>
+                        </button>}
+
+                            </td>
+                            <td>
+                                <a href="@Url.Action("ChangePasswordofOtherUsers","Account",new { UserEmail=ViewBag.userList[i].Email})" class="btn btn-primary" style=" background-color:#0193df;">
+                                    <i class="mdi mdi-key  mdi fc-button-primary" style=" background-color:#0193df;"></i>
+                                </a>
+                            </td>
+                            <td class="text-nowrap">
+                                @Html.ActionLink(localizer["Edit"].Value, "EditUserInfo", new { id = ViewBag.userList[i].Id })
+                            </td>
 
 
-
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @for (int i = 0; i < ViewBag.userList.Count; i++)
-                                    {
-                                        <tr>
-
-                                            <td>
-                                                @ViewBag.userList[i].FirstName
-                                            </td>
-                                            <td>
-                                                @ViewBag.userList[i].LastName
-                                            </td>
-                                            <td>
-                                                @ViewBag.userList[i].UserName
-                                            </td>
-                                            <td>
-                                                @ViewBag.userList[i].Email
-                                            </td>
-                                            <td>
-                                                @ViewBag.userList[i].Role
-                                            </td>
-                                            <td>
-                                                @if (ViewBag.userList[i].IsActive == 1)
-                                                {
-                                                    <span>Active</span>
-                                                }
-                                                @if (ViewBag.userList[i].IsActive == 0)
-                                                {
-                                                    <span>In-active</span>
-                                                }
-
-                                            </td>
-                                            <td class="text-nowrap">
-                                                @Html.ActionLink("تصحیح / سمول / Edit", "EditUserInfo", new { id = ViewBag.userList[i].Id })
-                                            </td>
+                        </tr> <!-- Modal -->}
 
 
-                                        </tr>
-                                    }
-
-
-                                </tbody>
-                            </table>
-                        </div>
-                    }
+                    </tbody>
+                </table>
+            </div>}
+                    </div>
                 </div>
             </div>
-    </div>
-</div>
+        </div>
 
-<script>
-    // In your Javascript (external .js resource or <script> tag)
-    $(document).ready(function () {
-        $('.selectTwo').select2({
-            dropdownParent: $('#bs-example-modal-lg')
-        });
-    });
-</script>
+        <script>
+            // In your Javascript (external .js resource or <script> tag)
+            $(document).ready(function () {
+                $('.selectTwo').select2({
+                    dropdownParent: $('#bs-example-modal-lg')
+                });
+            });
+        </script>
+

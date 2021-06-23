@@ -12,22 +12,25 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Localization;
 
 namespace OLS.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "DPERep,DPE,PED,LicenseIssuer")]
     public class DPERepController : Controller
     {
         private ApplicationContext _applicationContext;
         IHostingEnvironment _env;
         private readonly UserManager<User> _userManager;
         private Functions _functions;
+        private readonly IHtmlLocalizer _localizer;
 
-        public DPERepController(ApplicationContext applicationContext, IHostingEnvironment environment, UserManager<User> userManager, Functions functions)
+        public DPERepController(ApplicationContext applicationContext, IHtmlLocalizer<DPERepController> localizer, IHostingEnvironment environment, UserManager<User> userManager, Functions functions)
         {
             _applicationContext = applicationContext;
             _env = environment;
             _userManager = userManager;
+            _localizer = localizer;
             _functions = functions;
         }
         public IActionResult Index()
@@ -102,12 +105,12 @@ namespace OLS.Controllers
                                   select new SchoolDisplayViewModel
                                   {
                                       SchoolId = school.SchoolId,
-                                      SchoolLevel = zSchoolLevel.SchoolLevelNameDari,
+                                      SchoolLevel = zSchoolLevel.SchoolLevelNameDari+"/"+zSchoolLevel.SchoolLevelName,
                                       SchoolName = school.SchoolName,
                                       SchoolEnglishName=school.SchoolEnglishName,
-                                      SchoolGenderType = zSchoolGenderType.SchoolGenderTypeNameDari,
-                                      Province = zProvince.ProvNaDar,
-                                      District = zDistrict.DistNaDar,
+                                      SchoolGenderType = zSchoolGenderType.SchoolGenderTypeNameDari+"/"+zSchoolGenderType.SchoolGenderTypeName,
+                                      Province = zProvince.ProvNaDar+"/"+zProvince.ProvNaEng,
+                                      District = zDistrict.DistNaDar+"/"+zDistrict.DistNaEng,
                                       VillageNahia = partyAddress.Nahia,
                                       OrderNumber = subProcess.OrderNumber,
                                       StatusDate=processProgress.StatusDate,
@@ -135,12 +138,12 @@ namespace OLS.Controllers
                                   select new SchoolDisplayViewModel
                                   {
                                       SchoolId = school.SchoolId,
-                                      SchoolLevel = zSchoolLevel.SchoolLevelNameDari,
+                                      SchoolLevel = zSchoolLevel.SchoolLevelNameDari + "/" + zSchoolLevel.SchoolLevelName,
                                       SchoolName = school.SchoolName,
                                       SchoolEnglishName = school.SchoolEnglishName,
-                                      SchoolGenderType = zSchoolGenderType.SchoolGenderTypeNameDari,
-                                      Province = zProvince.ProvNaDar,
-                                      District = zDistrict.DistNaDar,
+                                      SchoolGenderType = zSchoolGenderType.SchoolGenderTypeNameDari + "/" + zSchoolGenderType.SchoolGenderTypeName,
+                                      Province = zProvince.ProvNaDar + "/" + zProvince.ProvNaEng,
+                                      District = zDistrict.DistNaDar + "/" + zDistrict.DistNaEng,
                                       VillageNahia = partyAddress.Nahia,
                                       OrderNumber = subProcess.OrderNumber,
                                       StatusDate = processProgress.StatusDate,
@@ -180,12 +183,13 @@ namespace OLS.Controllers
                                   select new SchoolDisplayViewModel
                                   {
                                       SchoolId = school.SchoolId,
-                                      SchoolLevel = zSchoolLevel.SchoolLevelNameDari,
+                                      SchoolLevel = zSchoolLevel.SchoolLevelNameDari + "/" + zSchoolLevel.SchoolLevelName,
                                       SchoolName = school.SchoolName,
                                       SchoolEnglishName=school.SchoolEnglishName,
-                                      SchoolGenderType = zSchoolGenderType.SchoolGenderTypeNameDari,
-                                      Province = zProvince.ProvNaDar,
-                                      District = zDistrict.DistNaDar,
+                                      SchoolGenderType = zSchoolGenderType.SchoolGenderTypeNameDari + "/" + zSchoolGenderType.SchoolGenderTypeName,
+
+                                      Province = zProvince.ProvNaDar + "/" + zProvince.ProvNaEng,
+                                      District = zDistrict.DistNaDar + "/" + zDistrict.DistNaEng,
                                       VillageNahia = partyAddress.Nahia,
                                       OrderNumber = subProcess.OrderNumber,
                                       StatusDate = processProgress.StatusDate,
@@ -210,12 +214,12 @@ namespace OLS.Controllers
                                   select new SchoolDisplayViewModel
                                   {
                                       SchoolId = school.SchoolId,
-                                      SchoolLevel = zSchoolLevel.SchoolLevelNameDari,
+                                      SchoolLevel = zSchoolLevel.SchoolLevelNameDari + "/" + zSchoolLevel.SchoolLevelName,
                                       SchoolName = school.SchoolName,
                                       SchoolEnglishName = school.SchoolEnglishName,
-                                      SchoolGenderType = zSchoolGenderType.SchoolGenderTypeNameDari,
-                                      Province = zProvince.ProvNaDar,
-                                      District = zDistrict.DistNaDar,
+                                      SchoolGenderType = zSchoolGenderType.SchoolGenderTypeNameDari + "/" + zSchoolGenderType.SchoolGenderTypeName,
+                                      Province = zProvince.ProvNaDar + "/" + zProvince.ProvNaEng,
+                                      District = zDistrict.DistNaDar + "/" + zDistrict.DistNaEng,
                                       VillageNahia = partyAddress.Nahia,
                                       OrderNumber = subProcess.OrderNumber,
                                       StatusDate = processProgress.StatusDate,
@@ -232,7 +236,7 @@ namespace OLS.Controllers
             if (schoolList.Count == 0)
             {
 
-                ViewBag.Result = "معلومات تازه موجود نیست";
+                ViewBag.Result = _localizer["NoNewInformation"].Value;
 
             }
             ViewBag.CompletionFlag = CompletionFlag;
@@ -450,6 +454,24 @@ namespace OLS.Controllers
             ViewBag.roleid = roleid;
 
             return View(processProgressViewModel);
+        }
+
+
+
+        [Route("LogLicensePrinting")]
+        [HttpPost]
+        public async Task<JsonResult> LogLicensePrinting(string schoolName,Guid SchcoolId,string SchoolLicenseNo)
+        {
+            var licensePrintingLog = new LicensePrintingLog();
+            licensePrintingLog.SchoolName = schoolName;
+            licensePrintingLog.SchoolId = SchcoolId;
+            licensePrintingLog.SchoolLicenseNo = SchoolLicenseNo;
+            licensePrintingLog.PrintedDate = DateTime.Now;
+            licensePrintingLog.PrintedByUserName = _userManager.GetUserName(User);
+            licensePrintingLog.PrintedByUserId = Guid.Parse(_userManager.GetUserId(User));
+            _applicationContext.Add(licensePrintingLog);
+            await _applicationContext.SaveChangesAsync().ConfigureAwait(true);
+            return Json("Yes");
         }
     }
 }

@@ -7,22 +7,30 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using OLS.Models;
+using Microsoft.AspNetCore.Http;
 using OLS.ViewModels;
+using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Mvc.Localization;
 
 namespace OLS.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Applicant")]
     public class SchoolStaffExpensesController : Controller
     {
         private ApplicationContext _applicationContext;
-        IHostingEnvironment _env;
+        IWebHostEnvironment _env;
         private readonly UserManager<User> _userManager;
+        private readonly INotyfService notyfService;
+        private readonly IHtmlLocalizer _localizer;
 
-        public SchoolStaffExpensesController(ApplicationContext applicationContext, IHostingEnvironment environment, UserManager<User> userManager)
+        public SchoolStaffExpensesController(ApplicationContext applicationContext, IWebHostEnvironment environment, IHtmlLocalizer<SchoolStaffExpensesController> localizer, UserManager<User> userManager,
+             INotyfService notyfService)
         {
             _applicationContext = applicationContext;
             _env = environment;
             _userManager = userManager;
+            _localizer = localizer;
+            this.notyfService = notyfService;
         }
         public IActionResult Index()
         {
@@ -34,7 +42,53 @@ namespace OLS.Controllers
         {
             var UserId = _userManager.GetUserId(User);
             var id = _applicationContext.Process.Where(p => p.ProcessId == Guid.Parse("88A9020D-D188-417C-9B11-7FDA9613B197")).Select(p => p.ProcessId).FirstOrDefault();
-            var schoolid = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User)).Select(p => p.SchoolId).FirstOrDefault();
+            var schoolid = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User)).OrderByDescending(p=>p.CreatedAt).Select(p => p.SchoolId).FirstOrDefault();
+
+
+
+            //New Changes
+
+            var result = _applicationContext.ProcessProgress.Where(p => p.SchoolId == schoolid && p.SubProcessId == Guid.Parse("E592365F-2FB6-4B0F-9C5E-01277BE052F0")).FirstOrDefault();
+            var re_schoolid = schoolid;
+
+
+            var sch_id = HttpContext.Session.GetString("mySchoolId");
+            if (sch_id != null)
+            {
+                schoolid = Guid.Parse(sch_id);
+            }
+
+            var newSchool = HttpContext.Session.GetString("new");
+            if (newSchool != null)
+            {
+                schoolid = Guid.NewGuid();
+            }
+
+            var myschoolid = HttpContext.Session.GetString("SchoolID");
+
+            if (myschoolid != null)
+            {
+                schoolid = Guid.Parse(myschoolid);
+            }
+
+            if (myschoolid == null && sch_id == null)
+            {
+                schoolid = Guid.NewGuid();
+            }
+
+
+            if (result == null)
+            {
+                schoolid = re_schoolid;
+            }
+
+
+
+
+
+
+
+
             var displayPlan = (from process in _applicationContext.Process
                                join subProcess in _applicationContext.SubProcess on process.ProcessId equals subProcess.ProcessId into processgroup
                                from a in processgroup.DefaultIfEmpty()
@@ -63,7 +117,7 @@ namespace OLS.Controllers
                                    StatusDate = b.StatusDate,
 
                                }).OrderBy(p => p.OrderNumber).ToList();
-            var staffExpensesPan = _applicationContext.SchoolStaffExpenses.Where(p => p.CreatedBy == UserId);
+            var staffExpensesPan = _applicationContext.SchoolStaffExpenses.Where(p => p.CreatedBy == UserId && p.SchoolId==schoolid);
             if (staffExpensesPan.Count() != 0)
             {
                 if (displayPlan.Count > 0)
@@ -134,15 +188,52 @@ namespace OLS.Controllers
                 }
                 _applicationContext.UpdateRange(Plans);
                 _applicationContext.SaveChanges();
-                ViewBag.Message = "Successful";
+                notyfService.Custom(_localizer["SchoolStaffExpensesUpdated"].Value, 10, "#67757c", "fa fa-check");
+              
                 return RedirectToAction("Edit");
             }
             return RedirectToAction("Edit");
         }
         public IActionResult Edit()
         {
-            var schoolId = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User)).Select(p => p.SchoolId).FirstOrDefault();
-            
+            var schoolId = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User)).OrderByDescending(p=>p.CreatedAt).Select(p => p.SchoolId).FirstOrDefault();
+
+
+            //New Changes
+
+
+            var result = _applicationContext.ProcessProgress.Where(p => p.SchoolId == schoolId && p.SubProcessId == Guid.Parse("E592365F-2FB6-4B0F-9C5E-01277BE052F0")).FirstOrDefault();
+            var re_schoolid = schoolId;
+
+
+            var sch_id = HttpContext.Session.GetString("mySchoolId");
+            if (sch_id != null)
+            {
+                schoolId = Guid.Parse(sch_id);
+            }
+
+            var newSchool = HttpContext.Session.GetString("new");
+            if (newSchool != null)
+            {
+                schoolId = Guid.NewGuid();
+            }
+
+            var myschoolid = HttpContext.Session.GetString("SchoolID");
+
+            if (myschoolid != null)
+            {
+                schoolId = Guid.Parse(myschoolid);
+            }
+
+            //if (result == null)
+            //{
+            //    schoolId = re_schoolid;
+            //}
+
+
+
+
+
             var displayPlan = (from zEducationalRole in _applicationContext.ZEducationalRole
                                join zPartyRoleType in _applicationContext.ZPartyRoleType on zEducationalRole.PartyRoleTypeId equals zPartyRoleType.PartyRoleTypeId
                                join schoolStaffExpenses in _applicationContext.SchoolStaffExpenses on zPartyRoleType.PartyRoleTypeId equals schoolStaffExpenses.PartyRoleTypeId
@@ -158,6 +249,9 @@ namespace OLS.Controllers
                                }).ToList();
 
 
+            HttpContext.Session.SetString("SchoolStaffExpenses", "Create");
+
+
             return View(displayPlan);
         }
 
@@ -166,6 +260,47 @@ namespace OLS.Controllers
         public IActionResult NoEditSSEC()
         {
             var schoolId = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User)).Select(p => p.SchoolId).FirstOrDefault();
+
+
+
+
+
+            
+
+
+
+            var sch_id = HttpContext.Session.GetString("mySchoolId");
+            if (sch_id != null)
+            {
+                schoolId = Guid.Parse(sch_id);
+            }
+
+            var newSchool = HttpContext.Session.GetString("new");
+            if (newSchool != null)
+            {
+                schoolId = Guid.NewGuid();
+            }
+
+            var myschoolid = HttpContext.Session.GetString("SchoolID");
+
+            if (myschoolid != null)
+            {
+                schoolId = Guid.Parse(myschoolid);
+            }
+
+
+           
+
+           
+
+      
+
+
+
+
+
+
+
 
             var displayPlan = (from zEducationalRole in _applicationContext.ZEducationalRole
                                join zPartyRoleType in _applicationContext.ZPartyRoleType on zEducationalRole.PartyRoleTypeId equals zPartyRoleType.PartyRoleTypeId
@@ -186,6 +321,28 @@ namespace OLS.Controllers
         }
         public IActionResult Create()
         {
+
+
+
+            var sch_id = HttpContext.Session.GetString("mySchoolId");
+
+
+
+
+            var myschoolid = HttpContext.Session.GetString("SchoolID");
+
+            if (myschoolid == null)
+            {
+                return RedirectToAction("Navigate", "School");
+            }
+            var schoolFinancialPlan = HttpContext.Session.GetString("SchoolFinancialPlan");
+            var shcoolFinancialPlanBussinessType = HttpContext.Session.GetString("SchoolBusinessTypeID");
+            if (schoolFinancialPlan == null && shcoolFinancialPlanBussinessType =="7e743fd4-78c6-4ff5-aec3-4c9f78f8f41a")
+            {
+                return RedirectToAction("Navigate", "SchoolFinancialPlan");
+            }
+
+
             var displayPlan = (from zEducationalRole in _applicationContext.ZEducationalRole
                                join zPartyRoleType in _applicationContext.ZPartyRoleType on zEducationalRole.PartyRoleTypeId equals zPartyRoleType.PartyRoleTypeId
                               
@@ -213,7 +370,39 @@ namespace OLS.Controllers
         [HttpPost]
         public IActionResult Create(IList<SchoolStaffExpensesViewModel> staffExpensesViewModels)
         {
-            var schoolid = _applicationContext.SchoolStaffExpenses.Where(p => p.CreatedBy == _userManager.GetUserId(User)).Select(p => p.SchoolId).FirstOrDefault();
+            var schoolid = _applicationContext.SchoolStaffExpenses.Where(p => p.CreatedBy == _userManager.GetUserId(User)).OrderByDescending(p=>p.CreatedAt).Select(p => p.SchoolId).FirstOrDefault();
+
+
+
+            var result = _applicationContext.ProcessProgress.Where(p => p.SchoolId == schoolid && p.SubProcessId == Guid.Parse("E592365F-2FB6-4B0F-9C5E-01277BE052F0")).FirstOrDefault();
+            var re_schoolid = schoolid;
+
+
+            var sch_id = HttpContext.Session.GetString("mySchoolId");
+            if (sch_id != null)
+            {
+                schoolid = Guid.Parse(sch_id);
+            }
+
+            var newSchool = HttpContext.Session.GetString("new");
+            if (newSchool != null)
+            {
+                schoolid = Guid.NewGuid();
+            }
+
+            var myschoolid = HttpContext.Session.GetString("SchoolID");
+
+            if (myschoolid != null)
+            {
+                schoolid = Guid.Parse(myschoolid);
+            }
+
+            //if (result == null)
+            //{
+            //    schoolid = re_schoolid;
+            //}
+
+
 
             var displayPlan = (from zEducationalRole in _applicationContext.ZEducationalRole
                                join zPartyRoleType in _applicationContext.ZPartyRoleType on zEducationalRole.PartyRoleTypeId equals zPartyRoleType.PartyRoleTypeId
@@ -245,7 +434,7 @@ namespace OLS.Controllers
                     SchoolStaffExpenses plan = new SchoolStaffExpenses
                     {
                         Id = Guid.NewGuid(),
-                        SchoolId = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User)).Select(p => p.SchoolId).FirstOrDefault(),
+                        SchoolId = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User) && p.SchoolId==schoolid).Select(p => p.SchoolId).FirstOrDefault(),
 
                         PartyRoleTypeId = staffExpensesViewModels[i].PartyRoleTypeId,
                         Salary = staffExpensesViewModels[i].Salary,
@@ -257,10 +446,11 @@ namespace OLS.Controllers
                 }
                 _applicationContext.AddRange(plans);
                 _applicationContext.SaveChanges();
-
-                ViewBag.Message = "Successful";
-
-                return RedirectToAction("Edit");
+                notyfService.Custom(_localizer["SchoolStaffExpensesCreated"].Value, 10, "#67757c", "fa fa-check");
+             
+                HttpContext.Session.SetString("SchoolStaffExpenses", "Create");
+                // return RedirectToAction("Edit");
+                return RedirectToAction("Navigate", "SchoolOtherExpenses");
             }
             else {
 

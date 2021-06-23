@@ -19,6 +19,11 @@ namespace OLS.Models
         public int? TimelineInDays { get; set; }
         public string RoleId { get; set; }
 
+        public DateTime? CreatedAt { get; set; }
+        public string? CreatedBy { get; set; }
+        public DateTime? UpdatedAt { get; set; }
+        public string? UpdatedBy { get; set; }
+
         public virtual Process Process { get; set; }
         public virtual ICollection<ProcessProgress> ProcessProgress { get; set; }
         public virtual ICollection<SubProcessStatus> SubProcessStatus { get; set; }

@@ -1,8 +1,10 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @inject UserManager<User> UserManager
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
 @{
     var username = UserManager.GetUserName(User);
     var user = UserManager.Users.Where(p => p.UserName == username).FirstOrDefault();
+    var culture = Context.Features.Get<Microsoft.AspNetCore.Localization.IRequestCultureFeature>().RequestCulture.UICulture.Name;
 
 }
 <!DOCTYPE html>
@@ -26,9 +28,24 @@
     <link href="~/assets/Select2/select2.min.css" rel="stylesheet" />
     <!-- Custom CSS -->
     <link href="~/assets/plugins/icheck/skins/all.css" rel="stylesheet">
-    <link href="~/app-assets/css/style.css" rel="stylesheet">
+
+    @if (culture == "en")
+    {
+
+         <link href="~/app-assets/css/ltr-style.css" rel="stylesheet" />
+    }
+    else
+    {
+        <link href="~/app-assets/css/style.css" rel="stylesheet">
+
+    }
+
+
+
     <!-- You can change the theme colors from here -->
     <link href="~/app-assets/css/colors/blue.css" id="theme" rel="stylesheet">
+
+
 
 
     <script src="~/jquery-3.4.1.js"></script>
@@ -42,6 +59,9 @@
         gtag('config', 'UA-176415992-1');
     </script>
     <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+
 
 </head>
 
@@ -94,7 +114,7 @@
                     <!-- Header Text -->
                     <ul class="navbar-nav mr-auto mt-md-0 ">
                         <li>
-                            <h6 style="color:white;" class="font-weight-bold">سیستم آنلاین برای دریافت جواز مکتب خصوصی / د خصوصي ښوونځي د جواز ترلاسه کولو انلاین سیستم / Online System for Obtaining the License of a Private School</h6>
+                            <h6 style="color:white;" class="font-weight-bold">@localizer["LayoutTitle"] </h6>
                         </li>
                     </ul>
 
@@ -107,8 +127,10 @@
                                 <img src="~/assets/images/users/person.png" alt="user" class="profile-pic" />
                             </a>
                             <div class="dropdown-menu dropdown-menu-right scale-up">
+
                                 @if (User.Identity.IsAuthenticated)
                                 {
+                                    
                                     <ul class="dropdown-user">
                                         <li>
                                             <div class="dw-user-box">
@@ -121,14 +143,14 @@
                                             </div>
                                         </li>
                                         <li role="separator" class="divider"></li>
-                                        <li><a href="#"><i class="ti-user"></i> My Profile</a></li>
+                                        <li><a href="#"><i class="ti-user"></i> @localizer["MyProfile"]  </a></li>
                                         @*<li><a href="#"><i class="ti-wallet"></i> My Balance</a></li>
-                            <li><a href="#"><i class="ti-email"></i> Inbox</a></li>*@
+                <li><a href="#"><i class="ti-email"></i> Inbox</a></li>*@
                                         <li role="separator" class="divider"></li>
-                                        <li><a href="@Url.Action("ChangePassword","Account")"><i></i>Change Password</a></li>
+                                        <li><a href="@Url.Action("ChangePassword","Account")"><i></i>@localizer["ChangePassword"]  </a></li>
                                         <li role="separator" class="divider"></li>
 
-                                        <li><a href="@Url.Action("Logout","Account")"><i class="fa fa-power-off"></i> Logout</a></li>
+                                        <li><a href="@Url.Action("Logout","Account")"><i class="fa fa-power-off"></i> @localizer["Logout"] </a></li>
 
                                     </ul>
                                 }
@@ -146,13 +168,20 @@
         <!-- ============================================================== -->
         <!-- End Topbar header -->
         <!-- ============================================================== -->
-
         <!-- ============================================================== -->
         <!-- Left Sidebar - style you can find in sidebar.scss  -->
         <!-- ============================================================== -->
         <aside class="left-sidebar">
             <!-- Sidebar scroll-->
+            
             <div class="scroll-sidebar">
+               
+                <div class="row">
+                    <div class="col-md-12" style="margin:10px;">
+                        <partial name="_LanguageChange" />
+
+                    </div>
+                </div>
                 <!-- User profile -->
                 <div class="user-profile" style="background: url(~/assets/images/background/user-info.jpg) no-repeat;">
                     <!-- User profile image -->
@@ -177,12 +206,15 @@
                         @if (User.IsInRole("Applicant"))
                         {
 
-                            <li>
-                                <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">مینو درخواست کننده </span></a>
-                                <ul aria-expanded="false" class="collapse">
-                                    <li><a href="@Url.Action("Navigate","founder")">معلومات درخواستی  </a></li>
-                                    <li><a href="@Url.Action("getprocess","process")">تعقیب درخواستی</a></li>
-                                    <li><a href="@Url.Action("NavigateDoc","School")">تسلیمی اسناد</a></li>
+                            <li class="active">
+                                <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="true"><i class="mdi mdi-gauge"></i><span class="hide-menu">@localizer["MenuApplicant"]</span></a>
+                                <ul aria-expanded="true">
+
+                                    <li><a href="@Url.Action("Navigate","founder",new { newSchool="new"})"> @localizer["ApplicationCreation"]  </a></li>
+                                    <li><a href="@Url.Action("PreviousApplications","Process")"> @localizer["PreviousApplications"]</a></li>
+                                    @*<li><a href="@Url.Action("getprocess","process")">تعقیب درخواستی ها</a></li>*@
+
+
                                 </ul>
                             </li>
                         }
@@ -190,58 +222,58 @@
                         @if (User.IsInRole("DPERep"))
                         {
                             <li>
-                                <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">نماینده ریاست تعلیمات خصوصی </span></a>
+                                <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">  @localizer["RepresentativeOfPrivateEducation"]</span></a>
                                 <ul aria-expanded="false" class="collapse">
-                                    <li><a href="@Url.Action("index","DPERep")">داشبورد عمومی</a></li>
+                                    <li><a href="@Url.Action("index","DPERep")">  @localizer["GeneralDashboard"]  </a></li>
                                     @*  <li><a href="@Url.Action("getprocess","process")">پروسه لایسن/عمر/Ageس</a></li>*@
                                 </ul>
                             </li>
 
                             @*<li>
-                                <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">راپورها </span></a>
-                                <ul aria-expanded="false" class="collapse">
-                                    <li><a href="@Url.Action("SchoolListWithLicense","Reports")">لست مکاتب باجواز</a></li>
-                                    <li><a href="@Url.Action("SchoolListAll","Reports")">لست عمومی</a></li>
-                                        <li><a href="@Url.Action("FigureReport","Reports")"> ارقام</a></li>
-                                </ul>
-                            </li>*@
+                        <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">راپورها </span></a>
+                        <ul aria-expanded="false" class="collapse">
+                            <li><a href="@Url.Action("SchoolListWithLicense","Reports")">لست مکاتب باجواز</a></li>
+                            <li><a href="@Url.Action("SchoolListAll","Reports")">لست عمومی</a></li>
+                                <li><a href="@Url.Action("FigureReport","Reports")"> ارقام</a></li>
+                        </ul>
+                    </li>*@
 
                         }
                         @if (User.IsInRole("PED"))
                         {
                             <li>
-                                <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">نماینده معارف ولایت </span></a>
+                                <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">     @localizer["ProvincialEducationRepresentative"]</span></a>
                                 <ul aria-expanded="false" class="collapse">
-                                    <li><a href="@Url.Action("index","DPERep")">داشبورد عمومی</a></li>
+                                    <li><a href="@Url.Action("index","DPERep")">  @localizer["GeneralDashboard"] </a></li>
                                     @* <li><a href="@Url.Action("getprocess","process")">پروسه لایسن/عمر/Ageس</a></li>*@
                                 </ul>
                             </li>
 
                             @*<li>
-                                <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">راپورها </span></a>
-                                <ul aria-expanded="false" class="collapse">
+                        <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">راپورها </span></a>
+                        <ul aria-expanded="false" class="collapse">
 
-                                    <li><a href="@Url.Action("SchoolListWithLicense","Reports")">لست مکاتب باجواز</a></li>
-                                    <li><a href="@url.action("schoollistall","reports")">لست عمومی</a></li>
-                                        <li><a href="@url.action("figurereport","reports")"> ارقام</a></li
-                                </ul>
-                            </li>*@
+                            <li><a href="@Url.Action("SchoolListWithLicense","Reports")">لست مکاتب باجواز</a></li>
+                            <li><a href="@url.action("schoollistall","reports")">لست عمومی</a></li>
+                                <li><a href="@url.action("figurereport","reports")"> ارقام</a></li
+                        </ul>
+                    </li>*@
 
                         }
                         @if (User.IsInRole("DPE"))
                         {
                             <li>
-                                <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">ریاست تعلیمات خصوصی </span></a>
+                                <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">   @localizer["DirectorateOfPrivateEducation"] </span></a>
                                 <ul aria-expanded="false" class="collapse">
-                                    <li><a href="@Url.Action("index","DPERep")">داشبورد عمومی</a></li>
+                                    <li><a href="@Url.Action("index","DPERep")"> @localizer["GeneralDashboard"]</a></li>
                                     @* <li><a href="@Url.Action("getprocess","process")">پروسه لایسن/عمر/Ageس</a></li>*@
                                 </ul>
                             </li>
 
                             <li>
-                                <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">راپورها </span></a>
+                                <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu"> @localizer["Reports"] </span></a>
                                 <ul aria-expanded="false" class="collapse">
-                                    <li><a href="@Url.Action("AllReports","Reports")">راپور عموی</a></li>
+                                    <li><a href="@Url.Action("AllReports","Reports")">  @localizer["GeneralReport"] </a></li>
                                     @*<li><a href="@Url.Action("SchoolListWithLicense","Reports")">لست مکاتب باجواز</a></li>*@
                                     @*<li><a href="@Url.Action("SchoolListAll","Reports")">لست عمومی</a></li>*@
                                     @*<li><a href="@Url.Action("FigureReport","Reports")"> ارقام</a></li>*@
@@ -252,20 +284,20 @@
                         @if (User.IsInRole("Admin"))
                         {
                             <li>
-                                <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">مینوی ادمین </span></a>
+                                <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu"> @localizer["AdminMenu"] </span></a>
                                 <ul aria-expanded="false" class="collapse">
-                                    <li><a href="@Url.Action("RegisterStaff","Account")">اداره کاربران</a></li>
+                                    <li><a href="@Url.Action("RegisterStaff","Account")">  @localizer["UserManagement"]</a></li>
                                 </ul>
                             </li>
 
                             @*<li>
-                                <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">راپورها </span></a>
-                                <ul aria-expanded="false" class="collapse">
-                                    <li><a href="@Url.Action("SchoolListWithLicense","Reports")">لست مکاتب باجواز</a></li>
-                                    <li><a href="@Url.Action("SchoolListAll","Reports")">لست عمومی</a></li>
-                                    <li><a href="@Url.Action("FigureReport","Reports")"> ارقام</a></li>
-                                </ul>
-                            </li>*@
+                        <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">راپورها </span></a>
+                        <ul aria-expanded="false" class="collapse">
+                            <li><a href="@Url.Action("SchoolListWithLicense","Reports")">لست مکاتب باجواز</a></li>
+                            <li><a href="@Url.Action("SchoolListAll","Reports")">لست عمومی</a></li>
+                            <li><a href="@Url.Action("FigureReport","Reports")"> ارقام</a></li>
+                        </ul>
+                    </li>*@
 
                         }
 
@@ -277,7 +309,7 @@
             <!-- Bottom points-->
             <div class="sidebar-footer">
                 @*item<a href="#" class="link" data-toggle="tooltip" title="Settings"><i class="ti-settings"></i></a>
-                    item<a href="#" class="link" data-toggle="tooltip" title="Email"><i class="mdi mdi-gmail"></i></a>*@
+            item<a href="#" class="link" data-toggle="tooltip" title="Email"><i class="mdi mdi-gmail"></i></a>*@
                 @if (User.Identity.IsAuthenticated)
                 {
                     <!-- item--><a href="@Url.Action("Logout","Account")" class="link" data-toggle="tooltip" title="Logout"><i class="mdi mdi-power center"></i></a>
@@ -431,7 +463,8 @@
 
     <!-- start - This is for Select 2  -->
     <script src="~/assets/Select2/select2.min.js"></script>
-    <!-- end - This is  for Select 2  -->
+    <!-- end - This is  toaster notification  -->
+    @await Component.InvokeAsync("Notyf")
     <script>
         $(function () {
             $('#myTable').DataTable();

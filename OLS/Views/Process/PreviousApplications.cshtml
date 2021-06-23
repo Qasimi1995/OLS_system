@@ -1,0 +1,85 @@
+﻿@model IList<OLS.ViewModels.PreviousApplicationViewModel>
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@{
+    ViewData["Title"] = "View";
+    var culture = Context.Features.Get<Microsoft.AspNetCore.Localization.IRequestCultureFeature>().RequestCulture.UICulture.Name;
+
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <section>
+                    <h2 class="text-themecolor text-center shadow-lg p-3 mb-5 bg-white rounded">
+                       @localizer["AllPreviousApplications"]
+                    </h2>
+
+
+
+
+                    @if (Model != null)
+                    {
+
+                        @foreach (var school in @Model)
+                        {
+
+
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+
+                                        <div class="col-md-4">
+
+                                            <a href="@Url.Action("Navigate","founder",new { mySchoolId=school.SchoolId})" style="background:white">
+                                                @if (culture == "en")
+                                                {
+                                                    <h4>@school.SchoolEnglishName</h4>
+                                                }
+                                                else
+                                                {
+                                                    <h4>@school.SchoolName</h4>
+                                                }
+
+
+
+                                            </a>
+                                            <h6>@localizer["ApplicationStartDate"] : @school.ApplicationDate.ToString("dd-MM-yyy")</h6>
+
+                                        </div>
+
+
+
+                                        <div class="col-md-4">
+
+
+
+                                            <a href="@Url.Action("GetProcess","Process",new  { schoolid= school.SchoolId})" class="btn btn-success" style="margin:auto;text-align:center">   @localizer["ApplicationTrack"] </a>
+
+
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <a href="@Url.Action("NavigateDoc","School",new { SchID=school.SchoolId })" class="btn btn-primary"> @localizer["DocumentsViewAndSubmit"]  </a>
+
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+                        }
+
+
+
+                    }
+
+
+
+
+                </section>
+            </div>
+        </div>
+    </div>
+</div>

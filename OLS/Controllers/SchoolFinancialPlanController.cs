@@ -8,23 +8,31 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OLS.Models;
+using Microsoft.AspNetCore.Http;
 using OLS.ViewModels;
 using Org.BouncyCastle.Math.EC.Rfc7748;
+using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Mvc.Localization;
 
 namespace OLS.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Applicant")]
     public class SchoolFinancialPlanController : Controller
     {
         private ApplicationContext _applicationContext;
-        IHostingEnvironment _env;
+        IWebHostEnvironment _env;
         private readonly UserManager<User> _userManager;
+        private readonly INotyfService notyfService;
+        private readonly IHtmlLocalizer _localizer;
 
-        public SchoolFinancialPlanController(ApplicationContext applicationContext, IHostingEnvironment environment, UserManager<User> userManager)
+        public SchoolFinancialPlanController(ApplicationContext applicationContext, IHtmlLocalizer<SchoolFinancialPlanController> localizer, IWebHostEnvironment environment, UserManager<User> userManager,
+           INotyfService notyfService)
         {
             _applicationContext = applicationContext;
             _env = environment;
             _userManager = userManager;
+            this.notyfService = notyfService;
+            _localizer = localizer;
         }
         public IActionResult Index()
         {
@@ -36,7 +44,48 @@ namespace OLS.Controllers
         {
             var UserId = _userManager.GetUserId(User);
             var id = _applicationContext.Process.Where(p => p.ProcessId == Guid.Parse("88A9020D-D188-417C-9B11-7FDA9613B197")).Select(p => p.ProcessId).FirstOrDefault();
-            var schoolid = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User)).Select(p => p.SchoolId).FirstOrDefault();
+            var schoolid = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User)).OrderByDescending(p=>p.CreatedAt).Select(p => p.SchoolId).FirstOrDefault();
+
+
+            //New Changes
+
+
+            var result = _applicationContext.ProcessProgress.Where(p => p.SchoolId == schoolid && p.SubProcessId == Guid.Parse("E592365F-2FB6-4B0F-9C5E-01277BE052F0")).FirstOrDefault();
+            var re_schoolid = schoolid;
+
+            var sch_id = HttpContext.Session.GetString("mySchoolId");
+            if (sch_id != null)
+            {
+                schoolid = Guid.Parse(sch_id);
+            }
+
+            var newSchool = HttpContext.Session.GetString("new");
+            if (newSchool != null)
+            {
+                schoolid = Guid.NewGuid();
+            }
+
+            var myschoolid = HttpContext.Session.GetString("SchoolID");
+
+            if (myschoolid != null)
+            {
+                schoolid = Guid.Parse(myschoolid);
+            }
+
+            if (myschoolid == null && sch_id == null)
+            {
+                schoolid = Guid.NewGuid();
+            }
+
+            if (result == null)
+            {
+                schoolid = re_schoolid;
+            }
+
+
+
+
+
             var displayPlan = (from process in _applicationContext.Process
                                join subProcess in _applicationContext.SubProcess on process.ProcessId equals subProcess.ProcessId into processgroup
                                from a in processgroup.DefaultIfEmpty()
@@ -65,7 +114,7 @@ namespace OLS.Controllers
                                    StatusDate = b.StatusDate,
 
                                }).OrderBy(p => p.OrderNumber).ToList();
-            var studentEnrollmentPlan = _applicationContext.SchoolFinancialPlan.Where(p => p.CreatedBy == UserId);
+            var studentEnrollmentPlan = _applicationContext.SchoolFinancialPlan.Where(p => p.CreatedBy == UserId && p.SchoolId==schoolid);
             if (studentEnrollmentPlan.Count() != 0)
             {
                 if (displayPlan.Count > 0)
@@ -135,24 +184,58 @@ namespace OLS.Controllers
             for (int i = 0; i < schoolFinancialPlans.Count; i++)
             {
                 SchoolFinancialPlan plan = _applicationContext.SchoolFinancialPlan.Find(schoolFinancialPlans[i].Id);
-                plan.FeeAmount = schoolFinancialPlans[i].FeeAmount;
-                plan.NfreeStudents = schoolFinancialPlans[i].NfreeStudents;
-                plan.NpaidStudents = schoolFinancialPlans[i].NpaidStudents;
-                plan.AdmissionFee = schoolFinancialPlans[i].AdmissionFee;
+                plan.FeeAmount = schoolFinancialPlans[i].FeeAmount??0;
+                plan.NfreeStudents = schoolFinancialPlans[i].NfreeStudents??0;
+                plan.NpaidStudents = schoolFinancialPlans[i].NpaidStudents??0;
+                plan.AdmissionFee = schoolFinancialPlans[i].AdmissionFee??0;
                 plan.UpdatedBy = _userManager.GetUserId(User);
                 plan.UpdatedAt = DateTime.Now;
                 Plans.Add(plan);
             }
             _applicationContext.UpdateRange(Plans);
             _applicationContext.SaveChanges();
-
+            notyfService.Custom(_localizer["SchoolFinancialPlanUpdated"].Value, 10, "#67757c", "fa fa-check");
             return RedirectToAction("Edit");
 
 
         }
         public IActionResult Edit()
         {
-            var schoolId = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User)).Select(p => p.SchoolId).FirstOrDefault();
+            var schoolId = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User)).OrderByDescending(p=>p.CreatedAt).Select(p => p.SchoolId).FirstOrDefault();
+
+
+            //New Changes
+
+            var result = _applicationContext.ProcessProgress.Where(p => p.SchoolId == schoolId && p.SubProcessId == Guid.Parse("E592365F-2FB6-4B0F-9C5E-01277BE052F0")).FirstOrDefault();
+            var re_schoolid = schoolId;
+
+
+            var sch_id = HttpContext.Session.GetString("mySchoolId");
+            if (sch_id != null)
+            {
+                schoolId = Guid.Parse(sch_id);
+            }
+
+            var newSchool = HttpContext.Session.GetString("new");
+            if (newSchool != null)
+            {
+                schoolId = Guid.NewGuid();
+            }
+
+            var myschoolid = HttpContext.Session.GetString("SchoolID");
+
+            if (myschoolid != null)
+            {
+                schoolId = Guid.Parse(myschoolid);
+            }
+
+            if (result == null)
+            {
+                schoolId = re_schoolid;
+            }
+
+
+
 
 
             var displayPlan = (from schoolFinancialPlan in _applicationContext.SchoolFinancialPlan
@@ -174,6 +257,10 @@ namespace OLS.Controllers
             ViewBag.Tax = String.Format("{0:0.00}", _applicationContext.SchoolFinancialPlan.Where(p => p.SchoolId == schoolId).Select(p => (p.NpaidStudents * p.FeeAmount * p.AdmissionFee) * 0.1m).Sum());
 
 
+            var schoolBussinessType = _applicationContext.SchoolFinancialResource.Include(a => a.SchoolBussinessType).Where(a => a.SchoolId == displayPlan.ElementAt(0).SchoolId).Select(a => a.SchoolBussinessType).FirstOrDefault();
+
+            HttpContext.Session.SetString("SchoolFinancialPlan", schoolBussinessType.BussinessTypeName);
+
             return View(displayPlan);
         }
 
@@ -181,7 +268,46 @@ namespace OLS.Controllers
         [Route("NoEditSFPC")]
         public IActionResult NoEditSFPC()
         {
-            var schoolId = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User)).Select(p => p.SchoolId).FirstOrDefault();
+            var schoolId = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User)).OrderByDescending(p=>p.CreatedAt).Select(p => p.SchoolId).FirstOrDefault();
+
+
+
+
+
+
+            //New Changes
+
+            var result = _applicationContext.ProcessProgress.Where(p => p.SchoolId == schoolId && p.SubProcessId == Guid.Parse("E592365F-2FB6-4B0F-9C5E-01277BE052F0")).FirstOrDefault();
+            var re_schoolid = schoolId;
+
+
+
+            var sch_id = HttpContext.Session.GetString("mySchoolId");
+            if (sch_id != null)
+            {
+                schoolId = Guid.Parse(sch_id);
+            }
+
+            var newSchool = HttpContext.Session.GetString("new");
+            if (newSchool != null)
+            {
+                schoolId = Guid.NewGuid();
+            }
+
+            var myschoolid = HttpContext.Session.GetString("SchoolID");
+
+            if (myschoolid != null)
+            {
+                schoolId = Guid.Parse(myschoolid);
+            }
+
+
+            if (result == null)
+            {
+                schoolId = re_schoolid;
+            }
+
+
 
 
             var displayPlan = (from schoolFinancialPlan in _applicationContext.SchoolFinancialPlan
@@ -208,8 +334,62 @@ namespace OLS.Controllers
 
         public IActionResult Create()
         {
-            var schoolLevelid = _applicationContext.School.Where(p => p.CreatedBy==_userManager.GetUserId(User)).Select(p => p.SchoolLevelId).FirstOrDefault();
-             var schoolId = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User)).Select(p => p.SchoolId).FirstOrDefault();
+
+
+
+
+
+            //New Changes
+            var schoolId = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User)).OrderByDescending(p=>p.CreatedAt).Select(p => p.SchoolId).FirstOrDefault();
+
+
+
+            var result = _applicationContext.ProcessProgress.Where(p => p.SchoolId == schoolId && p.SubProcessId == Guid.Parse("E592365F-2FB6-4B0F-9C5E-01277BE052F0")).FirstOrDefault();
+            var re_schoolid = schoolId;
+
+
+
+            var sch_id = HttpContext.Session.GetString("mySchoolId");
+            if (sch_id != null)
+            {
+                schoolId = Guid.Parse(sch_id);
+            }
+
+            var newSchool = HttpContext.Session.GetString("new");
+            if (newSchool != null)
+            {
+                schoolId = Guid.NewGuid();
+            }
+
+            var myschoolid = HttpContext.Session.GetString("SchoolID");
+
+            if (myschoolid != null)
+            {
+                schoolId = Guid.Parse(myschoolid);
+            }
+
+            if (result == null)
+            {
+                schoolId = re_schoolid;
+            }
+
+
+            if (myschoolid == null)
+            {
+                return RedirectToAction("Navigate", "School");
+            }
+            var enrollmentPlanNextY = HttpContext.Session.GetString("EnrollmentPlanNextY");
+            if (enrollmentPlanNextY == null)
+            {
+                return RedirectToAction("NavigateNextY", "EnrollmentPlan");
+            }
+
+
+
+
+
+            var schoolLevelid = _applicationContext.School.Where(p => p.CreatedBy==_userManager.GetUserId(User) && p.SchoolId==schoolId).Select(p => p.SchoolLevelId).FirstOrDefault();
+            
 
             var displayPlan = (from schoolLevel in _applicationContext.ZSchoolLevel
                                                   join schooLevelSubLevel in _applicationContext.ZSchoolLevelSubLevel on schoolLevel.SchoolLevelId equals schooLevelSubLevel.SchoolLevelId
@@ -242,11 +422,47 @@ namespace OLS.Controllers
         [HttpPost]
         public IActionResult Create(IList<SchoolFinancialPlanViewModel> schoolFinancialPlans)
         {
+
+            //New Changes
+            var schoolId = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User)).OrderByDescending(p => p.CreatedAt).Select(p => p.SchoolId).FirstOrDefault();
+
+
+
+
+            var result = _applicationContext.ProcessProgress.Where(p => p.SchoolId == schoolId && p.SubProcessId == Guid.Parse("E592365F-2FB6-4B0F-9C5E-01277BE052F0")).FirstOrDefault();
+            var re_schoolid = schoolId;
+
+
+
+            var sch_id = HttpContext.Session.GetString("mySchoolId");
+            if (sch_id != null)
+            {
+                schoolId = Guid.Parse(sch_id);
+            }
+
+            var newSchool = HttpContext.Session.GetString("new");
+            if (newSchool != null)
+            {
+                schoolId = Guid.NewGuid();
+            }
+
+            var myschoolid = HttpContext.Session.GetString("SchoolID");
+
+            if (myschoolid != null)
+            {
+                schoolId = Guid.Parse(myschoolid);
+            }
+
+            if (result == null)
+            {
+                schoolId = re_schoolid;
+            }
+
             var schoolBussinesType = _applicationContext.SchoolFinancialResource.Include(a => a.SchoolBussinessType)
                 .Where(a => a.SchoolId == schoolFinancialPlans.ElementAt(0).SchoolId).Select(a => a.SchoolBussinessType).FirstOrDefault();
 
 
-            var schoolLevelid = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User)).Select(p => p.SchoolLevelId).FirstOrDefault();
+            var schoolLevelid = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User) && p.SchoolId==schoolId).Select(p => p.SchoolLevelId).FirstOrDefault();
 
             var displayPlan = (from schoolLevel in _applicationContext.ZSchoolLevel
                                join schooLevelSubLevel in _applicationContext.ZSchoolLevelSubLevel on schoolLevel.SchoolLevelId equals schooLevelSubLevel.SchoolLevelId
@@ -280,13 +496,13 @@ namespace OLS.Controllers
                     SchoolFinancialPlan plan = new SchoolFinancialPlan
                     {
                         Id = Guid.NewGuid(),
-                        SchoolId = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User)).Select(p => p.SchoolId).FirstOrDefault(),
+                        SchoolId = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User) && p.SchoolId==schoolId).Select(p => p.SchoolId).FirstOrDefault(),
                         Year = DateTime.Now.Year.ToString(),
                         SchoolSubLevelId = schoolFinancialPlans[i].SchoolSubLevelId,
-                        FeeAmount = schoolFinancialPlans[i].FeeAmount,
-                        NfreeStudents = schoolFinancialPlans[i].NfreeStudents,
-                        NpaidStudents = schoolFinancialPlans[i].NpaidStudents,
-                        AdmissionFee= schoolFinancialPlans[i].AdmissionFee,
+                        FeeAmount = schoolFinancialPlans[i].FeeAmount??0,
+                        NfreeStudents = schoolFinancialPlans[i].NfreeStudents??0,
+                        NpaidStudents = schoolFinancialPlans[i].NpaidStudents??0,
+                        AdmissionFee= schoolFinancialPlans[i].AdmissionFee??0,
                         CreatedBy = _userManager.GetUserId(User),
                         CreatedAt = DateTime.Now,
                     };
@@ -294,8 +510,11 @@ namespace OLS.Controllers
                 }
                 _applicationContext.AddRange(plans);
                 _applicationContext.SaveChanges();
-                ViewBag.Message = "sucessfully";
-                return RedirectToAction("Edit");
+                notyfService.Custom(_localizer["SchoolFinancialPlanCreated"].Value, 10, "#67757c", "fa fa-check");
+           
+                HttpContext.Session.SetString("SchoolFinancialPlan", schoolBussinesType.BussinessTypeName);
+            //  return RedirectToAction("Edit");
+            return RedirectToAction("Navigate", "SchoolStaffExpenses");
            
                 
         }

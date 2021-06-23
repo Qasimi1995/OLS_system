@@ -6,9 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Resources\Views\NewFolder\**" />
     <Compile Remove="wwwroot\PersonPhotos\**" />
+    <Content Remove="Resources\Views\NewFolder\**" />
     <Content Remove="wwwroot\PersonPhotos\**" />
+    <EmbeddedResource Remove="Resources\Views\NewFolder\**" />
     <EmbeddedResource Remove="wwwroot\PersonPhotos\**" />
+    <None Remove="Resources\Views\NewFolder\**" />
     <None Remove="wwwroot\PersonPhotos\**" />
   </ItemGroup>
 
@@ -425,6 +429,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AspNetCoreHero.ToastNotification" Version="1.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.7" />
     <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.2.0" />
@@ -442,12 +447,21 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.5" />
     <PackageReference Include="NLog.Web.AspNetCore" Version="4.9.3" />
     <PackageReference Include="SweetAlert.Bootstrap" Version="1.0.1" />
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Resources\Views\Applicant\" />
+    <Folder Include="Resources\Views\DPE\" />
+    <Folder Include="Resources\Views\EmailSend\" />
+    <Folder Include="Resources\Views\Home\" />
+    <Folder Include="Resources\Views\Principle\" />
+    <Folder Include="Resources\Views\Process\" />
+    <Folder Include="Resources\Views\SchoolFinancialPlan\" />
+    <Folder Include="Resources\Views\SchoolOtherExpenses\" />
+    <Folder Include="Resources\Views\SchoolStaffExpenses\" />
     <Folder Include="wwwroot\PartyDocuments\" />
   </ItemGroup>
 
@@ -455,8 +469,27 @@
     <ProjectReference Include="..\EmailService\EmailService.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Resources\Account_Register.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Account_Register.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\Account_Register.En.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Account_Register.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Account_Register.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
   <PropertyGroup>
     <EnvironmentName>Production</EnvironmentName>
+    <UserSecretsId>e5eac717-1682-45d4-9037-9bd8b7dd6af9</UserSecretsId>
   </PropertyGroup>
 
 

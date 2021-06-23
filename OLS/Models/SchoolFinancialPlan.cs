@@ -13,10 +13,10 @@ namespace OLS.Models
         public decimal? FeeAmount { get; set; }
         public decimal? AdmissionFee { get; set; }
         public string Year { get; set; }
-        public string CreatedBy { get; set; }
         public DateTime? CreatedAt { get; set; }
-        public string UpdatedBy { get; set; }
+        public string? CreatedBy { get; set; }
         public DateTime? UpdatedAt { get; set; }
+        public string? UpdatedBy { get; set; }
 
         public virtual School School { get; set; }
         public virtual ZSchoolSubLevel SchoolSubLevel { get; set; }

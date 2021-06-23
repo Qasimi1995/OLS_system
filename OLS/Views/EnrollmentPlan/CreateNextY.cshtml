@@ -1,4 +1,9 @@
 ﻿@model IList<OLS.ViewModels.EnrollmentPlanViewModel>
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+
+@{ 
+    var culture = Context.Features.Get<Microsoft.AspNetCore.Localization.IRequestCultureFeature>().RequestCulture.UICulture.Name;
+}
 
 
 <div class="row">
@@ -9,7 +14,7 @@
                 @await Html.PartialAsync("../steps")
 
                 <div style="text-align:center;background-color: #0193df;">
-                    <h3 style="padding:5px;color: white;">پلان جذب شاګردان سال بعدی/د زده کوونکو د جذب پلان-راتلونکی کال/Next Year Enrollment Plan</h3>
+                    <h3 style="padding:5px;color: white;">@localizer["NextYearEnrollmentPlan"]</h3>
                 </div>
 
                 <form asp-action="CreateNextY" method="post">
@@ -19,9 +24,10 @@
                         <table class="table table-bordered no-wrap">
                             <thead>
                                 <tr>
-                                    <th>صنف/ټولګی/Class</th>
-                                    <th>تعداد ذکور/د نارینه زده کوونکو شمېر /Number of Male</th>
-                                    <th>تعداد اناث/د ښځینه زده کوونکو شمېر/Number of Female </th>
+                                    <th>@localizer["Class"]</th>
+
+                                    <th>@localizer["NumberOfMale"]      </th>
+                                    <th> @localizer["NumberOfFemale"]</th>
 
                                 </tr>
                             </thead>
@@ -31,31 +37,37 @@
                                     for (int i = 0; i < Model.Count; i++)
                                     {
 
-                                        <tr>
-                                            <td>
-                                                @Html.HiddenFor(m => Model[i].SchoolSubLevelId)
+                    <tr>
+                        <td>
+                            @Html.HiddenFor(m => Model[i].SchoolSubLevelId)
+                            @if (culture == "en")
+                            {
+                                @Model[i].SchoolSubLevelName.Split("/")[2]
+                            }
+                            else if (culture == "fa")
+                            {
+                                @Model[i].SchoolSubLevelName.Split("/")[0]
+                            }
+                            else
+                            {
+                                @Model[i].SchoolSubLevelName.Split("/")[1]
+                            }
+                           
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(m => Model[i].NumberOfStudentsMale, new { @class = "form-control", type = "number" })
+                            @Html.ValidationMessageFor(m => Model[i].NumberOfStudentsMale, null, new { @class = "text-danger" })
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(m => Model[i].NumberOfStudentsFemale, new { @class = "form-control", type = "number" })
+                            @Html.ValidationMessageFor(m => Model[i].NumberOfStudentsFemale, null, new { @class = "text-danger" })
+                        </td>
 
-                                                @Model[i].SchoolSubLevelName
-                                            </td>
-                                            <td>
-                                                @Html.TextBoxFor(m => Model[i].NumberOfStudentsMale, new { @class = "form-control", type = "number" })
-                                                @Html.ValidationMessageFor(m => Model[i].NumberOfStudentsMale, null, new { @class = "text-danger" })
-                                            </td>
-                                            <td>
-                                                @Html.TextBoxFor(m => Model[i].NumberOfStudentsFemale, new { @class = "form-control", type = "number" })
-                                                @Html.ValidationMessageFor(m => Model[i].NumberOfStudentsFemale, null, new { @class = "text-danger" })
-                                            </td>
-
-                                        </tr>
+                    </tr> }
 
 
 
-                                    }
-
-
-
-                                }
-                                @*@if (ViewBag.displaylist != null)
+                                } @*@if (ViewBag.displaylist != null)
                         {
                             @foreach (var item in ViewBag.displaylist)
                             {
@@ -81,18 +93,26 @@
                             </tbody>
                         </table>
                     </div>
-                    <input type="submit" id="btnSave" value="ثبت/ثبت/Save" class="btn btn-primary" />
-                    <div style="float:left;">
-                        <button type="button" id="nextBtn" style="background-color:#0193df;" onclick="@("window.location.href='" + @Url.Action("Navigate", "EnrollmentPlan") + "'");" class="btn btn-primary">قبلی/مخکی/Previous</button>
+                    <input type="submit" id="btnSave" value="@localizer["Save"]" class="btn btn-primary" style="background-color:#0193df;" />
+                     @{ 
+                        var floatValue = "left";
+                        if (culture == "en")
+                        {
+                            floatValue = "right";
+                        }
+
+                    }
+                    <div style="float:@floatValue;">
+                        <button type="button" id="nextBtn" style="background-color:#0193df;" onclick="@("window.location.href='" + @Url.Action("Navigate", "EnrollmentPlan") + "'");" class="btn btn-primary">@localizer["Previous"]</button>
                         @*<button type="button" id="nextBtn" onclick="@("window.location.href='" + @Url.Action("Navigate", "SchoolFinancialPlan") + "'");" class="btn btn-primary">بعدی/وروسته/Next</button>*@
 
-                        <input type="submit" class="btn btn-primary" style="background-color:#0193df;" value="بعدی/وروسته/Next" />
+                        <input type="submit" class="btn btn-primary" style="background-color:#0193df;" value="@localizer["Next"]" />
                         @if (ViewBag.Message != null)
                         {
                             //  <div><span class="text-info">@ViewBag.Message</span></div>
-                            <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+            <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
                             <script src="~/sweetalert/sweetalert.min.js"></script>
-                            <script type="text/javascript">
+                                            <script type="text/javascript">
                             @*swal({
                                 "@ViewBag.Message",
                                 "حساب موفقانه ایجاد گردید / تاسو په بریالیتوب سره یو حساب جوړ کړی",
@@ -100,7 +120,7 @@
                                 })*@
                             swal({
                                 title: "@ViewBag.Message",
-                                text: "حساب موفقانه ایجاد گردید / تاسو په بریالیتوب سره یو حساب جوړ کړ",
+                                text: "@localizer["Message"]",
                                 icon: "success",
                                 button: "OK",
                             })
@@ -109,9 +129,7 @@
                                     window.location.href = "/SchoolFinancialPlan/Create";
                                 }
                             });
-                            </script>
-
-                        }
+                                            </script>}
                     </div>
 
                 </form>

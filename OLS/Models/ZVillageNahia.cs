@@ -10,8 +10,8 @@ namespace OLS.Models
             PartyAddress = new HashSet<PartyAddress>();
         }
 
-        public Guid VillageNahiaId { get; set; }
-        public Guid? DistrictId { get; set; }
+        public int VillageNahiaId { get; set; }
+        public int? DistrictId { get; set; }
         public string VillageNameEng { get; set; }
         public string MistiProvCode { get; set; }
         public string MistiDistCode { get; set; }

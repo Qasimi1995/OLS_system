@@ -30,7 +30,8 @@ namespace OLS.ViewModels
         public string PhonNumber { get; set; }
 
         [Required(ErrorMessage ="*")]
-        [EmailAddress(ErrorMessage = "فارمت ایمیل درست نیست / ورکړل شوی برېښنالیک سم نه دی / Email Format is not valid")]
+      //  [EmailAddress(ErrorMessage = "فارمت ایمیل درست نیست / ورکړل شوی برېښنالیک سم نه دی / Email Format is not valid")]
+        [EmailAddress(ErrorMessage = " * ")]
         [Remote(action: "IsEmailUnique",controller:"Founder")]
         public string Email { get; set; }
         [Required(ErrorMessage ="*")]
@@ -40,10 +41,13 @@ namespace OLS.ViewModels
         [Range(20,100)]
         public int? Age { get; set; }
 
-        [Required(ErrorMessage = "لطفا عکس را انتخاب کنید / مهرباني وکړئ یو عکس غوره کړئ")]
+     //   [Required(ErrorMessage = "لطفا عکس را انتخاب کنید / مهرباني وکړئ یو عکس غوره کړئ")]
+        [Required(ErrorMessage = "*")]
         [DataType(DataType.Upload)]
-        [MaxFileSize(500 * 1024, ErrorMessage = "Max 500 Kb file is allowed /  حد اکثر اندازه عکس باید 500 kb باشد.")]
-        [AllowedExtensions(new string[] { ".jpg", ".png", ".jpeg" }, ErrorMessage = " only .jpg, png and jpeg format is allowed")]
+        //[MaxFileSize(500 * 1024, ErrorMessage = "Max 500 Kb file is allowed /  حد اکثر اندازه عکس باید 500 kb باشد.")]
+        [MaxFileSize(500 * 1024, ErrorMessage = "*")]
+      //  [AllowedExtensions(new string[] { ".jpg", ".png", ".jpeg" }, ErrorMessage = " only .jpg, png and jpeg format is allowed")]
+        [AllowedExtensions(new string[] { ".jpg", ".png", ".jpeg" }, ErrorMessage = "*")]
         public IFormFile Photo { get; set; }
         [Required(ErrorMessage ="*")]
         public Guid? GenderTypeId { get; set; }
@@ -56,15 +60,15 @@ namespace OLS.ViewModels
         [Required(ErrorMessage = "*")]
         public int? Eduservice { get; set; }
         [Required(ErrorMessage ="*")]
-        public Guid? PerProvinceId { get; set; }
+        public int? PerProvinceId { get; set; }
          [Required(ErrorMessage ="*")]
-        public Guid? PerDistrictId { get; set; }
+        public int? PerDistrictId { get; set; }
          [Required(ErrorMessage ="*")]
         public string PerNahia { get; set; }
          [Required(ErrorMessage ="*")]
-        public Guid? PreProvinceId { get; set; }
+        public int? PreProvinceId { get; set; }
          [Required(ErrorMessage ="*")]
-        public Guid? PreDistrictId { get; set; }
+        public int? PreDistrictId { get; set; }
          [Required(ErrorMessage ="*")]
         public string PreNahia { get; set; }
         public string CreatedBy { get; set; }

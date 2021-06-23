@@ -13,9 +13,10 @@ namespace OLS.Models
         public Guid? ProcessStatusId { get; set; }
         public string Remarks { get; set; }
         public DateTime? StatusDate { get; set; }
-        public string UpdatedBy { get; set; }
+        public DateTime? CreatedAt { get; set; }
+        public string? CreatedBy { get; set; }
         public DateTime? UpdatedAt { get; set; }
-
+        public string? UpdatedBy { get; set; }
         public virtual Process Process { get; set; }
         public virtual ZProcessStatus ProcessStatus { get; set; }
         public virtual School School { get; set; }

@@ -10,6 +10,11 @@ namespace OLS.Models
         public Guid? ContactMechanismTypeId { get; set; }
         public string Value { get; set; }
 
+        public DateTime? CreatedAt { get; set; }
+        public string?     CreatedBy { get; set; }
+        public DateTime? UpdatedAt { get; set; }
+        public string? UpdatedBy { get; set; }
+
         public virtual ZContactMechanismType ContactMechanismType { get; set; }
         public virtual Party Party { get; set; }
     }

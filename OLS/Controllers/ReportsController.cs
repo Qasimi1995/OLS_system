@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Localization;
 using Microsoft.EntityFrameworkCore;
 using NLog.LayoutRenderers;
 using OLS.Models;
@@ -15,18 +16,20 @@ using OLS.ViewModels;
 
 namespace OLS.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "DPERep,DPE,LicenseIssuer")]
     public class ReportsController : Controller
     {
         private ApplicationContext _applicationContext;
         IHostingEnvironment _env;
         private readonly UserManager<User> _userManager;
+        private readonly IHtmlLocalizer _localizer;
 
-        public ReportsController(ApplicationContext applicationContext, IHostingEnvironment environment, UserManager<User> userManager)
+        public ReportsController(ApplicationContext applicationContext, IHostingEnvironment environment, UserManager<User> userManager, IHtmlLocalizer<ReportsController> localizer)
         {
             _applicationContext = applicationContext;
             _env = environment;
             _userManager = userManager;
+            _localizer = localizer;
         }
 
 
@@ -53,14 +56,14 @@ namespace OLS.Controllers
                           select new SchoolDisplayViewModel
                           {
                               SchoolId = school.SchoolId,
-                              SchoolLevel = zSchoolLevel.SchoolLevelNameDari,
+                              SchoolLevel = zSchoolLevel.SchoolLevelNameDari+"/"+zSchoolLevel.SchoolLevelName,
                               SchoolLevelEng= zSchoolLevel.SchoolLevelName,
                               SchoolEnglishName = school.SchoolEnglishName,
                               SchoolName = school.SchoolName,
-                              SchoolGenderType = zSchoolGenderType.SchoolGenderTypeNameDari,
+                              SchoolGenderType = zSchoolGenderType.SchoolGenderTypeNameDari+"/"+zSchoolGenderType.SchoolGenderTypeName,
                               SchoolGenderTypeEnglish=zSchoolGenderType.SchoolGenderTypeName,
-                              Province = zProvince.ProvNaDar,
-                              District = zDistrict.DistNaDar,
+                              Province = zProvince.ProvNaDar+"/"+zProvince.ProvNaEng,
+                              District = zDistrict.DistNaDar+"/"+zDistrict.DistNaEng,
                               VillageNahia = partyAddress.Nahia,
                               OrderNumber = subProcess.OrderNumber,
                               StatusDate = processProgress.StatusDate,

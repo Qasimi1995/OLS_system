@@ -1,6 +1,9 @@
 ﻿@model IList<OLS.ViewModels.SchoolOtherExpensesViewModel>
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
 
-
+@{ 
+    var culture = Context.Features.Get<Microsoft.AspNetCore.Localization.IRequestCultureFeature>().RequestCulture.UICulture.Name;
+}
 
 <div class="row">
     <div class="col-12">
@@ -8,7 +11,7 @@
             <div class="card-body">
                 @await Html.PartialAsync("../steps")
                 <div style="text-align:center;background-color: #0193df;">
-                    <h3 style="padding:5px;color: white;">دیگر مصارف/نور لګښتونه/Other expenses</h3>
+                    <h3 style="padding:5px;color: white;">@localizer["OtherExpenses"]</h3>
                 </div>
 
                 <form asp-action="Create" method="post">
@@ -19,8 +22,8 @@
                             <thead>
                                 <tr>
 
-                                    <th class="text-wrap">نوع مصرف/د لګښت ډول/Expense Type</th>
-                                    <th class="text-wrap">مصرف در یک ماه/د تعمیر کرایه/Expense per Month</th>
+                                    <th class="text-wrap"> @localizer["ExpenseType"]</th>
+                                    <th class="text-wrap"> @localizer["ExpensePerMonth"]</th>
 
                                 </tr>
                             </thead>
@@ -29,12 +32,21 @@
                                 {
                                     for (int i = 0; i < Model.Count; i++)
                                     {
-                                        @Html.HiddenFor(m => Model[i].OtherExpenseTypeId)
+                    @Html.HiddenFor(m => Model[i].OtherExpenseTypeId)
 
                                         <tr>
 
                                             <td>
-                                                @Model[i].OtherExpenseTypeName
+                                                @if (culture == "en")
+                                                {
+                                            @Model[i].OtherExpenseTypeName.Split("/")[2] }
+                                        else if (culture == "fa")
+                                        {
+                                            @Model[i].OtherExpenseTypeName.Split("/")[0] }
+                                        else
+                                        {
+                                            @Model[i].OtherExpenseTypeName.Split("/")[1]}
+
                                             </td>
                                             <td>
                                                 @Html.EditorFor(m => Model[i].ExpensePerMonth, new { htmlAttributes = new { @class = "form-control" } })
@@ -42,22 +54,29 @@
                                             </td>
 
 
-                                        </tr>
-                                    }
-                                }
+                                        </tr>}
+                                                    }
 
                             </tbody>
                         </table>
                     </div>
-                    <input type="submit" id="btnSave" style="background-color:#0193df;" value="ثبت/ثبت/Save" class="btn btn-primary" />
-                    <div style="float:left;">
-                        <button type="button" id="nextBtn" style="background-color:#0193df;" onclick="@("window.location.href='" + @Url.Action("Navigate", "SchoolStaffExpenses") + "'");" class="btn btn-primary">قبلی/مخکی/Previous</button>
+                    <input type="submit" id="btnSave" style="background-color:#0193df;" value="@localizer["Save"]" class="btn btn-primary" />
+                     @{ 
+                        var floatValue = "left";
+                        if (culture == "en")
+                        {
+                            floatValue = "right";
+                        }
+
+                    }
+                    <div style="float:@floatValue;">
+                        <button type="button" id="nextBtn" style="background-color:#0193df;" onclick="@("window.location.href='" + @Url.Action("Navigate", "SchoolStaffExpenses") + "'");" class="btn btn-primary">@localizer["Previous"]</button>
                         @*<button type="button" id="nextBtn" onclick="@("window.location.href='" + @Url.Action("", "") + "'");" class="btn btn-primary">تسلیم درخواستی</button>*@
-                        <input type="submit" class="btn btn-primary" style="background-color:#0193df;" value="بعدی/وروسته/Next" />
+                        <input type="submit" class="btn btn-primary" style="background-color:#0193df;" value="@localizer["Next"]" />
                         @if (ViewBag.Message != null)
                         {
                             //  <div><span class="text-info">@ViewBag.Message</span></div>
-                            <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+            <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
                             <script src="~/sweetalert/sweetalert.min.js"></script>
                             <script type="text/javascript">
                                                     @*swal({
@@ -67,7 +86,7 @@
                                                         })*@
                                                     swal({
                                                         title: "@ViewBag.Message",
-                                                        text: "حساب موفقانه ایجاد گردید / تاسو په بریالیتوب سره یو حساب جوړ کړ",
+                                                        text: "@localizer["Message"]",
                                                         icon: "success",
                                                         button: "OK",
                                                     })
@@ -76,8 +95,7 @@
                                                             window.location.href = "/SchoolOtherExpenses/Create";
                                                         }
                                                     });
-                            </script>
-                        }
+                            </script>}
 
                     </div>
                 </form>

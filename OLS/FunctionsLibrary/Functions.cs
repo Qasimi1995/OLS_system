@@ -10,6 +10,7 @@ using OLS.ViewModels;
 using OLS.Controllers;
 using Microsoft.EntityFrameworkCore;
 using System.Text;
+using System.Reflection;
 
 namespace OLS.FunctionsLibrary
 {
@@ -37,7 +38,8 @@ namespace OLS.FunctionsLibrary
                                   where personEducation.PersonId == personid
                                   select new
                                   {
-                                      EducationLevel = zEducationLevel.EducationLevelNameDari
+                                      EducationLevel = zEducationLevel.EducationLevelNameDari,
+                                      EducationLevelEnglish=zEducationLevel.EducationLevelName
                                   }).FirstOrDefault();
 
             var PerAddress = (from partyAddress in _applicationContext.PartyAddress
@@ -49,6 +51,20 @@ namespace OLS.FunctionsLibrary
                               {
                                   PerProvince = zProvince.ProvNaDar,
                                   PerDistrict = zDistrict.DistNaDar,
+                                  PerNahia = partyAddress.Nahia,
+
+                              }).FirstOrDefault();
+
+
+            var PerAddressEng = (from partyAddress in _applicationContext.PartyAddress
+                              join zProvince in _applicationContext.ZProvince on partyAddress.ProvinceId equals zProvince.ProvinceId
+                              join zDistrict in _applicationContext.ZDistrict on partyAddress.DistrictId equals zDistrict.DistrictId
+                              // join zVillageNahia in _applicationContext.ZVillageNahia on partyAddress.VillageNahiaId equals zVillageNahia.VillageNahiaId
+                              where partyAddress.PartyId == personid && partyAddress.AddressTypeId == Guid.Parse("EDDCDD48-67D0-4BAE-B96E-B7ACB5C87DF7")
+                              select new
+                              {
+                                  PerProvince = zProvince.ProvNaEng,
+                                  PerDistrict = zDistrict.DistNaEng,
                                   PerNahia = partyAddress.Nahia,
 
                               }).FirstOrDefault();
@@ -66,13 +82,27 @@ namespace OLS.FunctionsLibrary
 
                               }).FirstOrDefault();
 
+
+            var PreAddressEng = (from partyAddress in _applicationContext.PartyAddress
+                              join zProvince in _applicationContext.ZProvince on partyAddress.ProvinceId equals zProvince.ProvinceId
+                              join zDistrict in _applicationContext.ZDistrict on partyAddress.DistrictId equals zDistrict.DistrictId
+                              // join zVillageNahia in _applicationContext.ZVillageNahia on partyAddress.VillageNahiaId equals zVillageNahia.VillageNahiaId
+                              where partyAddress.PartyId == personid && partyAddress.AddressTypeId == Guid.Parse("28048D3E-BF94-4068-9735-6E798BA9FD52")
+                              select new
+                              {
+                                  PreProvince = zProvince.ProvNaEng,
+                                  PreDistrict = zDistrict.DistNaEng,
+                                  PreNahia = partyAddress.Nahia
+
+                              }).FirstOrDefault();
+
+
             var GenderType = (from person in _applicationContext.Person
                               join zGenderType in _applicationContext.ZGenderType on person.GenderTypeId equals zGenderType.GenderTypeId
                               where person.PersonId == personid
                               select new
                               {
-
-                                  GenderType = zGenderType.GenderTypeNameDari
+                                  GenderType = zGenderType.GenderTypeNameDari+'/'+zGenderType.GenderTypeName
                               }).FirstOrDefault();
             PersonDisplayViewModel Myperson = new PersonDisplayViewModel
             {
@@ -87,12 +117,12 @@ namespace OLS.FunctionsLibrary
                 Age = thePerson.Age,
                 Photo = thePerson.Photo,
                 GenderType = GenderType.GenderType,
-                EducationLevel = EducationLevel.EducationLevel,
-                PerProvince = PerAddress.PerProvince,
-                PerDistrict = PerAddress.PerDistrict,
+                EducationLevel = EducationLevel.EducationLevel+"/"+EducationLevel.EducationLevelEnglish,
+                PerProvince = PerAddress.PerProvince+"/"+PerAddressEng.PerProvince,
+                PerDistrict = PerAddress.PerDistrict+"/"+PerAddressEng.PerDistrict,
                 PerNahia = PerAddress.PerNahia,
-                PreProvince = PreAddress.PreProvince,
-                PreDistrict = PreAddress.PreDistrict,
+                PreProvince = PreAddress.PreProvince+"/"+PreAddressEng.PreProvince,
+                PreDistrict = PreAddress.PreDistrict+"/"+PreAddressEng.PreDistrict,
                PreNahia= PreAddress.PreNahia,
             };
 
@@ -114,12 +144,12 @@ namespace OLS.FunctionsLibrary
                                                 select new SchoolDisplayViewModel
                                                 {
                                                     SchoolId = school.SchoolId,
-                                                    SchoolLevel = zSchoolLevel.SchoolLevelNameDari,
+                                                    SchoolLevel = zSchoolLevel.SchoolLevelNameDari+"/"+zSchoolLevel.SchoolLevelName,
                                                     SchoolName = school.SchoolName,
                                                     SchoolEnglishName = school.SchoolEnglishName,
                                                     SchoolLatitude=school.SchoolLatitude,
                                                     SchoolLongitude=school.SchoolLongitude,
-                                                    SchoolGenderType = zSchoolGenderType.SchoolGenderTypeNameDari,
+                                                    SchoolGenderType = zSchoolGenderType.SchoolGenderTypeNameDari+"/"+zSchoolGenderType.SchoolGenderTypeName,
                                                     Nrooms = school.Nrooms,
                                                     DistancefromPuSchool = school.DistancefromPuSchool,
                                                     DistanceFromPrSchool = school.DistanceFromPrSchool,
@@ -130,7 +160,7 @@ namespace OLS.FunctionsLibrary
                                                     HasLibrary = school.HasLibrary,
                                                     Nbooks = school.Nbooks,
                                                     Nboards = school.Nboards,
-                                                    LaboratoryMaterialType = zLaboratoryMaterialType.LaboratoryMaterialTypeNameDari,
+                                                    LaboratoryMaterialType = zLaboratoryMaterialType.LaboratoryMaterialTypeNameDari+"/"+zLaboratoryMaterialType.LaboratoryMaterialTypeName,
                                                     HasComputerLab = school.HasComputerLab,
                                                     Ncomputers = school.Ncomputers,
                                                     HasDrinkingWater = school.HasDrinkingWater,
@@ -140,8 +170,8 @@ namespace OLS.FunctionsLibrary
                                                     HasTransportation = school.HasTransportation,
                                                     HasSportFacilities = school.HasSportFacilities,
                                                     Remarks = school.Remarks,
-                                                    Province = zProvince.ProvNaDar,
-                                                    District = zDistrict.DistNaDar,
+                                                    Province = zProvince.ProvNaDar+"/"+zProvince.ProvNaEng,
+                                                    District = zDistrict.DistNaDar+"/"+zDistrict.DistNaEng,
                                                     VillageNahia = partyAddress.Nahia,
 
                                                 }).FirstOrDefault();
@@ -156,7 +186,7 @@ namespace OLS.FunctionsLibrary
                                               select new SchoolFinancialResourceDisplayViewModel
                                               {
                                                   SchoolId = schoolFinancialResource.SchoolId,
-                                                  SchoolBussinessType = zSchoolBussinessType.BussinessTypeNameDari,
+                                                  SchoolBussinessType = zSchoolBussinessType.BussinessTypeNameDari+"/"+zSchoolBussinessType.BussinessTypeName,
                                                   FundingSourceName = schoolFinancialResource.FundingSourceName,
 
                                               }).FirstOrDefault();
@@ -183,9 +213,9 @@ namespace OLS.FunctionsLibrary
                                                     GrandFatherName = person.GrandFatherName,
                                                     Nidnumber = person.Nidnumber,
                                                     Age = person.Age,
-                                                    GenderType = zGender.GenderTypeNameDari,
+                                                    GenderType = zGender.GenderTypeNameDari+"/"+zGender.GenderTypeName,
                                                     Eduservice = person.Eduservice,
-                                                    EducationLevel = zEducation.EducationLevelNameDari,
+                                                    EducationLevel = zEducation.EducationLevelNameDari+"/"+zEducation.EducationLevelName,
                                                     FacultyType = zfaculty.FacultypeName,
                                                     GraduationDate = personEducation.GraduationDate,
                                                 }).ToList();
@@ -247,7 +277,7 @@ namespace OLS.FunctionsLibrary
                                                                    {
                                                                        Id = studentEnrollmentPlan.Id,
                                                                        NumberOfStudents = studentEnrollmentPlan.NumberOfStudents,
-                                                                       SchoolSubLevelName = schoolSubLevel.SubLevelNameDari + "/" + schoolSubLevel.SubLevelName,
+                                                                       SchoolSubLevelName = schoolSubLevel.SubLevelNameDari + "/" + schoolSubLevel.SubLevelNamePashto + "/" + schoolSubLevel.SubLevelName,
                                                                        GenderTypeId = studentEnrollmentPlan.GenderTypeId
 
 
@@ -274,7 +304,7 @@ namespace OLS.FunctionsLibrary
                                                                              select new SchoolFinancialPlanViewModel
                                                                              {
                                                                                  Id = schoolFinancialPlan.Id,
-                                                                                 SchoolSubLevelName = schoolSubLevel.SubLevelNameDari + "/" + schoolSubLevel.SubLevelName,
+                                                                                 SchoolSubLevelName = schoolSubLevel.SubLevelNameDari + "/" + schoolSubLevel.SubLevelNamePashto + "/" + schoolSubLevel.SubLevelName,
                                                                                  FeeAmount = decimal.Parse((string.Format("{0:0.0}", schoolFinancialPlan.FeeAmount))),
                                                                                  NfreeStudents = schoolFinancialPlan.NfreeStudents,
                                                                                  NpaidStudents = schoolFinancialPlan.NpaidStudents,
@@ -292,7 +322,7 @@ namespace OLS.FunctionsLibrary
                                                                              select new SchoolFinancialPlanViewModel
                                                                              {
                                                                                  Id = schoolFinancialPlan.Id,
-                                                                                 SchoolSubLevelName = schoolSubLevel.SubLevelNameDari + "/" + schoolSubLevel.SubLevelName,
+                                                                                 SchoolSubLevelName = schoolSubLevel.SubLevelNameDari + "/" + schoolSubLevel.SubLevelNamePashto + "/" + schoolSubLevel.SubLevelName,
                                                                        
                                                                                  FeeAmount =  schoolFinancialPlan.FeeAmount,
                                                                                  NfreeStudents = schoolFinancialPlan.NfreeStudents,
@@ -314,7 +344,7 @@ namespace OLS.FunctionsLibrary
                                                                          select new SchoolStaffExpensesViewModel
                                                                          {
                                                                              Id = schoolStaffExpenses.Id,
-                                                                             PartyRoleType = zPartyRoleType.PartyRoleTypeNameDari + "/" + zPartyRoleType.PartyRoleTypeName,
+                                                                             PartyRoleType = zPartyRoleType.PartyRoleTypeNameDari + "/" + zPartyRoleType.PartyRoleTypeNamePashto + "/" + zPartyRoleType.PartyRoleTypeName,
                                                                              PartyRoleTypeId = zPartyRoleType.PartyRoleTypeId,
                                                                              Salary = decimal.Parse((string.Format("{0:0.0}", schoolStaffExpenses.Salary))),
                                                                              Amount = schoolStaffExpenses.Amount,
@@ -331,7 +361,7 @@ namespace OLS.FunctionsLibrary
                                                                          select new SchoolOtherExpensesViewModel
                                                                          {
                                                                              OtherExpenseId = schoolOtherExpenses.OtherExpenseId,
-                                                                             OtherExpenseTypeName = zOtherExpenseType.OtherExpenseTypeNameDari + "/" + zOtherExpenseType.OtherExpenseTypeName,
+                                                                             OtherExpenseTypeName = zOtherExpenseType.OtherExpenseTypeNameDari + "/" + zOtherExpenseType.OtherExpenseTypeNamePashto + "/" + zOtherExpenseType.OtherExpenseTypeName,
                                                                              ExpensePerMonth = decimal.Parse((string.Format("{0:0.0}", schoolOtherExpenses.ExpensePerMonth))),
 
                                                                          }).ToList();
@@ -375,7 +405,7 @@ namespace OLS.FunctionsLibrary
             return DocumentList;
 
         }
-        public IList<DashboardStatuses> GetDashBoardStatuses(List<int?> OrderNumber,string RoleId, Guid? ProvinceId) {
+        public IList<DashboardStatuses> GetDashBoardStatuses(List<int?> OrderNumber,string RoleId, int? ProvinceId) {
 
             string CaseValues = "";
 
@@ -436,7 +466,7 @@ namespace OLS.FunctionsLibrary
                 query = new StringBuilder(@$"select SubProcess.SubProcessID
     , zProcessStatus.ProcessStatusID
     ,case when SubProcess.OrderNumber in ({CaseValues}) then 'New' else zProcessStatus.StatusNameDash end as 'StatusNameDash'
-    ,case when SubProcess.OrderNumber in ({CaseValues}) then 'جدید' else zProcessStatus.StatusNameDashDari end as 'StatusNameDashDari'
+    ,case when SubProcess.OrderNumber in ({CaseValues}) then 'جدید/نوی' else zProcessStatus.StatusNameDashDari end as 'StatusNameDashDari'
 
     ,SubProcess.OrderNumber
     ,SubProcessStatus.CompletionFlag,
@@ -503,5 +533,53 @@ namespace OLS.FunctionsLibrary
             return dashboardStatuses;
 
         }
+
+
+
+       public  Boolean NoSchool(Guid shcoolid)
+        {
+            var school=_applicationContext.School.Where(p => p.SchoolId == shcoolid).First();
+
+            if (school != null)
+            {
+                return true;
+            }
+
+
+            return false;
+        }
+
+
+
+
+        //public IDictionary<Object,Object> updatedFields(Object oldObj , Object newObj)
+        // {
+        //     Type oldType = oldObj.GetType();
+        //     Type newType = newObj.GetType();
+
+
+        //     IDictionary<Object, Object> dictionary = new Dictionary<Object, Object>();
+
+
+        //     IList<PropertyInfo> OldObjProps = new List<PropertyInfo>(oldType.GetProperties());
+        //     IList<PropertyInfo> newObjProps = new List<PropertyInfo>(newType.GetProperties());
+
+        //     for(int i=0;i<OldObjProps.Count;i++)
+        //     {
+        //         var oldObjPropVal=OldObjProps[i].GetValue(oldObj);
+        //         var newObjPropVal = newObjProps[i].GetValue(newObj);
+
+        //         var newObjPropName = newObjProps[i].Name;
+        //         var oldObjPropName = OldObjProps[i].Name;
+
+        //         if (oldObjPropVal != newObjPropVal)
+        //         {
+        //             dictionary.Add(oldObjPropName,);
+        //         }
+
+        //     }
+
+
+        // }
     }
 }

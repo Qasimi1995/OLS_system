@@ -1,6 +1,8 @@
 ﻿@model IList<OLS.ViewModels.SchoolFinancialPlanViewModel>
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
 
-@{ var year = DateTime.Now.Year;}
+@{ var year = DateTime.Now.Year;
+    var culture = Context.Features.Get<Microsoft.AspNetCore.Localization.IRequestCultureFeature>().RequestCulture.UICulture.Name;}
 
 
 <div class="row">
@@ -10,7 +12,7 @@
                 @await Html.PartialAsync("../steps");
 
                 <div style="text-align:center;background-color: #0193df;">
-                    <h3 style="padding:5px;color: white;"> بودیجوي پلان(@year)/پلان بودیجوی(@year)/Financial Plan (@year) </h3>
+                    <h3 style="padding:5px;color: white;"> @localizer["FinancialPlan"] (@year) </h3>
                 </div>
 
                 <form asp-action="Edit" method="post">
@@ -20,16 +22,14 @@
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th class="text-wrap">صنف/ټولګی/Class</th>
-                                    <th class="text-wrap">مقدار فیس/د فیس اندازه/Fee amount</th>
-                                    <th class="text-wrap">تعداد شاگردان غیرمجانی/د فیس ورکوونکو زده کوونکو شمېر/#Paid Students</th>
-                                    <th class="text-wrap">تعداد شاگردان مجانی/د وړیا زده کوونکو شمېر/#Free Students/</th>
-                                    <th class="text-wrap">فیس داخله/د داخلې فیس/Admission Fee</th>
-
+                                    <th class="text-wrap">  @localizer["Class"]</th>
+                                    <th class="text-wrap"> @localizer["FeeAmount"]</th>
+                                    <th class="text-wrap">  @localizer["PaidStudents"]</th>
+                                    <th class="text-wrap"> @localizer["FreeStudents"]</th>
+                                    <th class="text-wrap">  @localizer["AdmissionFee"]</th>
                                 </tr>
                             </thead>
                             <tbody>
-
 
                                 @if (Model != null)
                                 {
@@ -41,55 +41,97 @@
                                     }
                                     for (int i = 0; i < Model.Count; i++)
                                     {
-                                        @Html.HiddenFor(m => Model[i].Id);
-                                        @Html.HiddenFor(m => Model[i].SchoolId);
+                                            var feeAmount = "";
+                                            var AdmissionFee = "";
+                                            @Html.HiddenFor(m => Model[i].Id);
+                                            @Html.HiddenFor(m => Model[i].SchoolId);
 
-                                        <tr>
-                                            <td>
-                                                @Model[i].SchoolSubLevelName
-                                            </td>
-                                            <td>
-                                                <input class="input form-control" type="number" name="[@i].FeeAmount" value="@Model[i].FeeAmount" @required />
-                                            </td>
-                                            <td>
-                                                <input class="input form-control" type="number" name="[@i].NfreeStudents" value="@Model[i].NfreeStudents" @required />
-                                            </td>
-                                            <td>
-                                                <input class="input form-control" type="number" name="[@i].NpaidStudents" value="@Model[i].NpaidStudents" @required />
-                                            </td>
-                                            <td>
-                                                <input class="input form-control" type="number" name="[@i].AdmissionFee" value="@Model[i].AdmissionFee" @required />
-                                            </td>
-                                        </tr>
+                                            <tr>
+                                                <td>
+                                                    @if (culture == "en")
+                                                    {
+                                                        @Model[i].SchoolSubLevelName.Split("/")[2]
+                                                        feeAmount = Model[i].FeeAmount.ToString();
+                                                        AdmissionFee = Model[i].AdmissionFee.ToString();
+                                                    }
+                                                    else if (culture == "fa")
+                                                    {
+                                                        @Model[i].SchoolSubLevelName.Split("/")[0]
+                                                        feeAmount = Model[i].FeeAmount.ToString().Replace("/", ".");
+                                                        AdmissionFee = Model[i].AdmissionFee.ToString().Replace("/", ".");
+                                                    }
+                                                    else
+                                                    {
+                                                        @Model[i].SchoolSubLevelName.Split("/")[1]
+                                                        feeAmount = Model[i].FeeAmount.ToString().Replace(",", ".");
+                                                        AdmissionFee = Model[i].AdmissionFee.ToString().Replace(",", ".");
+                                                    }
 
-                                    }
-
-                                }
+                                                </td>
+                                                <td>
+                                                    <input class="input form-control" type="number" name="[@i].FeeAmount" value="@feeAmount" @required />
+                                                </td>
+                                                <td>
+                                                    <input class="input form-control" type="number" name="[@i].NfreeStudents" value="@Model[i].NfreeStudents" @required />
+                                                </td>
+                                                <td>
+                                                    <input class="input form-control" type="number" name="[@i].NpaidStudents" value="@Model[i].NpaidStudents" @required />
+                                                </td>
+                                                <td>
+                                                    <input class="input form-control" type="number" name="[@i].AdmissionFee" value="@AdmissionFee" @required />
+                                                </td>
+                                            </tr>
+                                     }
+                                 }
 
                             </tbody>
                         </table>
                         @if (ViewBag.schoolBussinesType == "For Profit")
                         {
-                        @if (ViewBag.Tax != null)
+                            @if (ViewBag.Tax != null)
+                            {
+                                <br />
+                                <div class="shadow-lg p-3 mb-5 bg-white rounded">
+
+
+                                    @if (culture == "en")
+                                    {
+                                        <div style="margin:5px;">
+                                            <span class="text-info font-weight-bold"> Ten percent of (@ViewBag.Tax) of overall income is required for bank gurantee.        .</span>
+                                        </div>
+                                    }
+                                    else if (culture == "fa")
+                                    {
+                                        <div style="margin:5px;">
+                                            <span class="text-info font-weight-bold">ده فیصد(@ViewBag.Tax) افغانی درامد کلی به حیث تضمین بانکی ضرورت میباشد.</span>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div style="        margin: 5px;">
+                                            <span class="text-info font-weight-bold ">د بانکي تضمین لپاره د ټولې بودیجې ۱۰ سلنه(@ViewBag.Tax) باید ورکړل شي</span>
+                                        </div>
+                                    }
+
+
+                                </div>
+                               <br />
+                              }
+                        
+                         }
+                    </div>
+                    <input type="submit" id="btnSave" value="@localizer["Save"]" class="btn btn-outline-success" />
+                        @{ 
+                        var floatValue = "left";
+                        if (culture == "en")
                         {
-                            <br />
-                            <div class="shadow-lg p-3 mb-5 bg-white rounded">
-                                <div style="margin:5px;">
-                                    <span class="text-info font-weight-bold">ده فیصد(@ViewBag.Tax) افغانی درامد کلی به حیث تضمین بانکی ضرورت میباشد.</span>
-                                </div>
-                                <div style="        margin: 5px;">
-                                    <span class="text-info font-weight-bold ">د بانکي تضمین لپاره د ټولې بودیجې ۱۰ سلنه(@ViewBag.Tax) باید ورکړل شي</span>
-                                </div>
-                            </div>
-                            <br />
-                            } 
+                            floatValue = "right";
                         }
 
-                    </div>
-                    <input type="submit" id="btnSave" value="ثبت/ثبت/Save" class="btn btn-outline-success" />
-                    <div style="float:left;">
-                        <button type="button" id="nextBtn" style="background-color:#0193df;" onclick="@("window.location.href='" + @Url.Action("NavigateNextY", "EnrollmentPlan") + "'");" class="btn btn-primary">قبلی/مخکی/Previous</button>
-                        <button type="button" id="nextBtn" style="background-color:#0193df;" onclick="@("window.location.href='" + @Url.Action("Navigate", "SchoolStaffExpenses") + "'");" class="btn btn-primary">بعدی/وروسته/Next</button>
+                    }
+                    <div style="float:@floatValue;">
+                        <button type="button" id="nextBtn" style="background-color:#0193df;" onclick="@("window.location.href='" + @Url.Action("NavigateNextY", "EnrollmentPlan") + "'");" class="btn btn-primary"> @localizer["Previous"]</button>
+                        <button type="button" id="nextBtn" style="background-color:#0193df;" onclick="@("window.location.href='" + @Url.Action("Navigate", "SchoolStaffExpenses") + "'");" class="btn btn-primary"> @localizer["Next"]</button>
                     </div>
                 </form>
             </div>

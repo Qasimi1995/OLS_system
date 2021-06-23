@@ -1,6 +1,13 @@
-﻿<div class="row page-titles">
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+
+
+@{ 
+
+    var culture = Context.Features.Get<Microsoft.AspNetCore.Localization.IRequestCultureFeature>().RequestCulture.UICulture.Name;
+}
+<div class="row page-titles">
     <div class="col-md-5 col-12 align-self-center">
-        <h3 class="text-themecolor mb-0 mt-0">چک لیست موسسه تعلیمی خصوصی</h3>
+        <h3 class="text-themecolor mb-0 mt-0"> @localizer["CheckList"]</h3>
 
     </div>
     <div class="col-md-7 col-12 align-self-center d-none d-md-block">
@@ -28,359 +35,396 @@
                     <img src="~/System Images/moelogo.png" />
                 </div>
                 <h2>
-                    چک لیست موسسه تعلیمی خصوصی
+                  @localizer["CheckList"]
                 </h2>
-                <h3>
-                    (School Checklist)
-                </h3>
+               
             </div>
 
             @if (ViewBag.SchoolInfo != null)
             {
-                <div class="table-responsive">
-                    <table class="table table-bordered">
-                        <tr>
-                            <td>مکتب</td>
-                            <td>@ViewBag.SchoolInfo.SchoolName</td>
-                            <td>تاریخ:</td>
-                            <td>@(DateTime.Now)</td>
-                        </tr>
-                        <tr>
-                            <td>سطح مکتب</td>
-                            <td>@ViewBag.SchoolInfo.SchoolLevel</td>
-                            <td> جنسیت  مکتب</td>
-                            <td>@ViewBag.SchoolInfo.SchoolGenderType</td>
+<div class="table-responsive">
+    <table class="table table-bordered">
+        <tr>
+            <td>@localizer["School"]</td>
 
-                        </tr>
-                    </table>
-                </div>
+            @if (culture == "en")
+            {
+        <td>@ViewBag.SchoolInfo.SchoolEnglishName</td> }
+                        else
+                        {
+        <td>@ViewBag.SchoolInfo.SchoolName</td>}
+
+            <td>@localizer["Date"]</td>
+            <td>@(DateTime.Now)</td>
+        </tr>
+        <tr>
+            <td> @localizer["SchoolLevel"] </td>
+
+
+            <td>
+
+             
+
+                @if (culture == "en")
+                {
+            @ViewBag.SchoolInfo.SchoolLevel.Split("/")[1] }
+        else
+        {
+            @ViewBag.SchoolInfo.SchoolLevel.Split("/")[0]}
+            </td>
+
+
+            <td>  @localizer["SchoolGender"] </td>
+            <td>
+
+                @if (culture == "en")
+                {
+            @ViewBag.SchoolInfo.SchoolGenderType.Split("/")[2]}
+        else if (culture == "fa")
+        {
+            @ViewBag.SchoolInfo.SchoolGenderType.Split("/")[0]}
+        else
+        {
+            @ViewBag.SchoolInfo.SchoolGenderType.Split("/")[1]}
+            </td>
+
+        </tr>
+    </table>
+</div>
                 <div class="card-header" style="background-color: gainsboro; margin-bottom:10px">
-                    <strong>آدرس مکتب/School Address</strong>
+                    <strong>@localizer["SchoolAddress"]  </strong>
                 </div>
-                <div class="table-responsive">
-                    <table class="table table-bordered">
-                        <tr>
-                            <td>ولایت</td>
-                            <td>@ViewBag.SchoolInfo.Province</td>
-                            <td> ولسوالی</td>
-                            <td>@ViewBag.SchoolInfo.District</td>
-                            <td>قریه یا ناحیه</td>
-                            <td>@ViewBag.SchoolInfo.VillageNahia</td>
-                        </tr>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <tr>
+                                            <td>@localizer["Province"]</td>
+                                            <td>
+                                                @if (culture == "en")
+                                                {
+                                            @ViewBag.SchoolInfo.Province.Split("/")[1] }
+                                        else
+                                        {
+                                            @ViewBag.SchoolInfo.Province.Split("/")[0]}
+                                            </td>
+                                            <td> @localizer["District"]</td>
+                                            <td>
+                                                @if (culture == "en")
+                                                {
+                                            @ViewBag.SchoolInfo.District.Split("/")[1] }
+                                        else
+                                        {
+                                            @ViewBag.SchoolInfo.District.Split("/")[0]}
+                                            </td>
+                                            <td> @localizer["Village"] </td>
+                                            <td>@ViewBag.SchoolInfo.VillageNahia</td>
+                                        </tr>
 
-                    </table>
-                </div>
-
-
-
-                <div class="card-header" style="background-color: gainsboro; margin-bottom:10px">
-                    <strong>معلومات مکتب/School Information</strong>
-                </div>
-                <div class="table-responsive">
-                    <table class="table table-bordered">
-                        <tr>
-                            <td>واحد /Item</td>
-                            <td class="text-wrap">معلومات داده شده /Submitted Information</td>
-                            <td class="text-center">چک /Check</td>
-                            <td style=" width:45%">ملاحظات /Remarks</td>
-
-                        </tr>
-                        <tr>
-                            <td>
-                                تعداد اطاق
-                            </td>
-                            <td>@ViewBag.SchoolInfo.Nrooms</td>
-                            <td class=" text-center"><span class="mdi mdi-checkbox-blank-outline mdi-24px"></span></td>
-                            <td></td>
-
-                        </tr>
-                        <tr>
-                            <td>فاصله از مکاتب دولتی همجوار</td>
-                            <td>@ViewBag.SchoolInfo.DistancefromPuSchool</td>
-                            <td class=" text-center"><span class="mdi mdi-checkbox-blank-outline mdi-24px"></span></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                فاصله از مکاتب خصوصی همجوار
-                            </td>
-                            <td>@ViewBag.SchoolInfo.DistanceFromPrSchool</td>
-                            <td class=" text-center"><span class="mdi mdi-checkbox-blank-outline mdi-24px"></span></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                کتب درسی
-                            </td>
-                            <td>
-                                @if (ViewBag.SchoolInfo.HasTeachingBooks == 1)
-                                {
-                                    <label>بلی</label>
-                                }
-                                @if (ViewBag.SchoolInfo.HasTeachingBooks == 0)
-                                {
-                                    <label>نخیر</label>
-                                }
-                            </td>
-                            <td class=" text-center"><span class="mdi mdi-checkbox-blank-outline mdi-24px"></span></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                مواد ممد درسی
-                            </td>
-                            <td>
-                                @if (ViewBag.SchoolInfo.HasTeachingAids == 1)
-                                {
-                                    <label>بلی</label>
-                                }
-                                @if (ViewBag.SchoolInfo.HasTeachingAids == 0)
-                                {
-                                    <label>نخیر</label>
-                                }
-                            </td>
-                            <td class=" text-center"><span class="mdi mdi-checkbox-blank-outline mdi-24px"></span></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                میز و چوکی معلم
-                            </td>
-                            <td>@ViewBag.SchoolInfo.NteachDeskChair</td>
-                            <td class=" text-center"><span class="mdi mdi-checkbox-blank-outline mdi-24px"></span></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                میز و چوکی شاګرد
-                            </td>
-                            <td>@ViewBag.SchoolInfo.NstudentDeskChair</td>
-                            <td class=" text-center"><span class="mdi mdi-checkbox-blank-outline mdi-24px"></span></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>کتابخانه</td>
-                            <td>
-                                @if (ViewBag.SchoolInfo.HasLibrary == 1)
-                                {
-                                    <label>بلی</label>
-                                }
-                                @if (ViewBag.SchoolInfo.HasLibrary == 0)
-                                {
-                                    <label>نخیر</label>
-                                }
-                            </td>
-                            <td class=" text-center"><span class="mdi mdi-checkbox-blank-outline mdi-24px"></span></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                تعداد کتب کتابخانه
-                            </td>
-                            <td>@ViewBag.SchoolInfo.Nbooks</td>
-                            <td class=" text-center"><span class="mdi mdi-checkbox-blank-outline mdi-24px"></span></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>تخته</td>
-                            <td>@ViewBag.SchoolInfo.Nboards</td>
-                            <td class=" text-center"><span class="mdi mdi-checkbox-blank-outline mdi-24px"></span></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                وسایل لابراتواری
-                            </td>
-                            <td>@ViewBag.SchoolInfo.LaboratoryMaterialType</td>
-                            <td class=" text-center"><span class="mdi mdi-checkbox-blank-outline mdi-24px"></span></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                لابراتوار کمپیوتر
-                            </td>
-                            <td>
-                                @if (ViewBag.SchoolInfo.HasComputerLab == 1)
-                                {
-                                    <label>بلی</label>
-                                }
-                                @if (ViewBag.SchoolInfo.HasComputerLab == 0)
-                                {
-                                    <label>نخیر</label>
-                                }
-                            </td>
-                            <td class=" text-center"><span class="mdi mdi-checkbox-blank-outline mdi-24px"></span></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                تعداد کمپیوتر
-                            </td>
-                            <td>@ViewBag.SchoolInfo.Ncomputers</td>
-                            <td class=" text-center"><span class="mdi mdi-checkbox-blank-outline mdi-24px"></span></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                آب اشامیدنی صحی
-                            </td>
-                            <td>
-                                @if (ViewBag.SchoolInfo.HasDrinkingWater == 1)
-                                {
-                                    <label>بلی</label>
-                                }
-                                @if (ViewBag.SchoolInfo.HasDrinkingWater == 0)
-                                {
-                                    <label>نخیر</label>
-                                }
-                            </td>
-                            <td class=" text-center"><span class="mdi mdi-checkbox-blank-outline mdi-24px"></span></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                تعداد تشناب های صحی
-                            </td>
-                            <td>@ViewBag.SchoolInfo.NwashRooms</td>
-                            <td class=" text-center"><span class="mdi mdi-checkbox-blank-outline mdi-24px"></span></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                کمک های اولیه صحی
-                            </td>
-                            <td>
-                                @if (ViewBag.SchoolInfo.HasFirstAid == 1)
-                                {
-                                    <label>بلی</label>
-                                }
-                                @if (ViewBag.SchoolInfo.HasFirstAid == 0)
-                                {
-                                    <label>نخیر</label>
-                                }
-                            </td>
-                            <td class=" text-center"><span class="mdi mdi-checkbox-blank-outline mdi-24px"></span></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                وسایل اطفایه ضد حریق:
-                            </td>
-                            <td>
-                                @if (ViewBag.SchoolInfo.HasFirstAid == 1)
-                                {
-                                    <label>بلی</label>
-                                }
-                                @if (ViewBag.SchoolInfo.HasFirstAid == 0)
-                                {
-                                    <label>نخیر</label>
-                                }
-                            </td>
-                            <td class=" text-center"><span class="mdi mdi-checkbox-blank-outline mdi-24px"></span></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                وسایل نقلیه
-                            </td>
-                            <td>
-                                @if (ViewBag.SchoolInfo.HasTransportation == 1)
-                                {
-                                    <label>بلی</label>
-                                }
-                                @if (ViewBag.SchoolInfo.HasTransportation == 0)
-                                {
-                                    <label>نخیر</label>
-                                }
-                            </td>
-                            <td class=" text-center"><span class="mdi mdi-checkbox-blank-outline mdi-24px"></span></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                امکانات ورزشی
-                            </td>
-                            <td>
-                                @if (ViewBag.SchoolInfo.HasSportFacilities == 1)
-                                {
-                                    <label>بلی</label>
-                                }
-                                @if (ViewBag.SchoolInfo.HasSportFacilities == 0)
-                                {
-                                    <label>نخیر</label>
-                                }
-                            </td>
-                            <td class=" text-center"><span class="mdi mdi-checkbox-blank-outline mdi-24px"></span></td>
-                            <td></td>
-                        </tr>
-                    </table>
-                </div>
+                                    </table>
+                                </div>
 
 
-            }
+
+                                                <div class="card-header" style="background-color: gainsboro; margin-bottom:10px">
+                                                    <strong> @localizer["SchoolInformation"]  </strong>
+                                                </div>
+                                                                <div class="table-responsive">
+                                                                    <table class="table table-bordered">
+                                                                        <tr>
+                                                                            <td>@localizer["Item"]</td>
+                                                                            <td class="text-wrap">  @localizer["SubmittedInformation"] </td>
+                                                                            <td class="text-center"> @localizer["Check"]</td>
+                                                                            <td style=" width:45%">@localizer["Remarks"] </td>
+
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>
+                                                                                @localizer["NoOfRooms"]
+                                                                            </td>
+                                                                            <td>@ViewBag.SchoolInfo.Nrooms</td>
+                                                                            <td class=" text-center"><span class="mdi mdi-checkbox-blank-outline mdi-24px"></span></td>
+                                                                            <td></td>
+
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td> @localizer["DistanceFromGovSchool"]   </td>
+                                                                            <td>@ViewBag.SchoolInfo.DistancefromPuSchool</td>
+                                                                            <td class=" text-center"><span class="mdi mdi-checkbox-blank-outline mdi-24px"></span></td>
+                                                                            <td></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>
+                                                                                @localizer["DistanceFromPrivateSchool"]
+                                                                            </td>
+                                                                            <td>@ViewBag.SchoolInfo.DistanceFromPrSchool</td>
+                                                                            <td class=" text-center"><span class="mdi mdi-checkbox-blank-outline mdi-24px"></span></td>
+                                                                            <td></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>
+                                                                                @localizer["TeachingBooks"]
+                                                                            </td>
+                                                                            <td>
+                                                                                @if (ViewBag.SchoolInfo.HasTeachingBooks == 1)
+                                                                                {
+                                                                                <label>@localizer["Yes"]</label>}
+                                                                                @if (ViewBag.SchoolInfo.HasTeachingBooks == 0)
+                                                                                {
+                                                                            <label>@localizer["No"]</label>}
+                                                                            </td>
+                                                                            <td class=" text-center"><span class="mdi mdi-checkbox-blank-outline mdi-24px"></span></td>
+                                                                            <td></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>
+                                                                                @localizer["TeachingAids"]
+                                                                            </td>
+                                                                            <td>
+                                                                                @if (ViewBag.SchoolInfo.HasTeachingAids == 1)
+                                                                                {
+                                                                                <label>@localizer["Yes"]</label>}
+                                                                                @if (ViewBag.SchoolInfo.HasTeachingAids == 0)
+                                                                                {
+                                                                            <label>@localizer["No"]</label>}
+                                                                            </td>
+                                                                            <td class=" text-center"><span class="mdi mdi-checkbox-blank-outline mdi-24px"></span></td>
+                                                                            <td></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>
+                                                                                @localizer["TeacherDeskAndChair"]
+                                                                            </td>
+                                                                            <td>@ViewBag.SchoolInfo.NteachDeskChair</td>
+                                                                            <td class=" text-center"><span class="mdi mdi-checkbox-blank-outline mdi-24px"></span></td>
+                                                                            <td></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>
+                                                                                @localizer["StudentsDeskAndChair"]
+                                                                            </td>
+                                                                            <td>@ViewBag.SchoolInfo.NstudentDeskChair</td>
+                                                                            <td class=" text-center"><span class="mdi mdi-checkbox-blank-outline mdi-24px"></span></td>
+                                                                            <td></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td> @localizer["Library"]</td>
+                                                                            <td>
+                                                                                @if (ViewBag.SchoolInfo.HasLibrary == 1)
+                                                                                {
+                                                                                <label> @localizer["Yes"]</label>}
+                                                                                @if (ViewBag.SchoolInfo.HasLibrary == 0)
+                                                                                {
+                                                                            <label> @localizer["No"]</label>}
+                                                                            </td>
+                                                                            <td class=" text-center"><span class="mdi mdi-checkbox-blank-outline mdi-24px"></span></td>
+                                                                            <td></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>
+                                                                                @localizer["LibraryBooks"]
+                                                                            </td>
+                                                                            <td>@ViewBag.SchoolInfo.Nbooks</td>
+                                                                            <td class=" text-center"><span class="mdi mdi-checkbox-blank-outline mdi-24px"></span></td>
+                                                                            <td></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>   @localizer["Board"]</td>
+                                                                            <td>@ViewBag.SchoolInfo.Nboards</td>
+                                                                            <td class=" text-center"><span class="mdi mdi-checkbox-blank-outline mdi-24px"></span></td>
+                                                                            <td></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>
+                                                                                @localizer["LabratoryMaterial"]
+                                                                            </td>
+                                                                            <td>@ViewBag.SchoolInfo.LaboratoryMaterialType</td>
+                                                                            <td class=" text-center"><span class="mdi mdi-checkbox-blank-outline mdi-24px"></span></td>
+                                                                            <td></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>
+                                                                                @localizer["ComputerLab"]
+                                                                            </td>
+                                                                            <td>
+                                                                                @if (ViewBag.SchoolInfo.HasComputerLab == 1)
+                                                                                {
+                                                                                <label> @localizer["Yes"]</label>}
+                                                                                @if (ViewBag.SchoolInfo.HasComputerLab == 0)
+                                                                                {
+                                                                            <label> @localizer["No"]</label>}
+                                                                            </td>
+                                                                            <td class=" text-center"><span class="mdi mdi-checkbox-blank-outline mdi-24px"></span></td>
+                                                                            <td></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>
+                                                                                @localizer["ComputerCount"]
+                                                                            </td>
+                                                                            <td>@ViewBag.SchoolInfo.Ncomputers</td>
+                                                                            <td class=" text-center"><span class="mdi mdi-checkbox-blank-outline mdi-24px"></span></td>
+                                                                            <td></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>
+                                                                                @localizer["DrinkingWater"]
+                                                                            </td>
+                                                                            <td>
+                                                                                @if (ViewBag.SchoolInfo.HasDrinkingWater == 1)
+                                                                                {
+                                                                                <label> @localizer["Yes"]</label>}
+                                                                                @if (ViewBag.SchoolInfo.HasDrinkingWater == 0)
+                                                                                {
+                                                                            <label> @localizer["No"]</label>}
+                                                                            </td>
+                                                                            <td class=" text-center"><span class="mdi mdi-checkbox-blank-outline mdi-24px"></span></td>
+                                                                            <td></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>
+                                                                                @localizer["WashRooms"]
+                                                                            </td>
+                                                                            <td>@ViewBag.SchoolInfo.NwashRooms</td>
+                                                                            <td class=" text-center"><span class="mdi mdi-checkbox-blank-outline mdi-24px"></span></td>
+                                                                            <td></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>
+                                                                                @localizer["FirstAidMedical"]
+                                                                            </td>
+                                                                            <td>
+                                                                                @if (ViewBag.SchoolInfo.HasFirstAid == 1)
+                                                                                {
+                                                                                <label>  @localizer["Yes"]</label>}
+                                                                                @if (ViewBag.SchoolInfo.HasFirstAid == 0)
+                                                                                {
+                                                                            <label>  @localizer["No"]</label>}
+                                                                            </td>
+                                                                            <td class=" text-center"><span class="mdi mdi-checkbox-blank-outline mdi-24px"></span></td>
+                                                                            <td></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>
+                                                                                @localizer["FirseExtenguisherTools"]
+                                                                            </td>
+                                                                            <td>
+                                                                                @if (ViewBag.SchoolInfo.HasFirstAid == 1)
+                                                                                {
+                                                                                <label>@localizer["Yes"]</label>}
+                                                                                @if (ViewBag.SchoolInfo.HasFirstAid == 0)
+                                                                                {
+                                                                            <label>@localizer["No"]</label>}
+                                                                            </td>
+                                                                            <td class=" text-center"><span class="mdi mdi-checkbox-blank-outline mdi-24px"></span></td>
+                                                                            <td></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>
+                                                                                @localizer["Transportation"]
+                                                                            </td>
+                                                                            <td>
+                                                                                @if (ViewBag.SchoolInfo.HasTransportation == 1)
+                                                                                {
+                                                                                <label> @localizer["Yes"]</label>}
+                                                                                @if (ViewBag.SchoolInfo.HasTransportation == 0)
+                                                                                {
+                                                                            <label> @localizer["No"]</label>}
+                                                                            </td>
+                                                                            <td class=" text-center"><span class="mdi mdi-checkbox-blank-outline mdi-24px"></span></td>
+                                                                            <td></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>
+                                                                                @localizer["SportFacilities"]
+                                                                            </td>
+                                                                            <td>
+                                                                                @if (ViewBag.SchoolInfo.HasSportFacilities == 1)
+                                                                                {
+                                                                                <label> @localizer["Yes"]</label>}
+                                                                                @if (ViewBag.SchoolInfo.HasSportFacilities == 0)
+                                                                                {
+                                                                            <label> @localizer["No"]</label>}
+                                                                            </td>
+                                                                            <td class=" text-center"><span class="mdi mdi-checkbox-blank-outline mdi-24px"></span></td>
+                                                                            <td></td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </div>            }
 
             <div class="card-header" style="background-color: gainsboro; margin-bottom:10px">
-                <strong>معلومات مدیر مسوول استادان موسسه تعلیمی خصوصی</strong>
+                <strong>       @localizer["InfoAboutPrincipleAndTeacher"]</strong>
             </div>
             @if (ViewBag.PersonInfo != null)
             {
-                <div class="table-responsive">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>اسم و تخلص:</th>
-                                <th>وظیفه</th>
-                                <th> نمبر تذکیره /د تذکرې شمېره</th>
-                                <th>سن/عمر</th>
-                                <th>جنسبت</th>
-                                <th>درجه تحصیل</th>
-                                <th>سال فراغت/د فراغت کال</th>
-                                <th>  مدت خدمت در معارف/په ښوونه او روزنه کې د خدمت موده</th>
+<div class="table-responsive">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th> @localizer["NameLastName"] </th>
+                <th>@localizer["Occupation"]</th>
+                <th>   @localizer["NidNumber"]  </th>
+                <th>  @localizer["Age"] </th>
+                <th>  @localizer["Gender"] </th>
+                <th>   @localizer["EducationLevel"] </th>
+                <th>   @localizer["GraduationYear"]  </th>
+                <th>     @localizer["EducationServiceYears"]      </th>
 
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in ViewBag.PersonInfo)
-                            {
-                                <tr>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in ViewBag.PersonInfo)
+            {
+<tr>
 
-                                    <td>
-                                        @item.Name @item.LastName
-                                    </td>
-                                    <td>
-                                        @item.PartyRoleType
-                                    </td>
-                                    <td>
-                                        @item.Nidnumber
-                                    </td>
-                                    <td>
-                                        @item.Age
-                                    </td>
-                                    <td>
-                                        @item.GenderType
-                                    </td>
-                                    <td>
-                                        @item.EducationLevel
-                                    </td>
-                                    <td>
-                                        @item.GraduationDate
-                                    </td>
-                                    <td>
-                                        @item.Eduservice
-                                    </td>
+    <td>
+        @item.Name @item.LastName
+    </td>
+    <td>
+        @item.PartyRoleType
+    </td>
+    <td>
+        @item.Nidnumber
+    </td>
+    <td>
+        @item.Age
+    </td>
+    <td>
+
+        @if (culture == "en")
+        {
+    @item.GenderType.Split("/")[1] }
+else
+{
+    @item.GenderType.Split("/")[0]}
+    </td>
+    <td>
+        @if (culture == "en")
+        {
+    @item.EducationLevel.Split("/")[1] }
+else if (culture == "fa")
+{
+    @item.EducationLevel.Split("/")[0].Split("-")[0] }
+else
+{
 
 
-                                </tr>
-                            }
+    @item.EducationLevel.Split("/")[0].Split("-")[1]}
+    </td>
+    <td>
+        @item.GraduationDate
+    </td>
+    <td>
+        @item.Eduservice
+    </td>
 
 
-                        </tbody>
-                    </table>
-                </div>
-            }
+</tr>}
+
+
+        </tbody>
+    </table>
+</div>            }
 
             <div class="form-group col-md-12 mt-3">
-                <label>ملاحظات عمومی</label>
+                <label>  @localizer["GeneralRemarks"]</label>
                 <textarea class="form-control" rows="10"></textarea>
             </div>
         </div>
@@ -390,14 +434,14 @@
 </div>
 
 <div class="btn-group">
-    <a class="btn btn-primary" style = "background-color:#0193df;" href="@Url.Action("index","DPERep")">
-        برگشت به داشبورد / Back Dashboard
+    <a class="btn btn-primary" style="background-color:#0193df;" href="@Url.Action("index","DPERep")">
+        @localizer["BackToDashboard"]
     </a>
 </div>
 <div class="btn-group">
     <button id="print" class="btn btn-success" type="button">
         <span>
-            <i class="fa fa-print"></i> پرنت / چاپ / Print
+            <i class="fa fa-print"></i>   @localizer["Print"]
         </span>
     </button>
 </div>

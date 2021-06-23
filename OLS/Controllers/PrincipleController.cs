@@ -12,22 +12,29 @@ using System.IO;
 using OLS.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
+using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Mvc.Localization;
 
 namespace OLS.Controllers
 {
     [Route("Principle")]
-    [Authorize]
+    [Authorize(Roles = "Applicant")]
     public class PrincipleController : Controller
     {
         private ApplicationContext _applicationContext;
-        IHostingEnvironment _env;
+        IWebHostEnvironment _env;
         private readonly UserManager<User> _userManager;
+        private readonly INotyfService notyfService;
+        private readonly IHtmlLocalizer _localizer;
 
-        public PrincipleController(ApplicationContext applicationContext,IHostingEnvironment environment,UserManager<User> userManager)
+        public PrincipleController(ApplicationContext applicationContext, IHtmlLocalizer<PrincipleController> localizer, IWebHostEnvironment environment,UserManager<User> userManager,
+            INotyfService notyfService)
         {
             _applicationContext = applicationContext;
             _env = environment;
             _userManager = userManager;
+            this.notyfService = notyfService;
+            _localizer = localizer;
         }
 
         [Route("index")]
@@ -44,7 +51,49 @@ namespace OLS.Controllers
         {
             var UserId = _userManager.GetUserId(User);
             var id = _applicationContext.Process.Where(p => p.ProcessId == Guid.Parse("88A9020D-D188-417C-9B11-7FDA9613B197")).Select(p => p.ProcessId).FirstOrDefault();
-            var schoolid = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User)).Select(p => p.SchoolId).FirstOrDefault();
+            var schoolid = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User)).OrderByDescending(p => p.CreatedAt).Select(p => p.SchoolId).FirstOrDefault();
+
+
+
+            var result = _applicationContext.ProcessProgress.Where(p => p.SchoolId == schoolid && p.SubProcessId == Guid.Parse("E592365F-2FB6-4B0F-9C5E-01277BE052F0")).FirstOrDefault();
+            var re_schoolid = schoolid;
+
+
+            //New Changes
+
+            var sch_id = HttpContext.Session.GetString("mySchoolId");
+            if (sch_id != null)
+            {
+                schoolid = Guid.Parse(sch_id);
+            }
+
+            var newSchool = HttpContext.Session.GetString("new");
+            if (newSchool != null)
+            {
+                schoolid = Guid.NewGuid();
+            }
+
+            var myschoolid = HttpContext.Session.GetString("SchoolID");
+
+            if (myschoolid != null)
+            {
+                schoolid = Guid.Parse(myschoolid);
+            }
+
+            if (myschoolid == null && sch_id == null)
+            {
+                schoolid = Guid.NewGuid();
+            }
+
+
+            if (result == null)
+            {
+                schoolid = re_schoolid;
+            }
+
+
+
+
 
             var displayPlan = (from process in _applicationContext.Process
                                join subProcess in _applicationContext.SubProcess on process.ProcessId equals subProcess.ProcessId into processgroup
@@ -76,7 +125,7 @@ namespace OLS.Controllers
 
                                }).OrderBy(p => p.OrderNumber).ToList();
             
-            var principle = _applicationContext.Person.Where(p => p.CreatedBy == UserId && p.PartyRoleTypeId== Guid.Parse("FD744DE3-476C-428F-B7E0-381A9DD286FE")).FirstOrDefault();
+            var principle = _applicationContext.Person.Where(p => p.CreatedBy == UserId && p.SchoolId==schoolid && p.PartyRoleTypeId== Guid.Parse("FD744DE3-476C-428F-B7E0-381A9DD286FE")).FirstOrDefault();
             ViewBag.principle = principle;
             if (principle != null)
             {
@@ -130,7 +179,7 @@ namespace OLS.Controllers
         }
 
         [Route("FindDistrict/{ProvinceId}")]
-        public IActionResult FindDistrict(Guid ProvinceId)
+        public IActionResult FindDistrict(int ProvinceId)
         {
             var districts = _applicationContext.ZDistrict.Where(district => district.ProvinceId == ProvinceId).Select(distict => new { 
             Id=distict.DistrictId,
@@ -141,7 +190,7 @@ namespace OLS.Controllers
             return new JsonResult(districts);
         }
         [Route("FindVillagNahia/{DistrictId}")]
-        public IActionResult FindVillagNahia(Guid DistrictId)
+        public IActionResult FindVillagNahia(int DistrictId)
         {
             var VillageNahias = _applicationContext.ZVillageNahia.Where(villigaeNahia => villigaeNahia.DistrictId == DistrictId)
                 .Select(villageNahia =>new { 
@@ -165,7 +214,7 @@ namespace OLS.Controllers
                 return Json(true);
             }
             else {
-                return Json($" ایمیل قبلا استفاده شده است / ورکړل شوی برېښنالیک کارول شوی ده/Email {email} already in use");
+                return Json(_localizer["EmailInUse"].Value);
             }
 
         }
@@ -182,7 +231,7 @@ namespace OLS.Controllers
             }
             else
             {
-                return Json($"Phone number {email} already in use");
+                return Json(_localizer["EmailInUse"].Value);
             }
 
         }
@@ -201,7 +250,7 @@ namespace OLS.Controllers
             }
             else
             {
-                return Json($"Phone number {PhonNumber} already in use");
+                return Json(_localizer["PhoneNumberInUse"].Value);
             }
 
         }
@@ -218,7 +267,7 @@ namespace OLS.Controllers
             }
             else
             {
-                return Json($"Phone number {PhonNumber} already in use");
+                return Json(_localizer["PhoneNumberInUse"].Value);
             }
 
         }
@@ -237,7 +286,7 @@ namespace OLS.Controllers
             }
             else
             {
-                return Json($"Tazkira number {NIDNumber} already in use");
+                return Json(_localizer["NIDInUse"].Value);
             }
 
         }
@@ -255,7 +304,7 @@ namespace OLS.Controllers
             }
             else
             {
-                return Json($"Tazkira number {NIDNumber} already in use");
+                return Json(_localizer["NIDInUse"].Value);
             }
 
         }
@@ -281,6 +330,18 @@ namespace OLS.Controllers
 
             return View();
 
+        }
+
+        [Route("InsertNewFacultyType/{FacultyName}")]
+        public async Task<JsonResult> InsertNewFacultyType(string FacultyName)
+        {
+            var FacultyType = new ZFacultyType();
+            FacultyType.FacultyTypeId = Guid.NewGuid();
+            FacultyType.FacultypeNameDari = FacultyName+"/"+FacultyName;
+            FacultyType.FacultypeName = FacultyName;
+            _applicationContext.ZFacultyType.Add(FacultyType);
+            await  _applicationContext.SaveChangesAsync().ConfigureAwait(true);
+            return Json(FacultyType.FacultyTypeId);
         }
 
 
@@ -434,10 +495,12 @@ namespace OLS.Controllers
                       
                     };
                     HttpContext.Session.SetString("FounderID", principledetails.PersonId.ToString());
+                   
+                    HttpContext.Session.SetString("Principle", "Create");
                     return View(principle);
                 }
                 else {
-                    return View("index");
+                    return View();
 
                 }
                
@@ -505,24 +568,34 @@ namespace OLS.Controllers
 
                     ContactDetails PhoneNumber = _applicationContext.ContactDetails.Where(p => p.PartyId == principle.PersonId && p.ContactMechanismTypeId == Guid.Parse("B1B3DB1A-A3FB-43B9-839F-47A38C7F93CB")).FirstOrDefault();
                     PhoneNumber.Value = principle.PhonNumber;
+                    PhoneNumber.UpdatedBy = _userManager.GetUserId(User);
+                    PhoneNumber.UpdatedAt = DateTime.Now;
 
                     ContactDetails Email = _applicationContext.ContactDetails.Where(p => p.PartyId == principle.PersonId && p.ContactMechanismTypeId == Guid.Parse("1BE17772-A613-49A5-A67B-C1538DCBF647")).FirstOrDefault();
                     Email.Value = principle.Email;
+                    Email.UpdatedBy = _userManager.GetUserId(User);
+                    Email.UpdatedAt = DateTime.Now;
 
                     PersonEducation personEducation = _applicationContext.PersonEducation.Where(p => p.PersonId == principle.PersonId).FirstOrDefault();
                     personEducation.EducationLevelId = principle.EducationLevelID;
                     personEducation.FacultyTypeId = principle.FacultyTypeId;
                     personEducation.GraduationDate = principle.GraduationDate;
+                    personEducation.UpdatedBy = _userManager.GetUserId(User);
+                    personEducation.UpdatedAt = DateTime.Now;
 
                     PartyAddress PermenantAddress = _applicationContext.PartyAddress.Where(p => p.PartyId == principle.PersonId && p.AddressTypeId == Guid.Parse("EDDCDD48-67D0-4BAE-B96E-B7ACB5C87DF7")).FirstOrDefault();
                     PermenantAddress.ProvinceId = principle.PerProvinceId;
                     PermenantAddress.DistrictId = principle.PerDistrictId;
                     PermenantAddress.Nahia = principle.PerNahia;
+                    PermenantAddress.UpdatedBy = _userManager.GetUserId(User);
+                    PermenantAddress.UpdatedAt = DateTime.Now;
 
                     PartyAddress CurrentAddress = _applicationContext.PartyAddress.Where(p => p.PartyId == principle.PersonId && p.AddressTypeId == Guid.Parse("28048D3E-BF94-4068-9735-6E798BA9FD52")).FirstOrDefault();
                     CurrentAddress.ProvinceId = principle.PreProvinceId;
                     CurrentAddress.DistrictId = principle.PreDistrictId;
                     CurrentAddress.Nahia = principle.PreNahia;
+                    CurrentAddress.UpdatedBy = _userManager.GetUserId(User);
+                    CurrentAddress.UpdatedAt = DateTime.Now;
 
 
                     string FilePath = "";
@@ -552,7 +625,7 @@ namespace OLS.Controllers
                         }
                         else
                         {
-                            ViewBag.photoerror = " only .jpg, png and jpeg format is allowed and max of 500 kb // فارمت های ذیل را میتوان استفاده نمود و حد اکثر حجم فایل باید 500 ک ب باشد  ";
+                            ViewBag.photoerror =_localizer["PhotoError"].Value;
                             return View(principle);
                            
                         }
@@ -566,13 +639,55 @@ namespace OLS.Controllers
                     _applicationContext.Update(personEducation);
                     _applicationContext.Update(PermenantAddress);
                     _applicationContext.Update(CurrentAddress);
-                    await _applicationContext.SaveChangesAsync();
-                    ViewBag.Message = "معلومات موفقانه تصحیح گردید / معلومات په بریالیتوب سره اصلاح شول / Record Successfully updated ";
+                    await _applicationContext.SaveChangesAsync().ConfigureAwait(true);
+                    notyfService.Custom(_localizer["PrincipleUpdated"].Value, 10, "#67757c", "fa fa-check");
+                    ViewBag.Message = _localizer["RecordUpdated"].Value;
                     HttpContext.Session.SetString("FounderID", principle.PersonId.ToString());
                     return View(principle);
 
-                }              
-                return View("index");
+                }
+
+
+
+
+
+
+
+
+                var EducationLev = _applicationContext.ZEducationLevel.OrderBy(o => o.OrderNumber);
+                ViewBag.EducationLevel = EducationLev;
+
+                var GenderT= _applicationContext.ZGenderType.OrderBy(o => o.OrderNumber);
+                ViewBag.GenderType = GenderT;
+
+                var FacultyT = _applicationContext.ZFacultyType.OrderBy(o => o.OrderNumber);
+                ViewBag.FacultyType = FacultyT;
+
+                var principlede = _applicationContext.Person.Find(principle.PersonId);
+                var principlePh = _applicationContext.ContactDetails.Where(p => p.PartyId == principle.PersonId && p.ContactMechanismTypeId == Guid.Parse("B1B3DB1A-A3FB-43B9-839F-47A38C7F93CB")).FirstOrDefault();
+                var principleEm = _applicationContext.ContactDetails.Where(p => p.PartyId == principle.PersonId && p.ContactMechanismTypeId == Guid.Parse("1BE17772-A613-49A5-A67B-C1538DCBF647")).FirstOrDefault();
+                var principleEduc = _applicationContext.PersonEducation.Where(p => p.PersonId == principle.PersonId).FirstOrDefault();
+                var principlePerAdd = _applicationContext.PartyAddress.Where(p => p.PartyId == principle.PersonId && p.AddressTypeId == Guid.Parse("EDDCDD48-67D0-4BAE-B96E-B7ACB5C87DF7")).FirstOrDefault();
+                var principlePreAdd = _applicationContext.PartyAddress.Where(p => p.PartyId == principle.PersonId && p.AddressTypeId == Guid.Parse("28048D3E-BF94-4068-9735-6E798BA9FD52")).FirstOrDefault();
+
+                var Perprov = _applicationContext.ZProvince;
+                ViewBag.Perprovince = Perprov;
+                var Perdistr = _applicationContext.ZDistrict.Where(d => d.ProvinceId == principlePerAdd.ProvinceId);
+                ViewBag.Perdistrict = Perdistr;
+                //  var PervillageNahia = _applicationContext.ZVillageNahia.Where(v => v.DistrictId == principlePerAddress.DistrictId);
+                // ViewBag.PervillageNahia = PervillageNahia;
+
+                var Preprov = _applicationContext.ZProvince;
+                ViewBag.Preprovince = Preprov;
+                var Predistr = _applicationContext.ZDistrict.Where(d => d.ProvinceId == principlePreAdd.ProvinceId);
+                ViewBag.Predistrict = Predistr;
+
+
+
+
+
+
+                return View();
             } catch (Exception ex) {
                 return View("index");
             }
@@ -599,6 +714,19 @@ namespace OLS.Controllers
 
             var FacultyType = _applicationContext.ZFacultyType.OrderBy(o => o.OrderNumber);
             ViewBag.FacultyType = FacultyType;
+
+
+            var myschoolid = HttpContext.Session.GetString("SchoolID");
+
+            if (myschoolid == null)
+            {
+                return RedirectToAction("Navigate", "School");
+            }
+            var financialResource = HttpContext.Session.GetString("FinancialResource");
+            if (financialResource == null)
+            {
+                return RedirectToAction("Navigate", "FinancialResource");
+            }
 
             return View();
         }
@@ -645,7 +773,8 @@ namespace OLS.Controllers
 
                 Party party = new Party() { PartyId = Pid };
                 var UserId = _userManager.GetUserId(User);
-                var school = _applicationContext.School.Where(p => p.CreatedBy == UserId).FirstOrDefault();
+                var schoolId = Guid.Parse(HttpContext.Session.GetString("SchoolID"));
+                var school = _applicationContext.School.Where(p => p.CreatedBy == UserId && p.SchoolId==schoolId).FirstOrDefault();
                 Person person = new Person()
                 {
                     PersonId = Pid,
@@ -670,7 +799,9 @@ namespace OLS.Controllers
                     ContactDetailId = PhoneCid,
                     PartyId = Pid,
                     ContactMechanismTypeId = Guid.Parse("B1B3DB1A-A3FB-43B9-839F-47A38C7F93CB"),
-                    Value = principle.PhonNumber
+                    Value = principle.PhonNumber ,
+                    CreatedBy = _userManager.GetUserId(User),
+                    CreatedAt = DateTime.Now
                 };
 
                 Guid EmailCid = Guid.NewGuid();
@@ -679,7 +810,9 @@ namespace OLS.Controllers
                     ContactDetailId = EmailCid,
                     PartyId = Pid,
                     ContactMechanismTypeId = Guid.Parse("1BE17772-A613-49A5-A67B-C1538DCBF647"),
-                    Value = principle.Email
+                    Value = principle.Email,
+                    CreatedBy = _userManager.GetUserId(User),
+                    CreatedAt = DateTime.Now
                 };
 
                 Guid personEductionID = Guid.NewGuid();
@@ -690,6 +823,8 @@ namespace OLS.Controllers
                     EducationLevelId = principle.EducationLevelID,
                     FacultyTypeId=principle.FacultyTypeId,
                     GraduationDate=principle.GraduationDate,
+                    CreatedBy = _userManager.GetUserId(User),
+                    CreatedAt = DateTime.Now
                 };
 
                 Guid PerAaddressId = Guid.NewGuid();
@@ -700,7 +835,9 @@ namespace OLS.Controllers
                     AddressTypeId = Guid.Parse("EDDCDD48-67D0-4BAE-B96E-B7ACB5C87DF7"),
                     ProvinceId = principle.PerProvinceId,
                     DistrictId = principle.PerDistrictId,
-                    Nahia = principle.PerNahia
+                    Nahia = principle.PerNahia,
+                    CreatedBy = _userManager.GetUserId(User),
+                    CreatedAt = DateTime.Now
                 };
                 Guid CurrAaddressId = Guid.NewGuid();
                 PartyAddress CurrentAddress = new PartyAddress()
@@ -710,7 +847,9 @@ namespace OLS.Controllers
                     AddressTypeId = Guid.Parse("28048D3E-BF94-4068-9735-6E798BA9FD52"),
                     ProvinceId = principle.PreProvinceId,
                     DistrictId = principle.PreDistrictId,
-                    Nahia = principle.PreNahia
+                    Nahia = principle.PreNahia,
+                    CreatedBy = _userManager.GetUserId(User),
+                    CreatedAt = DateTime.Now
                 };
                 _applicationContext.Add(party);
                 _applicationContext.Add(person);
@@ -719,11 +858,28 @@ namespace OLS.Controllers
                 _applicationContext.Add(personEducation);
                 _applicationContext.Add(PermenantAddress);
                 _applicationContext.Add(CurrentAddress);
-                await _applicationContext.SaveChangesAsync();
+                await _applicationContext.SaveChangesAsync().ConfigureAwait(true);
                 HttpContext.Session.SetString("principleid", Pid.ToString());
-                ViewBag.Message = "معلومات ثبت گردید";
-                return RedirectToAction("Edit", new { principleid = Pid });
+                notyfService.Custom(_localizer["PrincipleCreated"].Value, 10, "#67757c", "fa fa-check");
+
+                HttpContext.Session.SetString("Principle", "Create");
+
+                ViewBag.Message = _localizer["RecordSaved"].Value;
+                //   return RedirectToAction("Edit", new { principleid = Pid });
+                return RedirectToAction("Navigate", "Teacher");
             }
+
+            var prov = _applicationContext.ZProvince;
+            ViewBag.Province = prov;
+
+            var EducationL = _applicationContext.ZEducationLevel.OrderBy(o => o.OrderNumber);
+            ViewBag.EducationLevel = EducationL;
+
+            var GenderT = _applicationContext.ZGenderType.OrderBy(o => o.OrderNumber);
+            ViewBag.GenderType = GenderT;
+
+            var FacultyT = _applicationContext.ZFacultyType.OrderBy(o => o.OrderNumber);
+            ViewBag.FacultyType = FacultyT;
             return View("Create"); 
            
         }
