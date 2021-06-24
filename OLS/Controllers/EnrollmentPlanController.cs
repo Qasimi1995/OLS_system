@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Mvc.Localization;
 
 namespace OLS.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Applicant")]
     public class EnrollmentPlanController : Controller
     {
         private ApplicationContext _applicationContext;
