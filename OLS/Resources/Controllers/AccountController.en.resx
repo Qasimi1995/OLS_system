@@ -124,7 +124,7 @@
     <value>Account is inactive, please contact administrator</value>
   </data>
   <data name="EmailNotExist" xml:space="preserve">
-    <value>Entered Email address not exist please confirm if its not wrong</value>
+    <value>Entered Email address does not exist. Please re-enter the correct address.</value>
   </data>
   <data name="EmailUniqueMessage" xml:space="preserve">
     <value>Email already in use</value>
@@ -142,7 +142,7 @@
     <value>Password Reset</value>
   </data>
   <data name="PasswordResetMessage" xml:space="preserve">
-    <value>Hey Dear Please use the following link to reset your password.  if you did not request this password reset please ignore this  email. Token time for reset password is 2 hours please reset password within the token time range</value>
+    <value>Greetings, Please use the following link to reset your password.  if you did not request this password reset please ignore this  email. Token time for reset password is 2 hours please reset password within the token time range</value>
   </data>
   <data name="PasswordUpdatedSuccessfully" xml:space="preserve">
     <value>Password Updated successfully</value>

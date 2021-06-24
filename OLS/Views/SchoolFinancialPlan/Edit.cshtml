@@ -41,8 +41,8 @@
                                     }
                                     for (int i = 0; i < Model.Count; i++)
                                     {
-                                            var feeAmount = "";
-                                            var AdmissionFee = "";
+                                            int feeAmount =Convert.ToInt32(@Model[i].FeeAmount);
+                                            int AdmissionFee = Convert.ToInt32(@Model[i].AdmissionFee);
                                             @Html.HiddenFor(m => Model[i].Id);
                                             @Html.HiddenFor(m => Model[i].SchoolId);
 
@@ -51,20 +51,17 @@
                                                     @if (culture == "en")
                                                     {
                                                         @Model[i].SchoolSubLevelName.Split("/")[2]
-                                                        feeAmount = Model[i].FeeAmount.ToString();
-                                                        AdmissionFee = Model[i].AdmissionFee.ToString();
+                                                        
                                                     }
                                                     else if (culture == "fa")
                                                     {
                                                         @Model[i].SchoolSubLevelName.Split("/")[0]
-                                                        feeAmount = Model[i].FeeAmount.ToString().Replace("/", ".");
-                                                        AdmissionFee = Model[i].AdmissionFee.ToString().Replace("/", ".");
+                                                       
                                                     }
                                                     else
                                                     {
                                                         @Model[i].SchoolSubLevelName.Split("/")[1]
-                                                        feeAmount = Model[i].FeeAmount.ToString().Replace(",", ".");
-                                                        AdmissionFee = Model[i].AdmissionFee.ToString().Replace(",", ".");
+                                                        
                                                     }
 
                                                 </td>

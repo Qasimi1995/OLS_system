@@ -23,7 +23,7 @@ namespace OLS.Controllers
         private readonly INotyfService notyfService;
         private readonly IHtmlLocalizer _localizer;
 
-        public EnrollmentPlanController(ApplicationContext applicationContext, IHtmlLocalizer<EmailSendController> localizer, IWebHostEnvironment environment, UserManager<User> userManager,
+        public EnrollmentPlanController(ApplicationContext applicationContext, IHtmlLocalizer<EnrollmentPlanController> localizer, IWebHostEnvironment environment, UserManager<User> userManager,
              INotyfService notyfService)
         {
             _applicationContext = applicationContext;

@@ -316,10 +316,10 @@ namespace OLS.Controllers
             }
 
 
-            //if (re == null)
-            //{
-            //    schoolId = re_schoolid;
-            //}
+            if (re == null)
+            {
+                schoolId = re_schoolid;
+            }
 
 
 

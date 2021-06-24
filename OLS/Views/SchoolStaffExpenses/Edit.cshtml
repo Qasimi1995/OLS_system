@@ -32,7 +32,9 @@
                                 {
                                     for (int i = 0; i < Model.Count; i++)
                                     {
-                            @Html.HiddenFor(m => Model[i].Id)
+                                     int salary=Convert.ToInt32(@Model[i].Salary);
+                                     @Html.HiddenFor(m => Model[i].Id)
+                                        
 
                                 <tr>
 
@@ -41,16 +43,20 @@
 
                                         @if (culture == "en")
                                         {
-                                @Model[i].PartyRoleType.Split("/")[2] }
-                            else if (culture == "fa")
-                            {
-                                @Model[i].PartyRoleType.Split("/")[0] }
-                            else
-                            {
-                                @Model[i].PartyRoleType.Split("/")[1]}
+                                            @Model[i].PartyRoleType.Split("/")[2] 
+                                        }
+                                        else if (culture == "fa")
+                                        {
+                                            @Model[i].PartyRoleType.Split("/")[0] 
+                                        }
+                                        else
+                                        {
+                                            @Model[i].PartyRoleType.Split("/")[1]
+                                        }
                                     </td>
                                     <td>
-                                        @Html.EditorFor(m => Model[i].Salary, new { htmlAttributes = new { @class = "form-control" } })
+                                        @*@Html.EditorFor(m => Model[i].Salary, new { htmlAttributes = new { @class = "form-control" } })*@
+                                        <input  type="number" class="form-control"asp-for="@Model[i].Salary" value="@salary"  />
                                         @Html.ValidationMessageFor(m => Model[i].Salary, null, new { @class = "text-danger" })
                                     </td>
                                     <td>

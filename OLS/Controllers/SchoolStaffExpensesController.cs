@@ -225,10 +225,10 @@ namespace OLS.Controllers
                 schoolId = Guid.Parse(myschoolid);
             }
 
-            //if (result == null)
-            //{
-            //    schoolId = re_schoolid;
-            //}
+            if (result == null)
+            {
+                schoolId = re_schoolid;
+            }
 
 
 
@@ -244,7 +244,7 @@ namespace OLS.Controllers
                                    Id= schoolStaffExpenses.Id,
                                    PartyRoleType = zPartyRoleType.PartyRoleTypeNameDari + "/" + zPartyRoleType.PartyRoleTypeNamePashto + "/" + zPartyRoleType.PartyRoleTypeName,
                                    PartyRoleTypeId = zPartyRoleType.PartyRoleTypeId,
-                                   Salary= schoolStaffExpenses.Salary,
+                                   Salary=schoolStaffExpenses.Salary,
                                    Amount = schoolStaffExpenses.Amount,
                                }).ToList();
 
