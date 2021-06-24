@@ -49,7 +49,7 @@ namespace OLS.ViewModels
         public int?     NstudentDeskChair       { get; set; }
         [Required(ErrorMessage = "*")]
         public byte?    HasLibrary              { get; set; }
-        [Required(ErrorMessage = "*")]
+        //[Required(ErrorMessage = "*")]
         [Remote(action: "ValidateNbooks", controller: "School", AdditionalFields = "SchoolLevelId,Nbooks")]
         public int?     Nbooks                   { get; set; }
         [Required(ErrorMessage = "*")]
@@ -58,7 +58,7 @@ namespace OLS.ViewModels
         [Required(ErrorMessage = "*")]
         public Guid?    LaboratoryMaterialTypeId { get; set; }
         public byte?    HasComputerLab              { get; set; }
-        [Required(ErrorMessage = "*")]
+        //[Required(ErrorMessage = "*")]
         [Remote(action: "ValidateNcomputers", controller: "School", AdditionalFields = "SchoolLevelId,Ncomputers")]
         public int?     Ncomputers                  { get; set; }
   

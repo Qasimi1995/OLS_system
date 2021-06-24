@@ -132,14 +132,14 @@
   <data name="General" xml:space="preserve">
     <value>General</value>
   </data>
+  <data name="GeneralList" xml:space="preserve">
+    <value>General List</value>
+  </data>
   <data name="GeneralReport" xml:space="preserve">
     <value>General Report</value>
   </data>
   <data name="GeneralReportsOfAll" xml:space="preserve">
     <value>General Reports of All</value>
-  </data>
-  <data name="GenralList" xml:space="preserve">
-    <value>General List</value>
   </data>
   <data name="HighSchool" xml:space="preserve">
     <value>High School</value>

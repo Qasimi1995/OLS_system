@@ -123,8 +123,14 @@
   <data name="Active" xml:space="preserve">
     <value>Active</value>
   </data>
+  <data name="ConfirmationUserStatusChange" xml:space="preserve">
+    <value>Confirmation user status change</value>
+  </data>
   <data name="CurrentStatus" xml:space="preserve">
     <value>Current Status</value>
+  </data>
+  <data name="DoYouWantToChangeTheCurrentUserStatus" xml:space="preserve">
+    <value>Do you want to change current statuse of User</value>
   </data>
   <data name="Edit" xml:space="preserve">
     <value>Edit</value>
@@ -140,6 +146,9 @@
   </data>
   <data name="Name" xml:space="preserve">
     <value>Name</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
   </data>
   <data name="Password" xml:space="preserve">
     <value>Password</value>
@@ -170,5 +179,8 @@
   </data>
   <data name="UserName" xml:space="preserve">
     <value>User Name</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Yes</value>
   </data>
 </root>

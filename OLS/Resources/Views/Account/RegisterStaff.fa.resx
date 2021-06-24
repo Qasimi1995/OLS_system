@@ -123,8 +123,14 @@
   <data name="Active" xml:space="preserve">
     <value>فعال</value>
   </data>
+  <data name="ConfirmationUserStatusChange" xml:space="preserve">
+    <value>تاییدی تغییر حالت کاربر</value>
+  </data>
   <data name="CurrentStatus" xml:space="preserve">
     <value>حالت فعلی</value>
+  </data>
+  <data name="DoYouWantToChangeTheCurrentUserStatus" xml:space="preserve">
+    <value> آیا مطمین هستید که حالت فعلی کاربر را تغییر دهید؟</value>
   </data>
   <data name="Edit" xml:space="preserve">
     <value>تصحیح</value>
@@ -140,6 +146,9 @@
   </data>
   <data name="Name" xml:space="preserve">
     <value>نام</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>نخیر</value>
   </data>
   <data name="Password" xml:space="preserve">
     <value>پاسورد</value>
@@ -170,5 +179,8 @@
   </data>
   <data name="UserName" xml:space="preserve">
     <value>نام کاربر</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>بلی</value>
   </data>
 </root>

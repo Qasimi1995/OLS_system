@@ -175,10 +175,10 @@
     <value>Number of Books in Library</value>
   </data>
   <data name="NumberOfComputers" xml:space="preserve">
-    <value>No# of Computers</value>
+    <value>No of Computers</value>
   </data>
   <data name="NumberOfWashRooms" xml:space="preserve">
-    <value>No# of Washrooms</value>
+    <value>No of Washrooms</value>
   </data>
   <data name="OtherFacilities" xml:space="preserve">
     <value>Other Facilities</value>
@@ -190,7 +190,7 @@
     <value>Province</value>
   </data>
   <data name="Rooms" xml:space="preserve">
-    <value>Rooms#</value>
+    <value>Rooms No</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Save</value>

@@ -88,15 +88,18 @@
 
 
                                         <option value="@Pname.SchoolGenderTypeName">
+
                                             @if (culture == "en")
                                             {
-                                        @Pname.SchoolGenderTypeName }
-                                    else if (culture == "fa")
-                                    {
-                                        @Pname.SchoolGenderTypeNameDari.Split("/")[0]}
-                                    else
-                                    {
-                                        @Pname.SchoolGenderTypeNameDari.Split("/")[1]
+                                                @Pname.SchoolGenderTypeName
+                                            }
+                                            else if(culture =="fa")
+                                            {
+                                                @Pname.SchoolGenderTypeNameDari.Split("/")[0]
+                                            }
+                                            else
+                                            {
+                                                @Pname.SchoolGenderTypeNameDari.Split("/")[1]
                                             }
 
 
@@ -164,22 +167,21 @@
                                             @foreach (var Pname in ViewBag.StatusN)
                                             {
                                         <option value="@Pname.StatusNameDariPast">
-
-
-
-
                                             @if (culture == "en")
                                             {
-                                        @Pname.StatusNamePast }
-                                    else if (culture == "fa")
-                                    {
-                                        @Pname.StatusNameDariPast.Split("/")[0]}
-                                    else
-                                    {
-                                        @Pname.StatusNameDariPast.Split("/")[1]
+                                                @Pname.StatusNamePast
                                             }
+                                            else if (culture == "fa")
+                                            {
+                                                @Pname.StatusNameDariPast.Split("/")[0]
+                                            }
+                                            else
+                                            {
+                                                @Pname.StatusNameDariPast.Split("/")[1]
+                                            }
+
                                         </option>
-}
+                                            }
                                         </select>
 
                                     </div>
@@ -216,7 +218,7 @@
 
         <hr />
 
-        <h4 class="card-title">  @localizer["GeneralList"]  </h4>
+        <h4 class="card-title text-center">  @localizer["GeneralList"]  </h4>
         <div class="table-responsive mt-4">
             <table id="example23"
                    class="display nowrap table table-hover table-striped table-bordered"

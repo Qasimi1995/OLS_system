@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Mvc.Localization;
 
 namespace OLS.Controllers
 {
-    [Authorize(Roles ="Applicant")]
+    [Authorize(Roles = "Applicant")]
     public class EnrollmentPlanController : Controller
     {
         private ApplicationContext _applicationContext;
@@ -42,14 +42,10 @@ namespace OLS.Controllers
         {
             var UserId = _userManager.GetUserId(User);
             var id = _applicationContext.Process.Where(p => p.ProcessId == Guid.Parse("88A9020D-D188-417C-9B11-7FDA9613B197")).Select(p => p.ProcessId).FirstOrDefault();
-            var schoolid = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User)).OrderByDescending(p=>p.CreatedAt).Select(p => p.SchoolId).FirstOrDefault();
+            var schoolid = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User)).OrderByDescending(p => p.CreatedAt).Select(p => p.SchoolId).FirstOrDefault();
 
 
             //New Changes
-
-
-            var result = _applicationContext.ProcessProgress.Where(p => p.SchoolId == schoolid && p.SubProcessId == Guid.Parse("E592365F-2FB6-4B0F-9C5E-01277BE052F0")).FirstOrDefault();
-            var re_schoolid = schoolid;
 
             var sch_id = HttpContext.Session.GetString("mySchoolId");
             if (sch_id != null)
@@ -74,14 +70,6 @@ namespace OLS.Controllers
             {
                 schoolid = Guid.NewGuid();
             }
-
-
-
-            if (result == null)
-            {
-                schoolid = re_schoolid;
-            }
-
 
 
 
@@ -114,8 +102,8 @@ namespace OLS.Controllers
 
                                }).OrderBy(p => p.OrderNumber).ToList();
 
-            var year = _applicationContext.StudentEnrollmentPlan.Where(p => p.CreatedBy == _userManager.GetUserId(User) && p.SchoolId==schoolid).Select(p => p.Year).Min();
-            var studentEnrollmentPlan = _applicationContext.StudentEnrollmentPlan.Where(p => p.CreatedBy == UserId && p.SchoolId==schoolid && p.Year == year);
+            var year = _applicationContext.StudentEnrollmentPlan.Where(p => p.CreatedBy == _userManager.GetUserId(User) && p.SchoolId == schoolid).Select(p => p.Year).Min();
+            var studentEnrollmentPlan = _applicationContext.StudentEnrollmentPlan.Where(p => p.CreatedBy == UserId && p.SchoolId == schoolid && p.Year == year);
 
             if (studentEnrollmentPlan.Count() != 0)
             {
@@ -160,7 +148,7 @@ namespace OLS.Controllers
                 {
                     return RedirectToAction("Edit");
                 }
-              
+
             }
 
 
@@ -170,13 +158,10 @@ namespace OLS.Controllers
         {
             var UserId = _userManager.GetUserId(User);
             var id = _applicationContext.Process.Where(p => p.ProcessId == Guid.Parse("88A9020D-D188-417C-9B11-7FDA9613B197")).Select(p => p.ProcessId).FirstOrDefault();
-            var schoolid = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User)).OrderByDescending(p=>p.CreatedAt).Select(p => p.SchoolId).FirstOrDefault();
+            var schoolid = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User)).OrderByDescending(p => p.CreatedAt).Select(p => p.SchoolId).FirstOrDefault();
 
 
             //New Changes
-
-            var result = _applicationContext.ProcessProgress.Where(p => p.SchoolId == schoolid && p.SubProcessId == Guid.Parse("E592365F-2FB6-4B0F-9C5E-01277BE052F0")).FirstOrDefault();
-            var re_schoolid = schoolid;
 
             var sch_id = HttpContext.Session.GetString("mySchoolId");
             if (sch_id != null)
@@ -201,14 +186,6 @@ namespace OLS.Controllers
             {
                 schoolid = Guid.NewGuid();
             }
-
-
-
-            if (result == null)
-            {
-                schoolid = re_schoolid;
-            }
-
 
 
 
@@ -242,9 +219,9 @@ namespace OLS.Controllers
 
                                }).OrderBy(p => p.OrderNumber).ToList();
 
-            var year = _applicationContext.StudentEnrollmentPlan.Where(p => p.CreatedBy == _userManager.GetUserId(User) && p.SchoolId==schoolid).Select(p => p.Year);
-            var studentEnrollmentPlan = _applicationContext.StudentEnrollmentPlan.Where(p => p.CreatedBy == UserId && p.SchoolId==schoolid).Select(p =>p.Year).Distinct().ToList();
-            if (studentEnrollmentPlan.Count() >1)
+            var year = _applicationContext.StudentEnrollmentPlan.Where(p => p.CreatedBy == _userManager.GetUserId(User) && p.SchoolId == schoolid).Select(p => p.Year);
+            var studentEnrollmentPlan = _applicationContext.StudentEnrollmentPlan.Where(p => p.CreatedBy == UserId && p.SchoolId == schoolid).Select(p => p.Year).Distinct().ToList();
+            if (studentEnrollmentPlan.Count() > 1)
             {
                 if (displayPlan.Count > 0)
                 {
@@ -287,7 +264,7 @@ namespace OLS.Controllers
                 {
                     return RedirectToAction("EditNextY");
                 }
-                
+
             }
 
 
@@ -301,7 +278,7 @@ namespace OLS.Controllers
             {
 
                 IList<StudentEnrollmentPlan> enrollmentPlans = new List<StudentEnrollmentPlan>();
-                
+
                 for (int i = 0; i < studentEnrollmentPlan.Count; i++)
                 {
                     StudentEnrollmentPlan enrollmentPlan = _applicationContext.StudentEnrollmentPlan.Find(studentEnrollmentPlan[i].Id);
@@ -310,27 +287,23 @@ namespace OLS.Controllers
                     enrollmentPlan.UpdatedAt = DateTime.Now;
                     enrollmentPlans.Add(enrollmentPlan);
 
-                    
+
                 }
                 _applicationContext.UpdateRange(enrollmentPlans);
                 _applicationContext.SaveChanges();
                 notyfService.Custom(_localizer["EnrollementPlanUpdated"].Value, 10, "#67757c", "fa fa-check");
                 ViewBag.Message = _localizer["RecordUpdated"].Value;
                 return RedirectToAction("Edit");
-                
+
             }
             return View();
         }
         public IActionResult Edit()
         {
-            var schoolId = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User)).OrderByDescending(p=>p.CreatedAt).Select(p => p.SchoolId).FirstOrDefault();
+            var schoolId = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User)).OrderByDescending(p => p.CreatedAt).Select(p => p.SchoolId).FirstOrDefault();
 
 
             //New Changes
-
-            var result = _applicationContext.ProcessProgress.Where(p => p.SchoolId == schoolId && p.SubProcessId == Guid.Parse("E592365F-2FB6-4B0F-9C5E-01277BE052F0")).FirstOrDefault();
-            var re_schoolid = schoolId;
-
 
             var sch_id = HttpContext.Session.GetString("mySchoolId");
             if (sch_id != null)
@@ -351,31 +324,22 @@ namespace OLS.Controllers
                 schoolId = Guid.Parse(myschoolid);
             }
 
-            if (result == null)
-            {
-                schoolId = re_schoolid;
-            }
 
 
-
-
-            var year = _applicationContext.StudentEnrollmentPlan.Where(p => p.CreatedBy == _userManager.GetUserId(User) && p.SchoolId==schoolId).Select(p => p.Year).Min();
+            var year = _applicationContext.StudentEnrollmentPlan.Where(p => p.CreatedBy == _userManager.GetUserId(User) && p.SchoolId == schoolId).Select(p => p.Year).Min();
             var displayPlan = (from studentEnrollmentPlan in _applicationContext.StudentEnrollmentPlan
                                join schoolSubLevel in _applicationContext.ZSchoolSubLevel on studentEnrollmentPlan.SchoolSubLevelId equals schoolSubLevel.SchoolSubLevelId
-                               where studentEnrollmentPlan.SchoolId == schoolId && studentEnrollmentPlan.Year== year
+                               where studentEnrollmentPlan.SchoolId == schoolId && studentEnrollmentPlan.Year == year
                                orderby schoolSubLevel.OrderNumber, studentEnrollmentPlan.GenderTypeId
                                select new EnrollmentPlanEditViewModel
                                {
-                                   Id=studentEnrollmentPlan.Id,                                
-                                    NumberOfStudents=studentEnrollmentPlan.NumberOfStudents,
-                                    SchoolSubLevelName=schoolSubLevel.SubLevelNameDari + "/"+schoolSubLevel.SubLevelNamePashto+ "/"+schoolSubLevel.SubLevelName,
-                                   GenderTypeId=studentEnrollmentPlan.GenderTypeId
+                                   Id = studentEnrollmentPlan.Id,
+                                   NumberOfStudents = studentEnrollmentPlan.NumberOfStudents,
+                                   SchoolSubLevelName = schoolSubLevel.SubLevelNameDari + "/" + schoolSubLevel.SubLevelNamePashto + "/" + schoolSubLevel.SubLevelName,
+                                   GenderTypeId = studentEnrollmentPlan.GenderTypeId
 
 
                                }).ToList();
-
-
-            HttpContext.Session.SetString("EnrollmentPlan", "Create");
 
             return View(displayPlan);
         }
@@ -383,14 +347,11 @@ namespace OLS.Controllers
         [HttpGet]
         public IActionResult NoEdit()
         {
-            var schoolId = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User)).OrderByDescending(p=>p.CreatedAt).Select(p => p.SchoolId).FirstOrDefault();
+            var schoolId = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User)).OrderByDescending(p => p.CreatedAt).Select(p => p.SchoolId).FirstOrDefault();
 
 
 
             //New Changes
-
-            var result = _applicationContext.ProcessProgress.Where(p => p.SchoolId == schoolId && p.SubProcessId == Guid.Parse("E592365F-2FB6-4B0F-9C5E-01277BE052F0")).FirstOrDefault();
-            var re_schoolid = schoolId;
 
             var sch_id = HttpContext.Session.GetString("mySchoolId");
             if (sch_id != null)
@@ -411,15 +372,9 @@ namespace OLS.Controllers
                 schoolId = Guid.Parse(myschoolid);
             }
 
-            if (result == null)
-            {
-                schoolId = re_schoolid;
-            }
 
 
-
-
-            var year = _applicationContext.StudentEnrollmentPlan.Where(p => p.CreatedBy == _userManager.GetUserId(User) && p.SchoolId==schoolId).Select(p => p.Year).Min();
+            var year = _applicationContext.StudentEnrollmentPlan.Where(p => p.CreatedBy == _userManager.GetUserId(User) && p.SchoolId == schoolId).Select(p => p.Year).Min();
             var displayPlan = (from studentEnrollmentPlan in _applicationContext.StudentEnrollmentPlan
                                join schoolSubLevel in _applicationContext.ZSchoolSubLevel on studentEnrollmentPlan.SchoolSubLevelId equals schoolSubLevel.SchoolSubLevelId
                                where studentEnrollmentPlan.SchoolId == schoolId && studentEnrollmentPlan.Year == year
@@ -444,9 +399,6 @@ namespace OLS.Controllers
 
             //New Changes
 
-            var result = _applicationContext.ProcessProgress.Where(p => p.SchoolId == schoolid && p.SubProcessId == Guid.Parse("E592365F-2FB6-4B0F-9C5E-01277BE052F0")).FirstOrDefault();
-            var re_schoolid = schoolid;
-
             var sch_id = HttpContext.Session.GetString("mySchoolId");
             if (sch_id != null)
             {
@@ -466,13 +418,7 @@ namespace OLS.Controllers
                 schoolid = Guid.Parse(myschoolid);
             }
 
-
-            if (result == null)
-            {
-                schoolid = re_schoolid;
-            }
-
-            if (myschoolid==null)
+            if (myschoolid == null)
             {
                 return RedirectToAction("Navigate", "School");
             }
@@ -487,31 +433,31 @@ namespace OLS.Controllers
 
 
 
-            var schoolLevelid = _applicationContext.School.Where(p => p.CreatedBy==_userManager.GetUserId(User) && p.SchoolId==schoolid).OrderByDescending(p=>p.CreatedAt).Select(p => p.SchoolLevelId).FirstOrDefault();
+            var schoolLevelid = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User) && p.SchoolId == schoolid).OrderByDescending(p => p.CreatedAt).Select(p => p.SchoolLevelId).FirstOrDefault();
 
             var displayPlan = (from schoolLevel in _applicationContext.ZSchoolLevel
-                                                  join schooLevelSubLevel in _applicationContext.ZSchoolLevelSubLevel on schoolLevel.SchoolLevelId equals schooLevelSubLevel.SchoolLevelId
-                                                  join schoolSubLevel in _applicationContext.ZSchoolSubLevel on schooLevelSubLevel.SchoolSubLevelId equals schoolSubLevel.SchoolSubLevelId
-                                                  where schoolLevel.SchoolLevelId == schoolLevelid
-                                                  orderby schoolSubLevel.OrderNumber
-                                                  select new
-                                                  {
-                                                      SubLevelName = schoolSubLevel.SubLevelNameDari + "/" + schoolSubLevel.SubLevelNamePashto + "/" + schoolSubLevel.SubLevelName,
-                                                      SubLevelId = schoolSubLevel.SchoolSubLevelId,
+                               join schooLevelSubLevel in _applicationContext.ZSchoolLevelSubLevel on schoolLevel.SchoolLevelId equals schooLevelSubLevel.SchoolLevelId
+                               join schoolSubLevel in _applicationContext.ZSchoolSubLevel on schooLevelSubLevel.SchoolSubLevelId equals schoolSubLevel.SchoolSubLevelId
+                               where schoolLevel.SchoolLevelId == schoolLevelid
+                               orderby schoolSubLevel.OrderNumber
+                               select new
+                               {
+                                   SubLevelName = schoolSubLevel.SubLevelNameDari + "/" + schoolSubLevel.SubLevelNamePashto + "/" + schoolSubLevel.SubLevelName,
+                                   SubLevelId = schoolSubLevel.SchoolSubLevelId,
 
-                                                  }).ToList().Select(x => new EnrollmentPlanViewModel()
-                                                  {
-                                                      
-                                                      
-                                                      SchoolSubLevelName = x.SubLevelName,
-                                                      SchoolSubLevelId = x.SubLevelId,
-                                                   
-                                                  }).ToList();
+                               }).ToList().Select(x => new EnrollmentPlanViewModel()
+                               {
 
 
+                                   SchoolSubLevelName = x.SubLevelName,
+                                   SchoolSubLevelId = x.SubLevelId,
+
+                               }).ToList();
 
 
-         
+
+
+
             return View(displayPlan);
         }
         [HttpPost]
@@ -521,10 +467,6 @@ namespace OLS.Controllers
 
 
             //New Changes
-
-
-            var result = _applicationContext.ProcessProgress.Where(p => p.SchoolId == schoolid && p.SubProcessId == Guid.Parse("E592365F-2FB6-4B0F-9C5E-01277BE052F0")).FirstOrDefault();
-            var re_schoolid = schoolid;
 
             var sch_id = HttpContext.Session.GetString("mySchoolId");
             if (sch_id != null)
@@ -545,51 +487,47 @@ namespace OLS.Controllers
                 schoolid = Guid.Parse(myschoolid);
             }
 
-
-            if (result == null)
+            if (ModelState.IsValid)
             {
-                schoolid = re_schoolid;
-            }
-
-            if (ModelState.IsValid) {
 
 
                 IList<StudentEnrollmentPlan> planMales = new List<StudentEnrollmentPlan>();
                 IList<StudentEnrollmentPlan> planFemales = new List<StudentEnrollmentPlan>();
                 for (int i = 0; i < studentEnrollmentPlan.Count; i++)
+                {
+
+
+                    StudentEnrollmentPlan planMale = new StudentEnrollmentPlan
                     {
-
-
-                    StudentEnrollmentPlan planMale = new StudentEnrollmentPlan {
                         Id = Guid.NewGuid(),
-                        SchoolId = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User) && p.SchoolId==schoolid).Select(p => p.SchoolId).FirstOrDefault(),
+                        SchoolId = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User) && p.SchoolId == schoolid).Select(p => p.SchoolId).FirstOrDefault(),
                         Year = DateTime.Now.Year.ToString(),
                         GenderTypeId = Guid.Parse("E575CE44-2BBE-4175-A334-CE5ABC3CDDDA"),
                         SchoolSubLevelId = studentEnrollmentPlan[i].SchoolSubLevelId,
                         NumberOfStudents = studentEnrollmentPlan[i].NumberOfStudentsMale,
                         CreatedBy = _userManager.GetUserId(User),
                         CreatedAt = DateTime.Now,
-                                };
-                        planMales.Add(planMale);
-                        StudentEnrollmentPlan planFemale = new StudentEnrollmentPlan
-                        {
-                            Id = Guid.NewGuid(),
-                            SchoolId = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User) && p.SchoolId==schoolid).Select(p => p.SchoolId).FirstOrDefault(),
-                            Year = DateTime.Now.Year.ToString(),
-                            GenderTypeId = Guid.Parse("A10E9D59-C1B9-4983-97A0-F0A97A85F71D"),
-                            SchoolSubLevelId = studentEnrollmentPlan[i].SchoolSubLevelId,
-                            NumberOfStudents = studentEnrollmentPlan[i].NumberOfStudentsFemale,
-                            CreatedBy = _userManager.GetUserId(User),
-                            CreatedAt = DateTime.Now,
-                        };
-                            planFemales.Add(planFemale);
-                            }
-                    _applicationContext.AddRange(planMales);
-                    _applicationContext.AddRange(planFemales);
+                    };
+                    planMales.Add(planMale);
+                    StudentEnrollmentPlan planFemale = new StudentEnrollmentPlan
+                    {
+                        Id = Guid.NewGuid(),
+                        SchoolId = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User) && p.SchoolId == schoolid).Select(p => p.SchoolId).FirstOrDefault(),
+                        Year = DateTime.Now.Year.ToString(),
+                        GenderTypeId = Guid.Parse("A10E9D59-C1B9-4983-97A0-F0A97A85F71D"),
+                        SchoolSubLevelId = studentEnrollmentPlan[i].SchoolSubLevelId,
+                        NumberOfStudents = studentEnrollmentPlan[i].NumberOfStudentsFemale,
+                        CreatedBy = _userManager.GetUserId(User),
+                        CreatedAt = DateTime.Now,
+                    };
+                    planFemales.Add(planFemale);
+                }
+                _applicationContext.AddRange(planMales);
+                _applicationContext.AddRange(planFemales);
                 _applicationContext.SaveChanges();
 
             }
-            var schoolLevelid = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User) && p.SchoolId==schoolid).Select(p => p.SchoolLevelId).FirstOrDefault();
+            var schoolLevelid = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User) && p.SchoolId == schoolid).Select(p => p.SchoolLevelId).FirstOrDefault();
 
             var displayPlan = (from schoolLevel in _applicationContext.ZSchoolLevel
                                join schooLevelSubLevel in _applicationContext.ZSchoolLevelSubLevel on schoolLevel.SchoolLevelId equals schooLevelSubLevel.SchoolLevelId
@@ -600,7 +538,7 @@ namespace OLS.Controllers
                                {
                                    SubLevelName = schoolSubLevel.SubLevelNameDari + "/" + schoolSubLevel.SubLevelNamePashto + "/" + schoolSubLevel.SubLevelName,
                                    SubLevelId = schoolSubLevel.SchoolSubLevelId,
-                                   
+
 
                                }).ToList()
                                          .Select(x => new TheList()
@@ -652,14 +590,10 @@ namespace OLS.Controllers
         [HttpGet]
         public IActionResult NoEditNextY()
         {
-            var schoolId = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User)).OrderByDescending(p=>p.CreatedAt).Select(p => p.SchoolId).FirstOrDefault();
+            var schoolId = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User)).OrderByDescending(p => p.CreatedAt).Select(p => p.SchoolId).FirstOrDefault();
 
 
             //New Changes
-
-
-            var result = _applicationContext.ProcessProgress.Where(p => p.SchoolId == schoolId && p.SubProcessId == Guid.Parse("E592365F-2FB6-4B0F-9C5E-01277BE052F0")).FirstOrDefault();
-            var re_schoolid = schoolId;
 
             var sch_id = HttpContext.Session.GetString("mySchoolId");
             if (sch_id != null)
@@ -680,14 +614,8 @@ namespace OLS.Controllers
                 schoolId = Guid.Parse(myschoolid);
             }
 
-            if (result == null)
-            {
-                schoolId = re_schoolid;
-            }
 
-
-
-            var year = _applicationContext.StudentEnrollmentPlan.Where(p => p.CreatedBy == _userManager.GetUserId(User) && p.SchoolId==schoolId).Select(p => p.Year).Max();
+            var year = _applicationContext.StudentEnrollmentPlan.Where(p => p.CreatedBy == _userManager.GetUserId(User) && p.SchoolId == schoolId).Select(p => p.Year).Max();
 
             var displayPlan = (from studentEnrollmentPlan in _applicationContext.StudentEnrollmentPlan
                                join schoolSubLevel in _applicationContext.ZSchoolSubLevel on studentEnrollmentPlan.SchoolSubLevelId equals schoolSubLevel.SchoolSubLevelId
@@ -708,12 +636,9 @@ namespace OLS.Controllers
 
         public IActionResult EditNextY()
         {
-            var schoolId = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User)).OrderByDescending(p=>p.CreatedAt).Select(p => p.SchoolId).FirstOrDefault();
+            var schoolId = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User)).OrderByDescending(p => p.CreatedAt).Select(p => p.SchoolId).FirstOrDefault();
 
             //New Changes
-
-            var result = _applicationContext.ProcessProgress.Where(p => p.SchoolId == schoolId && p.SubProcessId == Guid.Parse("E592365F-2FB6-4B0F-9C5E-01277BE052F0")).FirstOrDefault();
-            var re_schoolid = schoolId;
 
             var sch_id = HttpContext.Session.GetString("mySchoolId");
             if (sch_id != null)
@@ -734,17 +659,11 @@ namespace OLS.Controllers
                 schoolId = Guid.Parse(myschoolid);
             }
 
-            if (result == null)
-            {
-                schoolId = re_schoolid;
-            }
 
 
 
 
-
-
-            var year = _applicationContext.StudentEnrollmentPlan.Where(p => p.CreatedBy == _userManager.GetUserId(User) && p.SchoolId==schoolId).Select(p => p.Year).Max();
+            var year = _applicationContext.StudentEnrollmentPlan.Where(p => p.CreatedBy == _userManager.GetUserId(User) && p.SchoolId == schoolId).Select(p => p.Year).Max();
 
             var displayPlan = (from studentEnrollmentPlan in _applicationContext.StudentEnrollmentPlan
                                join schoolSubLevel in _applicationContext.ZSchoolSubLevel on studentEnrollmentPlan.SchoolSubLevelId equals schoolSubLevel.SchoolSubLevelId
@@ -759,9 +678,6 @@ namespace OLS.Controllers
 
 
                                }).ToList();
-
-
-            HttpContext.Session.SetString("EnrollmentPlanNextY", "Create");
             return View(displayPlan);
         }
         public IActionResult CreateNextY()
@@ -770,9 +686,6 @@ namespace OLS.Controllers
 
 
             //New Changes
-
-            var result = _applicationContext.ProcessProgress.Where(p => p.SchoolId == schoolid && p.SubProcessId == Guid.Parse("E592365F-2FB6-4B0F-9C5E-01277BE052F0")).FirstOrDefault();
-            var re_schoolid = schoolid;
 
             var sch_id = HttpContext.Session.GetString("mySchoolId");
             if (sch_id != null)
@@ -793,16 +706,10 @@ namespace OLS.Controllers
                 schoolid = Guid.Parse(myschoolid);
             }
 
-            if (result == null)
-            {
-                schoolid = re_schoolid;
-            }
-
-
 
             if (myschoolid == null)
             {
-               return RedirectToAction("Navigate", "School");
+                return RedirectToAction("Navigate", "School");
             }
 
 
@@ -815,7 +722,7 @@ namespace OLS.Controllers
 
 
 
-            var schoolLevelid = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User) && p.SchoolId==schoolid).Select(p => p.SchoolLevelId).FirstOrDefault();
+            var schoolLevelid = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User) && p.SchoolId == schoolid).Select(p => p.SchoolLevelId).FirstOrDefault();
 
             var displayPlan = (from schoolLevel in _applicationContext.ZSchoolLevel
                                join schooLevelSubLevel in _applicationContext.ZSchoolLevelSubLevel on schoolLevel.SchoolLevelId equals schooLevelSubLevel.SchoolLevelId
@@ -885,7 +792,7 @@ namespace OLS.Controllers
                     StudentEnrollmentPlan planMale = new StudentEnrollmentPlan
                     {
                         Id = Guid.NewGuid(),
-                        SchoolId = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User) && p.SchoolId==schoolid).Select(p => p.SchoolId).FirstOrDefault(),
+                        SchoolId = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User) && p.SchoolId == schoolid).Select(p => p.SchoolId).FirstOrDefault(),
                         Year = DateTime.Now.AddYears(1).Year.ToString(),
                         GenderTypeId = Guid.Parse("E575CE44-2BBE-4175-A334-CE5ABC3CDDDA"),
                         SchoolSubLevelId = studentEnrollmentPlan[i].SchoolSubLevelId,
@@ -897,7 +804,7 @@ namespace OLS.Controllers
                     StudentEnrollmentPlan planFemale = new StudentEnrollmentPlan
                     {
                         Id = Guid.NewGuid(),
-                        SchoolId = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User) && p.SchoolId==schoolid).Select(p => p.SchoolId).FirstOrDefault(),
+                        SchoolId = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User) && p.SchoolId == schoolid).Select(p => p.SchoolId).FirstOrDefault(),
                         Year = DateTime.Now.AddYears(1).Year.ToString(),
                         GenderTypeId = Guid.Parse("A10E9D59-C1B9-4983-97A0-F0A97A85F71D"),
                         SchoolSubLevelId = studentEnrollmentPlan[i].SchoolSubLevelId,
@@ -912,7 +819,7 @@ namespace OLS.Controllers
                 _applicationContext.SaveChanges();
 
             }
-            var schoolLevelid = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User) && p.SchoolId==schoolid).Select(p => p.SchoolLevelId).FirstOrDefault();
+            var schoolLevelid = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User) && p.SchoolId == schoolid).Select(p => p.SchoolLevelId).FirstOrDefault();
 
             var displayPlan = (from schoolLevel in _applicationContext.ZSchoolLevel
                                join schooLevelSubLevel in _applicationContext.ZSchoolLevelSubLevel on schoolLevel.SchoolLevelId equals schooLevelSubLevel.SchoolLevelId

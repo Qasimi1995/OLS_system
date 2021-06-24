@@ -132,14 +132,14 @@
   <data name="General" xml:space="preserve">
     <value>عمومی</value>
   </data>
+  <data name="GeneralList" xml:space="preserve">
+    <value>لست عمومی</value>
+  </data>
   <data name="GeneralReport" xml:space="preserve">
     <value>راپور عمومی</value>
   </data>
   <data name="GeneralReportsOfAll" xml:space="preserve">
     <value>راپور عمومی کلی</value>
-  </data>
-  <data name="GenralList" xml:space="preserve">
-    <value>لست عمومی</value>
   </data>
   <data name="HighSchool" xml:space="preserve">
     <value>عالی</value>

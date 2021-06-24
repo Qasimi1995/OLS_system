@@ -123,8 +123,14 @@
   <data name="Active" xml:space="preserve">
     <value>فعال</value>
   </data>
+  <data name="ConfirmationUserStatusChange" xml:space="preserve">
+    <value>د کارونکي وضعیت بدلون باندې تایید</value>
+  </data>
   <data name="CurrentStatus" xml:space="preserve">
     <value>د حساب اوسنی حالت</value>
+  </data>
+  <data name="DoYouWantToChangeTheCurrentUserStatus" xml:space="preserve">
+    <value>ایا تاسو باوري یاست چې غواړئ د کارونکي روان حالت بدل کړئ؟</value>
   </data>
   <data name="Edit" xml:space="preserve">
     <value>سمول</value>
@@ -140,6 +146,9 @@
   </data>
   <data name="Name" xml:space="preserve">
     <value>نوم</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>نه</value>
   </data>
   <data name="Password" xml:space="preserve">
     <value>رمز</value>
@@ -170,5 +179,8 @@
   </data>
   <data name="UserName" xml:space="preserve">
     <value>کارن نوم</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>هو</value>
   </data>
 </root>

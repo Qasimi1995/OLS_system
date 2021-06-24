@@ -156,9 +156,6 @@
   <data name="ReportReview" xml:space="preserve">
     <value>Report Review</value>
   </data>
-  <data name="ReportView" xml:space="preserve">
-    <value>View Report</value>
-  </data>
   <data name="SchoolGender" xml:space="preserve">
     <value>School Gender</value>
   </data>
@@ -173,6 +170,9 @@
   </data>
   <data name="View" xml:space="preserve">
     <value>View</value>
+  </data>
+  <data name="ViewReport" xml:space="preserve">
+    <value>View Report</value>
   </data>
   <data name="Village" xml:space="preserve">
     <value>Village or Nahia</value>
