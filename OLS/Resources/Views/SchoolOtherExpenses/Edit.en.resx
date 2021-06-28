@@ -141,6 +141,9 @@
   <data name="Save" xml:space="preserve">
     <value>Save</value>
   </data>
+  <data name="SubmissionMessage" xml:space="preserve">
+    <value>Please, once again, cross-check the information before submitting the application. The submitted application could not be revised unless the authorities in MoE reject it.</value>
+  </data>
   <data name="Submit" xml:space="preserve">
     <value>Submit</value>
   </data>

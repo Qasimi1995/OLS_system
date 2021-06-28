@@ -133,7 +133,7 @@
     <value>Private Educational Institution Checklist</value>
   </data>
   <data name="ComputerCount" xml:space="preserve">
-    <value>Computer No#</value>
+    <value>Computer No</value>
   </data>
   <data name="ComputerLab" xml:space="preserve">
     <value>Computer Lab</value>
@@ -187,7 +187,7 @@
     <value>Library</value>
   </data>
   <data name="LibraryBooks" xml:space="preserve">
-    <value>Library Books#</value>
+    <value>Library Books No</value>
   </data>
   <data name="NameLastName" xml:space="preserve">
     <value>Name and Last Name</value>
@@ -199,7 +199,7 @@
     <value>No</value>
   </data>
   <data name="NoOfRooms" xml:space="preserve">
-    <value>No# of Rooms</value>
+    <value>No of Rooms</value>
   </data>
   <data name="Occupation" xml:space="preserve">
     <value>Occupation</value>
@@ -243,7 +243,7 @@
   <data name="TeachingAids" xml:space="preserve">
     <value>Teaching Aids</value>
   </data>
-  <data name="TeachingBook" xml:space="preserve">
+  <data name="TeachingBooks" xml:space="preserve">
     <value>Teaching Books</value>
   </data>
   <data name="Transportation" xml:space="preserve">
@@ -253,7 +253,7 @@
     <value>Village or Nahia</value>
   </data>
   <data name="WashRooms" xml:space="preserve">
-    <value>No# of Wash Rooms</value>
+    <value>No of Wash Rooms</value>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Yes</value>

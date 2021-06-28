@@ -1,4 +1,4 @@
-﻿@model OLS.ViewModels.SchoolViewModel
+﻿@model OLS.ViewModels.SchoolEditViewModel
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
 
 @{
@@ -39,7 +39,7 @@
                                     @localizer["SchoolName"]
 
                                 </label>
-                                <input asp-for="SchoolName" class="form-control" />
+                                <input asp-for="SchoolName" class="form-control" placeholder="@localizer["Sname"]" />
                                 <span asp-validation-for="SchoolName" class="text-danger"></span>
                             </div>
                         </div>
@@ -51,7 +51,7 @@
                                     @localizer["SchooNameInEnglish"]
 
                                 </label>
-                                <input asp-for="SchoolEnglishName" class="form-control" />
+                                <input asp-for="SchoolEnglishName" class="form-control" placeholder="@localizer["ESname"]" />
                                 <span asp-validation-for="SchoolEnglishName" class="text-danger"></span>
                             </div>
                         </div>

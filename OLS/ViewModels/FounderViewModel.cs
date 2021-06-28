@@ -41,7 +41,7 @@ namespace OLS.ViewModels
         [Remote(action: "IsPhoneUnique", controller: "Founder")]
         public string PhonNumber { get; set; }
 
-        [Required(ErrorMessage ="*")]
+         [Required(ErrorMessage ="*")]
       //  [EmailAddress(ErrorMessage = "فارمت ایمیل درست نیست / ورکړل شوی برېښنالیک سم نه دی / Email Format is not valid")]
         [EmailAddress(ErrorMessage = "*")]
         [Remote(action: "IsEmailUnique",controller:"Founder")]

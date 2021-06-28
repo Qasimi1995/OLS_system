@@ -144,6 +144,9 @@
   <data name="EquipmentAndTeachingMaterials" xml:space="preserve">
     <value>د زده کړیزو توکو تجهیزات</value>
   </data>
+  <data name="ESname" xml:space="preserve">
+    <value>یوازې د انګلیسي ښوونځي نوم</value>
+  </data>
   <data name="FireDistinguisherTools" xml:space="preserve">
     <value>د اور وژنې وسایل</value>
   </data>
@@ -215,6 +218,9 @@
   </data>
   <data name="Select" xml:space="preserve">
     <value>وټاکئ</value>
+  </data>
+  <data name="Sname" xml:space="preserve">
+    <value>یوازې د ښوونځي نوم</value>
   </data>
   <data name="SportsFacilities" xml:space="preserve">
     <value>ورزشي اسانتیاوې</value>

@@ -120,6 +120,9 @@
   <data name="DocumentsUploaded" xml:space="preserve">
     <value>Documents uploaded successfully</value>
   </data>
+  <data name="ESchoolNameInUse" xml:space="preserve">
+    <value>English school name is already used</value>
+  </data>
   <data name="Min10" xml:space="preserve">
     <value>Minimum should be 10</value>
   </data>
@@ -188,6 +191,9 @@
   </data>
   <data name="SchoolCreated" xml:space="preserve">
     <value>School Created </value>
+  </data>
+  <data name="SchoolNameInUse" xml:space="preserve">
+    <value>School name is already used</value>
   </data>
   <data name="SchoolUpdated" xml:space="preserve">
     <value>School information updated</value>

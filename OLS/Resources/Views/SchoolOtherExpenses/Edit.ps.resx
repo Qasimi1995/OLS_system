@@ -141,6 +141,9 @@
   <data name="Save" xml:space="preserve">
     <value>ثبتول</value>
   </data>
+  <data name="SubmissionMessage" xml:space="preserve">
+    <value>مهرباني وکړئ د غوښتنلیک له سپارلو څخه وړاندې یو ځل بیا د خپل غوښتنلیک په سم او دقیق ډول وګورئ ځکه له تسلیمولو څخه وروسته تاسو د خپل په غوښتنلیک کې تغیر نه شئ راوستلی ولې یواځې ردول یی شئ</value>
+  </data>
   <data name="Submit" xml:space="preserve">
     <value>یوه غوښتنه وسپارئ</value>
   </data>

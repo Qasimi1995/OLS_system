@@ -203,7 +203,7 @@
                             <th>
                                 @localizer["PasswordChange"]
                             </th>
-                            <th>@localizer["Action"]</th>
+                            @*<th>@localizer["Action"]</th>*@
 
 
 
@@ -236,20 +236,20 @@
                                     <form method="post" asp-action="ChangeUserStatus">
                                         <div class="modal-content">
                                             <div class="modal-header" style="margin:auto">
-                                                <h4 class="modal-title" id="exampleModalLabel" style="text-align:center">تاییدی تغییر حالت کاربر</h4>
+                                                <h4 class="modal-title" id="exampleModalLabel" style="text-align:center">
+                                                   @localizer["ConfirmationUserStatusChange"] 
+                                                </h4>
                                                 <input type="hidden" name="userId" value="@ViewBag.userList[i].Id"/>
                                             </div>
                                             <div class="modal-body" style="text-align:center;margin:auto">
                                                 <h6>
-
-
-                                                    ؟ آیا مطمین هستید که حالت فعلی کاربر را تغییر دهید
+                                                    @localizer["DoYouWantToChangeTheCurrentUserStatus"]
                                                 </h6>
                                             </div>
                                             <div class="modal-footer" style="text-align:center;margin:auto">
 
-                                                <button type="submit" class="btn " style="background:#0193df;color:white">بلی </button>
-                                                <button type="button" class="btn btn-danger" data-dismiss="modal">نخیر</button>
+                                                <button type="submit" class="btn " style="background:#0193df;color:white">  @localizer["Yes"] </button>
+                                                <button type="button" class="btn btn-danger" data-dismiss="modal">@localizer["No"] </button>
                                             </div>
                                         </div>
                                     </form>
@@ -275,9 +275,9 @@
                                     <i class="mdi mdi-key  mdi fc-button-primary" style=" background-color:#0193df;"></i>
                                 </a>
                             </td>
-                            <td class="text-nowrap">
+                            @*<td class="text-nowrap">
                                 @Html.ActionLink(localizer["Edit"].Value, "EditUserInfo", new { id = ViewBag.userList[i].Id })
-                            </td>
+                            </td>*@
 
 
                         </tr> <!-- Modal -->}

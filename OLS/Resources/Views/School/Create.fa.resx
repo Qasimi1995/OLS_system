@@ -144,6 +144,9 @@
   <data name="EquipmentAndTeachingMaterials" xml:space="preserve">
     <value>تجهیزات و مواد آموزشی</value>
   </data>
+  <data name="ESname" xml:space="preserve">
+    <value>تنها نام مکتب به انگلیسی</value>
+  </data>
   <data name="FireDistinguisherTools" xml:space="preserve">
     <value>وسایل ضد حریق</value>
   </data>
@@ -164,6 +167,12 @@
   </data>
   <data name="Message" xml:space="preserve">
     <value>دیتا شما موفقانه ثبت گردید</value>
+  </data>
+  <data name="Min200" xml:space="preserve">
+    <value>حد اقل باید 200  متر باشد</value>
+  </data>
+  <data name="Min500" xml:space="preserve">
+    <value>حد اقل باید   500 متر باشد</value>
   </data>
   <data name="Next" xml:space="preserve">
     <value>بعدی</value>
@@ -215,6 +224,9 @@
   </data>
   <data name="Select" xml:space="preserve">
     <value>انتخاب کنید</value>
+  </data>
+  <data name="Sname" xml:space="preserve">
+    <value>تنها نام مکتب</value>
   </data>
   <data name="SportsFacilities" xml:space="preserve">
     <value>سهولت های ورزشی</value>

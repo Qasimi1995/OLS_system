@@ -10,395 +10,415 @@
 
 }
 
+    <style type="text/css">
+
+
+        @@page{
+            size:landscape;
+        }
 
 
 
-<div class="row page-titles">
-    <div class="col-md-5 col-12 align-self-center">
-        @if (culture == "en")
-        {
-    <h3 class="text-themecolor mb-0 mt-0">    Schools Licences for Print</h3> }
-                else if (culture == "fa")
-                {
-    <h3 class="text-themecolor mb-0 mt-0">جواز مکاتب برای پرنت</h3> }
-else
-{
-    <h3 class="text-themecolor mb-0 mt-0">   د چاپ لپاره د ښوونځي لایسنس</h3>}
+        @@media print {
+            #background-image {
+                position: absolute;
+                left: 20%;
+                top: 22%;
+                width: 900px;
+                opacity: 0.6;
+                vertical-align: middle;
+            }
+        }
+    </style>
+    <section>
 
-
-    </div>
-    <div class="col-md-7 col-12 align-self-center d-none d-md-block">
-        <div class="d-flex mt-2 justify-content-end">
-            <a href="@Url.Action("index","DPERep")">
-
-                
-
+        <div class="row page-titles">
+            <div class="col-md-5 col-12 align-self-center">
                 @if (culture == "en")
                 {
-                <h4 class="text-themecolor">
-                     Back Dashboard
-                </h4> }
-        else if (culture == "fa")
-        {
-            <h4 class="text-themecolor">
-                برگشت به داشبورد    
-            </h4> }
-        else
-        {
-            <h4 class="text-themecolor">
-                   داشبورډ ته بېرته ستنېدل   
-            </h4>}
+                    <h3 class="text-themecolor mb-0 mt-0">    Schools Licences for Print</h3> }
+                else if (culture == "fa")
+                {
+                    <h3 class="text-themecolor mb-0 mt-0">جواز مکاتب برای پرنت</h3> }
+                else
+                {
+                    <h3 class="text-themecolor mb-0 mt-0">   د چاپ لپاره د ښوونځي لایسنس</h3>}
 
-            </a>
+
+            </div>
+            <div class="col-md-7 col-12 align-self-center d-none d-md-block">
+                <div class="d-flex mt-2 justify-content-end">
+                    <a href="@Url.Action("index","DPERep")">
+
+
+
+                        @if (culture == "en")
+                        {
+                            <h4 class="text-themecolor">
+                                Back Dashboard
+                            </h4> }
+                        else if (culture == "fa")
+                        {
+                            <h4 class="text-themecolor">
+                                برگشت به داشبورد
+                            </h4> }
+                        else
+                        {
+                            <h4 class="text-themecolor">
+                                داشبورډ ته بېرته ستنېدل
+                            </h4>}
+
+                    </a>
+
+
+                </div>
+            </div>
 
 
         </div>
-    </div>
-
-  
-</div>
 
 
 
-<div  id="printableArea" style="padding:10px;background-color:white" class="landscape">
-  
-   
+        <div id="printableArea" style="padding:10px;background-color:white" class="landscape">
 
-   <img class="" src="~/AF_logo/moe_d.png" alt="Card image" style="position:absolute;left:40%;top:32%;margin:auto;opacity:0.6;vertical-align: middle;" id="background-image">
 
-    <div class="">
-        <div class="">
 
-            <table class="table">
-               
-                <tbody>
-                    <tr>
-                        <td style="text-align:center" >
+            <img class="" src="~/AF_logo/moe_d.png" alt="Card image" style="position:absolute;left:40%;top:32%;margin:auto;opacity:0.6;vertical-align: middle;" id="background-image">
 
-                            <div class="" style="font-size:18px;line-height:35px">
+            <div class="">
+                <div class="">
 
-                                <div class="" style="color:black;">
-                                    
-                                        <span>The Islamic Republic of Afghanistan</span>
-                                        <br />
-                                        <span>Ministry of Education</span>
-                                        <br />
-                                        <span>Directorate of Private Educational</span><br />
-                                        <span>Institutions and Out of Border</span>
-                                    
-                                </div>
-                            </div>
+                    <table class="table">
 
-                        </td>
-                        <td class="text-center" >
+                        <tbody>
+                            <tr>
+                                <td style="text-align:center">
 
-                            <div>
-                                <div class="">
+                                    <div class="" style="font-size:18px;line-height:35px">
+
+                                        <div class="" style="color:black;">
+
+                                            <span>The Islamic Republic of Afghanistan</span>
+                                            <br />
+                                            <span>Ministry of Education</span>
+                                            <br />
+                                            <span>Directorate of Private Educational</span><br />
+                                            <span>Institutions and Out of Border</span>
+
+                                        </div>
+                                    </div>
+
+                                </td>
+                                <td class="text-center">
+
                                     <div>
-                                        <img src="~/AF_logo/MOE_logo_lic.png" style="width:auto; height:70px;" />
+                                        <div class="">
+                                            <div>
+                                                <img src="~/AF_logo/MOE_logo_lic.png" style="width:auto; height:70px;" />
+                                            </div>
+
+                                            <div>
+                                                <h5 class="font-weight-bold" style="color:black;">
+                                                    <span>
+                                                        جواز فعالیت
+                                                    </span><br />
+                                                    <span>
+                                                        د فعالیت جواز
+                                                    </span><br />
+                                                    <span>
+                                                        Working License
+                                                    </span>
+                                                </h5>
+                                            </div>
+                                        </div>
                                     </div>
-                                  
-                                    <div >
-                                        <h5 class="font-weight-bold" style="color:black;">
-                                            <span>
-                                                جواز فعالیت
-                                            </span><br />
-                                            <span>
-                                                د فعالیت جواز
-                                            </span><br />
-                                            <span>
-                                                Working License
-                                            </span>
-                                        </h5>
+
+
+                                </td>
+                                <td class="text-center">
+
+                                    <div style="font-size:18px">
+
+                                        <div class=" " style="color:black;">
+
+                                            <p class="" style="line-height:20px">
+                                                جمهوری اسلامی افغانستان
+                                                <br />
+                                                <span>
+                                                    وزارت معارف
+                                                </span>
+
+                                                <br />
+
+                                                <span>
+                                                    ریاست تعلیمات خصوصی و برون مرزی
+                                                </span>
+                                            </p>
+
+
+                                            <p class="" style="line-height:20px">
+                                                د افغانستان اسلامی جمهوریت
+
+                                                <br />
+                                                <span>
+                                                    د پوهنی وزارت
+
+                                                </span>
+                                                <br />
+
+
+
+                                                <span>
+                                                    د خصوصي زده کړو او له پولې نه  بهر د تعلیمي
+
+                                                    مؤسسو ریاست
+                                                </span>
+                                            </p>
+
+
+
+
+                                        </div>
+
+
                                     </div>
-                                </div>
-                            </div>
+                                </td>
+
+                            </tr>
 
 
-                        </td>
-                        <td class="text-center" >
+                        </tbody>
+                    </table>
 
-                            <div  style="font-size:18px">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div>
 
-                                <div class=" " style="color:black;">
+                                        <h5 style="font-weight:600">License # :  @schoolLicenseNo</h5>
 
-                                    <p class="" style="line-height:20px">
-                                        جمهوری اسلامی افغانستان
+                                        <h5 style="font-weight:600">Reg # : </h5><br />
+
+                                    </div>
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                    <div class="" style="text-align:right;">
+
+
+
+                                        <h5 style="font-weight:600"> @schoolLicenseNo  : د جواز شمېره / شماره جواز   </h5>
+
+                                        <h5 style="font-weight:600">   : د ثبت شمېره / شماره ثبت  </h5><br />
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+
+
+
+
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td style="width:20%">
+
+                                    <div class="">
+                                        <div style="background-color: #fff;border-radius: 60%;">
+                                            <img style="height: 175px;width: 150px;border-radius: 60%;" src="@ViewBag.FounderInfo.Photo" />
+                                        </div>
+                                    </div>
+
+                                </td>
+
+                                <td style="text-align:center;width:60%">
+
+                                    <div class="">
+                                        @*font-family:  Arabic Typesetting, serif;"*@
+
+                                        <p style="color:black; font-size:18px;">  (<span>@ViewBag.SchoolInfo.SchoolLevel</span> @Model.school.SchoolName )   موسسه تعلیمی خصوصی </p>
+                                        <p style="color:black; font-size:18px;">(<span>د @ViewBag.SchoolInfo.SchoolLevel</span> @Model.school.SchoolName ) خصوصي زده کړو مؤسسه</p>
+
+                                        <p style="color:black; font-size:18px;"> (<span>د @ViewBag.SchoolInfo.SchoolLevel</span> @Model.school.SchoolEnglishName )  Private Educational Institutions</p><br />
+                                    </div>
+
+                                </td>
+                                <td style="text-align:right;font-weight:700;width:20%">
+                                    <div>
+                                        <p>
+                                            Founder/مؤسس <br />
+                                            <span>@ViewBag.FounderInfo.Name</span> <span>@ViewBag.FounderInfo.LastName</span>
+                                        </p>
+
+                                    </div>
+
+                                </td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td>
+
+                                    <div class="text-center card-text">
+                                        <span style="color:black;font-weight:550">
+                                            تصدیق می گردد  که دارنده این سند، موسسه خویش را در وزارت معارف ثبت و مطابق به قانون معارف و مقرره موسسات تعلیمی خصوصی در جهت ارایه خدمات تعلیمی فعالیت می نماید
+                                        </span>
                                         <br />
-                                        <span>
-                                            وزارت معارف
+                                        <br />
+
+                                        <span style="color:black;font-weight:550">
+                                            تصدیق کېږي چې د دغه سند لرونکي دخپل تعلیمي مؤسسه د پوهنې له وزارت سره ثبت او د پوهنې وزارت د قانون او د خصوصي زده کړو د مؤسسو و د مقررې پراساس ټولنې ته تعلیمي خدمات وړاندې کوي
+                                        </span>
+                                        <br />
+                                        <br />
+
+                                        <span style="color:black;font-weight:550">
+                                            This certifies that the holder of this document has registered their institution with the Ministry of Education, and is authorized to deliver quality educational services in accordance with the Education Law and Private Institution Regulation
                                         </span>
 
+                                    </div>
+
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    <br />
+                    <br />
+
+                    <br />
+
+
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="text-center" style="color:black;">
+                                        <br />
+                                        <br />
+                                        <br />
                                         <br />
 
-                                        <span>
-                                            ریاست تعلیمات خصوصی و برون مرزی
-                                        </span>
-                                    </p>
+                                        <span class="font-weight-bold">-----------------------</span><br />
+                                        <span class="font-weight-bold">
+                                            وزیرمعارف/
+                                            د پوهنې وزیر
+                                        </span><br />
+                                        <span></span>
 
+                                    </div>
 
-                                    <p class="" style="line-height:20px">
-                                        د افغانستان اسلامی جمهوریت
+                                </td>
+                                <td>
+                                </td>
+                                <td class="text-right">
+                                    <div class="" style="color:black;">
+                                        <br />
+                                        <br />
+                                        <span class="font-weight-bold">   Issue Date: <span id="Issue_date"></span></span>    &nbsp;   <span class="font-weight-bold">تاریخ صدور / دصدور نېټه   :  <span id="Issue_date_per"></span> </span><br />
+                                        <span class="font-weight-bold"> Valid Date : <span id="Expired_date_eng"></span>  </span>   &nbsp;  <span class="font-weight-bold">تاریخ انقضا / انقضا نېټه  :  <span id="Expired_date_per"></span> </span><br />
 
                                         <br />
-                                        <span>
-                                            د پوهنی وزارت
-
-                                        </span>
                                         <br />
+                                        <span class="font-weight-bold"> آدرس / پته : - <span>@ViewBag.SchoolInfo.VillageNahia , </span> <span>@ViewBag.SchoolInfo.District , </span>  <span>@ViewBag.SchoolInfo.Province , </span>  <span>افغانستان  </span> </span><br />
+                                        <br />
+                                        @*<span>: Address</span> <span class="font-weight-bold"><span>@ViewBag.SchoolInfo.VillageNahia , </span> <span>@ViewBag.SchoolInfo.District , </span>  <span>@ViewBag.SchoolInfo.Province , </span>  <span>افغانستان </span> <br />*@
+                                    </div>
 
 
 
-                                        <span>
-                                            د خصوصي زده کړو او له پولې نه  بهر د تعلیمي
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
 
-                                            مؤسسو ریاست
-                                        </span>
-                                    </p>
 
 
 
 
-                                </div>
+                </div>
 
-
-                            </div>
-                        </td>
-
-                    </tr>
-
-
-                 </tbody>
-                </table>
-
-            <table class="table">
-                <tbody>
-                    <tr>
-                        <td>
-                            <div>
-
-                                <h5 style="font-weight:600">License # :  @schoolLicenseNo</h5>
-
-                                <h5 style="font-weight:600">Reg # : </h5><br />
-
-                            </div>
-                        </td>
-                        <td>
-                        </td>
-                        <td>
-                            <div class="" style="text-align:right;">
-
-
-
-                                <h5 style="font-weight:600"> @schoolLicenseNo  : د جواز شمېره / شماره جواز   </h5>
-
-                                <h5 style="font-weight:600">   : د ثبت شمېره / شماره ثبت  </h5><br />
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-
-                </table>
-
-                   
-
-
-                <table class="table">
-                    <tbody>
-                    <tr>
-                        <td style="width:20%">
-
-                            <div class="">
-                                <div style="background-color: #fff;border-radius: 60%;">
-                                    <img style="height: 175px;width: 150px;border-radius: 60%;" src="@ViewBag.FounderInfo.Photo" />
-                                </div>
-                            </div>
-
-                        </td>
-
-                        <td style="text-align:center;width:60%">
-
-                            <div class="">
-                                @*font-family:  Arabic Typesetting, serif;"*@
-
-                                <p style="color:black; font-size:18px;">  (<span>@ViewBag.SchoolInfo.SchoolLevel</span> @Model.school.SchoolName )   موسسه تعلیمی خصوصی </p>
-                                <p style="color:black; font-size:18px;">(<span>د @ViewBag.SchoolInfo.SchoolLevel</span> @Model.school.SchoolName ) خصوصي زده کړو مؤسسه</p>
-
-                                <p style="color:black; font-size:18px;"> (<span>د @ViewBag.SchoolInfo.SchoolLevel</span> @Model.school.SchoolEnglishName )  Private Educational Institutions</p><br />
-                            </div>
-
-                        </td>
-                        <td style="text-align:right;font-weight:700;width:20%">
-                            <div>
-                                <p>
-                                    Founder/مؤسس <br />
-                                    <span>@ViewBag.FounderInfo.Name</span> <span>@ViewBag.FounderInfo.LastName</span>
-                                </p>
-
-                            </div>
-
-                        </td>
-                    </tr>
-                </tbody>
-
-               </table>
-
-            <table class="table">
-                <tbody>
-                    <tr>
-                        <td>
-
-                            <div class="text-center card-text">
-                                <span style="color:black;font-weight:550">
-                                    تصدیق می گردد  که دارنده این سند، موسسه خویش را در وزارت معارف ثبت و مطابق به قانون معارف و مقرره موسسات تعلیمی خصوصی در جهت ارایه خدمات تعلیمی فعالیت می نماید
-                                </span>
-                                <br />
-                                <br />
-
-                                <span style="color:black;font-weight:550">
-                                    تصدیق کېږي چې د دغه سند لرونکي دخپل تعلیمي مؤسسه د پوهنې له وزارت سره ثبت او د پوهنې وزارت د قانون او د خصوصي زده کړو د مؤسسو و د مقررې پراساس ټولنې ته تعلیمي خدمات وړاندې کوي
-                                </span>
-                                <br />
-                                <br />
-
-                                <span style="color:black;font-weight:550">
-                                    This certifies that the holder of this document has registered their institution with the Ministry of Education, and is authorized to deliver quality educational services in accordance with the Education Law and Private Institution Regulation
-                                </span>
-                               
-                            </div>
-
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-
-        
-
-
-           
-
-         
-
-         
-
-
-          
-
-
-
-          
-
-
-          
-
-          
-            <br />
-            <br />
-
-            <br />
-
-
-         <table class="table">
-             <tbody>
-                 <tr>
-                     <td>
-                         <div class="text-center" style="color:black;">
-                             <br />
-                             <br />
-                             <br />
-                             <br />
-
-                             <span class="font-weight-bold">-----------------------</span><br />
-                             <span class="font-weight-bold">
-                                 وزیرمعارف/
-                                 د پوهنې وزیر
-                             </span><br />
-                             <span></span>
-
-                         </div>
-
-                     </td>
-                     <td>
-
-                     </td>
-                     <td class="text-right">
-                         <div class="" style="color:black;">
-                             <br />
-                             <br />
-                             <span class="font-weight-bold">   Issue Date: <span id="Issue_date"></span></span>    &nbsp;   <span class="font-weight-bold">تاریخ صدور / دصدور نېټه   :  <span id="Issue_date_per"></span> </span><br />
-                             <span class="font-weight-bold"> Valid Date : <span id="Expired_date_eng"></span>  </span>   &nbsp;  <span class="font-weight-bold">تاریخ انقضا / انقضا نېټه  :  <span id="Expired_date_per"></span> </span><br />
-
-                             <br />
-                             <br />
-                             <span class="font-weight-bold"> آدرس / پته : - <span>@ViewBag.SchoolInfo.VillageNahia , </span> <span>@ViewBag.SchoolInfo.District , </span>  <span>@ViewBag.SchoolInfo.Province , </span>  <span>افغانستان  </span> </span><br />
-                             <br />
-                             @*<span>: Address</span> <span class="font-weight-bold"><span>@ViewBag.SchoolInfo.VillageNahia , </span> <span>@ViewBag.SchoolInfo.District , </span>  <span>@ViewBag.SchoolInfo.Province , </span>  <span>افغانستان </span> <br />*@
-                         </div>
-
-                      
-
-                     </td>
-                 </tr>
-             </tbody>
-         </table>
-
-
-          
-
-        
             </div>
 
         </div>
 
+
+
+        <div class="btn-group">
+
+
+
+            @if (culture == "en")
+            {
+                <a class="btn btn-primary" style="background-color:#0193df;" href="@Url.Action("index","DPERep")">
+                    Dashboard
+                </a>}
+            else if (culture == "fa")
+            {
+                <a class="btn btn-primary" style="background-color:#0193df;" href="@Url.Action("index","DPERep")">
+                    داشبورد
+                </a>}
+            else
+            {
+                <a class="btn btn-primary" style="background-color:#0193df;" href="@Url.Action("index","DPERep")">
+                    داشبورد
+                </a>}
         </div>
 
 
+        <div class="btn-group">
+            <button id="print" class="btn btn-success" onclick="printDiv('printableArea')" type="button">
+                @if (culture == "en")
+                {
+                    <span>
 
-<div class="btn-group">
+                        <i class="fa fa-print"></i> Print
+                    </span>}
+                else if (culture == "fa")
+                {
+                    <span>
 
+                        <i class="fa fa-print"></i> پرنت
+                    </span>}
+                else
+                {
+                    <span>
 
+                        <i class="fa fa-print"></i>   چاپ
+                    </span>}
 
-    @if (culture == "en")
-    {
-<a class="btn btn-primary" style="background-color:#0193df;" href="@Url.Action("index","DPERep")">
-      Dashboard
-</a>}
-else if (culture == "fa")
-{
-<a class="btn btn-primary" style="background-color:#0193df;" href="@Url.Action("index","DPERep")">
-    داشبورد 
-</a>}
-else
-{
-<a class="btn btn-primary" style="background-color:#0193df;" href="@Url.Action("index","DPERep")">
-    داشبورد 
-</a>}
-</div>
+            </button>
+        </div>
+    </section>
 
-
-<div class="btn-group">
-    <button id="print" class="btn btn-success" onclick="printDiv('printableArea')" type="button">
-        @if (culture == "en")
-        {
-    <span>
-
-        <i class="fa fa-print"></i> پرنت / چاپ / Print
-    </span>}
-else if (culture == "fa")
-{
-    <span>
-
-        <i class="fa fa-print"></i> پرنت    
-    </span>}
-else
-{
-    <span>
-
-        <i class="fa fa-print"></i>   چاپ  
-    </span>}
-
-    </button>
-</div>
 
 
 
@@ -493,28 +513,7 @@ else
 
 </style>
 
-<style type="text/css">
 
-
-    @@media print {
-        #background-image {
-            position: absolute;
-            left: 20%;
-            top: 22%;
-          
-            width:900px;
-            opacity: 0.6;
-            vertical-align: middle;
-        }
-}
-
-
-
-
-
-
-
-</style>
 
 
 

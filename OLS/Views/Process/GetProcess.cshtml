@@ -21,13 +21,13 @@
                             {
                                 if (i % 2 == 1)
                                 {
-            <li>
+                                  <li>
                 <div class="timeline-badge success">@Model[i].OrderNumber </div>
                 <div class="timeline-panel">
                     <div class="timeline-heading">
                         <div class="row">
                             <div class="col-md-10">
-                                <h4 class="text-themecolor font-weight-bold" style="font-size:11px;">
+                                <h4 class="text-themecolor font-weight-bold" style="font-size:14px;">
                                     @if (culture == "en")
                                     {
                                     @Model[i].SubProcesName;
@@ -123,108 +123,110 @@
                         </div>
                     </div>
                 </div>
-            </li> }
-                                else
-                                {
-
-            <li class="timeline-inverted">
-                <div class="timeline-badge success">@Model[i].OrderNumber </div>
-                <div class="timeline-panel">
-                    <div class="timeline-heading">
-                        <div class="row">
-                            <div class="col-md-10">
-                                <h4 class="text-themecolor font-weight-bold" style="font-size:11px;">
-                                    @if (culture == "en")
-                                    {
-                                @Model[i].SubProcesName;
-                            }
-                            else if (culture == "fa")
-                            {
-                                @Model[i].SubProcesNameDari.Split("/")[0];
-                            }
-                            else
-                            {
-                                @Model[i].SubProcesNameDari.Split("/")[1];
-                            }
-
-
-                                </h4>
-                                <div class="row">
-                                    <div class="col-md-9">
-                                        @localizer["NumberOfDays"]
-                                    </div>
-                                    <div class="col-md-3">
-                                        @Model[i].TimelineInDays
-                                    </div>
-                                </div>
-                                <br />
-                                <div class="row">
-                                    <div class="col-md-8">
-                                        @localizer["Status"]
-                                    </div>
-                                    <div class="col-md-4">
-                                        @if (culture == "en")
-                                        {
-                                    @Model[i].StatusNamePast;
-                                }
-                                else if (culture == "fa")
-                                {
-                                    if (Model[i].StatusNameDariPast != null && Model[i].StatusNameDariPast != "")
-                                    {
-                                    @Model[i].StatusNameDariPast.Split("/")[0];
+            </li> 
                                 }
                                 else
                                 {
-                                    @Model[i].StatusNameDariPast }
 
-                            }
-                            else
-                            {
-                                if (Model[i].StatusNameDariPast != null && Model[i].StatusNameDariPast != "")
-                                {
-                                    @Model[i].StatusNameDariPast.Split("/")[1];
-                                }
-                                else
-                                {
-                                    @Model[i].StatusNameDariPast}
+                                 <li class="timeline-inverted">
+                                            <div class="timeline-badge success">@Model[i].OrderNumber </div>
+                                            <div class="timeline-panel">
+                                                <div class="timeline-heading">
+                                                    <div class="row">
+                                                        <div class="col-md-10">
+                                                            <h4 class="text-themecolor font-weight-bold" style="font-size:14px;">
+                                                                @if (culture == "en")
+                                                                {
+                                                            @Model[i].SubProcesName;
+                                                        }
+                                                        else if (culture == "fa")
+                                                        {
+                                                            @Model[i].SubProcesNameDari.Split("/")[0];
+                                                        }
+                                                        else
+                                                        {
+                                                            @Model[i].SubProcesNameDari.Split("/")[1];
+                                                        }
 
-                            }
+
+                                                            </h4>
+                                                            <div class="row">
+                                                                <div class="col-md-9">
+                                                                    @localizer["NumberOfDays"]
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    @Model[i].TimelineInDays
+                                                                </div>
+                                                            </div>
+                                                            <br />
+                                                            <div class="row">
+                                                                <div class="col-md-8">
+                                                                    @localizer["Status"]
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    @if (culture == "en")
+                                                                    {
+                                                                @Model[i].StatusNamePast;
+                                                            }
+                                                            else if (culture == "fa")
+                                                            {
+                                                                if (Model[i].StatusNameDariPast != null && Model[i].StatusNameDariPast != "")
+                                                                {
+                                                                @Model[i].StatusNameDariPast.Split("/")[0];
+                                                            }
+                                                            else
+                                                            {
+                                                                @Model[i].StatusNameDariPast }
+
+                                                        }
+                                                        else
+                                                        {
+                                                            if (Model[i].StatusNameDariPast != null && Model[i].StatusNameDariPast != "")
+                                                            {
+                                                                @Model[i].StatusNameDariPast.Split("/")[1];
+                                                            }
+                                                            else
+                                                            {
+                                                                @Model[i].StatusNameDariPast}
+
+                                                        }
                                         
-                                    </div>
-                                </div>
-                                <br />
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        @localizer["Date"]
-                                    </div>
-                                    <div class="col-md-6">
-                                        @Model[i].StatusDate
-                                    </div>
-                                </div>
-                                <br />
-                                <div class="row">
-                                    <div class="col-md-8">
-                                        @localizer["Comments"]
-                                    </div>
-                                    <div class="col-md-4">
-                                        @Model[i].Remarks
-                                    </div>
-                                </div>
-                                <br />
-                            </div>
-                            <div class="col-md-2">
-                                @if (Model[i].CompletionFlag == 1)
-                                {
-        <span class="mdi mdi-checkbox-marked mdi-36px"></span>}
+                                                                </div>
+                                                            </div>
+                                                            <br />
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    @localizer["Date"]
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    @Model[i].StatusDate
+                                                                </div>
+                                                            </div>
+                                                            <br />
+                                                            <div class="row">
+                                                                <div class="col-md-8">
+                                                                    @localizer["Comments"]
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    @Model[i].Remarks
+                                                                </div>
+                                                            </div>
+                                                            <br />
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            @if (Model[i].CompletionFlag == 1)
+                                                            {
+                                    <span class="mdi mdi-checkbox-marked mdi-36px"></span>}
 
-                            </div>
+                                                        </div>
 
 
-                        </div>
-                    </div>
+                                                    </div>
+                                                </div>
 
-                </div>
-            </li>}
+                                            </div>
+                                        </li>
+                                }
 
 
 

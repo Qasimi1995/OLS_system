@@ -25,7 +25,7 @@
                                     @localizer["SchoolName"]
 
                                 </label>
-                                <input asp-for="SchoolName" class="form-control" />
+                                <input asp-for="SchoolName" class="form-control" placeholder="@localizer["Sname"]" />
                                 <span asp-validation-for="SchoolName" class="text-danger"></span>
                             </div>
                         </div>
@@ -36,7 +36,7 @@
 
                                     @localizer["SchooNameInEnglish"]
                                 </label>
-                                <input asp-for="SchoolEnglishName" class="form-control" />
+                                <input asp-for="SchoolEnglishName" class="form-control" placeholder="@localizer["ESname"]" />
                                 <span asp-validation-for="SchoolEnglishName" class="text-danger"></span>
                             </div>
                         </div>
@@ -133,8 +133,8 @@
                                     @localizer["DistanceFromGovSchool"]
 
                                 </label>
-                                <input asp-for="DistancefromPuSchool" class="form-control" />
-                                <span asp-validation-for="DistancefromPuSchool" class="text-danger"></span>
+                                <input asp-for="DistancefromPuSchool" class="form-control" placeholder="@localizer["Min500"]" />
+                                <span asp-validation-for="DistancefromPuSchool" class="text-danger" ></span>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -144,7 +144,7 @@
                                     @localizer["DistanceFromPrivateSchool"]
 
                                 </label>
-                                <input asp-for="DistanceFromPrSchool" class="form-control" />
+                                <input asp-for="DistanceFromPrSchool" class="form-control" placeholder="@localizer["Min200"]" />
                                 <span asp-validation-for="DistanceFromPrSchool" class="text-danger"></span>
                             </div>
                         </div>

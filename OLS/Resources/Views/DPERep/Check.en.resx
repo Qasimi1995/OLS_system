@@ -229,7 +229,7 @@
     <value>Founder Information</value>
   </data>
   <data name="FreeStudents" xml:space="preserve">
-    <value>#Free Students</value>
+    <value>No Free Students</value>
   </data>
   <data name="Gender" xml:space="preserve">
     <value>Gender</value>
@@ -271,10 +271,10 @@
     <value>No</value>
   </data>
   <data name="NoOfComputers" xml:space="preserve">
-    <value>No# of Computers</value>
+    <value>No of Computers</value>
   </data>
   <data name="NoOfWashRooms" xml:space="preserve">
-    <value>No# of Wash Rooms</value>
+    <value>No of Wash Rooms</value>
   </data>
   <data name="OtherExpenses" xml:space="preserve">
     <value>Other Expenses</value>
@@ -283,7 +283,7 @@
     <value>OtherFacilities</value>
   </data>
   <data name="PaidStudents" xml:space="preserve">
-    <value>#Paid Students</value>
+    <value>No Paid Students</value>
   </data>
   <data name="PermenantAddress" xml:space="preserve">
     <value>Permenant Address</value>

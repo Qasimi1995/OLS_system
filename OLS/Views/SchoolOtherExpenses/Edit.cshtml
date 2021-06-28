@@ -32,8 +32,8 @@
                                 {
                                     for (int i = 0; i < Model.Count; i++)
                                     {
-                   
-                                        int salary=Convert.ToInt32(@Model[i].ExpensePerMonth);
+
+                                        int salary = Convert.ToInt32(@Model[i].ExpensePerMonth);
                                         @Html.HiddenFor(m => Model[i].OtherExpenseId)
 
                                         <tr>
@@ -42,13 +42,13 @@
 
                                                 @if (culture == "en")
                                                 {
-                                            @Model[i].OtherExpenseTypeName.Split("/")[2] }
-                                        else if (culture == "fa")
-                                        {
-                                            @Model[i].OtherExpenseTypeName.Split("/")[0] }
-                                        else
-                                        {
-                                            @Model[i].OtherExpenseTypeName.Split("/")[1]}
+                                                    @Model[i].OtherExpenseTypeName.Split("/")[2] }
+                                                else if (culture == "fa")
+                                                {
+                                                    @Model[i].OtherExpenseTypeName.Split("/")[0] }
+                                                else
+                                                {
+                                                    @Model[i].OtherExpenseTypeName.Split("/")[1]}
                                             </td>
                                             <td>
                                                 @*@Html.EditorFor(m => Model[i].ExpensePerMonth, new { htmlAttributes = new { @class = "form-control" } })*@
@@ -58,14 +58,15 @@
                                             </td>
 
 
-                                        </tr>}
-                                                    }
+                                        </tr>
+}
+                                }
 
                             </tbody>
                         </table>
                     </div>
                     <input type="submit" id="btnSave" value="@localizer["Save"]" class="btn btn-outline-success" />
-                     @{ 
+                    @{
                         var floatValue = "left";
                         if (culture == "en")
                         {
@@ -79,11 +80,11 @@
 
                         @if (ViewBag.AppSubmitButton == null)
                         {
-                    <button type="button" id="nextBtn" style="background-color:#0193df;" onclick="@("window.location.href='" + @Url.Action("RecieveApplication", "SchoolOtherExpenses") + "'");" class="btn btn-primary">
-                      
-                        @localizer["Submit"]
+                            <button type="button" id="nextBtn" style="background-color:#0193df;" onclick="@("window.location.href='" + @Url.Action("RecieveApplication", "SchoolOtherExpenses") + "'");" class="btn btn-primary">
 
-                    </button>}
+                                @localizer["Submit"]
+
+                            </button>}
 
 
                     </div>
@@ -95,13 +96,17 @@
                 <div class="">
                     <span class="text-info">
                         <a href="~/Official-documents/School Verification CheckList.pdf" style="font-size:20px;">
-                           
+
                             @localizer["CheckListMessage"]
                         </a>
-                       
+
                     </span>
                 </div>
-
+                <hr />
+                <hr />
+                <div style="text-align:center;background-color: #0193df;">
+                    <h3 style="padding:5px;color: white;"> @localizer["SubmissionMessage"]</h3>
+                </div>
             </div>
         </div>
     </div>

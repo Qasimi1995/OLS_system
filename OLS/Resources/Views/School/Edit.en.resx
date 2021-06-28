@@ -144,6 +144,9 @@
   <data name="EquipmentAndTeachingMaterials" xml:space="preserve">
     <value>Equipment and Teaching Materials</value>
   </data>
+  <data name="ESname" xml:space="preserve">
+    <value>School Name Only In English</value>
+  </data>
   <data name="FireDistinguisherTools" xml:space="preserve">
     <value>Fire Distinguisher Tools</value>
   </data>
@@ -215,6 +218,9 @@
   </data>
   <data name="Select" xml:space="preserve">
     <value>Select</value>
+  </data>
+  <data name="Sname" xml:space="preserve">
+    <value>Only School Name</value>
   </data>
   <data name="SportsFacilities" xml:space="preserve">
     <value>Sports Facilities</value>

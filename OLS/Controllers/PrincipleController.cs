@@ -27,7 +27,7 @@ namespace OLS.Controllers
         private readonly INotyfService notyfService;
         private readonly IHtmlLocalizer _localizer;
 
-        public PrincipleController(ApplicationContext applicationContext, IHtmlLocalizer<PrincipleController> localizer, IWebHostEnvironment environment,UserManager<User> userManager,
+        public PrincipleController(ApplicationContext applicationContext, IHtmlLocalizer<PrincipleController> localizer, IWebHostEnvironment environment, UserManager<User> userManager,
             INotyfService notyfService)
         {
             _applicationContext = applicationContext;
@@ -95,38 +95,6 @@ namespace OLS.Controllers
 
 
 
-
-
-
-            //New Changes
-
-            var sch_id = HttpContext.Session.GetString("mySchoolId");
-            if (sch_id != null)
-            {
-                schoolid = Guid.Parse(sch_id);
-            }
-
-            var newSchool = HttpContext.Session.GetString("new");
-            if (newSchool != null)
-            {
-                schoolid = Guid.NewGuid();
-            }
-
-            var myschoolid = HttpContext.Session.GetString("SchoolID");
-
-            if (myschoolid != null)
-            {
-                schoolid = Guid.Parse(myschoolid);
-            }
-
-            if (myschoolid == null && sch_id == null)
-            {
-                schoolid = Guid.NewGuid();
-            }
-
-
-
-
             var displayPlan = (from process in _applicationContext.Process
                                join subProcess in _applicationContext.SubProcess on process.ProcessId equals subProcess.ProcessId into processgroup
                                from a in processgroup.DefaultIfEmpty()
@@ -156,8 +124,8 @@ namespace OLS.Controllers
                                    StatusDate = b.StatusDate,
 
                                }).OrderBy(p => p.OrderNumber).ToList();
-            
-            var principle = _applicationContext.Person.Where(p => p.CreatedBy == UserId && p.SchoolId==schoolid && p.PartyRoleTypeId== Guid.Parse("FD744DE3-476C-428F-B7E0-381A9DD286FE")).FirstOrDefault();
+
+            var principle = _applicationContext.Person.Where(p => p.CreatedBy == UserId && p.SchoolId == schoolid && p.PartyRoleTypeId == Guid.Parse("FD744DE3-476C-428F-B7E0-381A9DD286FE")).FirstOrDefault();
             ViewBag.principle = principle;
             if (principle != null)
             {
@@ -203,7 +171,7 @@ namespace OLS.Controllers
                     return RedirectToAction("Edit", new { principleid = principle.PersonId });
                 }
 
-                
+
             }
 
 
@@ -213,11 +181,11 @@ namespace OLS.Controllers
         [Route("FindDistrict/{ProvinceId}")]
         public IActionResult FindDistrict(int ProvinceId)
         {
-            var districts = _applicationContext.ZDistrict.Where(district => district.ProvinceId == ProvinceId).Select(distict => new { 
-            Id=distict.DistrictId,
-            DistNameEng=distict.DistNaEng,
-            DistNameDar=distict.DistNaDar
-            
+            var districts = _applicationContext.ZDistrict.Where(district => district.ProvinceId == ProvinceId).Select(distict => new {
+                Id = distict.DistrictId,
+                DistNameEng = distict.DistNaEng,
+                DistNameDar = distict.DistNaDar
+
             }).ToList();
             return new JsonResult(districts);
         }
@@ -225,27 +193,29 @@ namespace OLS.Controllers
         public IActionResult FindVillagNahia(int DistrictId)
         {
             var VillageNahias = _applicationContext.ZVillageNahia.Where(villigaeNahia => villigaeNahia.DistrictId == DistrictId)
-                .Select(villageNahia =>new { 
-                    Vid =villageNahia.VillageNahiaId,
-                    VNameEng=villageNahia.VillageNameEng
-            
-            }).ToList();
+                .Select(villageNahia => new {
+                    Vid = villageNahia.VillageNahiaId,
+                    VNameEng = villageNahia.VillageNameEng
+
+                }).ToList();
             return new JsonResult(VillageNahias);
         }
 
 
-      
-        [AcceptVerbs("Get","Post")]
-        [Route("IsEmailUnique")]
-        public async Task<IActionResult> IsEmailUnique(string email) {
 
-            var founder = _applicationContext.ContactDetails.Where( p => p.Value==email).FirstOrDefault();
+        [AcceptVerbs("Get", "Post")]
+        [Route("IsEmailUnique")]
+        public async Task<IActionResult> IsEmailUnique(string email)
+        {
+
+            var founder = _applicationContext.ContactDetails.Where(p => p.Value == email).FirstOrDefault();
             if (founder == null)
             {
 
                 return Json(true);
             }
-            else {
+            else
+            {
                 return Json(_localizer["EmailInUse"].Value);
             }
 
@@ -290,7 +260,7 @@ namespace OLS.Controllers
         [AcceptVerbs("Get", "Post")]
         [Route("IsPhoneUniqueEdit")]
         public async Task<IActionResult> IsPhoneUniqueEdit(string PhonNumber, Guid PersonId)
-        {          
+        {
             var PhoneCount = _applicationContext.ContactDetails.Where(p => p.Value == PhonNumber && p.PartyId == PersonId).GroupBy(i => new { i.Value }).Select(g => new { g.Key.Value, Count = g.Count() }).ToList();
             if (PhoneCount.Count == 1)
             {
@@ -327,8 +297,8 @@ namespace OLS.Controllers
         public async Task<IActionResult> IsNIDUniqueEdit(string NIDNumber, Guid PersonId)
         {
 
-            var NIDCount =  _applicationContext.Person.Where(p => p.Nidnumber == NIDNumber && p.PersonId== PersonId).GroupBy( i=> new { i.Nidnumber }).Select(g => new {g.Key.Nidnumber, Count = g.Count() }).ToList();
-            
+            var NIDCount = _applicationContext.Person.Where(p => p.Nidnumber == NIDNumber && p.PersonId == PersonId).GroupBy(i => new { i.Nidnumber }).Select(g => new { g.Key.Nidnumber, Count = g.Count() }).ToList();
+
             if (NIDCount.Count == 1)
             {
 
@@ -343,9 +313,11 @@ namespace OLS.Controllers
 
         [Route("GetFounderByPhoneOrEmail")]
         [HttpPost]
-        public IActionResult GetFounderByPhoneOrEmail(string val) {
+        public IActionResult GetFounderByPhoneOrEmail(string val)
+        {
 
-            if (val != null) {
+            if (val != null)
+            {
                 var person = _applicationContext.ContactDetails.Where(p => p.Value == val).FirstOrDefault();
 
                 return RedirectToAction("Edit", new { founderid = person.PartyId });
@@ -369,10 +341,10 @@ namespace OLS.Controllers
         {
             var FacultyType = new ZFacultyType();
             FacultyType.FacultyTypeId = Guid.NewGuid();
-            FacultyType.FacultypeNameDari = FacultyName+"/"+FacultyName;
+            FacultyType.FacultypeNameDari = FacultyName + "/" + FacultyName;
             FacultyType.FacultypeName = FacultyName;
             _applicationContext.ZFacultyType.Add(FacultyType);
-            await  _applicationContext.SaveChangesAsync().ConfigureAwait(true);
+            await _applicationContext.SaveChangesAsync().ConfigureAwait(true);
             return Json(FacultyType.FacultyTypeId);
         }
 
@@ -467,8 +439,10 @@ namespace OLS.Controllers
         [HttpGet]
         public IActionResult Edit(Guid principleid)
         {
-            try {
-                if (principleid != null) {
+            try
+            {
+                if (principleid != null)
+                {
                     Guid DropPID = Guid.NewGuid();
 
                     var EducationLevel = _applicationContext.ZEducationLevel.OrderBy(o => o.OrderNumber);
@@ -491,8 +465,8 @@ namespace OLS.Controllers
                     ViewBag.Perprovince = Perprovince;
                     var Perdistrict = _applicationContext.ZDistrict.Where(d => d.ProvinceId == principlePerAddress.ProvinceId);
                     ViewBag.Perdistrict = Perdistrict;
-                  //  var PervillageNahia = _applicationContext.ZVillageNahia.Where(v => v.DistrictId == principlePerAddress.DistrictId);
-                   // ViewBag.PervillageNahia = PervillageNahia;
+                    //  var PervillageNahia = _applicationContext.ZVillageNahia.Where(v => v.DistrictId == principlePerAddress.DistrictId);
+                    // ViewBag.PervillageNahia = PervillageNahia;
 
                     var Preprovince = _applicationContext.ZProvince;
                     ViewBag.Preprovince = Preprovince;
@@ -511,37 +485,40 @@ namespace OLS.Controllers
                         Nidnumber = principledetails.Nidnumber,
                         Age = principledetails.Age,
                         GenderTypeId = principledetails.GenderTypeId,
-                        Eduservice=principledetails.Eduservice,
+                        Eduservice = principledetails.Eduservice,
                         PhonNumber = principlePhone.Value,
                         Email = principleEmail.Value,
                         EducationLevelID = principleEducation.EducationLevelId,
-                        FacultyTypeId=principleEducation.FacultyTypeId,
-                        GraduationDate= principleEducation.GraduationDate,
+                        FacultyTypeId = principleEducation.FacultyTypeId,
+                        GraduationDate = principleEducation.GraduationDate,
                         PerProvinceId = principlePerAddress.ProvinceId,
                         PerDistrictId = principlePerAddress.DistrictId,
                         PerNahia = principlePerAddress.Nahia,
                         PreProvinceId = principlePreAddress.ProvinceId,
                         PreDistrictId = principlePreAddress.DistrictId,
-                        PreNahia = principlePreAddress.Nahia,                   
+                        PreNahia = principlePreAddress.Nahia,
                         ExistingPhotoPath = principledetails.Photo,
-                      
+
                     };
                     HttpContext.Session.SetString("FounderID", principledetails.PersonId.ToString());
-                   
+
                     HttpContext.Session.SetString("Principle", "Create");
                     return View(principle);
                 }
-                else {
+                else
+                {
                     return View();
 
                 }
-               
 
-            } catch (Exception ex) {
+
+            }
+            catch (Exception ex)
+            {
 
                 return View("Index");
             }
-           
+
         }
 
         [Route("Edit/{principleid}")]
@@ -549,7 +526,8 @@ namespace OLS.Controllers
         public async Task<IActionResult> Edit(PrincipleEditViewModel principle)
         {
 
-            try {
+            try
+            {
 
                 if (ModelState.IsValid)
                 {
@@ -575,8 +553,8 @@ namespace OLS.Controllers
                     ViewBag.Perprovince = Perprovince;
                     var Perdistrict = _applicationContext.ZDistrict.Where(d => d.ProvinceId == founderPerAddress.ProvinceId);
                     ViewBag.Perdistrict = Perdistrict;
-                   // var PervillageNahia = _applicationContext.ZVillageNahia.Where(v => v.DistrictId == founderPerAddress.DistrictId);
-                   // ViewBag.PervillageNahia = PervillageNahia;
+                    // var PervillageNahia = _applicationContext.ZVillageNahia.Where(v => v.DistrictId == founderPerAddress.DistrictId);
+                    // ViewBag.PervillageNahia = PervillageNahia;
 
                     var Preprovince = _applicationContext.ZProvince.Where(p => p.ProvinceId == founderPreAddress.ProvinceId);
                     ViewBag.Preprovince = Preprovince;
@@ -653,13 +631,13 @@ namespace OLS.Controllers
                             {
                                 principle.Photo.CopyTo(filestream);
                             }
-                            person.Photo = "/Person/"+ principle.PersonId.ToString()+"/" +fileName;
+                            person.Photo = "/Person/" + principle.PersonId.ToString() + "/" + fileName;
                         }
                         else
                         {
-                            ViewBag.photoerror =_localizer["PhotoError"].Value;
+                            ViewBag.photoerror = _localizer["PhotoError"].Value;
                             return View(principle);
-                           
+
                         }
                     }
 
@@ -689,7 +667,7 @@ namespace OLS.Controllers
                 var EducationLev = _applicationContext.ZEducationLevel.OrderBy(o => o.OrderNumber);
                 ViewBag.EducationLevel = EducationLev;
 
-                var GenderT= _applicationContext.ZGenderType.OrderBy(o => o.OrderNumber);
+                var GenderT = _applicationContext.ZGenderType.OrderBy(o => o.OrderNumber);
                 ViewBag.GenderType = GenderT;
 
                 var FacultyT = _applicationContext.ZFacultyType.OrderBy(o => o.OrderNumber);
@@ -720,12 +698,14 @@ namespace OLS.Controllers
 
 
                 return View();
-            } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 return View("index");
             }
 
-         
-           
+
+
 
         }
 
@@ -733,7 +713,7 @@ namespace OLS.Controllers
         [Route("Create")]
         public IActionResult Create()
         {
- 
+
             Guid DropPID = Guid.NewGuid();
             var province = _applicationContext.ZProvince;
             ViewBag.Province = province;
@@ -766,7 +746,7 @@ namespace OLS.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Create")]
-        public async Task<IActionResult> Create(PrincipleViewModel principle )
+        public async Task<IActionResult> Create(PrincipleViewModel principle)
         {
             Guid DropPID = Guid.NewGuid();
             var province = _applicationContext.ZProvince;
@@ -784,7 +764,7 @@ namespace OLS.Controllers
             if (ModelState.IsValid)
             {
                 string FilePath = "";
-                string photo= "";
+                string photo = "";
                 Guid Pid = Guid.NewGuid();
                 if (principle.Photo != null)
                 {
@@ -806,7 +786,7 @@ namespace OLS.Controllers
                 Party party = new Party() { PartyId = Pid };
                 var UserId = _userManager.GetUserId(User);
                 var schoolId = Guid.Parse(HttpContext.Session.GetString("SchoolID"));
-                var school = _applicationContext.School.Where(p => p.CreatedBy == UserId && p.SchoolId==schoolId).FirstOrDefault();
+                var school = _applicationContext.School.Where(p => p.CreatedBy == UserId && p.SchoolId == schoolId).FirstOrDefault();
                 Person person = new Person()
                 {
                     PersonId = Pid,
@@ -818,11 +798,11 @@ namespace OLS.Controllers
                     Age = principle.Age,
                     Photo = photo,
                     GenderTypeId = principle.GenderTypeId,
-                    Eduservice=principle.Eduservice,
+                    Eduservice = principle.Eduservice,
                     PartyRoleTypeId = Guid.Parse("FD744DE3-476C-428F-B7E0-381A9DD286FE"),
-                    SchoolId=school.SchoolId,
-                    CreatedBy=_userManager.GetUserId(User),
-                    CreatedAt= DateTime.Now,
+                    SchoolId = school.SchoolId,
+                    CreatedBy = _userManager.GetUserId(User),
+                    CreatedAt = DateTime.Now,
                 };
 
                 Guid PhoneCid = Guid.NewGuid();
@@ -831,7 +811,7 @@ namespace OLS.Controllers
                     ContactDetailId = PhoneCid,
                     PartyId = Pid,
                     ContactMechanismTypeId = Guid.Parse("B1B3DB1A-A3FB-43B9-839F-47A38C7F93CB"),
-                    Value = principle.PhonNumber ,
+                    Value = principle.PhonNumber,
                     CreatedBy = _userManager.GetUserId(User),
                     CreatedAt = DateTime.Now
                 };
@@ -853,8 +833,8 @@ namespace OLS.Controllers
                     PersonId = Pid,
                     PersonEducationId = personEductionID,
                     EducationLevelId = principle.EducationLevelID,
-                    FacultyTypeId=principle.FacultyTypeId,
-                    GraduationDate=principle.GraduationDate,
+                    FacultyTypeId = principle.FacultyTypeId,
+                    GraduationDate = principle.GraduationDate,
                     CreatedBy = _userManager.GetUserId(User),
                     CreatedAt = DateTime.Now
                 };
@@ -912,8 +892,8 @@ namespace OLS.Controllers
 
             var FacultyT = _applicationContext.ZFacultyType.OrderBy(o => o.OrderNumber);
             ViewBag.FacultyType = FacultyT;
-            return View("Create"); 
-           
+            return View("Create");
+
         }
     }
 }

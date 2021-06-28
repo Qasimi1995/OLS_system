@@ -236,7 +236,22 @@
                                                                             <td>
                                                                                 @localizer["LabratoryMaterial"]
                                                                             </td>
-                                                                            <td>@ViewBag.SchoolInfo.LaboratoryMaterialType</td>
+                                                                            <td>
+
+                                                                                @if (culture == "en")
+                                                                                {
+                                                                                    @ViewBag.SchoolInfo.LaboratoryMaterialType
+                                                                                }
+                                                                                else if (culture == "fa")
+                                                                                {
+                                                                                    @ViewBag.SchoolInfo.LaboratoryMaterialTypeNameDari
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    @ViewBag.SchoolInfo.LaboratoryMaterialTypeNameDari
+                                                                                }
+
+                                                                            </td>
                                                                             <td class=" text-center"><span class="mdi mdi-checkbox-blank-outline mdi-24px"></span></td>
                                                                             <td></td>
                                                                         </tr>
@@ -358,67 +373,73 @@
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th> @localizer["NameLastName"] </th>
+                <th>@localizer["NameLastName"] </th>
                 <th>@localizer["Occupation"]</th>
-                <th>   @localizer["NidNumber"]  </th>
-                <th>  @localizer["Age"] </th>
-                <th>  @localizer["Gender"] </th>
-                <th>   @localizer["EducationLevel"] </th>
-                <th>   @localizer["GraduationYear"]  </th>
-                <th>     @localizer["EducationServiceYears"]      </th>
+                <th>@localizer["NidNumber"]  </th>
+                <th>@localizer["Age"] </th>
+                <th>@localizer["Gender"] </th>
+                <th>@localizer["EducationLevel"]</th>
+                <th>@localizer["GraduationYear"]</th>
+                <th>@localizer["EducationServiceYears"]</th>
 
             </tr>
         </thead>
         <tbody>
             @foreach (var item in ViewBag.PersonInfo)
             {
-<tr>
+                    <tr>
 
-    <td>
-        @item.Name @item.LastName
-    </td>
-    <td>
-        @item.PartyRoleType
-    </td>
-    <td>
-        @item.Nidnumber
-    </td>
-    <td>
-        @item.Age
-    </td>
-    <td>
+                        <td>
+                            @item.Name @item.LastName
+                        </td>
+                        <td>
+                            @item.PartyRoleType
+                        </td>
+                        <td>
+                            @item.Nidnumber
+                        </td>
+                        <td>
+                            @item.Age
+                        </td>
+                        <td>
 
-        @if (culture == "en")
-        {
-    @item.GenderType.Split("/")[1] }
-else
-{
-    @item.GenderType.Split("/")[0]}
-    </td>
-    <td>
-        @if (culture == "en")
-        {
-    @item.EducationLevel.Split("/")[1] }
-else if (culture == "fa")
-{
-    @item.EducationLevel.Split("/")[0].Split("-")[0] }
-else
-{
+                            @if (culture == "en")
+                            {
+                                @item.GenderType
+                            }
+                            else if (culture == "fa")
+                            {
+                                @item.GenderType.Split("/")[0]
+                            }
+                            else
+                            {
+                                @item.GenderType.Split("/")[1]
+                            }
+                        </td>
+                        <td>
+                            @if (culture == "en")
+                            {
+                            @item.EducationLevel
+                            }
+                            else if (culture == "fa")
+                            {
+                                @item.EducationLevel.Split("/")[0].Split("-")[0]
+                            }
+                            else
+                            {
+                                @item.EducationLevel.Split("/")[0].Split("-")[1]
+                            }
+                        </td>
+                        <td>
+                                @item.GraduationDate
+                        </td>
+                        <td>
+                            @item.Eduservice
+                        </td>
 
 
-    @item.EducationLevel.Split("/")[0].Split("-")[1]}
-    </td>
-    <td>
-        @item.GraduationDate
-    </td>
-    <td>
-        @item.Eduservice
-    </td>
-
-
-</tr>}
-
-
+                    </tr>
+                    }
         </tbody>
     </table>
 </div>            }

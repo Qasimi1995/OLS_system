@@ -141,6 +141,9 @@
   <data name="Save" xml:space="preserve">
     <value>ثبت</value>
   </data>
+  <data name="SubmissionMessage" xml:space="preserve">
+    <value>لطفا قبل از تسلیمی درخواستی فارم ها را یکبار دیگر مرور کرده خود را از درست بودن معلومات درج شده مطمین سازید. پس از تسلیمی درخواستی معلومات درج شده قابل تغییر نمی باشد، مگر اینکه درخواستی توسط مراجع مربوطه رد گردد.</value>
+  </data>
   <data name="Submit" xml:space="preserve">
     <value>تسلیمی درخواستی</value>
   </data>

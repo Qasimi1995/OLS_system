@@ -51,11 +51,11 @@
                                 @Model[i].PartyRoleType.Split("/")[1]}
                                     </td>
                                     <td>
-                                        @Html.EditorFor(m => Model[i].Salary, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.EditorFor(m => Model[i].Salary, new { htmlAttributes = new { @class = "form-control",  @type = "number" } })
                                         @Html.ValidationMessageFor(m => Model[i].Salary, null, new { @class = "text-danger" })
                                     </td>
                                     <td>
-                                        @Html.EditorFor(m => Model[i].Amount, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.EditorFor(m => Model[i].Amount, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
                                         @Html.ValidationMessageFor(m => Model[i].Amount, null, new { @class = "text-danger" })
                                     </td>
 

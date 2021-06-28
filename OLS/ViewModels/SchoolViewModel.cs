@@ -15,14 +15,16 @@ namespace OLS.ViewModels
         [Required(ErrorMessage = "*")]
         public Guid?    SchoolLevelId           { get; set; }
         [Required(ErrorMessage = "*")]
-       // [RegularExpression("^(?![ .]+$)[a-zA-Z .]*$", ErrorMessage = "لطف نموده نام مکتب درست را وارد نماید/ورکړل شوی دښوونځي نوم سم نه دی/Please Enter Valid School Name")]
+        [Remote(action: "IsSchoolnameUnique", controller: "School")]
+        // [RegularExpression("^(?![ .]+$)[a-zA-Z .]*$", ErrorMessage = "لطف نموده نام مکتب درست را وارد نماید/ورکړل شوی دښوونځي نوم سم نه دی/Please Enter Valid School Name")]
         public string   SchoolName              { get; set; }
         [Required(ErrorMessage = "*")]
-       // [RegularExpression("^(?![ .]+$)[a-zA-Z .]*$", ErrorMessage = "لطف نموده نام انگلیسی مکتب درست را وارد نماید/ورکړل شوی دانگلیسی ښوونځي نوم سم نه دی/Please Enter Valid School Name")]
+        [Remote(action: "EnglishSchoolName", controller: "School")]
+        // [RegularExpression("^(?![ .]+$)[a-zA-Z .]*$", ErrorMessage = "لطف نموده نام انگلیسی مکتب درست را وارد نماید/ورکړل شوی دانگلیسی ښوونځي نوم سم نه دی/Please Enter Valid School Name")]
         public string SchoolEnglishName { get; set; }
-        [Required(ErrorMessage = "*")]
+        //[Required(ErrorMessage = "*")]
         public double? SchoolLatitude { get; set; }
-        [Required(ErrorMessage = "*")]
+        //[Required(ErrorMessage = "*")]
         public double? SchoolLongitude { get; set; }
 
 

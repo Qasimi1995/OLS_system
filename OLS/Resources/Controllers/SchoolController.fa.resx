@@ -189,6 +189,9 @@
   <data name="SchoolCreated" xml:space="preserve">
     <value>مکتب ایجاد شد</value>
   </data>
+  <data name="SchoolNameInUse" xml:space="preserve">
+    <value>نام مکتب قبلاً استفاده شده است</value>
+  </data>
   <data name="SchoolUpdated" xml:space="preserve">
     <value>معلومات مکتب موفقانه تغییر یافت</value>
   </data>

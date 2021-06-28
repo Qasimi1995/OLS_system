@@ -851,6 +851,68 @@ namespace OLS.Controllers
 
         }
 
+
+        [AcceptVerbs("Get", "Post")]
+        [Route("IsSchoolnameUnique")]
+        public async Task<IActionResult> IsSchoolnameUnique(string schoolname)
+        {
+           
+                var schoolN = _applicationContext.School.Where(p => p.SchoolName == schoolname).FirstOrDefault();
+                if (schoolN == null)
+                {
+
+                    return Json(true);
+                }
+                else
+                {
+                    return Json(_localizer["SchoolNameInUse"].Value);
+                }
+        }
+
+        [AcceptVerbs("Get", "Post")]
+        [Route("EditIsSchoolnameUnique")]
+        public async Task<IActionResult> EditIsSchoolnameUnique(string editschoolname, Guid SchoolID)
+        {
+
+            var NIDCount = _applicationContext.School.Where(p => p.SchoolName == editschoolname && p.SchoolId == SchoolID).GroupBy(i => new { i.SchoolName }).Select(g => new { g.Key.SchoolName, Count = g.Count() }).ToList();
+            var NIDCountOther = _applicationContext.School.Where(p => p.SchoolName == editschoolname).GroupBy(i => new { i.SchoolName }).Select(g => new { g.Key.SchoolName, Count = g.Count() }).ToList();
+            if (NIDCount.Count == 1)
+            {
+
+                return Json(true);
+            }
+            else if (NIDCountOther.Count > 0)
+            {
+                return Json(_localizer["SchoolNameInUse"].Value);
+
+            }
+            else
+            {
+                return Json(true);
+            }
+
+        }
+
+        [AcceptVerbs("Get", "Post")]
+        [Route("EnglishSchoolName")]
+        public async Task<IActionResult> EnglishSchoolName(string Eschoolname)
+        {
+
+            var EschoolN = _applicationContext.School.Where(p => p.SchoolEnglishName == Eschoolname).FirstOrDefault();
+            if (EschoolN == null)
+            {
+
+                return Json(true);
+            }
+            else
+            {
+                return Json(_localizer["ESchoolNameInUse"].Value);
+            }
+
+        }
+
+
+
         [Route("NoEdit/{schoolId}")]
         [HttpGet]
         public IActionResult NoEdit(Guid schoolId)
@@ -935,7 +997,7 @@ namespace OLS.Controllers
                     ViewBag.LabMaterialType = LabMaterialType;
                     School school = _applicationContext.School.Find(schoolId);
                     PartyAddress schoolAddress = _applicationContext.PartyAddress.Where(p => p.PartyId == school.SchoolId).FirstOrDefault();
-                    SchoolViewModel schoolViewModel = new SchoolViewModel
+                   SchoolEditViewModel schoolViewModel = new SchoolEditViewModel
                     {
                         SchoolId = school.SchoolId,
                         SchoolLevelId = school.SchoolLevelId,
@@ -1012,7 +1074,7 @@ namespace OLS.Controllers
 
         [Route("Edit/{schoolId}")]
         [HttpPost]
-        public IActionResult Edit(SchoolViewModel schoolViewModel)
+        public IActionResult Edit(SchoolEditViewModel schoolViewModel)
         {
             if (ModelState.IsValid)
             {

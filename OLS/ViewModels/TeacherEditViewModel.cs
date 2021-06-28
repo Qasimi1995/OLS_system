@@ -26,7 +26,7 @@ namespace OLS.ViewModels
         //[RegularExpression("^(?![ .]+$)[a-zA-Z .]*$", ErrorMessage = "لطف نموده نام پدرکلان درست را وارد نماید/ورکړل شوی د نیکه نوم سم نه دی/Please Enter Valid Grand Father Name")]
         public string GrandFatherName { get; set; }
         [Required(ErrorMessage = "*")]
-        [Remote(action: "IsNIDUniqueEdit", controller: "Teacher", AdditionalFields = "NIDNumber,PersonId")]
+        //[Remote(action: "IsNIDUniqueEdit", controller: "Teacher", AdditionalFields = "NIDNumber,PersonId")]
         public string Nidnumber { get; set; }
         [Required(ErrorMessage ="*")]
         [Range(20,100)]

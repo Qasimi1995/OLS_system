@@ -189,6 +189,9 @@
   <data name="SchoolCreated" xml:space="preserve">
     <value>ښوونځی جوړ شو</value>
   </data>
+  <data name="SchoolNameInUse" xml:space="preserve">
+    <value>د ښوونځي نوم دمخه کارول شوی</value>
+  </data>
   <data name="SchoolUpdated" xml:space="preserve">
     <value>د ښوونځي معلومات نوي شوي</value>
   </data>

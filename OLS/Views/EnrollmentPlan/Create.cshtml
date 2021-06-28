@@ -88,7 +88,7 @@
                                             </tbody>
                                         </table>
                                     </div>
-                                    <input type="submit" id="btnSave" value="@localizer["Save"]" class="btn " style="background-color:#0193df;" />
+                                    <input type="submit" id="btnSave" value="@localizer["Save"]" class="btn btn-primary " style="background-color:#0193df;" />
                                      @{ 
                         var floatValue = "left";
                         if (culture == "en")
@@ -109,11 +109,6 @@
                                             <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
                                             <script src="~/sweetalert/sweetalert.min.js"></script>
                                             <script type="text/javascript">
-                                                    @*swal({
-                                                        "@ViewBag.Message",
-                                                        "حساب موفقانه ایجاد گردید / تاسو په بریالیتوب سره یو حساب جوړ کړی",
-                                                        "success"
-                                                        })*@
                                                     swal({
                                                         title: "@ViewBag.Message",
                                                         text: "@localizer["Message"]",

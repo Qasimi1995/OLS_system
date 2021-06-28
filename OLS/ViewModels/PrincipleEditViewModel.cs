@@ -27,16 +27,16 @@ namespace OLS.ViewModels
         public string GrandFatherName { get; set; }
 
         [Required(ErrorMessage ="*")]
-        [Remote(action: "IsPhoneUniqueEdit", controller: "Founder", AdditionalFields = "PersonId")]
+        //[Remote(action: "IsPhoneUniqueEdit", controller: "Founder", AdditionalFields = "PersonId")]
         public string PhonNumber { get; set; }
 
         [Required(ErrorMessage ="*")]
        // [EmailAddress(ErrorMessage = "فارمت ایمیل درست نیست / ورکړل شوی برېښنالیک سم نه دی / Email Format is not valid")]
         [EmailAddress(ErrorMessage = "*")]
-        [Remote(action: "IsEmailUniqueEdit", controller:"Founder", AdditionalFields = "PersonId")]
+        //[Remote(action: "IsEmailUniqueEdit", controller:"Founder", AdditionalFields = "PersonId")]
         public string Email { get; set; }
         [Required(ErrorMessage ="*")]
-        [Remote(action: "IsNIDUniqueEdit", controller: "Founder", AdditionalFields = "PersonId")]
+        //[Remote(action: "IsNIDUniqueEdit", controller: "Founder", AdditionalFields = "PersonId")]
         public string Nidnumber { get; set; }
         [Required(ErrorMessage ="*")]
         [Range(20,100)]
