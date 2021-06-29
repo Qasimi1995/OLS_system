@@ -741,7 +741,7 @@ namespace OLS.Controllers
                 }
                 else
                 {
-                    return Json(_localizer["Min100Books"].Value);
+                    return Json(_localizer["Min1000Books"].Value);
                 }
             }
             else
