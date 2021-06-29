@@ -121,7 +121,7 @@
     <value>نیټه</value>
   </data>
   <data name="DaysDuration" xml:space="preserve">
-    <value>موده په ورځو کې</value>
+    <value>د ورځو موده(تعداد)</value>
   </data>
   <data name="District" xml:space="preserve">
     <value>ولسوالۍ</value>
@@ -148,10 +148,10 @@
     <value>شمیره</value>
   </data>
   <data name="NoDataFound" xml:space="preserve">
-    <value>هیڅ معلومات ونه موندل شو</value>
+    <value>هیڅ معلومات ونه موندل شول</value>
   </data>
   <data name="Primary" xml:space="preserve">
-    <value>لومړنی</value>
+    <value>لومړنی (ابتدایه)</value>
   </data>
   <data name="Province" xml:space="preserve">
     <value>ولایت</value>
@@ -169,7 +169,7 @@
     <value>لټون</value>
   </data>
   <data name="Secondary" xml:space="preserve">
-    <value>ثانوي</value>
+    <value>منځنۍ (متوسطه)</value>
   </data>
   <data name="Select" xml:space="preserve">
     <value>وټاکئ</value>

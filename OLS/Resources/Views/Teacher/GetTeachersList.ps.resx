@@ -136,10 +136,10 @@
     <value>سمول</value>
   </data>
   <data name="EducationLevel" xml:space="preserve">
-    <value>د زده کړو درجه</value>
+    <value>د زده کړې کچه</value>
   </data>
   <data name="Gender" xml:space="preserve">
-    <value>جنسیت</value>
+    <value>جنس</value>
   </data>
   <data name="GraduationYear" xml:space="preserve">
     <value>د فراغت کال</value>

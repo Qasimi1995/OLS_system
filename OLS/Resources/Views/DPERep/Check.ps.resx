@@ -172,31 +172,31 @@
     <value>ولسوالۍ</value>
   </data>
   <data name="Documents" xml:space="preserve">
-    <value>لاسوندونه</value>
+    <value>لاسوندونه (اسنادونه)</value>
   </data>
   <data name="DocumentType" xml:space="preserve">
     <value>د سند ډول</value>
   </data>
   <data name="DrinkingWater" xml:space="preserve">
-    <value>د څښلو صحي اوبه</value>
+    <value>د څښاک اوبه</value>
   </data>
   <data name="DurationOfService" xml:space="preserve">
     <value>په ښوونه او روزنه کې د خدمت موده</value>
   </data>
   <data name="EducationLevel" xml:space="preserve">
-    <value>ښوونيزه کچه</value>
+    <value>د زده کړې کچه</value>
   </data>
   <data name="Email" xml:space="preserve">
     <value>بریښنالیک</value>
   </data>
   <data name="Equipment" xml:space="preserve">
-    <value>د زده کړیزو توکو تجهیزات</value>
+    <value>تجهیزات</value>
   </data>
   <data name="EquipmentAndTeachingMaterials" xml:space="preserve">
-    <value>د زده کړیزو توکو تجهیزات</value>
+    <value>تجهیزات او ښوونیزې توکې</value>
   </data>
   <data name="ExpensePerMonth" xml:space="preserve">
-    <value>هره میاشت لګښت</value>
+    <value>د هرې میاشتې لګښت</value>
   </data>
   <data name="ExpenseType" xml:space="preserve">
     <value>د لګښت ډول</value>
@@ -208,16 +208,16 @@
     <value>د فیس اندازه</value>
   </data>
   <data name="FemaleCount" xml:space="preserve">
-    <value>د ښځینه وو تعداد</value>
+    <value>د ښځینه شمېر</value>
   </data>
   <data name="File" xml:space="preserve">
     <value>فایل</value>
   </data>
   <data name="FinancialPlan" xml:space="preserve">
-    <value>د بودیجوی پلان</value>
+    <value>مالي/بودیجوي پلان</value>
   </data>
   <data name="FinancialResources" xml:space="preserve">
-    <value>د مالي زېرمه</value>
+    <value>مالي زیرمې</value>
   </data>
   <data name="FireDistinguisherTools" xml:space="preserve">
     <value>د اور وژنې وسایل</value>
@@ -229,10 +229,10 @@
     <value>د مؤسس پېژندنه</value>
   </data>
   <data name="FreeStudents" xml:space="preserve">
-    <value>د زده کونکو وړیا شمیره</value>
+    <value>د وړیا زده کوونکو شمېر</value>
   </data>
   <data name="Gender" xml:space="preserve">
-    <value>جنسیت</value>
+    <value>جنس</value>
   </data>
   <data name="GraduationDate" xml:space="preserve">
     <value>د فراغت کال</value>
@@ -256,7 +256,7 @@
     <value>طول البلد</value>
   </data>
   <data name="MaleCount" xml:space="preserve">
-    <value>د نرینه شمیره</value>
+    <value>د نارینه شمېر</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>نوم</value>
@@ -268,7 +268,7 @@
     <value>د تذکرې شمېره</value>
   </data>
   <data name="No" xml:space="preserve">
-    <value>نخیر</value>
+    <value>نه</value>
   </data>
   <data name="NoOfComputers" xml:space="preserve">
     <value>د کمپیوترونه شمیره</value>
@@ -283,7 +283,7 @@
     <value>نورې اسانتیاوې</value>
   </data>
   <data name="PaidStudents" xml:space="preserve">
-    <value>د تادیه شویو زده کونکو شمیر</value>
+    <value>د فیس ورکونکو زده کوونکو شمېر</value>
   </data>
   <data name="PermenantAddress" xml:space="preserve">
     <value>اصلي استوګنځای</value>
@@ -292,13 +292,13 @@
     <value>د اړیکې شمېره</value>
   </data>
   <data name="Position" xml:space="preserve">
-    <value>د کارمند پوست</value>
+    <value>د کار کوونکي موقف</value>
   </data>
   <data name="PrincipleInformation" xml:space="preserve">
     <value>د مدير په اړه مالومات</value>
   </data>
   <data name="ProcessSchool" xml:space="preserve">
-    <value>پروسس یې کړئ</value>
+    <value>ښوونځی طی مراحل کړئ</value>
   </data>
   <data name="Province" xml:space="preserve">
     <value>ولایت</value>
@@ -307,7 +307,7 @@
     <value>ملاحظات</value>
   </data>
   <data name="Rooms" xml:space="preserve">
-    <value>د اطاقونو شمېر</value>
+    <value>د خونو (اطاقونو) شمېر</value>
   </data>
   <data name="Salary" xml:space="preserve">
     <value>معاش</value>
@@ -325,7 +325,7 @@
     <value>د ښوونځي په اړه مالومات</value>
   </data>
   <data name="SchoolLevel" xml:space="preserve">
-    <value>د ښوونځي درجه</value>
+    <value>د ښوونځي کچه</value>
   </data>
   <data name="SchoolName" xml:space="preserve">
     <value>د ښوونځي نوم</value>
@@ -343,13 +343,13 @@
     <value>د ښوونکو په اړه مالومات</value>
   </data>
   <data name="TeachingAids" xml:space="preserve">
-    <value>د تدریس مرستیال مواد</value>
+    <value>ښوونیز مرستیال مواد(TeachingAids )</value>
   </data>
   <data name="TeachingBooks" xml:space="preserve">
     <value>درسي کتابونه</value>
   </data>
   <data name="Total" xml:space="preserve">
-    <value>ټوله</value>
+    <value>ټولټال</value>
   </data>
   <data name="TotalAll" xml:space="preserve">
     <value>ټول</value>

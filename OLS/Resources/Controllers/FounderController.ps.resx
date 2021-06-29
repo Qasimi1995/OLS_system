@@ -118,25 +118,25 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="EmailInUse" xml:space="preserve">
-    <value>دا بریښنالیک لا دمخه کارول شوی</value>
+    <value>دا بریښنالیک پخوا کارول شوی دی</value>
   </data>
   <data name="FounderCreated" xml:space="preserve">
-    <value>د جوړونکی معلومات رامینځته شوی</value>
+    <value>د مؤسس مالومات رامنځته شول</value>
   </data>
   <data name="FounderUpdated" xml:space="preserve">
-    <value>د جوړونکي معلومات نوي شوي</value>
+    <value>د مؤسس مالومات نوي شول</value>
   </data>
   <data name="NIDNumberInUse" xml:space="preserve">
-    <value>دا د تذکری شمیره دمخه کارول شوې ده</value>
+    <value>د تذکرې دغه شمېره پخوا کارول شوې ده</value>
   </data>
   <data name="PhoneNumberDigits" xml:space="preserve">
-    <value>د تلیفون شمیره باید 10 عددي وي</value>
+    <value>د مبایل شمېره باید ۱۰ عدده وي</value>
   </data>
   <data name="PhoneNumberInUse" xml:space="preserve">
-    <value>دا د تلیفون شمیره دمخه کارول شوې ده</value>
+    <value>د اړیکې دغه شمېره پخوا کارول شوې ده</value>
   </data>
   <data name="PhotoError" xml:space="preserve">
-    <value>یوازې .jpg ، .png ، .jpeg فارمت ه اجازه لري او اعظمي اندازه یې باید له 500 kb څخه کم وي</value>
+    <value>یواځې د jpeg, png او jpg د فارمټ په بڼه د کارولو اجازه لرئ او له 500 kb څخه باید ډېر نه وي.</value>
   </data>
   <data name="RecordSaved" xml:space="preserve">
     <value>ریکارډ په بریالیتوب سره خوندي شو</value>

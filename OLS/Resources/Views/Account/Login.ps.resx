@@ -124,13 +124,13 @@
     <value>  ایا حساب نه لری؟</value>
   </data>
   <data name="ForgotPassword" xml:space="preserve">
-    <value>خپل پټ نوم درڅخه هیر دی</value>
+    <value>پټ نوم (پاسورډ) درڅخه هیر دی</value>
   </data>
   <data name="Login" xml:space="preserve">
-    <value>داخل شئ</value>
+    <value>د ننه کیدل (Login)</value>
   </data>
   <data name="Password" xml:space="preserve">
-    <value>رمز</value>
+    <value>پټ نوم (پاسورډ)</value>
   </data>
   <data name="Remember" xml:space="preserve">
     <value>ما په یاد ولره</value>

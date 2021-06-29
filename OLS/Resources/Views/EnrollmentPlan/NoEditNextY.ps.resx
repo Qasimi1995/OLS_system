@@ -121,10 +121,10 @@
     <value>ټولګی</value>
   </data>
   <data name="Message" xml:space="preserve">
-    <value>ستاسو ډاټا په بریالیتوب خوندي شو</value>
+    <value>ستاسو مالومات په بریالیتوب سره خوندي شول</value>
   </data>
   <data name="Next" xml:space="preserve">
-    <value>وروسته</value>
+    <value>وروسته (Next)</value>
   </data>
   <data name="NextYearEnrollmentPlan" xml:space="preserve">
     <value>د زده کوونکو د جذب پلان-راتلونکی کال</value>
@@ -136,7 +136,7 @@
     <value>د نارینه زده کوونکو شمېر</value>
   </data>
   <data name="Previous" xml:space="preserve">
-    <value>مخکی</value>
+    <value>مخکی (Previous)</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>ثبتول</value>

@@ -121,7 +121,7 @@
     <value>نیټه</value>
   </data>
   <data name="DaysDuration" xml:space="preserve">
-    <value>ورځې موده</value>
+    <value>د ورځو موده (تعداد)</value>
   </data>
   <data name="District" xml:space="preserve">
     <value>ولسوالۍ</value>

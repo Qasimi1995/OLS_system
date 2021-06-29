@@ -121,10 +121,10 @@
     <value>عمر</value>
   </data>
   <data name="ChangePhoto" xml:space="preserve">
-    <value>عکس بدل کړئ</value>
+    <value>د تصویر بدلول</value>
   </data>
   <data name="ChoosePhoto" xml:space="preserve">
-    <value>مهرباني وکړئ یو عکس غوره کړئ</value>
+    <value>مهرباني وکړئ تصویر وټاکئ</value>
   </data>
   <data name="CurrentAddress" xml:space="preserve">
     <value>فعلي استوګنځای</value>
@@ -142,7 +142,7 @@
     <value>خپل د نوي د زده کړو رشته اضافه کړئ</value>
   </data>
   <data name="EducationLevel" xml:space="preserve">
-    <value>د زده کړو درجه</value>
+    <value>د زده کړې کچه</value>
   </data>
   <data name="Email" xml:space="preserve">
     <value>بریښنالیک</value>
@@ -151,7 +151,7 @@
     <value>د پلار نوم</value>
   </data>
   <data name="Gender" xml:space="preserve">
-    <value>جنسیت</value>
+    <value>جنس</value>
   </data>
   <data name="GraduationYear" xml:space="preserve">
     <value>د فراغت کال</value>
@@ -163,7 +163,7 @@
     <value>تخلص</value>
   </data>
   <data name="Message" xml:space="preserve">
-    <value>ستاسو معلومات په بریالیتوب سره خوندي شوي دي</value>
+    <value>ستاسو معلومات په بریالیتوب سره خوندي شول</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>نوم</value>

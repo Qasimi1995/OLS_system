@@ -118,9 +118,9 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="SchoolStaffExpensesCreated" xml:space="preserve">
-    <value>د ښوونځي کارمندانو لګښتونه رامینځته شوي</value>
+    <value>د ښوونځي د کارمندانو لګښتونه رامینځته شول</value>
   </data>
   <data name="SchoolStaffExpensesUpdated" xml:space="preserve">
-    <value>د ښوونځي کارمندانو لګښتونه نوي شوي</value>
+    <value>د ښوونځي د کارمندانو لګښتونه نوي شول</value>
   </data>
 </root>

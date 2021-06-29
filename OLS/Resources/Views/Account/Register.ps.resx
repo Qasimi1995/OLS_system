@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="DoHaveAccount" xml:space="preserve">
-    <value>ایا حساب لری   ؟</value>
+    <value>ایا حساب( اکاونټ ) لری</value>
   </data>
   <data name="Email" xml:space="preserve">
     <value>بریښنالیک</value>
@@ -127,24 +127,24 @@
     <value>تخلص</value>
   </data>
   <data name="Login" xml:space="preserve">
-    <value>د ننه کیدل</value>
+    <value>د ننه کیدل (Login)</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>نوم</value>
   </data>
   <data name="Password" xml:space="preserve">
-    <value>رمز</value>
+    <value>پټ نوم (پاسورډ)</value>
   </data>
   <data name="PasswordConfirmation" xml:space="preserve">
-    <value>د رمز تایید</value>
+    <value>د پټ نوم (پاسورډ) تائید</value>
   </data>
   <data name="Text" xml:space="preserve">
-    <value>تاسو په بریالیتوب سره یو حساب جوړ کړی</value>
+    <value>تاسو په بریالیتوب سره حساب(اکاونټ) جوړ کړ</value>
   </data>
   <data name="UserCreation" xml:space="preserve">
-    <value>حساب جوړول</value>
+    <value>حساب (اکاونټ)جوړول</value>
   </data>
   <data name="UserName" xml:space="preserve">
-    <value>کارن نوم</value>
+    <value>د کارونکي نوم</value>
   </data>
 </root>

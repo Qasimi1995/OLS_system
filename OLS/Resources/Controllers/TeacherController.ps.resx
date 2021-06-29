@@ -118,12 +118,12 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="NIDNumberInUse" xml:space="preserve">
-    <value>دا د تذکری شمیره دمخه کارول شوې ده</value>
+    <value>د تذکرې دغه شمېره پخوا کارول شوې ده</value>
   </data>
   <data name="TeacherCreated" xml:space="preserve">
-    <value>ښوونکی جوړ شوی</value>
+    <value>ښوونکی رامنځته شو</value>
   </data>
   <data name="TeacherUpdated" xml:space="preserve">
-    <value>د ښوونکي معلومات تازه شوي</value>
+    <value>د ښوونکي معلومات نوي شول</value>
   </data>
 </root>

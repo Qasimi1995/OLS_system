@@ -130,9 +130,9 @@
     <value>ثبتول</value>
   </data>
   <data name="Text" xml:space="preserve">
-    <value>ډاټا په بریالیتوب سره خوندي شو</value>
+    <value>مالومات په بریالیتوب سره خوندي شول</value>
   </data>
   <data name="Upload" xml:space="preserve">
-    <value>آپلود</value>
+    <value>سیستم ته پورته کول</value>
   </data>
 </root>

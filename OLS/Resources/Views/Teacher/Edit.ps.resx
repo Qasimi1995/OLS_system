@@ -130,16 +130,16 @@
     <value>د زده کړو رشته</value>
   </data>
   <data name="EducationFieldNew" xml:space="preserve">
-    <value>خپل د نوي د زده کړو رشته اضافه کړئ</value>
+    <value>د خپل د زده کړې رشته اضافه کړئ</value>
   </data>
   <data name="EducationLevel" xml:space="preserve">
-    <value>د زده کړو درجه</value>
+    <value>د زده کړې کچه</value>
   </data>
   <data name="FatherName" xml:space="preserve">
     <value>د پلار نوم</value>
   </data>
   <data name="Gender" xml:space="preserve">
-    <value>جنسیت</value>
+    <value>جنس</value>
   </data>
   <data name="GraduationYear" xml:space="preserve">
     <value>د فراغت کال</value>
@@ -157,7 +157,7 @@
     <value>د تذکرې شمېره</value>
   </data>
   <data name="ReturnToTeachersList" xml:space="preserve">
-    <value>بیرته د ښوونکو لیست ته</value>
+    <value>د ښوونکو لست ته ګرځیدل</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>ثبت</value>
@@ -166,6 +166,6 @@
     <value>وټاکئ</value>
   </data>
   <data name="TeacherInformation" xml:space="preserve">
-    <value>د ښوونکو معلومات بدل کړئ</value>
+    <value>د ښوونکو په اړه مالومات تغیر کړئ</value>
   </data>
 </root>

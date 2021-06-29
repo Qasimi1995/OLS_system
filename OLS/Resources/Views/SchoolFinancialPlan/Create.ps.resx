@@ -127,13 +127,13 @@
     <value>د فیس اندازه</value>
   </data>
   <data name="FinancialPlan" xml:space="preserve">
-    <value>بودیجوي پلان</value>
+    <value>مالي پلان</value>
   </data>
   <data name="FreeStudents" xml:space="preserve">
     <value>د وړیا زده کوونکو شمېر</value>
   </data>
   <data name="Message" xml:space="preserve">
-    <value>ستاسو ډاټا په بریالیتوب سره خوندي شو</value>
+    <value>ستاسو مالومات په بریالیتوب سره خوندي شول</value>
   </data>
   <data name="Next" xml:space="preserve">
     <value>وروسته</value>

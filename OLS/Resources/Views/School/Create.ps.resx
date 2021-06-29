@@ -127,7 +127,7 @@
     <value>د زده کوونکو مېز او څوکۍ</value>
   </data>
   <data name="DeskAndChairOfTeacher" xml:space="preserve">
-    <value>د ښوونکي مېز او څوکۍ</value>
+    <value>د ښوونکو مېز او څوکۍ</value>
   </data>
   <data name="DistanceFromGovSchool" xml:space="preserve">
     <value>تر ټولو نېږدې دولتي ښوونځي څخه واټن</value>
@@ -139,13 +139,13 @@
     <value>ولسوالۍ</value>
   </data>
   <data name="DrinkingWater" xml:space="preserve">
-    <value>د څښلو صحي اوبه</value>
+    <value>د څښاک اوبه</value>
   </data>
   <data name="EquipmentAndTeachingMaterials" xml:space="preserve">
-    <value>د زده کړیزو توکو تجهیزات</value>
+    <value>تجهیزات او ښوونیزې توکې</value>
   </data>
   <data name="ESname" xml:space="preserve">
-    <value>یوازې د انګلیسي ښوونځي نوم</value>
+    <value>د ښوونځي نوم یواځې په انګلیسي</value>
   </data>
   <data name="FireDistinguisherTools" xml:space="preserve">
     <value>د اور وژنې وسایل</value>
@@ -166,19 +166,19 @@
     <value>د ښوونځي طول البلد</value>
   </data>
   <data name="Message" xml:space="preserve">
-    <value>ستاسو ډاټا په بریالیتوب سره خوندي شو</value>
+    <value>ستاسو مالومات په بریالیتوب سره خوندي شول</value>
   </data>
   <data name="Min200" xml:space="preserve">
-    <value>لږترلږه باید 200 متر وي</value>
+    <value>لږترلږه باید 200 متره وي</value>
   </data>
   <data name="Min500" xml:space="preserve">
-    <value>لږترلږه باید 500 متر وي</value>
+    <value>لږترلږه باید 500 متره وي</value>
   </data>
   <data name="Next" xml:space="preserve">
     <value>وروسته</value>
   </data>
   <data name="No" xml:space="preserve">
-    <value>نخیر</value>
+    <value>نه</value>
   </data>
   <data name="NumberofBooksInLibrary" xml:space="preserve">
     <value>په کتابتون کې د کتابونو شمېر</value>
@@ -199,7 +199,7 @@
     <value>ولایت</value>
   </data>
   <data name="Rooms" xml:space="preserve">
-    <value>د اطاقونو شمېر</value>
+    <value>د خونو (اطاقونو) شمېر</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>ثبتول</value>
@@ -214,13 +214,13 @@
     <value>د ښوونځي په اړه مالومات</value>
   </data>
   <data name="SchoolLevel" xml:space="preserve">
-    <value>د ښوونځي درجه</value>
+    <value>د ښوونځي کچه</value>
   </data>
   <data name="SchoolName" xml:space="preserve">
     <value>د ښوونځي نوم</value>
   </data>
   <data name="SchooNameInEnglish" xml:space="preserve">
-    <value>د انگلیسی ښوونځي نوم</value>
+    <value>د ښوونځي نوم په انګلیسي</value>
   </data>
   <data name="Select" xml:space="preserve">
     <value>وټاکئ</value>
@@ -232,7 +232,7 @@
     <value>ورزشي اسانتیاوې</value>
   </data>
   <data name="TeachingAidsAvailable" xml:space="preserve">
-    <value>د تدریس مرستیال مواد</value>
+    <value>ښوونیز مرستیال مواد</value>
   </data>
   <data name="TeachingBooksAvailable" xml:space="preserve">
     <value>درسي کتابونه</value>

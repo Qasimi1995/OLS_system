@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Active" xml:space="preserve">
-    <value>فعاله</value>
+    <value>فعال</value>
   </data>
   <data name="Back" xml:space="preserve">
     <value>مخکی</value>
@@ -127,7 +127,7 @@
     <value>بریښنالیک</value>
   </data>
   <data name="InActive" xml:space="preserve">
-    <value>په فعاله کې</value>
+    <value>غیر فعال</value>
   </data>
   <data name="LastName" xml:space="preserve">
     <value>تخلص</value>
@@ -139,7 +139,7 @@
     <value>ولایت</value>
   </data>
   <data name="Role" xml:space="preserve">
-    <value>درول</value>
+    <value>ونډه</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>ثبت</value>
@@ -157,6 +157,6 @@
     <value>د کارونکي معلومات</value>
   </data>
   <data name="UserName" xml:space="preserve">
-    <value>کارن نوم</value>
+    <value>د کارونکي نوم</value>
   </data>
 </root>

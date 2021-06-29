@@ -118,12 +118,12 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Message" xml:space="preserve">
-    <value>سلام ګرانه ، مهرباني وکړئ د خپل رمز له سره تنظیم کولو لپاره لاندې لینک وکاروئ ، که تاسو د دې پاسورډ له سره تنظیم کولو غوښتنه نه وي کړې نو مهرباني وکړئ دا بریښنالیک له پامه غورځ کړئ</value>
+    <value>ګرانه غوښتونکیه! د خپل د پټ نوم د تنظیم لپاره مهرباني وکړئ  لاندې لینک وکاروئ. که نه غواړئ د خپل پټ نوم تنظیم کړئ دغه برېښنالیک له پامه وغورځوئ.</value>
   </data>
   <data name="OLSTeam" xml:space="preserve">
     <value>OLS تیم</value>
   </data>
   <data name="PasswordReset" xml:space="preserve">
-    <value>شفر بیا جوړول</value>
+    <value>پټ نوم تنظیم شو</value>
   </data>
 </root>

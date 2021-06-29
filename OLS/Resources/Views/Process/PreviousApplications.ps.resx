@@ -121,13 +121,13 @@
     <value>ټولې پخوانۍ غوښتنې</value>
   </data>
   <data name="ApplicationStartDate" xml:space="preserve">
-    <value>د پیل نیټه غوښتنه شوې</value>
+    <value>د غوښتنې د پیل نېټه</value>
   </data>
   <data name="ApplicationTrack" xml:space="preserve">
-    <value>غوښتنه تعقیب کړئ</value>
+    <value>د غوښتنلیک څارل</value>
   </data>
   <data name="DocumentsViewAndSubmit" xml:space="preserve">
-    <value>سندونه وګورئ او وسپارئ</value>
+    <value>د اسنادونو لیدل او سپارل</value>
   </data>
   <data name="SchoolName" xml:space="preserve">
     <value>د ښوونځي نوم</value>

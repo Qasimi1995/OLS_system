@@ -118,37 +118,37 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AccountCreated" xml:space="preserve">
-    <value> اکونت جوړ شو</value>
+    <value>ستاسو حساب په بریالیتوب سره جوړ شوو</value>
   </data>
   <data name="AccountInActiveMessage" xml:space="preserve">
-    <value>ستاسو حساب غیر فعال دی ، مهرباني وکړئ د سیسټم مدیر سره اړیکه ونیسئ</value>
+    <value>ستاسو حساب غیر فعال دی، مهرباني وکړئ د سیسټم له مدیر سره اړیکه ونیسئ</value>
   </data>
   <data name="EmailNotExist" xml:space="preserve">
-    <value>د ورکړل شوي بریښنالیک آدرس شتون نلري. مهرباني وکړئ سم پته بیا دننه کړئ</value>
+    <value>دغه بریښنالیک شتون نه لري. مهرباني وکړئ سم برېښنالیک وټاکئ</value>
   </data>
   <data name="EmailUniqueMessage" xml:space="preserve">
-    <value>داخل شوي بریښنالیک لا دمخه په سیسټم کې دی</value>
+    <value>دغه بریښنالیک پخوا په سیستم کې کارول شوی دی.</value>
   </data>
   <data name="InvalidPasswordResetToken" xml:space="preserve">
-    <value>ناباوره ٹوکن د راګرځولو شفر</value>
+    <value>د پټ نوم (پاسورډ) بیا جوړول نښه (توکن) غلط ده</value>
   </data>
   <data name="LoginFailedMessage" xml:space="preserve">
-    <value>ستاسو کارن نوم یا رمز غلط دی</value>
+    <value>د کارونکي نوم یا پټ نوم (پاسورډ) غلط دی</value>
   </data>
   <data name="PasswordRecoveredSuccessfully" xml:space="preserve">
-    <value>شفر په بریالیتوب سره ترلاسه شو</value>
+    <value>پټ نوم (پاسورډ) په بریالیتوب سره ورغول شوو</value>
   </data>
   <data name="PasswordReset" xml:space="preserve">
-    <value>شفر بیا جوړ کړئ</value>
+    <value>د پټ نوم (پاسورډ) تنظیمات</value>
   </data>
   <data name="PasswordResetMessage" xml:space="preserve">
-    <value>سلامونه ، مهرباني وکړئ د خپل رمز له سره تنظیم کولو لپاره لاندې لینک وکاروئ. که تاسو د دې شفر د بیا تنظیم غوښتنه نه کوئ ، مهرباني وکړئ دا بریښنالیک له پامه وغورځئ. د رمز له سره تنظیم کولو وخت دوه ساعته دی ، مهرباني وکړئ د پټنوم د وخت په حد کې پاسورډ تنظیم کړئ</value>
+    <value>د خپل د پټ نوم د تنظیم لپاره مهرباني وکړئ  لاندې لینک وکاروئ. که نه غواړئ د خپل پټ نوم تنظیم کړئ دغه برېښنالیک له پامه وغورځوئ. د پټ نوم د تنظیم لپاره دوه ساعته وخت ټاکل شوی دی. مهرباني وکړئ د دغه ټاکلې وخت په جریان کې د خپل پټ نوم تنظیم کړئ.</value>
   </data>
   <data name="PasswordUpdatedSuccessfully" xml:space="preserve">
-    <value>شفر په بریالیتوب بدل شو</value>
+    <value>پټ نوم په بریالیتوب سره نوی شوو</value>
   </data>
   <data name="RecordUpdatedSuccessfully" xml:space="preserve">
-    <value>معلومات په بریالیتوب سره بدل شو</value>
+    <value>معلومات په بریالیتوب سره تغیر شول</value>
   </data>
   <data name="Successful" xml:space="preserve">
     <value>بریالی</value>

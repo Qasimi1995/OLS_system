@@ -58,13 +58,18 @@
                     <td>
                         @if (culture == "en")
                         {
-                            @item.GenderType.Split("/")[1]
+                            @item.GenderType.Split("/")[2]
+                        }
+                        else if (culture == "fa")
+                        {
+                            @item.GenderType.Split("/")[0]
+
                         }
                         else
                         {
-                            @item.GenderType.Split("/")[0]
+                            @item.GenderType.Split("/")[1]
                         }
-                      
+
                     </td>
                     <td>
                           @if (culture == "en")

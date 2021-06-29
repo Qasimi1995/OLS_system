@@ -124,10 +124,10 @@
     <value>نوې غوښتنه</value>
   </data>
   <data name="ChangePassword" xml:space="preserve">
-    <value>پټ نوم بدل کړی</value>
+    <value>د پټ نوم (پاسورډ) بدلول</value>
   </data>
   <data name="DirectorateOfPrivateEducation" xml:space="preserve">
-    <value>د خصوصي ښوونې ریاست</value>
+    <value>د خصوصي زده کړو ریاست</value>
   </data>
   <data name="GeneralDashboard" xml:space="preserve">
     <value>عمومي ډشبورډ</value>
@@ -136,7 +136,7 @@
     <value>عمومي راپور</value>
   </data>
   <data name="LayoutTitle" xml:space="preserve">
-    <value>د خصوصي ښوونځي د جواز ترلاسه کولو انلاین سیستم</value>
+    <value>د خصوصي ښوونځیو د جواز د ترلاسه کولو پرلیکه (آنلاین) سیستم</value>
   </data>
   <data name="Logout" xml:space="preserve">
     <value>وتل</value>
@@ -145,21 +145,21 @@
     <value>د غوښتونکي مینو</value>
   </data>
   <data name="MyProfile" xml:space="preserve">
-    <value>زما پېژنيال</value>
+    <value>زما پروفایل (پېژندنه)</value>
   </data>
   <data name="PreviousApplications" xml:space="preserve">
     <value>تیرې غوښتنې</value>
   </data>
   <data name="ProvincialEducationRepresentative" xml:space="preserve">
-    <value>د ولایتی تعلیم نماینده</value>
+    <value>د پوهنې ریاست استازی</value>
   </data>
   <data name="Reports" xml:space="preserve">
     <value>راپورونه</value>
   </data>
   <data name="RepresentativeOfPrivateEducation" xml:space="preserve">
-    <value>د خصوصي ښوونې او روزنې ریاست نماینده</value>
+    <value>د خصوصي زده کړو ریاست استازی</value>
   </data>
   <data name="UserManagement" xml:space="preserve">
-    <value>کارن سمبالښت</value>
+    <value>د کارونکو مدیریت</value>
   </data>
 </root>

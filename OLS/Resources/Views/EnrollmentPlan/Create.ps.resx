@@ -124,10 +124,10 @@
     <value>د زده کوونکو د جذب پلان-سږ کال</value>
   </data>
   <data name="Message" xml:space="preserve">
-    <value>ستاسو اطلاعات په بریالیتوب خوندي شو</value>
+    <value>ستاسو مالومات په بریالیتوب سره خوندي شول</value>
   </data>
   <data name="Next" xml:space="preserve">
-    <value>وروسته</value>
+    <value>وروسته (Next)</value>
   </data>
   <data name="NumberOfFemale" xml:space="preserve">
     <value>د ښځینه زده کوونکو شمېر</value>
@@ -136,7 +136,7 @@
     <value>د نارینه زده کوونکو شمېر</value>
   </data>
   <data name="Previous" xml:space="preserve">
-    <value>مخکی</value>
+    <value>مخکی (Previous)</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>ثبتول</value>

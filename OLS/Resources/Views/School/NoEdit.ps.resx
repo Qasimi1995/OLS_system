@@ -139,7 +139,7 @@
     <value>ولسوالۍ</value>
   </data>
   <data name="DrinkingWater" xml:space="preserve">
-    <value>د څښلو صحي اوبه</value>
+    <value>د څښاک اوبه</value>
   </data>
   <data name="EquipmentAndTeachingMaterials" xml:space="preserve">
     <value>د زده کړیزو توکو تجهیزات</value>
@@ -163,7 +163,7 @@
     <value>د ښوونځي طول البلد</value>
   </data>
   <data name="Message" xml:space="preserve">
-    <value>ستاسو ډاټا په بریالیتوب سره خوندي شو</value>
+    <value>ستاسو مالومات په بریالیتوب سره خوندي شول</value>
   </data>
   <data name="Next" xml:space="preserve">
     <value>وروسته</value>
@@ -190,7 +190,7 @@
     <value>ولایت</value>
   </data>
   <data name="Rooms" xml:space="preserve">
-    <value>د اطاقونو شمېر</value>
+    <value>د خونو (اطاقونو) شمېر</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>ثبتول</value>
@@ -211,7 +211,7 @@
     <value>د ښوونځي نوم</value>
   </data>
   <data name="SchooNameInEnglish" xml:space="preserve">
-    <value>د انگلیسی ښوونځي نوم</value>
+    <value>د ښوونځي نوم په انګلیسي</value>
   </data>
   <data name="Select" xml:space="preserve">
     <value>وټاکئ</value>
@@ -220,7 +220,7 @@
     <value>ورزشي اسانتیاوې</value>
   </data>
   <data name="TeachingAidsAvailable" xml:space="preserve">
-    <value>د تدریس مرستیال مواد</value>
+    <value>ښوونیز مرستیال مواد</value>
   </data>
   <data name="TeachingBooksAvailable" xml:space="preserve">
     <value>درسي کتابونه</value>

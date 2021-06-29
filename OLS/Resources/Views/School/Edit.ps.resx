@@ -139,13 +139,13 @@
     <value>ولسوالۍ</value>
   </data>
   <data name="DrinkingWater" xml:space="preserve">
-    <value>د څښلو صحي اوبه</value>
+    <value>د څښاک اوبه</value>
   </data>
   <data name="EquipmentAndTeachingMaterials" xml:space="preserve">
-    <value>د زده کړیزو توکو تجهیزات</value>
+    <value>تجهیزات او ښوونیزې توکې</value>
   </data>
   <data name="ESname" xml:space="preserve">
-    <value>یوازې د انګلیسي ښوونځي نوم</value>
+    <value>د ښوونځي نوم یواځې په انګلیسي</value>
   </data>
   <data name="FireDistinguisherTools" xml:space="preserve">
     <value>د اور وژنې وسایل</value>
@@ -193,7 +193,7 @@
     <value>ولایت</value>
   </data>
   <data name="Rooms" xml:space="preserve">
-    <value>د اطاقونو شمېر</value>
+    <value>د خونو (اطاقونو) شمېر</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>ثبتول</value>
@@ -214,7 +214,7 @@
     <value>د ښوونځي نوم</value>
   </data>
   <data name="SchooNameInEnglish" xml:space="preserve">
-    <value>د انگلیسی ښوونځي نوم</value>
+    <value>د ښوونځي نوم په انګلیسي</value>
   </data>
   <data name="Select" xml:space="preserve">
     <value>وټاکئ</value>

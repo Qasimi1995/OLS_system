@@ -130,7 +130,7 @@
     <value>د حساب اوسنی حالت</value>
   </data>
   <data name="DoYouWantToChangeTheCurrentUserStatus" xml:space="preserve">
-    <value>ایا تاسو باوري یاست چې غواړئ د کارونکي روان حالت بدل کړئ؟</value>
+    <value>ایا غواړئ د کارونکي اوسنۍ حالت بدل کړئ؟</value>
   </data>
   <data name="Edit" xml:space="preserve">
     <value>سمول</value>
@@ -139,7 +139,7 @@
     <value>بریښنالیک</value>
   </data>
   <data name="InActive" xml:space="preserve">
-    <value>په فعاله کې</value>
+    <value>غیر فعال</value>
   </data>
   <data name="LastName" xml:space="preserve">
     <value>تخلص</value>
@@ -151,19 +151,19 @@
     <value>نه</value>
   </data>
   <data name="Password" xml:space="preserve">
-    <value>رمز</value>
+    <value>پټ نوم (پاسورډ)</value>
   </data>
   <data name="PasswordChange" xml:space="preserve">
-    <value>د رمز بدلول</value>
+    <value>د پټ نوم (پاسورډ) بدلول</value>
   </data>
   <data name="PasswordConfirmation" xml:space="preserve">
-    <value>د رمز تایید</value>
+    <value>د پټ نوم (پاسورډ) تائید</value>
   </data>
   <data name="Province" xml:space="preserve">
     <value>ولایت</value>
   </data>
   <data name="Role" xml:space="preserve">
-    <value>رول</value>
+    <value>ونډه</value>
   </data>
   <data name="Select" xml:space="preserve">
     <value>وټاکئ</value>
@@ -172,13 +172,13 @@
     <value>د حساب حالت</value>
   </data>
   <data name="Text" xml:space="preserve">
-    <value>تاسو په بریالیتوب سره یو حساب جوړ کړ</value>
+    <value>تاسو په بریالیتوب سره حساب جوړ کړ</value>
   </data>
   <data name="UserCreation" xml:space="preserve">
-    <value>حساب جوړول</value>
+    <value>حساب (اکاونټ)جوړول</value>
   </data>
   <data name="UserName" xml:space="preserve">
-    <value>کارن نوم</value>
+    <value>د کارونکي نوم</value>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>هو</value>

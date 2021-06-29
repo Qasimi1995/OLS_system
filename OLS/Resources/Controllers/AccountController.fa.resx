@@ -130,7 +130,7 @@
     <value>ایمیل وارد شده قبلا استفاده شده است </value>
   </data>
   <data name="InvalidPasswordResetToken" xml:space="preserve">
-    <value>توکن تنظیم مجدد رمز عبور نامعتبر است</value>
+    <value>توکن تنظیم مجدد پسورد  درست نیست</value>
   </data>
   <data name="LoginFailedMessage" xml:space="preserve">
     <value>حساب کاربری و یا پسورد شما اشتباه است</value>

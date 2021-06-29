@@ -121,7 +121,7 @@
     <value>مقدار</value>
   </data>
   <data name="Message" xml:space="preserve">
-    <value>ستاسو ډاټا په بریالیتوب سره خوندي شو</value>
+    <value>ستاسو مالومات په بریالیتوب سره خوندي شول</value>
   </data>
   <data name="Next" xml:space="preserve">
     <value>وروسته</value>
@@ -142,7 +142,7 @@
     <value>د کار کوونکو لګښت</value>
   </data>
   <data name="Total" xml:space="preserve">
-    <value>ټوله</value>
+    <value>ټولټال</value>
   </data>
   <data name="TotalAll" xml:space="preserve">
     <value>ټول</value>

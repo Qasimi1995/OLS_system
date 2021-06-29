@@ -118,13 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ExpensePerMonth" xml:space="preserve">
-    <value>مصرف په یوه میاشت کې</value>
+    <value>د یوې میاشتې لګښت</value>
   </data>
   <data name="ExpenseType" xml:space="preserve">
     <value>د لګښت ډول</value>
   </data>
   <data name="Message" xml:space="preserve">
-    <value>ستاسو ډاټا په بریالیتوب سره خوندي شو</value>
+    <value>ستاسو مالومات په بریالیتوب سره خوندي شول</value>
   </data>
   <data name="Next" xml:space="preserve">
     <value>وروسته</value>

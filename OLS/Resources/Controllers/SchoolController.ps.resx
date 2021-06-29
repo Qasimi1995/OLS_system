@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="DocumentsUploaded" xml:space="preserve">
-    <value>لاسوندونه په بریالیتوب سره اپلود شول</value>
+    <value>لاسوندونه (اسنادونه) په بریالیتوب سره سیستم ته پورته شول</value>
   </data>
   <data name="Min10" xml:space="preserve">
     <value>لږترلږه باید 10 وي</value>
@@ -175,10 +175,10 @@
     <value>ریکارډ په بریالیتوب سره خوندي شو</value>
   </data>
   <data name="RecordUpdated" xml:space="preserve">
-    <value>ریکارډ په بریالیتوب سره تازه شو</value>
+    <value>ریکارډ په بریالیتوب سره نوی شو</value>
   </data>
   <data name="RoomsGreaterEight" xml:space="preserve">
-    <value>د خونو شمیر باید د 8 څخه ډیر وي</value>
+    <value>د خونو شمیر باید له 8 څخه ډیر وي</value>
   </data>
   <data name="RoomsGreaterEleven" xml:space="preserve">
     <value>د خونو شمیر باید له 11 څخه ډیر وي</value>
@@ -190,9 +190,9 @@
     <value>ښوونځی جوړ شو</value>
   </data>
   <data name="SchoolNameInUse" xml:space="preserve">
-    <value>د ښوونځي نوم دمخه کارول شوی</value>
+    <value>د ښوونځي نوم پخوا کارول شوی دی</value>
   </data>
   <data name="SchoolUpdated" xml:space="preserve">
-    <value>د ښوونځي معلومات نوي شوي</value>
+    <value>د ښوونځي مالومات نوي شول</value>
   </data>
 </root>

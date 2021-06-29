@@ -127,15 +127,15 @@
     <value>فایل</value>
   </data>
   <data name="Message" xml:space="preserve">
-    <value>مهرباني وکړئ خپل اسناد په pdf ب uploadه اپلوډ کړئ. نور شکلونه د منلو وړ ندي.</value>
+    <value>مهرباني وکړئ خپل اسناد د pdf په بڼه upload کړئ. نور شکلونه د منلو وړ نه دي.</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>ثبتول</value>
   </data>
   <data name="Text" xml:space="preserve">
-    <value>ډاټا په بریالیتوب سره خوندي شو</value>
+    <value>مالومات په بریالیتوب سره خوندي شول</value>
   </data>
   <data name="Upload" xml:space="preserve">
-    <value>آپلود</value>
+    <value>سیستم ته پورته کول</value>
   </data>
 </root>

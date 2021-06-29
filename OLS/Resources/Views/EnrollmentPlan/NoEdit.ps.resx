@@ -127,7 +127,7 @@
     <value>ستاسو ډاټا په بریالیتوب خوندي شو</value>
   </data>
   <data name="Next" xml:space="preserve">
-    <value>وروسته</value>
+    <value>وروسته (Next)</value>
   </data>
   <data name="NumberOfFemale" xml:space="preserve">
     <value>د ښځینه زده کوونکو شمېر</value>
@@ -136,7 +136,7 @@
     <value>د نارینه زده کوونکو شمېر</value>
   </data>
   <data name="Previous" xml:space="preserve">
-    <value>مخکی</value>
+    <value>مخکی (Previous)</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>ثبتول</value>

@@ -127,10 +127,10 @@
     <value>تخته</value>
   </data>
   <data name="Check" xml:space="preserve">
-    <value>چک</value>
+    <value>ارزول</value>
   </data>
   <data name="CheckList" xml:space="preserve">
-    <value>د خصوصي زده کړې انستیتوت چیک لیست</value>
+    <value>د ارزونې او بررسي چېک لست</value>
   </data>
   <data name="ComputerCount" xml:space="preserve">
     <value>د کمپیوترونه شمیره</value>
@@ -151,7 +151,7 @@
     <value>ولسوالۍ</value>
   </data>
   <data name="DrinkingWater" xml:space="preserve">
-    <value>د څښلو صحي اوبه</value>
+    <value>د څښاک اوبه</value>
   </data>
   <data name="EducationLevel" xml:space="preserve">
     <value>ښوونيزه کچه</value>
@@ -166,7 +166,7 @@
     <value>د لومړنیو مرستو اسانتیاوې</value>
   </data>
   <data name="Gender" xml:space="preserve">
-    <value>جنسیت</value>
+    <value>جنس</value>
   </data>
   <data name="GeneralRemarks" xml:space="preserve">
     <value>عمومي څرګندونې</value>
@@ -175,7 +175,7 @@
     <value>د فراغت کال</value>
   </data>
   <data name="InfoAboutPrincipleAndTeacher" xml:space="preserve">
-    <value>د خصوصي تعلیمي ادارې د پروفیسورانو مسؤل مدیر معلومات</value>
+    <value>د خصوصي ښوونځي مدیر او ښوونکو په اړه مالومات</value>
   </data>
   <data name="Item" xml:space="preserve">
     <value>واحد</value>
@@ -196,7 +196,7 @@
     <value>د تذکری شمیره</value>
   </data>
   <data name="No" xml:space="preserve">
-    <value>نخیر</value>
+    <value>نه</value>
   </data>
   <data name="NoOfRooms" xml:space="preserve">
     <value>د اطاقونه شمیره</value>
@@ -241,7 +241,7 @@
     <value>د ښوونکي مېز او څوکۍ</value>
   </data>
   <data name="TeachingAids" xml:space="preserve">
-    <value>د تدریس مرستیال مواد</value>
+    <value>ښوونیز مرستیال مواد(Teaching Aids)</value>
   </data>
   <data name="TeachingBooks" xml:space="preserve">
     <value>درسي کتابونه</value>

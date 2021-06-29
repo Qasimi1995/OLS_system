@@ -121,10 +121,10 @@
     <value>شمیره</value>
   </data>
   <data name="NumberOfLicenseDistributed" xml:space="preserve">
-    <value>د توزیع شوي جوازونو شمیر</value>
+    <value>د وېشل شویو جوازونو شمېر</value>
   </data>
   <data name="Numbers" xml:space="preserve">
-    <value>نمبرونه</value>
+    <value>شمېرې</value>
   </data>
   <data name="Province" xml:space="preserve">
     <value>ولایت</value>

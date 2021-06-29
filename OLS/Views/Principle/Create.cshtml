@@ -246,16 +246,24 @@
                                     {
                                         @foreach (var GenderType in ViewBag.GenderType)
                                         {
-                                            <option value="@GenderType.GenderTypeId">@GenderType.GenderTypeName </option>
+                                            <option value="@GenderType.GenderTypeId">@GenderType.GenderTypeName</option>
+                                        }
+                                    }
+                                    else if (culture == "fa")
+                                    {
+                                        @foreach (var GenderType in ViewBag.GenderType)
+                                        {
+                                            <option value="@GenderType.GenderTypeId">@GenderType.GenderTypeNameDari.Split("/")[0]</option>
                                         }
                                     }
                                     else
                                     {
                                         @foreach (var GenderType in ViewBag.GenderType)
                                         {
-                                            <option value="@GenderType.GenderTypeId">@GenderType.GenderTypeNameDari</option>
+                                            <option value="@GenderType.GenderTypeId">@GenderType.GenderTypeNameDari.Split("/")[1]</option>
                                         }
                                     }
+
 
 
                                 </select>

@@ -118,27 +118,27 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="EmailInUse" xml:space="preserve">
-    <value>دا بریښنالیک لا دمخه کارول شوی</value>
+    <value>دا بریښنالیک پخوا کارول شوی دی</value>
   </data>
   <data name="NIDInUse" xml:space="preserve">
-    <value>دا د تذکری شمیره دمخه کارول شوې ده</value>
+    <value>د تذکرې دغه شمېره پخوا کارول شوې ده</value>
   </data>
   <data name="PhoneNumberInUse" xml:space="preserve">
-    <value>دا د تلیفون شمیره دمخه کارول شوې ده</value>
+    <value>د اړیکې دغه شمېره پخوا کارول شوې ده</value>
   </data>
   <data name="PhotoError" xml:space="preserve">
-    <value>یوازې .jpg ، .png ، .jpeg فارمت ه اجازه لري او اعظمي اندازه یې باید له 500 kb څخه کم وي</value>
+    <value>یواځې د jpeg, png او jpg د فارمټ په بڼه د کارولو اجازه لرئ او له 500 kb څخه باید ډېر نه وي.</value>
   </data>
   <data name="PrincipleCreated" xml:space="preserve">
-    <value>د مدیر مسول معلومات رامینځته شوي</value>
+    <value>د مدیر په اړه مالومات رامینځته شول</value>
   </data>
   <data name="PrincipleUpdated" xml:space="preserve">
-    <value>د مدیر مسول معلومات خوندی شو</value>
+    <value>د مدیر په اړه مالومات خوندي شول</value>
   </data>
   <data name="RecordSaved" xml:space="preserve">
     <value>ریکارډ په بریالیتوب سره خوندي شو</value>
   </data>
   <data name="RecordUpdated" xml:space="preserve">
-    <value>ریکارډ په بریالیتوب سره تازه شو</value>
+    <value>ریکارډ په بریالیتوب سره نوی شو</value>
   </data>
 </root>
