@@ -22,12 +22,12 @@ namespace OLS.Controllers
     public class SchoolController : Controller
     {
         private ApplicationContext _applicationContext;
-        IHostingEnvironment _env;
+        IWebHostEnvironment _env;
         private readonly UserManager<User> _userManager;
         private readonly INotyfService notyfService;
         private readonly IHtmlLocalizer _localizer;
 
-        public SchoolController(ApplicationContext applicationContext, IHostingEnvironment environment,UserManager<User> userManager, INotyfService notyfService, IHtmlLocalizer<SchoolController> localizer)
+        public SchoolController(ApplicationContext applicationContext, IWebHostEnvironment environment, UserManager<User> userManager, INotyfService notyfService, IHtmlLocalizer<SchoolController> localizer)
         {
             _applicationContext = applicationContext;
             _env = environment;
@@ -46,16 +46,17 @@ namespace OLS.Controllers
         }
 
         [HttpGet]
-        public IActionResult Navigate() {
+        public IActionResult Navigate()
+        {
             var UserId = _userManager.GetUserId(User);
             var id = _applicationContext.Process.Where(p => p.ProcessId == Guid.Parse("88A9020D-D188-417C-9B11-7FDA9613B197")).Select(p => p.ProcessId).FirstOrDefault();
-            var schoolid = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User)).OrderByDescending(p=>p.CreatedAt).Select(p => p.SchoolId).FirstOrDefault();
+            var schoolid = _applicationContext.School.Where(p => p.CreatedBy == _userManager.GetUserId(User)).OrderByDescending(p => p.CreatedAt).Select(p => p.SchoolId).FirstOrDefault();
 
 
 
             var result = _applicationContext.ProcessProgress.Where(p => p.SchoolId == schoolid && p.SubProcessId == Guid.Parse("E592365F-2FB6-4B0F-9C5E-01277BE052F0")).FirstOrDefault();
             var re_schoolid = schoolid;
-           
+
 
 
             //New Changes
@@ -78,17 +79,17 @@ namespace OLS.Controllers
             {
                 schoolid = Guid.Parse(myschoolid);
             }
-            if(myschoolid==null && sch_id==null)
+            if (myschoolid == null && sch_id == null)
             {
                 schoolid = Guid.NewGuid();
             }
 
-            if (result==null)
+            if (result == null)
             {
                 schoolid = re_schoolid;
             }
 
-            
+
 
             //End New Changes
 
@@ -123,10 +124,10 @@ namespace OLS.Controllers
 
                                }).OrderBy(p => p.OrderNumber).ToList();
 
-            
 
 
-            var school = _applicationContext.School.Where(p => p.CreatedBy == UserId && p.SchoolId==schoolid).OrderByDescending(p=>p.CreatedAt).FirstOrDefault();
+
+            var school = _applicationContext.School.Where(p => p.CreatedBy == UserId && p.SchoolId == schoolid).OrderByDescending(p => p.CreatedAt).FirstOrDefault();
             ViewBag.school = school;
             if (school != null)
             {
@@ -171,7 +172,7 @@ namespace OLS.Controllers
                 {
                     return RedirectToAction("Edit", new { schoolId = school.SchoolId });
                 }
-             }
+            }
 
 
             return RedirectToAction("Create");
@@ -214,7 +215,7 @@ namespace OLS.Controllers
                                    StatusDate = b.StatusDate,
 
                                }).OrderBy(p => p.OrderNumber).ToList();
-            var PartDocument = _applicationContext.PartyDocument.Where(p => p.PartyId == schoolid && p.DocCategoryId==Guid.Parse("39C691C9-E88C-4F1F-A431-C0C7F723348A"));
+            var PartDocument = _applicationContext.PartyDocument.Where(p => p.PartyId == schoolid && p.DocCategoryId == Guid.Parse("39C691C9-E88C-4F1F-A431-C0C7F723348A"));
             if (PartDocument.Count() != 0)
             {
                 if (displayPlan.Count > 0)
@@ -224,7 +225,7 @@ namespace OLS.Controllers
                         if (displayPlan[i].OrderNumber == 1 && displayPlan[i].CompletionFlag == 0)
                         {
 
-                            return RedirectToAction("UploadDocumentsEdit",new { SchID = schoolid });
+                            return RedirectToAction("UploadDocumentsEdit", new { SchID = schoolid });
                         }
                         else if (displayPlan[i].OrderNumber == 2 && displayPlan[i].CompletionFlag == 0)
                         {
@@ -258,28 +259,29 @@ namespace OLS.Controllers
                 {
                     return RedirectToAction("UploadDocumentsEdit", new { SchID = schoolid });
                 }
-                
+
             }
 
-            return RedirectToAction("UploadDocuments",new { SchID=schoolid});
+            return RedirectToAction("UploadDocuments", new { SchID = schoolid });
         }
 
 
         [HttpGet]
         [Route("UploadDocuments/{SchID}")]
-        public IActionResult UploadDocuments(Guid SchID) {
+        public IActionResult UploadDocuments(Guid SchID)
+        {
 
             var DocumentList = (from zDocType in _applicationContext.ZDocType
-                                where zDocType.DocCategoryId== Guid.Parse("39C691C9-E88C-4F1F-A431-C0C7F723348A")
-                               orderby zDocType.OrderNumber
-                               select new DocTypeViewModel
-                               {
-                                   DocTypeName = zDocType.DocTypeNameDari + "/" + zDocType.DocTypeNamePashto + "/" + zDocType.DocTypeName,
-                                   DocTypeNameEng=zDocType.DocTypeName,
-                                   DocTypeId = zDocType.DocTypeId,
+                                where zDocType.DocCategoryId == Guid.Parse("39C691C9-E88C-4F1F-A431-C0C7F723348A")
+                                orderby zDocType.OrderNumber
+                                select new DocTypeViewModel
+                                {
+                                    DocTypeName = zDocType.DocTypeNameDari + "/" + zDocType.DocTypeNamePashto + "/" + zDocType.DocTypeName,
+                                    DocTypeNameEng = zDocType.DocTypeName,
+                                    DocTypeId = zDocType.DocTypeId,
 
 
-                               }).ToList();
+                                }).ToList();
 
             ViewBag.SchoolId = SchID;
             return View(DocumentList);
@@ -327,10 +329,10 @@ namespace OLS.Controllers
                                     DocTypeNameEng = zDocType.DocTypeName,
                                     DocTypeId = zDocType.DocTypeId,
                                     DocPath = partyDocument.DocPath,
-                                    SchoolId=partyDocument.PartyId,
-                                    DocTypeNameDari=zDocType.DocTypeNameDari,
+                                    SchoolId = partyDocument.PartyId,
+                                    DocTypeNameDari = zDocType.DocTypeNameDari,
                                 }).ToList();
-            
+
             return View(DocumentList);
 
         }
@@ -338,7 +340,7 @@ namespace OLS.Controllers
 
         [HttpPost]
         [Route("UploadDocumentsEdit/{SchID}")]
-        public IActionResult UploadDocumentsEdit(IList<DocTypeViewModelEdit> docTypeViewModels,string SchID)
+        public IActionResult UploadDocumentsEdit(IList<DocTypeViewModelEdit> docTypeViewModels, string SchID)
         {
             var DocumentList = (from zDocType in _applicationContext.ZDocType
                                 join partyDocument in _applicationContext.PartyDocument on zDocType.DocTypeId equals partyDocument.DocTypeId
@@ -354,7 +356,7 @@ namespace OLS.Controllers
                                     SchoolId = partyDocument.PartyId,
                                     DocTypeNameDari = zDocType.DocTypeNameDari,
                                 }).ToList();
-           
+
             if (ModelState.IsValid)
             {
 
@@ -376,14 +378,15 @@ namespace OLS.Controllers
                         }
                         string fileName = Pid.ToString() + "-" + docTypeViewModels[i].DocTypeNameEng + ".pdf";
                         FilePath = Path.Combine(UploadsFolder, fileName);
-                        using(var filestream = new FileStream(FilePath, FileMode.Create)){
+                        using (var filestream = new FileStream(FilePath, FileMode.Create))
+                        {
                             docTypeViewModels[i].Document.CopyTo(filestream);
                         }
                         DocPath = "/PartyDocuments/" + Pid.ToString() + "/" + fileName;
                     }
-                    
+
                 }
-               // ViewBag.Message = "Documents Uploaded Successfully!";
+                // ViewBag.Message = "Documents Uploaded Successfully!";
                 return RedirectToAction("Notification");
             }
             else
@@ -396,7 +399,7 @@ namespace OLS.Controllers
 
         [HttpPost]
         [Route("UploadDocuments/{SchID}")]
-        public IActionResult UploadDocuments(IList<DocTypeViewModel> docTypeViewModels,Guid SchID)
+        public IActionResult UploadDocuments(IList<DocTypeViewModel> docTypeViewModels, Guid SchID)
         {
 
             var DocumentList = (from zDocType in _applicationContext.ZDocType
@@ -429,9 +432,9 @@ namespace OLS.Controllers
                         {
                             Directory.CreateDirectory(UploadsFolder);
                         }
-                        string fileName = Pid.ToString() +"-"+ docTypeViewModels[i].DocTypeNameEng + ".pdf";
+                        string fileName = Pid.ToString() + "-" + docTypeViewModels[i].DocTypeNameEng + ".pdf";
                         FilePath = Path.Combine(UploadsFolder, fileName);
-                        using(var filestream= new FileStream(FilePath, FileMode.Create))
+                        using (var filestream = new FileStream(FilePath, FileMode.Create))
                         {
                             docTypeViewModels[i].Document.CopyTo(filestream);
                         }
@@ -444,17 +447,17 @@ namespace OLS.Controllers
                         PartyDocumentId = Guid.NewGuid(),
                         PartyId = SchID,
 
-                        DocCategoryId =Guid.Parse("39C691C9-E88C-4F1F-A431-C0C7F723348A"),
+                        DocCategoryId = Guid.Parse("39C691C9-E88C-4F1F-A431-C0C7F723348A"),
                         DocTypeId = docTypeViewModels[i].DocTypeId,
-                        DocPath= DocPath,
+                        DocPath = DocPath,
                         CreatedBy = _userManager.GetUserId(User),
                         CreatedAt = DateTime.Now
 
                     };
                     partyDocuments.Add(partyDocument);
                 }
-                var processprogress = _applicationContext.ProcessProgress.Where(p => p.SchoolId== SchID
-                 && p.SubProcessId==Guid.Parse("FBF66EB9-E2E8-46D6-8CE9-5703E4B6D2C3")).FirstOrDefault();
+                var processprogress = _applicationContext.ProcessProgress.Where(p => p.SchoolId == SchID
+                 && p.SubProcessId == Guid.Parse("FBF66EB9-E2E8-46D6-8CE9-5703E4B6D2C3")).FirstOrDefault();
                 ProcessHistory processHistory = new ProcessHistory
                 {
                     HistoryId = Guid.NewGuid(),
@@ -482,7 +485,7 @@ namespace OLS.Controllers
                 _applicationContext.AddRange(partyDocuments);
                 _applicationContext.SaveChanges();
 
-               // ViewBag.Message = "Documents Uploaded Successfully!";
+                // ViewBag.Message = "Documents Uploaded Successfully!";
                 return RedirectToAction("Notification");
             }
             else
@@ -524,8 +527,10 @@ namespace OLS.Controllers
 
             if (SchoolLevelId == Guid.Parse("D14C62C3-C9D9-46A4-9FDB-42D4A12AF7F9"))
             {
-                if (Nrooms >= 6) {
-                    return Json(true); }
+                if (Nrooms >= 6)
+                {
+                    return Json(true);
+                }
                 else
                 {
                     return Json(_localizer["RoomsGreaterFive"].Value);
@@ -540,7 +545,7 @@ namespace OLS.Controllers
                 }
                 else
                 {
-                   
+
                     return Json(_localizer["RoomsGreaterEight"].Value);
                 }
             }
@@ -552,11 +557,12 @@ namespace OLS.Controllers
                 }
                 else
                 {
-                  
+
                     return Json(_localizer["RoomsGreaterEleven"].Value);
                 }
             }
-            else {
+            else
+            {
 
                 return Json($"*****");
             }
@@ -577,7 +583,8 @@ namespace OLS.Controllers
 
 
             }
-            else {
+            else
+            {
                 return Json(_localizer["Min500"].Value);
             }
 
@@ -692,7 +699,7 @@ namespace OLS.Controllers
                 }
                 else
                 {
-                 
+
                     return Json(_localizer["Min120"].Value);
                 }
             }
@@ -729,7 +736,7 @@ namespace OLS.Controllers
                 }
                 else
                 {
-                    
+
                     return Json(_localizer["Min800Books"].Value);
                 }
             }
@@ -777,7 +784,7 @@ namespace OLS.Controllers
                 }
                 else
                 {
-                  
+
                     return Json(_localizer["Min9"].Value);
                 }
             }
@@ -789,7 +796,7 @@ namespace OLS.Controllers
                 }
                 else
                 {
-                   
+
                     return Json(_localizer["Min12"].Value);
                 }
             }
@@ -838,7 +845,7 @@ namespace OLS.Controllers
                 }
                 else
                 {
-                   
+
                     return Json(_localizer["Min20"].Value);
                 }
             }
@@ -856,17 +863,17 @@ namespace OLS.Controllers
         [Route("IsSchoolnameUnique")]
         public async Task<IActionResult> IsSchoolnameUnique(string schoolname)
         {
-           
-                var schoolN = _applicationContext.School.Where(p => p.SchoolName == schoolname).FirstOrDefault();
-                if (schoolN == null)
-                {
 
-                    return Json(true);
-                }
-                else
-                {
-                    return Json(_localizer["SchoolNameInUse"].Value);
-                }
+            var schoolN = _applicationContext.School.Where(p => p.SchoolName == schoolname).FirstOrDefault();
+            if (schoolN == null)
+            {
+
+                return Json(true);
+            }
+            else
+            {
+                return Json(_localizer["SchoolNameInUse"].Value);
+            }
         }
 
         [AcceptVerbs("Get", "Post")]
@@ -970,7 +977,7 @@ namespace OLS.Controllers
                 ViewBag.district = district;
                 var villageNahia = _applicationContext.ZVillageNahia.Where(v => v.DistrictId == schoolAddress.DistrictId);
                 ViewBag.villageNahia = villageNahia;
-              
+
                 return View(schoolViewModel);
             }
 
@@ -982,64 +989,65 @@ namespace OLS.Controllers
         [HttpGet]
         public IActionResult Edit(Guid schoolId)
         {
-            if (schoolId != null) {
-              
-                    var province = _applicationContext.ZProvince;
-                    ViewBag.Province = province;                    
-                    
-                    var SchoolLevel = _applicationContext.ZSchoolLevel.OrderBy(o => o.OrderNumber);
-                    ViewBag.SchoolLevel = SchoolLevel;
+            if (schoolId != null)
+            {
 
-                    var SchoolGenderType = _applicationContext.ZSchoolGenderType.OrderBy(o => o.OrderNumber);
-                    ViewBag.SchoolGenderType = SchoolGenderType;
+                var province = _applicationContext.ZProvince;
+                ViewBag.Province = province;
 
-                    var LabMaterialType = _applicationContext.ZLaboratoryMaterialType.OrderBy(o => o.OrderNumber);
-                    ViewBag.LabMaterialType = LabMaterialType;
-                    School school = _applicationContext.School.Find(schoolId);
-                    PartyAddress schoolAddress = _applicationContext.PartyAddress.Where(p => p.PartyId == school.SchoolId).FirstOrDefault();
-                   SchoolEditViewModel schoolViewModel = new SchoolEditViewModel
-                    {
-                        SchoolId = school.SchoolId,
-                        SchoolLevelId = school.SchoolLevelId,
-                        SchoolName = school.SchoolName,
-                        SchoolEnglishName=school.SchoolEnglishName,
-                        SchoolLongitude=school.SchoolLongitude,
-                        SchoolLatitude=school.SchoolLatitude,
-                        SchoolGenderTypeId = school.SchoolGenderTypeId,
-                        Nrooms = school.Nrooms,
-                        DistancefromPuSchool = school.DistancefromPuSchool,
-                        DistanceFromPrSchool = school.DistanceFromPrSchool,
-                        HasTeachingBooks = school.HasTeachingBooks,
-                        HasTeachingAids = school.HasTeachingAids,
-                        NteachDeskChair = school.NteachDeskChair,
-                        NstudentDeskChair = school.NstudentDeskChair,
-                        HasLibrary = school.HasLibrary,
-                        Nbooks = school.Nbooks,
-                        Nboards = school.Nboards,
-                        LaboratoryMaterialTypeId = school.LaboratoryMaterialTypeId,
-                        HasComputerLab = school.HasComputerLab,
-                        Ncomputers = school.Ncomputers,
-                        HasDrinkingWater = school.HasDrinkingWater,
-                        NwashRooms = school.NwashRooms,
-                        HasFirstAid = school.HasFirstAid,
-                        HasFireDistinguisher = school.HasFireDistinguisher,
-                        HasTransportation = school.HasTransportation,
-                        HasSportFacilities = school.HasTransportation,
-                        ProvinceId=schoolAddress.ProvinceId,
-                        DistrictId = schoolAddress.DistrictId,
-                        Nahia=schoolAddress.Nahia
-                    };
+                var SchoolLevel = _applicationContext.ZSchoolLevel.OrderBy(o => o.OrderNumber);
+                ViewBag.SchoolLevel = SchoolLevel;
 
-                        var district = _applicationContext.ZDistrict.Where(d => d.ProvinceId == schoolAddress.ProvinceId);
-                        ViewBag.district = district;
-                        var villageNahia = _applicationContext.ZVillageNahia.Where(v => v.DistrictId == schoolAddress.DistrictId);
-                        ViewBag.villageNahia = villageNahia;
+                var SchoolGenderType = _applicationContext.ZSchoolGenderType.OrderBy(o => o.OrderNumber);
+                ViewBag.SchoolGenderType = SchoolGenderType;
+
+                var LabMaterialType = _applicationContext.ZLaboratoryMaterialType.OrderBy(o => o.OrderNumber);
+                ViewBag.LabMaterialType = LabMaterialType;
+                School school = _applicationContext.School.Find(schoolId);
+                PartyAddress schoolAddress = _applicationContext.PartyAddress.Where(p => p.PartyId == school.SchoolId).FirstOrDefault();
+                SchoolEditViewModel schoolViewModel = new SchoolEditViewModel
+                {
+                    SchoolId = school.SchoolId,
+                    SchoolLevelId = school.SchoolLevelId,
+                    SchoolName = school.SchoolName,
+                    SchoolEnglishName = school.SchoolEnglishName,
+                    SchoolLongitude = school.SchoolLongitude,
+                    SchoolLatitude = school.SchoolLatitude,
+                    SchoolGenderTypeId = school.SchoolGenderTypeId,
+                    Nrooms = school.Nrooms,
+                    DistancefromPuSchool = school.DistancefromPuSchool,
+                    DistanceFromPrSchool = school.DistanceFromPrSchool,
+                    HasTeachingBooks = school.HasTeachingBooks,
+                    HasTeachingAids = school.HasTeachingAids,
+                    NteachDeskChair = school.NteachDeskChair,
+                    NstudentDeskChair = school.NstudentDeskChair,
+                    HasLibrary = school.HasLibrary,
+                    Nbooks = school.Nbooks,
+                    Nboards = school.Nboards,
+                    LaboratoryMaterialTypeId = school.LaboratoryMaterialTypeId,
+                    HasComputerLab = school.HasComputerLab,
+                    Ncomputers = school.Ncomputers,
+                    HasDrinkingWater = school.HasDrinkingWater,
+                    NwashRooms = school.NwashRooms,
+                    HasFirstAid = school.HasFirstAid,
+                    HasFireDistinguisher = school.HasFireDistinguisher,
+                    HasTransportation = school.HasTransportation,
+                    HasSportFacilities = school.HasTransportation,
+                    ProvinceId = schoolAddress.ProvinceId,
+                    DistrictId = schoolAddress.DistrictId,
+                    Nahia = schoolAddress.Nahia
+                };
+
+                var district = _applicationContext.ZDistrict.Where(d => d.ProvinceId == schoolAddress.ProvinceId);
+                ViewBag.district = district;
+                var villageNahia = _applicationContext.ZVillageNahia.Where(v => v.DistrictId == schoolAddress.DistrictId);
+                ViewBag.villageNahia = villageNahia;
 
 
                 HttpContext.Session.SetString("SchoolID", schoolId.ToString());
 
                 return View(schoolViewModel);
-                }
+            }
 
 
             var pro = _applicationContext.ZProvince;
@@ -1048,7 +1056,7 @@ namespace OLS.Controllers
             var SchLevel = _applicationContext.ZSchoolLevel.OrderBy(o => o.OrderNumber);
             ViewBag.SchoolLevel = SchLevel;
 
-            var SchGender= _applicationContext.ZSchoolGenderType.OrderBy(o => o.OrderNumber);
+            var SchGender = _applicationContext.ZSchoolGenderType.OrderBy(o => o.OrderNumber);
             ViewBag.SchoolGenderType = SchGender;
 
             var LabMatType = _applicationContext.ZLaboratoryMaterialType.OrderBy(o => o.OrderNumber);
@@ -1088,36 +1096,39 @@ namespace OLS.Controllers
 
                 var LabMaterialType = _applicationContext.ZLaboratoryMaterialType.OrderBy(o => o.OrderNumber);
                 ViewBag.LabMaterialType = LabMaterialType;
-               
+
                 School school = _applicationContext.School.Find(schoolViewModel.SchoolId);
-             
-                school.SchoolLevelId=schoolViewModel.SchoolLevelId;
-                school.SchoolName=schoolViewModel.SchoolName;
-                school.SchoolEnglishName=schoolViewModel.SchoolEnglishName;
+
+                school.SchoolLevelId = schoolViewModel.SchoolLevelId;
+                school.SchoolName = schoolViewModel.SchoolName;
+                school.SchoolEnglishName = schoolViewModel.SchoolEnglishName;
                 school.SchoolLongitude = schoolViewModel.SchoolLongitude;
-                school.SchoolLatitude= schoolViewModel.SchoolLatitude;
-                school.SchoolGenderTypeId=schoolViewModel.SchoolGenderTypeId;
-                school.Nrooms=schoolViewModel.Nrooms;
-                school.DistancefromPuSchool=schoolViewModel.DistancefromPuSchool;
-                school.DistanceFromPrSchool=schoolViewModel.DistanceFromPrSchool;
-                school.HasTeachingBooks=schoolViewModel.HasTeachingBooks;
-                school.HasTeachingAids=schoolViewModel.HasTeachingAids;
-                school.NteachDeskChair=schoolViewModel.NteachDeskChair;
-                school.NstudentDeskChair=schoolViewModel.NstudentDeskChair;
-                school.HasLibrary=schoolViewModel.HasLibrary;
-                school.Nbooks=schoolViewModel.Nbooks;
-                school.Nboards=schoolViewModel.Nboards;
-                school.LaboratoryMaterialTypeId=schoolViewModel.LaboratoryMaterialTypeId;
-                school.HasComputerLab=schoolViewModel.HasComputerLab;
-                school.Ncomputers=schoolViewModel.Ncomputers;
-                school.HasDrinkingWater=schoolViewModel.HasDrinkingWater;
-                school.NwashRooms=schoolViewModel.NwashRooms;
-                school.HasFirstAid=schoolViewModel.HasFirstAid;
-                school.HasFireDistinguisher=schoolViewModel.HasFireDistinguisher;
-                school.HasTransportation=schoolViewModel.HasTransportation;
+                school.SchoolLatitude = schoolViewModel.SchoolLatitude;
+                school.SchoolGenderTypeId = schoolViewModel.SchoolGenderTypeId;
+                school.Nrooms = schoolViewModel.Nrooms;
+                school.DistancefromPuSchool = schoolViewModel.DistancefromPuSchool;
+                school.DistanceFromPrSchool = schoolViewModel.DistanceFromPrSchool;
+                school.HasTeachingBooks = schoolViewModel.HasTeachingBooks;
+                school.HasTeachingAids = schoolViewModel.HasTeachingAids;
+                school.NteachDeskChair = schoolViewModel.NteachDeskChair;
+                school.NstudentDeskChair = schoolViewModel.NstudentDeskChair;
+                school.HasLibrary = schoolViewModel.HasLibrary;
+                school.Nbooks = schoolViewModel.Nbooks;
+                school.Nboards = schoolViewModel.Nboards;
+                school.LaboratoryMaterialTypeId = schoolViewModel.LaboratoryMaterialTypeId;
+                school.HasComputerLab = schoolViewModel.HasComputerLab;
+                school.Ncomputers = schoolViewModel.Ncomputers;
+                school.HasDrinkingWater = schoolViewModel.HasDrinkingWater;
+                school.NwashRooms = schoolViewModel.NwashRooms;
+                school.HasFirstAid = schoolViewModel.HasFirstAid;
+                school.HasFireDistinguisher = schoolViewModel.HasFireDistinguisher;
+                school.HasTransportation = schoolViewModel.HasTransportation;
                 school.HasSportFacilities = schoolViewModel.HasSportFacilities;
                 school.UpdatedBy = _userManager.GetUserId(User);
                 school.UpdatedAt = DateTime.Now;
+                school.DistrictId = schoolViewModel.DistrictId;
+                school.Nahia = schoolViewModel.Nahia;
+
 
                 PartyAddress schoolAddress = _applicationContext.PartyAddress.Where(p => p.PartyId == school.SchoolId).FirstOrDefault();
                 schoolAddress.ProvinceId = schoolViewModel.ProvinceId;
@@ -1136,8 +1147,8 @@ namespace OLS.Controllers
                 _applicationContext.Update(school);
                 _applicationContext.Update(schoolAddress);
                 _applicationContext.SaveChanges();
-               
-                
+
+
                 notyfService.Custom(_localizer["SchoolUpdated"].Value, 10, "#67757c", "fa fa-check");
                 ViewBag.Message = _localizer["RecordUpdated"].Value;
                 return View(schoolViewModel);
@@ -1170,12 +1181,12 @@ namespace OLS.Controllers
 
             return View();
 
-         }
+        }
         [Route("Create")]
         public IActionResult Create()
         {
 
-        
+
             var province = _applicationContext.ZProvince;
             ViewBag.Province = province;
 
@@ -1189,7 +1200,7 @@ namespace OLS.Controllers
             ViewBag.LabMaterialType = LabMaterialType;
 
 
-           
+
 
             var founderId = HttpContext.Session.GetString("FounderID");
 
@@ -1218,14 +1229,17 @@ namespace OLS.Controllers
 
             var LabMaterialType = _applicationContext.ZLaboratoryMaterialType.OrderBy(o => o.OrderNumber);
             ViewBag.LabMaterialType = LabMaterialType;
-            Guid pid   = new Guid(HttpContext.Session.GetString("FounderID"));
+            Guid pid = new Guid(HttpContext.Session.GetString("FounderID"));
             Guid schoolId = Guid.NewGuid();
-            if (ModelState.IsValid) {
+            if (ModelState.IsValid)
+            {
 
-                Party schoolParty = new Party {
+                Party schoolParty = new Party
+                {
                     PartyId = schoolId
                 };
-                School school = new School {
+                School school = new School
+                {
                     SchoolId = schoolId,
                     SchoolLevelId = schoolModel.SchoolLevelId,
                     SchoolName = schoolModel.SchoolName,
@@ -1234,27 +1248,29 @@ namespace OLS.Controllers
                     SchoolLatitude = schoolModel.SchoolLatitude,
                     SchoolGenderTypeId = schoolModel.SchoolGenderTypeId,
                     Nrooms = schoolModel.Nrooms,
-                    DistancefromPuSchool=schoolModel.DistancefromPuSchool,
-                    DistanceFromPrSchool=schoolModel.DistanceFromPrSchool,
+                    DistancefromPuSchool = schoolModel.DistancefromPuSchool,
+                    DistanceFromPrSchool = schoolModel.DistanceFromPrSchool,
                     HasTeachingBooks = schoolModel.HasTeachingBooks,
-                    HasTeachingAids=schoolModel.HasTeachingAids,
-                    NteachDeskChair=schoolModel.NteachDeskChair,
-                    NstudentDeskChair=schoolModel.NstudentDeskChair,
-                    HasLibrary=schoolModel.HasLibrary,
-                    Nbooks =schoolModel.Nbooks,
-                    Nboards=schoolModel.Nboards,
-                    LaboratoryMaterialTypeId=schoolModel.LaboratoryMaterialTypeId,
-                    HasComputerLab=schoolModel.HasComputerLab,
-                    Ncomputers=schoolModel.Ncomputers,
-                    HasDrinkingWater=schoolModel.HasDrinkingWater,
-                    NwashRooms=schoolModel.NwashRooms,
-                    HasFirstAid=schoolModel.HasFirstAid,
-                    HasFireDistinguisher=schoolModel.HasFireDistinguisher,
-                    HasTransportation=schoolModel.HasTransportation,
-                    HasSportFacilities=schoolModel.HasTransportation,
+                    HasTeachingAids = schoolModel.HasTeachingAids,
+                    NteachDeskChair = schoolModel.NteachDeskChair,
+                    NstudentDeskChair = schoolModel.NstudentDeskChair,
+                    HasLibrary = schoolModel.HasLibrary,
+                    Nbooks = schoolModel.Nbooks,
+                    Nboards = schoolModel.Nboards,
+                    LaboratoryMaterialTypeId = schoolModel.LaboratoryMaterialTypeId,
+                    HasComputerLab = schoolModel.HasComputerLab,
+                    Ncomputers = schoolModel.Ncomputers,
+                    HasDrinkingWater = schoolModel.HasDrinkingWater,
+                    NwashRooms = schoolModel.NwashRooms,
+                    HasFirstAid = schoolModel.HasFirstAid,
+                    HasFireDistinguisher = schoolModel.HasFireDistinguisher,
+                    HasTransportation = schoolModel.HasTransportation,
+                    HasSportFacilities = schoolModel.HasTransportation,
                     CreatedBy = _userManager.GetUserId(User),
                     CreatedAt = DateTime.Now,
-            };
+                    DistrictId = schoolModel.DistrictId,
+                    Nahia = schoolModel.Nahia
+                };
 
                 Guid AddressId = Guid.NewGuid();
                 PartyAddress schoolAddaress = new PartyAddress()
@@ -1276,7 +1292,7 @@ namespace OLS.Controllers
                 _applicationContext.Add(schoolAddaress);
                 _applicationContext.Update(founder);
                 _applicationContext.SaveChanges();
-                HttpContext.Session.SetString("SchoolID",schoolId.ToString());
+                HttpContext.Session.SetString("SchoolID", schoolId.ToString());
                 notyfService.Custom(_localizer["SchoolCreated"].Value, 10, "#67757c", "fa fa-check");
                 ViewBag.Message = _localizer["RecordSaved"].Value;
                 // return RedirectToAction("Edit", new { schoolId=schoolId });

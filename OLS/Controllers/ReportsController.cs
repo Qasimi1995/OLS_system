@@ -20,11 +20,11 @@ namespace OLS.Controllers
     public class ReportsController : Controller
     {
         private ApplicationContext _applicationContext;
-        IHostingEnvironment _env;
+        IWebHostEnvironment _env;
         private readonly UserManager<User> _userManager;
         private readonly IHtmlLocalizer _localizer;
 
-        public ReportsController(ApplicationContext applicationContext, IHostingEnvironment environment, UserManager<User> userManager, IHtmlLocalizer<ReportsController> localizer)
+        public ReportsController(ApplicationContext applicationContext, IWebHostEnvironment environment, UserManager<User> userManager, IHtmlLocalizer<ReportsController> localizer)
         {
             _applicationContext = applicationContext;
             _env = environment;
@@ -64,7 +64,7 @@ namespace OLS.Controllers
                               SchoolGenderTypeEnglish=zSchoolGenderType.SchoolGenderTypeName,
                               Province = zProvince.ProvNaDar+"/"+zProvince.ProvNaEng,
                               District = zDistrict.DistNaDar+"/"+zDistrict.DistNaEng,
-                              VillageNahia = partyAddress.Nahia,
+                              VillageNahia = school.Nahia,
                               OrderNumber = subProcess.OrderNumber,
                               StatusDate = processProgress.StatusDate,
                               No_days = Math.Abs((dt1 - processProgress.StatusDate).Value.Days)
@@ -79,35 +79,35 @@ namespace OLS.Controllers
 
             StringBuilder query = null;
             query = new StringBuilder(@$"select
-zProvince.PROV_NA_DAR as 'Province'
-,COUNT(case when ProcessProgress.ProcessStatusID='F457B052-AD64-4E06-9780-E385946EB624' then ProcessProgress.SchoolID end) as 'LicensesIssued'
-,COUNT(case when ProcessProgress.ProcessStatusID
- in (
-'C42112A8-0C7B-4D4A-A93E-01B93F794420',
-'E532C13A-6E4D-464F-BEA2-02A0D59DE23F',
-'D279A58A-1FC1-4A01-A9A3-38EC746ABE62',
-'613E361D-1703-4727-86D7-782A9BA52DE8',
-'F98C91B5-D0AA-486B-84B2-C1EED3D66ED0',
-'0BBD5B1E-BF84-4339-A748-C25BA6852741')
+                zProvince.PROV_NA_DAR as 'Province'
+                ,COUNT(case when ProcessProgress.ProcessStatusID='F457B052-AD64-4E06-9780-E385946EB624' then ProcessProgress.SchoolID end) as 'LicensesIssued'
+                ,COUNT(case when ProcessProgress.ProcessStatusID
+                 in (
+                'C42112A8-0C7B-4D4A-A93E-01B93F794420',
+                'E532C13A-6E4D-464F-BEA2-02A0D59DE23F',
+                'D279A58A-1FC1-4A01-A9A3-38EC746ABE62',
+                '613E361D-1703-4727-86D7-782A9BA52DE8',
+                'F98C91B5-D0AA-486B-84B2-C1EED3D66ED0',
+                '0BBD5B1E-BF84-4339-A748-C25BA6852741')
 
- then ProcessProgress.SchoolID end) as 'Underwork'
- from ProcessProgress 
-inner join School on ProcessProgress.SchoolID = School.SchoolID
-join zProcessStatus on ProcessProgress.ProcessStatusID=zProcessStatus.ProcessStatusID
-join PartyAddress on School.SchoolID=PartyAddress.PartyID
-join zProvince on PartyAddress.ProvinceID = zProvince.ProvinceID
-join zDistrict on PartyAddress.DistrictID = zDistrict.DistrictID
-join zVillageNahia on PartyAddress.VillageNahiaID = zVillageNahia.VillageNahiaID
-join zSchoolGenderType on zSchoolGenderType.SchoolGenderTypeID = School.SchoolGenderTypeID
-join zSchoolLevel on zSchoolLevel.SchoolLevelID = School.SchoolLevelID
-join( select ProcessProgress.SchoolID, max(StatusDate) as maxdate from ProcessProgress join School on ProcessProgress.SchoolID= School.SchoolID
-group by ProcessProgress.SchoolID
-) temp
-on temp.maxdate = ProcessProgress.StatusDate
+                 then ProcessProgress.SchoolID end) as 'Underwork'
+                 from ProcessProgress 
+                inner join School on ProcessProgress.SchoolID = School.SchoolID
+                join zProcessStatus on ProcessProgress.ProcessStatusID=zProcessStatus.ProcessStatusID
+                join PartyAddress on School.SchoolID=PartyAddress.PartyID
+                join zProvince on PartyAddress.ProvinceID = zProvince.ProvinceID
+                join zDistrict on PartyAddress.DistrictID = zDistrict.DistrictID
+                join zVillageNahia on PartyAddress.VillageNahiaID = zVillageNahia.VillageNahiaID
+                join zSchoolGenderType on zSchoolGenderType.SchoolGenderTypeID = School.SchoolGenderTypeID
+                join zSchoolLevel on zSchoolLevel.SchoolLevelID = School.SchoolLevelID
+                join( select ProcessProgress.SchoolID, max(StatusDate) as maxdate from ProcessProgress join School on ProcessProgress.SchoolID= School.SchoolID
+                group by ProcessProgress.SchoolID
+                ) temp
+                on temp.maxdate = ProcessProgress.StatusDate
 
-group by zProvince.PROV_NA_DAR
+                group by zProvince.PROV_NA_DAR
 
-");
+                ");
             List<FigureReport> List = _applicationContext.FigureReport.FromSqlRaw(query.ToString()).ToList();
 
             return View(List);
@@ -119,26 +119,27 @@ group by zProvince.PROV_NA_DAR
         {
 
             StringBuilder query = null;
-            query = new StringBuilder(@$"select school.*,zProcessStatus.StatusNameDariPast, ProcessProgress.StatusDate,
-zProvince.PROV_NA_DAR,
-zProvince.PROV_NA_ENG,
-zDistrict.DIST_NA_DAR,
-PartyAddress.Nahia
-,zSchoolGenderType.SchoolGenderTypeNameDari
-,zSchoolLevel.SchoolLevelNameDari
-,zSchoolLevel.SchoolLevelName
- from ProcessProgress 
-inner join School on ProcessProgress.SchoolID = School.SchoolID
-join zProcessStatus on ProcessProgress.ProcessStatusID=zProcessStatus.ProcessStatusID
-join PartyAddress on School.SchoolID=PartyAddress.PartyID
-join zProvince on PartyAddress.ProvinceID = zProvince.ProvinceID
-join zDistrict on PartyAddress.DistrictID = zDistrict.DistrictID
-join zSchoolGenderType on zSchoolGenderType.SchoolGenderTypeID = School.SchoolGenderTypeID
-join zSchoolLevel on zSchoolLevel.SchoolLevelID = School.SchoolLevelID
-join( select ProcessProgress.SchoolID, max(StatusDate) as maxdate from ProcessProgress join School on ProcessProgress.SchoolID= School.SchoolID
-group by ProcessProgress.SchoolID
-) temp
-on temp.maxdate = ProcessProgress.StatusDate");
+            query = new StringBuilder(@$"select school.*,zProcessStatus.StatusNameDariPast, zProcessStatus.StatusNamePast, ProcessProgress.StatusDate,
+            zProvince.PROV_NA_DAR,
+            zProvince.PROV_NA_ENG,
+            zDistrict.DIST_NA_DAR,
+            zDistrict.DIST_NA_ENG,
+            ,zSchoolGenderType.SchoolGenderTypeNameDari
+            ,zSchoolLevel.SchoolLevelNameDari
+            ,zSchoolLevel.SchoolLevelName
+             from ProcessProgress 
+            inner join School on ProcessProgress.SchoolID = School.SchoolID
+            join zProcessStatus on ProcessProgress.ProcessStatusID=zProcessStatus.ProcessStatusID
+            join PartyAddress on School.SchoolID=PartyAddress.PartyID
+            join zProvince on PartyAddress.ProvinceID = zProvince.ProvinceID
+            join zDistrict on PartyAddress.DistrictID = zDistrict.DistrictID
+            join zSchoolGenderType on zSchoolGenderType.SchoolGenderTypeID = School.SchoolGenderTypeID
+            join zSchoolLevel on zSchoolLevel.SchoolLevelID = School.SchoolLevelID
+            join( select ProcessProgress.SchoolID, max(StatusDate) as maxdate from ProcessProgress join School on ProcessProgress.SchoolID= School.SchoolID
+            group by ProcessProgress.SchoolID
+            ) temp
+            on temp.maxdate = ProcessProgress.StatusDate");
+
             List<SchoolListAll> List = _applicationContext.SchoolListAll.FromSqlRaw(query.ToString()).ToList();
 
             return View(List);
@@ -149,13 +150,12 @@ on temp.maxdate = ProcessProgress.StatusDate");
         public IActionResult AllReports()
         {
             StringBuilder query = null;
-            query = new StringBuilder(@$"select school.*,zProcessStatus.StatusNameDariPast, ProcessProgress.StatusDate,
+            query = new StringBuilder(@$"select school.*,zProcessStatus.StatusNameDariPast,zProcessStatus.StatusNamePast ,ProcessProgress.StatusDate,
                 zProvince.PROV_NA_DAR,
                 zProvince.PROV_NA_ENG,
                 zDistrict.DIST_NA_DAR,
                 zDistrict.DIST_NA_ENG,
-                PartyAddress.Nahia
-                ,zSchoolGenderType.SchoolGenderTypeNameDari
+                 zSchoolGenderType.SchoolGenderTypeNameDari
                 ,zSchoolGenderType.SchoolGenderTypeName
                 ,zSchoolLevel.SchoolLevelNameDari
                 ,zSchoolLevel.SchoolLevelName
@@ -183,6 +183,9 @@ on temp.maxdate = ProcessProgress.StatusDate");
             var ProvinceName = _applicationContext.ZProvince.OrderBy(p => p.ProvNaDar); 
             ViewBag.ProvinceN= ProvinceName;
 
+            var DistrictName = _applicationContext.ZDistrict.OrderBy(p => p.DistNaDar);
+            ViewBag.DistrictN = DistrictName;
+
             var SchoolGenderType = _applicationContext.ZSchoolGenderType.OrderBy(o => o.OrderNumber);
             ViewBag.SchoolGenderType = SchoolGenderType;
 
@@ -194,12 +197,11 @@ on temp.maxdate = ProcessProgress.StatusDate");
         public IActionResult AllReports(searchreportviewModel allReports)
         {
             StringBuilder query = null;
-            query = new StringBuilder(@$"select school.*,zProcessStatus.StatusNameDariPast, ProcessProgress.StatusDate,
+            query = new StringBuilder(@$"select school.*,zProcessStatus.StatusNameDariPast,zProcessStatus.StatusNamePast ,ProcessProgress.StatusDate,
                 zProvince.PROV_NA_DAR,
                 zProvince.PROV_NA_ENG,
                 zDistrict.DIST_NA_DAR,
-                zDistrict.DIST_NA_ENG,
-                PartyAddress.Nahia
+                zDistrict.DIST_NA_ENG
                 ,zSchoolGenderType.SchoolGenderTypeNameDari
                 ,zSchoolGenderType.SchoolGenderTypeName
                 ,zSchoolLevel.SchoolLevelNameDari
@@ -228,6 +230,9 @@ on temp.maxdate = ProcessProgress.StatusDate");
             var StatusName = _applicationContext.ZProcessStatus.OrderBy(p => p.StatusNameDariPast);
             ViewBag.StatusN = StatusName;
 
+            var DistrictName = _applicationContext.ZDistrict.OrderBy(p => p.DistNaDar);
+            ViewBag.DistrictN = DistrictName;
+
             var SchoolGenderType = _applicationContext.ZSchoolGenderType.OrderBy(o => o.OrderNumber);
             ViewBag.SchoolGenderType = SchoolGenderType;
 
@@ -236,6 +241,7 @@ on temp.maxdate = ProcessProgress.StatusDate");
             {
                 return View(List.Where(x => x.SchoolName.Contains(allReports.schoolname) || allReports.schoolname == null).ToList());
             }
+
 
             if (allReports.schoollevel != null)
             {

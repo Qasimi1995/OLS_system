@@ -38,8 +38,10 @@ namespace OLS.Models
         public string PROV_NA_DAR { get; set; }
         public string PROV_NA_ENG { get; set; }
         public string DIST_NA_DAR { get; set; }
-        public string Nahia { get; set; }
+        public string DIST_NA_ENG { get; set; }
+        public string Nahia { get; set; }="";
         public string StatusNameDariPast { get; set; }
+        public string StatusNamePast { get; set; }
         public DateTime? StatusDate { get; set; }
        // public int? No_days { get; set; }
     }

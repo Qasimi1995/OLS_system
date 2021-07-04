@@ -82,7 +82,7 @@ namespace OLS.ViewModels
         [Required(ErrorMessage = "*")]
         public int? DistrictId { get; set; }
         [Required(ErrorMessage = "*")]
-        public string Nahia { get; set; }
+        public string Nahia { get; set; } = "";
 
 
         public string CreatedBy { get; set; }

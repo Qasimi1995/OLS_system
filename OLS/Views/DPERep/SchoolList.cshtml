@@ -52,29 +52,28 @@
                     <table class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%" id="example23">
                         <thead>
                             <tr>
-                                <th>  @localizer["No"]</th>
-                                <th>  @localizer["SchoolName"]  </th>
+                                <th> @localizer["No"]</th>
+                                <th> @localizer["SchoolName"] </th>
                                 <th> @localizer["SchoolLevel"] </th>
-                                <th>   @localizer["SchoolGender"]  </th>
-                                <th>  @localizer["Province"]</th>
+                                <th> @localizer["SchoolGender"]  </th>
+                                <th> @localizer["Province"]</th>
                                 <th> @localizer["District"]</th>
                                 <th> @localizer["Village"]</th>
                                 <th> @localizer["Date"]</th>
-                                <th>  @localizer["AmountDays"]</th>
+                                <th> @localizer["AmountDays"]</th>
                                 <th> @localizer["Action"]</th>
                                 @if (ViewBag.roleid == "DB70DAE4-9422-4A2F-A14B-7552702F026B")
-                                {
-                            <th> @localizer["CheckList"]</th>
-                                     }
+                                 {
+                                    <th> @localizer["CheckList"]</th>
+                                 }
                                 @if (ViewBag.roleid == "EFD684C6-F47C-407C-B9B7-DA2245E3869B")
-                                {
-                            <th>   @localizer["ReportReview"] </th>}
-                                @if (ViewBag.roleid == "29N7E2C2-B010-40G8-0E1B-22G757FFC8J3")
-                                {
-                            <th>  @localizer["SchoolLicense"] </th>}
-
-                               
-                                
+                                 {
+                                  <th>@localizer["ReportReview"] </th>
+                                 }
+                                 @if (ViewBag.roleid == "29N7E2C2-B010-40G8-0E1B-22G757FFC8J3" && ViewBag.CompletionFlag==1)
+                                 {
+                                  <th>  @localizer["SchoolLicense"] </th>
+                                 } 
                             </tr>
                         </thead>
                         <tbody>
@@ -172,13 +171,12 @@
                             <a href="~/PED/@Model[i].SchoolId/@Model[i].SchoolId-schoolVisitReport.pdf"> @localizer["ViewReport"]</a>
                         </td>
                     }
-                    @if(ViewBag.roleid== "29N7E2C2-B010-40G8-0E1B-22G757FFC8J3") { 
+                    @if(ViewBag.roleid== "29N7E2C2-B010-40G8-0E1B-22G757FFC8J3" &&  ViewBag.CompletionFlag==1) 
+                    { 
 
                             <td class="text-nowrap">
                                 @Html.ActionLink(localizer["SchoolLicense"].Value, "SchoolLicense", new { schoolid = Model[i].SchoolId })
                             </td>
-                     
-
                     }
 
                 </tr>}
@@ -190,8 +188,8 @@
                 @if (ViewBag.Result != null)
                 {
 
-    @ViewBag.Result;
-}
+                  @ViewBag.Result;
+                }
 
             </div>
         </div>
